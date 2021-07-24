@@ -17,7 +17,7 @@ bin_root="${0:a:h}/bin"
 scripts=(
   $(
     curl http://www.fmwconcepts.com/imagemagick/script_list.txt \
-      | awk '{ print $1 }' script_list.txt
+      | awk '{ print $1 }'
   )
 )
 
