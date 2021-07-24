@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install zsh
         if: runner.os == 'Linux'
-        run: sudo apt-get update; sudo apt-get install zsh
+        run: sudo apt-get update; sudo apt-get install --yes zsh
       - name: Update the scripts
         run: ./update-fmwconcepts-scripts.zsh
       - name: Commit updates
@@ -27,4 +27,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add bin/im-*
           git commit -am "[auto update] "
-          git push "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/zsh-image-helpers.git" origin main
+          git push "https://${GITHUB_ACTOR}:${{ secrets.GH_TOKEN }}@github.com/zsh-image-helpers.git" origin main

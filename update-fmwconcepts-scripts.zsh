@@ -26,4 +26,5 @@ for script in $scripts ; {
         --silent \
         -o $bin_root/im-$script \
         "http://www.fmwconcepts.com/imagemagick/downloadcounter.php?scriptname=$script&dirname=$script"
+    break
 }
