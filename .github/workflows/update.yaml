@@ -1,0 +1,25 @@
+name: update scripts weekly
+on:
+  schedule:
+    # At 02:01 on day-of-month 3.”
+    - cron:  '1 2 3 * *'
+jobs:
+  Update-Scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "event -> ${{ github.event_name }}"
+          echo "repo  -> ${{ github.repository }}@${{ github.ref }}"
+          echo "os    -> ${{ runner.os }}"
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: update the scripts
+        run: ./update-fmwconcepts-scripts.zsh
+      - name: check in changes
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add bin/im-*
+          git commit -am "[auto update] "
+          git push "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/zsh-image-helpers.git" origin main
