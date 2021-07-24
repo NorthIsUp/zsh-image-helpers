@@ -17,9 +17,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: update the scripts
-        run: |
-          apt-get update && apt-get install -y zsh
-          ./update-fmwconcepts-scripts.zsh
+        shell: zsh
+        run: $SHELL update-fmwconcepts-scripts.zsh
       - name: commit updates
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
