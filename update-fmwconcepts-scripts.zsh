@@ -12,9 +12,14 @@ cleanup() {
 bin_root="${0:a:h}/bin"
 
 # update scripts list
-curl -O http://www.fmwconcepts.com/imagemagick/script_list.txt
 
-scripts=( $( awk '/./ { print $1 }' script_list.txt ) )
+
+scripts=(
+  $(
+    curl http://www.fmwconcepts.com/imagemagick/script_list.txt \
+      | awk '{ print $1 }' script_list.txt
+  )
+)
 
 (( $+functions[log-line] )) || function log-line() {
     print -u2 "$@"
