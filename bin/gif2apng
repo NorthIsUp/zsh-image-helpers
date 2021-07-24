@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+set -Eeuo pipefail  # exit on first error
+
+#correctly set $0
+0="${${ZERO:-${0:#ZSH_ARGZERO}}:-${(%):-%N}}"
+
+argparse "$@" -- \
+    description 'convert gifs to animated png files' \
+    arg 'input-file'            help='gif to convert' \
+    arg '--output-file' '-o'    help="filename for output (defaults to 'INPUT_FILE.png')" \
+    arg '--tmp-dir'             help='directory to build the gif in' \
+    arg '--force' '-f'          help='force overwrite of existing files' truthy \
+    arg '--preview'             help='imgcat the result' truthy \
+
+: ${output_file:=${input_file:r}.png}
+[[ -f "$input_file" ]] || log-exit "input file '$input_file' does not exist"
+[[ -f "$output_file" && $force != 1 ]] && log-exit "output file '$output_file' already exists, use -f to overwrite"
+[[ "${input_file:e}" == gif ]] || log-exit "input file must be a gif"
+[[ "${output_file:e}" == png ]] || log-exit "output file must be a png"
+
+: ${tmp_dir:=$(mktemp -d -t ${0:t})}
+
+log-cmd convert -verbose -coalesce "$input_file" "${tmp_dir}/${output_file:t:r}-%05d.png"
+log-cmd apngasm --force -o "$output_file" "$tmp_dir/*.png"
+
+[[ $preview == 1 && $+commands[imgcat] ]] && imgcat "$output_file"
