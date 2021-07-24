@@ -3,53 +3,53 @@
 # Developed by Fred Weinhaus 5/29/2017 .......... revised 6/5/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: pip [-s size] [-p points] [-a angle] [-t thickness] [-f framecolor]
-# [-d darkness] [-r rolloff] [-e extent] [-B brightness] [-S saturation] [-h hue]
+# USAGE: pip [-s size] [-p points] [-a angle] [-t thickness] [-f framecolor] 
+# [-d darkness] [-r rolloff] [-e extent] [-B brightness] [-S saturation] [-h hue] 
 # [-C contrast] [infile] [outfile]
-#
+# 
 # USAGE: pip [-help]
-#
+# 
 # OPTIONS:
-#
-# -s     size           size of frame; if one value is specified, it will be used as
-#                       a percentage of the dimensions of the input image; if two
-#                       values are specified as WxH, then those dimensions will be used
-#                       for the Width and Height of the frame; values are integers>0;
+# 
+# -s     size           size of frame; if one value is specified, it will be used as 
+#                       a percentage of the dimensions of the input image; if two 
+#                       values are specified as WxH, then those dimensions will be used 
+#                       for the Width and Height of the frame; values are integers>0; 
 #                       default=60
-# -p     points         points is up to two pair of X,Y coordinates within the image;
-#                       if no points are specified (default), then the center of the
-#                       input image will be computed and use for the center of the frame;
-#                       if one point is specified, it will be used for the center of
-#                       frame; if two points are specified, they will be interpreted
+# -p     points         points is up to two pair of X,Y coordinates within the image; 
+#                       if no points are specified (default), then the center of the 
+#                       input image will be computed and use for the center of the frame; 
+#                       if one point is specified, it will be used for the center of 
+#                       frame; if two points are specified, they will be interpreted 
 #                       as defining a diagonal of the frame. Values are integers>=0
-# -a     angle          angle of rotation of the frame in degrees; angle are positive
-#                       in the clockwise direction and negative in the counterclockwise
+# -a     angle          angle of rotation of the frame in degrees; angle are positive 
+#                       in the clockwise direction and negative in the counterclockwise 
 #                       direction; values are integers; default=-15
 # -t     thickness      thickness of the frame; values are integers>0; default=10
-# -f     framecolor     framecolor is the color of the frame; any valid IM color is
+# -f     framecolor     framecolor is the color of the frame; any valid IM color is 
 #                       allowed; default=white
 # -d     darkeness      darkeness of the frame shadow; 0<=integer<=100; default=60
 # -r     rolloff        rolloff of the shadow darkness; integer>=0; default=3
@@ -60,67 +60,67 @@
 # -C     contrast       sigmoidal contrast change; values are integers; default=0
 #
 ###
-#
-# NAME: PIP
-#
+# 
+# NAME: PIP 
+# 
 # PURPOSE: To create a picture-in-picture effect.
-#
-# DESCRIPTION: PIP creates a picture-in-picture effect. The script adds a picture frame
+# 
+# DESCRIPTION: PIP creates a picture-in-picture effect. The script adds a picture frame 
 # inside the image to highlight some region of interest in the image.
-#
-#
-# ARGUMENTS:
-#
-# -s size ... SIZE of frame. If one value is specified, then it will be used as a
-# percentage of the dimensions of the input image. If two  values are specified as WxH,
-# then those dimensions will be used for the Width and Height of the frame. Values are
+# 
+# 
+# ARGUMENTS: 
+# 
+# -s size ... SIZE of frame. If one value is specified, then it will be used as a 
+# percentage of the dimensions of the input image. If two  values are specified as WxH, 
+# then those dimensions will be used for the Width and Height of the frame. Values are 
 # integers>0. The default=60
-#
-# -p points ... POINTS is up to two pair of X,Y coordinates within the image. If no
-# points are specified (default), then the center of the input image will be computed
-# and use for the center of the frame. If one point is specified, it will be used for
-# the center of frame. If two points are specified, they will be interpreted as
-# defining a diagonal of the frame. Values are integers>=0. The default is to compute
+# 
+# -p points ... POINTS is up to two pair of X,Y coordinates within the image. If no 
+# points are specified (default), then the center of the input image will be computed 
+# and use for the center of the frame. If one point is specified, it will be used for 
+# the center of frame. If two points are specified, they will be interpreted as 
+# defining a diagonal of the frame. Values are integers>=0. The default is to compute 
 # the center of the image as the frame center.
-#
-# -a angle ... ANGLE of rotation of the frame in degrees. Angles are positive in the
-# clockwise direction and negative in the counterclockwise direction. Values are
+# 
+# -a angle ... ANGLE of rotation of the frame in degrees. Angles are positive in the 
+# clockwise direction and negative in the counterclockwise direction. Values are 
 # -90<=integers<=90. The default=-15.
-#
+# 
 # -t thickness ... THICKNESS of the frame. Values are integers>0. The default=10.
-#
+# 
 # -f framecolor ... FRAMECOLOR is the color of the frame. Any valid IM color is allowed,
 # even partially transparent colors. The default=white.
-#
-# -d darkeness ... DARKNESS of the frame shadow. Values are 0<=integer<=100. The
+# 
+# -d darkeness ... DARKNESS of the frame shadow. Values are 0<=integer<=100. The 
 # default=60.
-#
-# -r rolloff ... ROLLOFF (fading) of the shadow darkness. Values are integer>=0.
+# 
+# -r rolloff ... ROLLOFF (fading) of the shadow darkness. Values are integer>=0. 
 # The default=3.
-#
+# 
 # -e extent ... EXTENT (distance) of the shadow. Values are integer>=0; default=5.
-#
-# -B brightness ... BRIGHTNESS percent change of the image. Value are -100<=integer<=100.
+# 
+# -B brightness ... BRIGHTNESS percent change of the image. Value are -100<=integer<=100. 
 # The default=0.
-#
-# -S saturation ... SATURATION percent change of the image. Value are -100<=integer<=100.
+# 
+# -S saturation ... SATURATION percent change of the image. Value are -100<=integer<=100. 
 # The default=0.
-#
-# -H hue ... HUE angle change of the image in degrees. Value are -360<=integer<=360.
+# 
+# -H hue ... HUE angle change of the image in degrees. Value are -360<=integer<=360. 
 # The default=0.
-#
-# -C contrast ... CONTRAST change in the image. Value are positive or negative integers.
+# 
+# -C contrast ... CONTRAST change in the image. Value are positive or negative integers. 
 # The default=0. This is a sigmoidal-contrast adjustment so values are typically 0 to 10.
-#
-# Reference:
+# 
+# Reference: 
 # http://www.photoshopessentials.com/photo-effects/photo-in-photo/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 # set default values
 size=60					# size of frame relative to image; one value is scale percent, two values WxH are dimensions
 points=""				# points defining the center of the frame or one of its diagonals
@@ -142,13 +142,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -196,7 +196,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*x*[0-9]*\)'`
@@ -207,14 +207,14 @@ else
 					   ;;
 				-p)    # get points
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POINTS SPECIFICATION ---"
 					   checkMinus "$1"
 					   points="$1"
 					   ;;
 				-a)    # get angle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   angle=`expr "$1" : '\([-0-9]*\)'`
@@ -225,7 +225,7 @@ else
 					   ;;
 				-t)    # get thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -235,14 +235,14 @@ else
 					   ;;
 				-f)    # get  framecolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FRAMECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   framecolor="$1"
 					   ;;
 				-d)    # get darkness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DARKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   darkness=`expr "$1" : '\([0-9]*\)'`
@@ -252,7 +252,7 @@ else
 					   ;;
 				-r)    # get rolloff
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROLLOFF SPECIFICATION ---"
 					   checkMinus "$1"
 					   rolloff=`expr "$1" : '\([0-9]*\)'`
@@ -260,7 +260,7 @@ else
 					   ;;
 				-e)    # get extent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXTENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   extent=`expr "$1" : '\([0-9]*\)'`
@@ -268,7 +268,7 @@ else
 					   ;;
 				-B)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   brightness=`expr "$1" : '\([-0-9]*\)'`
@@ -279,7 +279,7 @@ else
 					   ;;
 				-S)    # get saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   saturation=`expr "$1" : '\([-0-9]*\)'`
@@ -290,7 +290,7 @@ else
 					   ;;
 				-H)    # get hue
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HUE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   hue=`expr "$1" : '\([-0-9]*\)'`
@@ -301,7 +301,7 @@ else
 					   ;;
 				-C)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-0-9]*\)'`
@@ -438,3 +438,9 @@ convert -size ${ww}x${hh} xc:none -stroke $framecolor -strokewidth $thickness -g
 
 
 exit 0
+
+
+
+
+
+

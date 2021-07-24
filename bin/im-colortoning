@@ -3,40 +3,40 @@
 # Developed by Fred Weinhaus 1/28/2012 .......... revised 11/3/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: colortoning [-ch highcolor] [-cl lowcolor] [-ca allcolor]
-# [-bh -blendhigh] [-bl blendlow] [-ba blenall] [-o order] [-i images]
+# USAGE: colortoning [-ch highcolor] [-cl lowcolor] [-ca allcolor] 
+# [-bh -blendhigh] [-bl blendlow] [-ba blenall] [-o order] [-i images] 
 # infile outfile
 #
 # USAGE: colortoning [-help|h]
 #
 # OPTIONS:
 #
-# -ch     highcolor          desired highrange or highlight color; default=no
+# -ch     highcolor          desired highrange or highlight color; default=no 
 #                            highlight toning
-# -cl     lowcolor           desired lowrange or shadow color; default=no
+# -cl     lowcolor           desired lowrange or shadow color; default=no 
 #                            shadow toning
 # -ca     allcolor           desired overall color; default=no overall toning
 # -bh     blendhigh          blending amount for hightlights; 0<=integer<=100;
@@ -45,67 +45,67 @@
 #                            default=100 (all shadowtoned and no input)
 # -ba     blendall           blending amount for overall color; 0<=integer<=100;
 #                            default=100 (all shadowtoned and no input)
-# -o      order              order of tonal processing steps; comma separate
-#                            string involving any non-duplicated combination
-#                            of H,L,A; one, two, or three letters may be
-#                            specified; default="HLA" to process highlights
+# -o      order              order of tonal processing steps; comma separate 
+#                            string involving any non-duplicated combination 
+#                            of H,L,A; one, two, or three letters may be 
+#                            specified; default="HLA" to process highlights 
 #                            first, then shadows, then all
-# -i      images             choice of view or save intermediate images
+# -i      images             choice of view or save intermediate images 
 #                            resulting from each toning step; default=neither
 #
 ###
 #
-# NAME: COLORTONING
-#
+# NAME: COLORTONING 
+# 
 # PURPOSE: To color tone an image in highlights and/or shadows and/or overall.
-#
-# DESCRIPTION: COLORTONING will color tone an image in highlights and/or
-# shadows and/or overall. The amount of blending with the original image in
-# each tonal range can be specified. The default is not to blend with the
-# original image.  Processing occurs sequentially from highlights to shadows
+# 
+# DESCRIPTION: COLORTONING will color tone an image in highlights and/or 
+# shadows and/or overall. The amount of blending with the original image in 
+# each tonal range can be specified. The default is not to blend with the 
+# original image.  Processing occurs sequentially from highlights to shadows 
 # to overall toning.
-#
-# OPTIONS:
-#
-# -ch highcolor ... HIGHCOLOR is the highrange or highlight color desired for
-# the toning. Any valid opaque IM color is allowed. The default is no
+# 
+# OPTIONS: 
+# 
+# -ch highcolor ... HIGHCOLOR is the highrange or highlight color desired for 
+# the toning. Any valid opaque IM color is allowed. The default is no 
 # highlight color toning.
-#
-# -cl lowcolor ... LOWCOLOR is the lowrange or shadow color desired for the
-# toning. Any valid opaque IM color is allowed. The default is no shadow
+# 
+# -cl lowcolor ... LOWCOLOR is the lowrange or shadow color desired for the 
+# toning. Any valid opaque IM color is allowed. The default is no shadow 
 # color toning.
-#
-# -ca allcolor ... ALLCOLOR is the overall color desired for the toning. Any
+# 
+# -ca allcolor ... ALLCOLOR is the overall color desired for the toning. Any 
 # valid opaque IM color is allowed. The default is no overall color toning.
-#
-# -bh blendhigh ... BLENDHIGH is the percent blending of the highlight toned
-# image with the original (or previous toned version). Values are integers in
+# 
+# -bh blendhigh ... BLENDHIGH is the percent blending of the highlight toned 
+# image with the original (or previous toned version). Values are integers in  
 # the range of 0 to 100. The default=100 means all toned image and no blending.
-#
-# -bl blendlow ... BLENDLOW is the percent blending of the shadow toned
-# image with the original (or previous toned version). Values are integers in
+# 
+# -bl blendlow ... BLENDLOW is the percent blending of the shadow toned 
+# image with the original (or previous toned version). Values are integers in  
 # the range of 0 to 100. The default=100 means all toned image and no blending.
-#
-# -ba blendall ... BLENDAll is the percent blending of the overall toned
-# image with the original (or previous toned version). Values are integers in
+# 
+# -ba blendall ... BLENDAll is the percent blending of the overall toned 
+# image with the original (or previous toned version). Values are integers in  
 # the range of 0 to 100. The default=100 means all toned image and no blending.
-#
-# -o order  ... ORDER is the order of the tonal processing steps. Values are
-# a comma separate string involving any non-duplicated combination of H,L and A.
-# One, two or three letters may be specified. The default="H,L,A" to process
+# 
+# -o order  ... ORDER is the order of the tonal processing steps. Values are 
+# a comma separate string involving any non-duplicated combination of H,L and A.   
+# One, two or three letters may be specified. The default="H,L,A" to process 
 # highlights first, then shadows, then all.
 #
-# -i images ... IMAGES permits the viewing or saving of the intermediate
+# -i images ... IMAGES permits the viewing or saving of the intermediate  
 # images generated during the processing. The choices are: view (v) or save (s).
-# The default is neither. If images=save, then files will be named for the
+# The default is neither. If images=save, then files will be named for the 
 # input image with _colortoning_#.png where #=1 and/or 2 and/or 3.
-#
+# 
 # REFERENCE: http://phlearn.com/color-toning-with-reference-episode110
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -126,13 +126,13 @@ tmpdir="."		# suggestions are tmpdir="." or tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -180,28 +180,28 @@ else
 					   ;;
 			   -ch)    # get  highcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HIGHCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   highcolor="$1"
 					   ;;
 			   -cl)    # get  lowcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LOWCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   lowcolor="$1"
 					   ;;
 			   -ca)    # get  allcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OVERALL COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   allcolor="$1"
 					   ;;
 			   -bh)    # get blendhigh
-					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   shift  # to get the next parameter 
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLENDHIGH SPECIFICATION ---"
 					   checkMinus "$1"
 					   blendhigh=`expr "$1" : '\([0-9]*\)'`
@@ -212,7 +212,7 @@ else
 					   ;;
 			   -bl)    # get blendlow
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLENDLOW SPECIFICATION ---"
 					   checkMinus "$1"
 					   blendlow=`expr "$1" : '\([0-9]*\)'`
@@ -223,7 +223,7 @@ else
 					   ;;
 			   -ba)    # get blendall
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLENDALL SPECIFICATION ---"
 					   checkMinus "$1"
 					   blendall=`expr "$1" : '\([0-9]*\)'`
@@ -234,7 +234,7 @@ else
 					   ;;
 				-o)    # order
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ORDER SPECIFICATION ---"
 					   checkMinus "$1"
 					   order=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -243,14 +243,14 @@ else
 				   	   ;;
 				-i)    # images
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID IMAGES SPECIFICATION ---"
 					   checkMinus "$1"
 					   images=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$images" in
+					   case "$images" in 
 							view|v) images=view;;
 							save|s) images=save;;
-							*) errMsg "--- IMAGES=$images IS AN INVALID VALUE ---"
+							*) errMsg "--- IMAGES=$images IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				 -)    # STDIN and end of arguments
@@ -293,9 +293,9 @@ inname=`convert "$infile" -format "%t" info:`
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -378,7 +378,7 @@ procHigh()
 	-compose blend -define compose:args=$blendhigh,$blendhigh2 -composite \
 	$dir/tmpP.mpc
 	}
-
+	
 procLow()
 	{
 	blendlow2=$((100-blendlow))

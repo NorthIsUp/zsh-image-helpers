@@ -3,117 +3,117 @@
 # Developed by Fred Weinhaus 8/25/2009 .......... revised 1/16/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: normcrosscorr [-s] [-p] [-m mode] [-c color] [-t type]
+# USAGE: normcrosscorr [-s] [-p] [-m mode] [-c color] [-t type] 
 # smallfile largefile corrfile [matchfile]
 # USAGE: normcrosscorr [-h or -help]
 #
 # OPTIONS:
 #
-# -s                stretch the correlation surface to full dynamic range so
+# -s                stretch the correlation surface to full dynamic range so 
 #                   that the best match is full white; default is unstretched
-# -p                apply a pseudocolor to the correlation surface image;
+# -p                apply a pseudocolor to the correlation surface image; 
 #                   default is no pseudocoloring
-# -m      mode      mode for matchfile output; choices are: draw, overlay or
+# -m      mode      mode for matchfile output; choices are: draw, overlay or 
 #                   best; draw colored box at best match location, overlay
 #                   the small image at match location on a one half transparent
-#                   large image or output the best match subsection;
+#                   large image or output the best match subsection; 
 #                   default=draw
-# -c      color     color to use for drawing box on large image where best
+# -c      color     color to use for drawing box on large image where best 
 #                   matched subsection was found; default=black
-# -t      type      type of approach used to combine color correlation results
+# -t      type      type of approach used to combine color correlation results 
 #                   into a single grayscale surface image; choices are: gray,
 #                   rec709luma, rec601luma, average and rms; default=gray
 #
 ###
 #
-# NAME: NORMCROSSCORR
-#
-# PURPOSE: To compute the normalized cross correlation surface to find where
+# NAME: NORMCROSSCORR 
+# 
+# PURPOSE: To compute the normalized cross correlation surface to find where 
 # a small image best matches within a larger image.
-#
-# DESCRIPTION: NORMCROSSCORR computes the normalized cross correlation surface
-# (image) to find where a small (first) image best matches within a larger
-# (second) image. Since the matching may differ for each channel, the output
-# correlation image will be converted to grayscale. Any alpha channel on either
-# input image will be removed automatically before processing. Values in the
-# correlation surface can vary between +1 and -1, with a perfect match
-# being +1. If the correlation surface result is saved to an image format
-# that does not support negative values, the correlation surface will be
+# 
+# DESCRIPTION: NORMCROSSCORR computes the normalized cross correlation surface 
+# (image) to find where a small (first) image best matches within a larger 
+# (second) image. Since the matching may differ for each channel, the output  
+# correlation image will be converted to grayscale. Any alpha channel on either 
+# input image will be removed automatically before processing. Values in the 
+# correlation surface can vary between +1 and -1, with a perfect match 
+# being +1. If the correlation surface result is saved to an image format 
+# that does not support negative values, the correlation surface will be 
 # clamped so that all negative values are zero.
-#
-#
-# OPTIONS:
-#
-# -s ... Stretch the normalized cross correlation surface image to full
+# 
+# 
+# OPTIONS: 
+# 
+# -s ... Stretch the normalized cross correlation surface image to full 
 # dynamic range. Default is no stretch.
-#
-# -p ... Apply a pseudocoloring to the normalized cross correlation surface
-# image where red corresponds to the highest values and purple to the lowest
+# 
+# -p ... Apply a pseudocoloring to the normalized cross correlation surface 
+# image where red corresponds to the highest values and purple to the lowest 
 # values. Default is no pseudocoloring.
-#
+# 
 # -m mode ... MODE is the layout mode for the optional matchfile image.
-# Choices are draw (or d), overlay (or o) or best (or b). Draw simply draws
-# a colored box outline at the best match subsection in the larger image.
-# Overlay inserts the small image at the match location of a 30% opaque
-# version of the larger image. Best outputs the subsection of the larger image
-# that best matches the smaller image. The default="draw". Ignored if no
+# Choices are draw (or d), overlay (or o) or best (or b). Draw simply draws 
+# a colored box outline at the best match subsection in the larger image. 
+# Overlay inserts the small image at the match location of a 30% opaque 
+# version of the larger image. Best outputs the subsection of the larger image 
+# that best matches the smaller image. The default="draw". Ignored if no 
 # matchfile specified.
-#
-# -c color ... COLOR is the color to use to draw the outline of the best
-# matching subsection in the larger image when mode=draw. Any valid IM color
+# 
+# -c color ... COLOR is the color to use to draw the outline of the best 
+# matching subsection in the larger image when mode=draw. Any valid IM color 
 # specification may be used. The default=black.
-#
-# -t type ... TYPE of approach used to combine color correlation results into
-# a single grayscale surface image. The choices are: gray, rec709luma,
-# rec601luma, average and rms. The default=gray. Note that average and rms
+# 
+# -t type ... TYPE of approach used to combine color correlation results into 
+# a single grayscale surface image. The choices are: gray, rec709luma, 
+# rec601luma, average and rms. The default=gray. Note that average and rms 
 # require IM 6.8.5.5 or higher.
-#
-# REQUIREMENTS: IM version 6.5.4-7 or higher, but compiled with HDRI enabled
-# in any quantum level of Q8, Q16 or Q32. Also requires the FFTW delegate
+# 
+# REQUIREMENTS: IM version 6.5.4-7 or higher, but compiled with HDRI enabled 
+# in any quantum level of Q8, Q16 or Q32. Also requires the FFTW delegate 
 # library.
-#
-# LIMITATIONS: Artifacts can be produced in the correlation surface image
-# when there are constant color regions in the larger image of equal or larger
-# size than the smaller image. This occurs, because the standard deviation in
-# those regions is zero or near zero, thereby causing a divide by (near) zero
-# situation, which in turn cause a larger than 1 correlation value. Some
+# 
+# LIMITATIONS: Artifacts can be produced in the correlation surface image 
+# when there are constant color regions in the larger image of equal or larger 
+# size than the smaller image. This occurs, because the standard deviation in 
+# those regions is zero or near zero, thereby causing a divide by (near) zero 
+# situation, which in turn cause a larger than 1 correlation value. Some 
 # mitigation of this is performed in the script.
-#
-# REFERENCES:
+# 
+# REFERENCES: 
 # F. Weinhaus and G. Latshaw, Edge Extraction Based Image Correlation, Proceedings SPIE, Vol. 205, 67 - 75, 1979.
 # http://en.wikipedia.org/wiki/Normalized_cross-correlation#Normalized_cross-correlation
-#
-# See http://www.fmwconcepts.com/imagemagick/fourier_transforms/fourier.html
+# 
+# See http://www.fmwconcepts.com/imagemagick/fourier_transforms/fourier.html 
 # for more details about the Fourier Transform with ImageMagick.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
+# 
 ######
 #
 
@@ -132,13 +132,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -156,7 +156,7 @@ errMsg()
 	exit 1
 	}
 
-# function crossCorr to compute IFT of complex product of (A*)x(B),
+# function crossCorr to compute IFT of complex product of (A*)x(B), 
 # where A* is complex conjugate
 # A*=a1-ia2; B=b1+ib2
 # (A*)x(B)=(a1xb1+a2*b2) + i(a1xb2-a2xb1)
@@ -215,7 +215,7 @@ else
 					   ;;
 			   	-m)    # mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -228,14 +228,14 @@ else
 					   ;;
 			   	-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 			   	-t)    # type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -306,7 +306,7 @@ im_version=`convert -list configure | \
 
 # test for hdri enabled
 if [ "$im_version" -ge "07000000" ]; then
-	hdri_on=`convert -version | grep "HDRI"`
+	hdri_on=`convert -version | grep "HDRI"`	
 else
 	hdri_on=`convert -list configure | grep "enable-hdri"`
 fi
@@ -350,10 +350,10 @@ C = (((S-Ms) X (L-Ml))/Ns) / (sigmaS*sqrt((U X L^2)/Ns - (U X L)^2/(Ns*Ns))
 where
 A X B = I(F(A*)F(B)] and A* is complex conjugate of A, F=FFT and I=IFT
 L is large image.
-L-Ml is the mean subtracted large image.
-S-Ms is the mean subtracted small image.
-U is a unit image (value=1)
-Both S-Ms and U are padded at right and bottom to size of L.
+L-Ml is the mean subtracted large image. 
+S-Ms is the mean subtracted small image. 
+U is a unit image (value=1) 
+Both S-Ms and U are padded at right and bottom to size of L. 
 
 Note numerator can be expanded from spatial format to show that it is
 sum[(S-Ms)(L)] - Ml*sum(S-Ms)
@@ -384,7 +384,7 @@ std=`convert "$dir/tmpA1.mpc" -format "%[fx:100*standard_deviation.r]\%,%[fx:100
 
 
 # ncc has range -1 to +1, so need to scale that to range 0 to quantumrange
-# thus we scale by dividing std by quantumrange and
+# thus we scale by dividing std by quantumrange and 
 # note that negatives are clipped by PNG output.
 if [ "$im_version" -lt "06050410" ]; then
 	#HDRI was unscaled by quantumrange
@@ -527,3 +527,6 @@ elif [ "$matchfile" != "" -a "$mode" = "best" ]; then
 	convert $dir/tmpA2.mpc[${ws}x${hs}+${ulx}+${uly}] "$matchfile"
 fi
 exit 0
+
+
+

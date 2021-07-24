@@ -3,31 +3,31 @@
 # Developed by Fred Weinhaus 8/29/2012 .......... revised 6/10/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: autotone [-b] [-g] [-w] [-G] [-n] [-s] [-p] [-R resize] [-P percent]
-# [-M midrange] [-N noise] [-S sharp] [-F feedback] [-WN whitenorm]
+# USAGE: autotone [-b] [-g] [-w] [-G] [-n] [-s] [-p] [-R resize] [-P percent] 
+# [-M midrange] [-N noise] [-S sharp] [-F feedback] [-WN whitenorm] 
 # [-GN graynorm] infile outfile
 #
 # USAGE: autotone [-h or -help]
@@ -41,93 +41,93 @@
 # -n                      disable auto noise removal
 # -s                      disable auto sharpening
 # -p                      enable progress monitoring
-# -R      resize          limit the output size to this value; integer>0;
-#                         will resize if the larger dimension of the image
+# -R      resize          limit the output size to this value; integer>0; 
+#                         will resize if the larger dimension of the image 
 #                         exceeds this value
-# -P      percent         percent threshold for detecting gray/white
+# -P      percent         percent threshold for detecting gray/white 
 #                         for auto gray and auto white balance; 0<float<100;
 #                         default=1
 # -M      midrange        midrange value for auto gamma correction;
 #                         0<float<1; default=0.425
-# -N      noise           noise removal factor; integer>0; default is
+# -N      noise           noise removal factor; integer>0; default is 
 #                         automatically computed; range is about 1 to 4
-# -S      sharp           sharpening amount; float>=0; default is
+# -S      sharp           sharpening amount; float>=0; default is 
 #                         automatically computed; range is about 1 to 4
 # -F      feedback        sharpening feedback (gain); float>=1; default=1
-# -WN     whitenorm       white balance normalization method; choices are:
+# -WN     whitenorm       white balance normalization method; choices are: 
 #                         none (n), ave (a), max (m); default=none
-# -GN     graynorm        gray balance normalization method; choices are:
+# -GN     graynorm        gray balance normalization method; choices are: 
 #                         none (n), ave (a), max (m); default=none
 #
 ###
 #
-# NAME: AUTOTONE
-#
+# NAME: AUTOTONE 
+# 
 # PURPOSE: To automatically tone balance an image.
-#
-# DESCRIPTION: AUTOTONE attempts to automatically tone balance and image. This
-# includes auto brightness/contrast adjustment, auto gray balance, auto white
+# 
+# DESCRIPTION: AUTOTONE attempts to automatically tone balance and image. This 
+# includes auto brightness/contrast adjustment, auto gray balance, auto white 
 # balance, auto gamma correction, auto noise removal and auto sharpening.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -b ... disable auto brightness/contrast
-#
+# 
 # -g ... disable auto gray balance
-#
+# 
 # -w ... disable auto white balance
-#
+# 
 # -G ... disable auto gamma correction
-#
+# 
 # -n ... disable auto noise removal
-#
+# 
 # -s ... disable auto sharpening
-#
+# 
 # -p ... enable progress monitoring
-#
-# -R resize ... RESIZE is the limit on the output image size. Values are
-# integer>0. This will only resize if the larger dimension of the image
+# 
+# -R resize ... RESIZE is the limit on the output image size. Values are 
+# integer>0. This will only resize if the larger dimension of the image 
 # exceeds this value. The default is no limit (i.e. no resize).
-#
-# -P percent ... PERCENT is the percent threshold for detecting gray/white
+# 
+# -P percent ... PERCENT is the percent threshold for detecting gray/white 
 # in the image for auto gray and auto white balance. Values are 0<floats<100.
 # The default=1.
-#
-# -M midrange ... MIDRANGE value for auto gamma correction. Values are
+# 
+# -M midrange ... MIDRANGE value for auto gamma correction. Values are 
 # 0<floats<1. The default=0.425.
-#
-# -N (noise) repeats ... NOISE REPEATS removal factor. Values are integers>0.
-# The default is automatically computed. The nominal range is about 1 to 4
+# 
+# -N (noise) repeats ... NOISE REPEATS removal factor. Values are integers>0.  
+# The default is automatically computed. The nominal range is about 1 to 4 
 # depending upon image size. Larger values are used for larger images.
-#
-# -S sharp ... SHARP is the sharpening amount. Values are floats>=0. The
-# default is automatically computed. The nominal range is about 1 to 4.
+# 
+# -S sharp ... SHARP is the sharpening amount. Values are floats>=0. The 
+# default is automatically computed. The nominal range is about 1 to 4. 
 # Larger values are used for larger images.
 #
-# -F feedback ... FEEDBACK is the sharpening feedback (gain). Values are
+# -F feedback ... FEEDBACK is the sharpening feedback (gain). Values are 
 # floats>=1. The default=1.
-#
-# -WN whitenorm ... WHITENORM is the white balance r,g,b ratio normalization
+#  
+# -WN whitenorm ... WHITENORM is the white balance r,g,b ratio normalization 
 # method. The choices are: none (n), ave (a), max (m). The default=none
-#
-# -GN graynorm ... GRAYNORM is the gray balance r,g,b ratio normalization
+# 
+# -GN graynorm ... GRAYNORM is the gray balance r,g,b ratio normalization  
 # method. The choices are: none (n), ave (a), max (m). The default=none
-#
+# 
 # NOTE: The white balance and gray balance techniques now have optional r,g,b
-# ratio normalizations that help prevent brightness increases and
+# ratio normalizations that help prevent brightness increases and 
 # over-saturation at white from these parts of the script. Furthermore, to
 # avoid possible excess color shifts as well as mitigate over-saturation of
 # white, one may reduce the percent argument to about 0.1. All of the above
 # as well as the midrange argument are subject to personal tastes and tuning.
-# The defaults have been left in the old mode for backward compatibility.
-# I thank Dr. Guenter Grau for the suggestion to normalize the r,g,b ratios
-# in the white balance and gray balance parts of the code. My current
+# The defaults have been left in the old mode for backward compatibility. 
+# I thank Dr. Guenter Grau for the suggestion to normalize the r,g,b ratios 
+# in the white balance and gray balance parts of the code. My current 
 # recommendation is to use whitenorm=ave, graynorm=ave and percent=0.1.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -160,13 +160,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -234,8 +234,8 @@ else
 					   progress="true"
 					   ;;
 				-R)    # get resize
-					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   shift  # to get the next parameter 
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   resize=`expr "$1" : '\([0-9]*\)'`
@@ -245,7 +245,7 @@ else
 					   ;;
 				-P)    # get percent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PERCENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   percent=`expr "$1" : '\([.0-9]*\)'`
@@ -256,7 +256,7 @@ else
 					   ;;
 				-M)    # get midrange
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIDRANGE SPECIFICATION ---"
 					   checkMinus "$1"
 					   gammamid=`expr "$1" : '\([.0-9]*\)'`
@@ -267,7 +267,7 @@ else
 					   ;;
 				-N)    # get noise repeats
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NOISE REPEATS SPECIFICATION ---"
 					   checkMinus "$1"
 					   repeats=`expr "$1" : '\([0-9]*\)'`
@@ -277,7 +277,7 @@ else
 					   ;;
 				-S)    # get sharp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHARP SPECIFICATION ---"
 					   checkMinus "$1"
 					   sharp=`expr "$1" : '\([.0-9]*\)'`
@@ -285,7 +285,7 @@ else
 					   ;;
 				-F)    # get feedback
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FEEDBACK SPECIFICATION ---"
 					   checkMinus "$1"
 					   feedback=`expr "$1" : '\([.0-9]*\)'`
@@ -295,28 +295,28 @@ else
 					   ;;
 			   -WN)    # get  whitenorm
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WHITENORM SPECIFICATION ---"
 					   checkMinus "$1"
 					   whitenorm=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$whitenorm" in
+					   case "$whitenorm" in 
 					   		none|n) whitenorm="none";;
 					   		ave|a) whitenorm="ave";;
 					   		max|m) whitenorm="max";;
-					   		*) errMsg "--- WHITENORM=$whitenorm IS AN INVALID VALUE ---"
+					   		*) errMsg "--- WHITENORM=$whitenorm IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 			   -GN)    # get  graynorm
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAYNORM SPECIFICATION ---"
 					   checkMinus "$1"
 					   graynorm=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$graynorm" in
+					   case "$graynorm" in 
 					   		none|n) graynorm="none";;
 					   		ave|a) graynorm="ave";;
 					   		max|m) graynorm="max";;
-					   		*) errMsg "--- GRAYNORM=$graynorm IS AN INVALID VALUE ---"
+					   		*) errMsg "--- GRAYNORM=$graynorm IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -381,15 +381,15 @@ fi
 im_version=`convert -list configure | \
 sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
 # but we need to use -set colorspace RGB before using them at appropriate times
 # so that results stay as in original script
-# The following was determined from various version tests
+# The following was determined from various version tests 
 # with IM 6.7.4.10, 6.7.6.10, 6.7.8.6
 if [ "$im_version" -lt "06070607" -o "$im_version" -gt "06070707" ]; then
 	setcspace="-set colorspace RGB"
@@ -412,7 +412,7 @@ getMinMax()
 	{
 	img="$1"
 	if [ "$im_version" -ge "06030901" ]
-		then
+		then 
 		min=`convert $img -format "%[min]" info:`
 		max=`convert $img -format "%[max]" info:`
 		min=`convert xc: -format "%[fx:100*$min/quantumrange]" info:`
@@ -431,7 +431,7 @@ getMean()
 	{
 	img="$1"
 	if [ "$im_version" -ge "06030901" ]
-		then
+		then 
 		mean=`convert $img -format "%[mean]" info:`
 		mean=`convert xc: -format "%[fx:$mean/quantumrange]" info:`
 	else
@@ -471,7 +471,7 @@ if [ "$bright" = "yes" ]; then
 	if [ "$im_version" -lt "06050501" ]; then
 		getMinMax $dir/tmpI.mpc
 		convert $dir/tmpI.mpc -level $min%,$max% $dir/tmpI.mpc
-	else
+	else 
 		convert $dir/tmpI.mpc -auto-level $dir/tmpI.mpc
 	fi
 fi
@@ -483,7 +483,7 @@ if [ "$gray" = "yes" ]; then
 
 	# separate channels
 	convert $dir/tmpI.mpc $setcspace $reducing -channel RGB -separate $dir/tmpRGB.mpc
-
+	
 	# get ratios for graybalance
 	# get mask of top percent closest to gray
 	# approximation using negated saturation and solarized brightness multiplied
@@ -494,27 +494,27 @@ if [ "$gray" = "yes" ]; then
 		\( -clone 3 -contrast-stretch 0,${percent}% -fill black +opaque white \) \
 		-delete 0-3 $dir/tmpM.mpc
 
-
+	
 	# get mean of mask
 	getMean $dir/tmpM.mpc
 	maskmean=$mean
 	#echo "maskmean=$maskmean"
-
+	
 	# use mask image to isolate user supplied percent of pixels closest to white
 	# then get ave graylevel for each channel of mask selected pixels
-
+		
 	convert $dir/tmpRGB.mpc[0] $dir/tmpM.mpc -compose multiply -composite $dir/tmpT.mpc
 	getRatio "$dir/tmpT.mpc[0]" "0.5"
 	redave=$ave
 	redratio=$ratio
 	#echo "R: ave=$ave; redratio=$ratio"
-
+	
 	convert $dir/tmpRGB.mpc[1] $dir/tmpM.mpc -compose multiply -composite $dir/tmpT.mpc
 	getRatio "$dir/tmpT.mpc[1]" "0.5"
 	greenave=$ave
 	greenratio=$ratio
 	#echo "G: ave=$ave; greenratio=$ratio;"
-
+	
 	convert $dir/tmpRGB.mpc[2] $dir/tmpM.mpc -compose multiply -composite $dir/tmpT.mpc
 	getRatio "$dir/tmpT.mpc[2]" "0.5"
 	blueave=$ave
@@ -535,14 +535,14 @@ if [ "$gray" = "yes" ]; then
 		#echo "G: ave=$greenave; ratio=$greenratio;"
 		#echo "B: ave=$blueave; ratio=$blueratio;"
 	fi
-
+		
 	#unused test
 	#rmse=`convert xc: -format "%[fx:sqrt( (0.5-$redave)^2 + (0.5-$greenave)^2 + (0.5-$blueave)^2 )/3]" info:`
 	#test1=`convert xc: -format "%[fx:$rmse>0?1:0]" info:`
 	#echo "rmse=$rmse; test1=$test1"
 	test1=1
-
-	if [ $test1 -eq 1 ]; then
+	
+	if [ $test1 -eq 1 ]; then 
 		convert $dir/tmpI.mpc $process "$redratio 0 0 0 $greenratio 0 0 0 $blueratio" $dir/tmpI.mpc
 	fi
 fi
@@ -553,7 +553,7 @@ if [ "$white" = "yes" ]; then
 
 	# separate channels
 	convert $dir/tmpI.mpc $setcspace $reducing -channel RGB -separate $dir/tmpRGB.mpc
-
+	
 	# get ratios for whitebalance
 	# get mask of top percent closest to white
 	# approximation using negated saturation and brightness channels multiplied
@@ -562,27 +562,27 @@ if [ "$white" = "yes" ]; then
 		-compose multiply -composite \
 		-contrast-stretch 0,${percent}% -fill black +opaque white \
 		$dir/tmpM.mpc
-
+	
 	# get mean of mask
 	getMean $dir/tmpM.mpc
 	maskmean=$mean
 	#echo "maskmean=$maskmean"
-
+	
 	# use mask image to isolate user supplied percent of pixels closest to white
 	# then get ave graylevel for each channel of mask selected pixels
-
+		
 	convert $dir/tmpRGB.mpc[0] $dir/tmpM.mpc -compose multiply -composite $dir/tmpT.mpc
 	getRatio "$dir/tmpT.mpc[0]" "1"
 	redave=$ave
 	redratio=$ratio
 	#echo "R: ave=$ave; redratio=$ratio"
-
+	
 	convert $dir/tmpRGB.mpc[1] $dir/tmpM.mpc -compose multiply -composite $dir/tmpT.mpc
 	getRatio "$dir/tmpT.mpc[1]" "1"
 	greenave=$ave
 	greenratio=$ratio
 	#echo "G: ave=$ave; greenratio=$ratio;"
-
+	
 	convert $dir/tmpRGB.mpc[2] $dir/tmpM.mpc -compose multiply -composite $dir/tmpT.mpc
 	getRatio "$dir/tmpT.mpc[2]" "1"
 	blueave=$ave
@@ -603,14 +603,14 @@ if [ "$white" = "yes" ]; then
 		#echo "G: ave=$greenave; ratio=$greenratio;"
 		#echo "B: ave=$blueave; ratio=$blueratio;"
 	fi
-
+	
 	#unused test
 	#rmse=`convert xc: -format "%[fx:sqrt( (1-$redave)^2 + (1-$greenave)^2 + (1-$blueave)^2 )/3]" info:`
 	#test1=`convert xc: -format "%[fx:$rmse>0?1:0]" info:`
 	#echo "rmse=$rmse; test1=$test1"
 	test1=1
-
-	if [ $test1 -eq 1 ]; then
+	
+	if [ $test1 -eq 1 ]; then 
 		convert $dir/tmpI.mpc $process "$redratio 0 0 0 $greenratio 0 0 0 $blueratio" $dir/tmpI.mpc
 	fi
 fi
@@ -623,9 +623,9 @@ if [ "$gamma" != "no" ]; then
 	# gamma is the ratio of logs of the mean and mid value of the dynamic range
 	# where we normalize both to the range between 0 and 1
 	# ref: http://rsb.info.nih.gov/ij/plugins/auto-gamma.html
-	# However, I have inverted his formula for use with values
+	# However, I have inverted his formula for use with values 
 	# in range 0 to 1, which works much better my way
-
+	
 	# reduce image and get mean
 	convert $dir/tmpI.mpc $setcspace $reducing $dir/tmpT.mpc
 	getMean "$dir/tmpT.mpc"
@@ -638,7 +638,7 @@ if [ "$gamma" != "no" ]; then
 		identifying="identify"
 	fi
 
-	# test for mask processing of upper portion of negated saturation * brightness
+	# test for mask processing of upper portion of negated saturation * brightness 
 	# to remove too much white from affecting the gamma processing
 
 	# process only if gmean>gammamid; ie. overly bright image mean
@@ -652,7 +652,7 @@ if [ "$gamma" != "no" ]; then
 		# get mean of mask
 		getMean "$dir/tmpM.mpc"
 		maskmean=$mean
-
+		
 		# Process only if maskmean is larger than some threshold -- ie don't process if too little sky
 		test2=`convert xc: -format "%[fx:$maskmean>$maskthresh?1:0 ]" info:`
 		#echo "maskmean=$maskmean; test2=$test2"
@@ -710,3 +710,6 @@ fi
 convert $dir/tmpI.mpc "$outfile"
 
 exit 0
+
+
+

@@ -59,7 +59,7 @@
 # -S     seed           seed for random number generator; integer>0;
 #                       ignored if paramete -f file1 is present; default=1
 # -p     pixinc         increment in pixels for spline interpolation;
-#                       coarser is faster; but too coarsemay lead long
+#                       coarser is faster; but too coarsemay lead long 
 #                       straight sections; integer>0; default=2
 # -f     file1          file containing the desired number of comma separated
 #                       pairs of random numbers in range [0,1) with one pair
@@ -172,7 +172,7 @@
 # whether the shape of the inner region is square or disk, unless the
 # points exceed the inner region and the constrain parameter is on.
 #
-# Note: When using a circular mask, the results for a uniform distribution
+# Note: When using a circular mask, the results for a uniform distribution 
 # of points will be different from using shape=disk with no mask, because
 # different algorithms are used for limiting the points to either disk region.
 # A square mask will produce the same results as using shape=square for the
@@ -917,3 +917,4 @@ convert -size ${owidth}x${oheight} \
 	"$outfile"
 
 exit 0
+

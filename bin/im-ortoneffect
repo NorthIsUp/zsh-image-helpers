@@ -3,64 +3,64 @@
 # Developed by Fred Weinhaus 9/28/2012 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: ortoneffect [-b blur] [-o opacity] infile outfile
 # USAGE: ortoneffect [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -b     blur         blur amount; float>=0; default=10
 # -o     opacity      opacity; 0<=integer<=100; default=100
-#
+# 
 ###
-#
-# NAME: ORTONEFFECT
-#
+# 
+# NAME: ORTONEFFECT 
+# 
 # PURPOSE: To apply an Orton effect to an image.
-#
+# 
 # DESCRIPTION: ORTONEFFECT applies an Orton (sandwich) effect to an image.
-#
-#
-# ARGUMENTS:
-#
+# 
+# 
+# ARGUMENTS: 
+# 
 # -b blur ... BLUR is the amount of blur. Values are floats>=0. The default=10.
-#
-# -o opacity ... OPACITY percent. Values are integers betwee 0 and 100.
+# 
+# -o opacity ... OPACITY percent. Values are integers betwee 0 and 100. 
 # The default=100.
-#
+# 
 # REFERENCES:
 # http://www.bernskiold.com/2011/06/06/applying-orton-effect-photos/
 # http://peterh111.wordpress.com/2010/12/11/the-easy-guide-to-creating-the-orton-effect/
 # http://pcin.net/update/2006/11/01/the-orton-effect-digital-photography-tip-of-the-week/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 blur=10			# blur amount
@@ -73,13 +73,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -127,7 +127,7 @@ else
 					   ;;
 				-b)    # get blur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   blur=`expr "$1" : '\([.0-9]*\)'`
@@ -135,7 +135,7 @@ else
 					   ;;
 				-o)    # get opacity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity=`expr "$1" : '\([0-9]*\)'`
@@ -190,3 +190,6 @@ convert $tmpA1 \
 "$outfile"
 
 exit 0
+
+
+

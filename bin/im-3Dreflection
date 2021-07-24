@@ -3,34 +3,34 @@
 # Developed by Fred Weinhaus 2/6/2010 .......... revised 10/8/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: 3Dreflection [-r rotate] [-f fade] [-o opacity] [-e exaggerate] [-b bcolor] [-z zoom] [-s shadow] [-a altitude] [-u umbra] [-p penumbra] infile outfile
 # USAGE: 3Dreflection [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -r      rotate            perseptive rotation about left edge of image;
 #                           0<=integer<=90 deg; default=20
 # -f      fade              fade percent for mirror image; 0<=integer<=100;
@@ -39,79 +39,79 @@
 #                           0<=integer<=100; default=100
 # -g      gap               gap between image and mirror in pixels; integer>=0;
 #                           default=0
-# -e      exaggerate        perspective exaggeration factor; 0<float<3;
-#                           value of 1 is normal perspective; value of 0.5
+# -e      exaggerate        perspective exaggeration factor; 0<float<3; 
+#                           value of 1 is normal perspective; value of 0.5 
 #                           is close to orthographic; default=1
-# -b      bcolor            background color; any valid IM color
+# -b      bcolor            background color; any valid IM color 
 #                           specification; default=none for transparent
 # -z      zoom              zoom factor for output image; float>0; default=1
 # -s      shadow            enable shadow; on or off; default=off
 # -a      altitude          lighting altitude angle; 0<integer<90; default=80
-# -u      umbra             graylevel percent value for dark part of shadow;
+# -u      umbra             graylevel percent value for dark part of shadow; 
 #                           0<=integer<=100; default=60
-# -p      penumbra          extent in pixels of light outer part of shadow;
+# -p      penumbra          extent in pixels of light outer part of shadow; 
 #                           integer>0; default=4
-#
+# 
 ###
-#
+# 
 # NAME: 3DREFLECTION
-#
+# 
 # PURPOSE: To add a fading reflection below an image and view it in perspective.
-#
-# DESCRIPTION: 3DREFLECTION adds a fading reflection below an image and
-# views it in perspective. An optional shadow may be added. Note that the
-# optional shadow is not a formal perspective projection, but is simply an
-# approximation. Therefore it may only look approximately correct and may
+# 
+# DESCRIPTION: 3DREFLECTION adds a fading reflection below an image and 
+# views it in perspective. An optional shadow may be added. Note that the 
+# optional shadow is not a formal perspective projection, but is simply an 
+# approximation. Therefore it may only look approximately correct and may 
 # get worse for larger rotations.
-#
-#
-# ARGUMENTS:
-#
-# -r rotate ... ROTATE is the perspective rotation about the left edge of
+# 
+# 
+# ARGUMENTS: 
+# 
+# -r rotate ... ROTATE is the perspective rotation about the left edge of 
 # the image. Values are integers between 0 and 90 deg. The default=20
 #
-# -f fade ... FADE is the percent fade to apply to the mirror image that
-# is placed below the original image. Values are integers between 0 and 100.
+# -f fade ... FADE is the percent fade to apply to the mirror image that 
+# is placed below the original image. Values are integers between 0 and 100. 
 # The default=40
-#
-# -o opacity ... OPACITY is the base opacity percent for the mirror image
-# as a whole before it is faded. Values are integers between 0 and 100.
+# 
+# -o opacity ... OPACITY is the base opacity percent for the mirror image 
+# as a whole before it is faded. Values are integers between 0 and 100. 
 # The default=100 (no extra transparency).
-#
-# -g gap ... GAP is a gap in pixels between the image and mirrored version
+# 
+# -g gap ... GAP is a gap in pixels between the image and mirrored version 
 # below it. Values are integers greater than or equal to zero. The default=0.
-#
-# -e exaggerate ... EXAGGERATE is the perspective exaggeration factor. Values
-# are floats larger than 0 and less than 3. A value of 1 is a nominal
+# 
+# -e exaggerate ... EXAGGERATE is the perspective exaggeration factor. Values 
+# are floats larger than 0 and less than 3. A value of 1 is a nominal 
 # perspective view. A value of 0.5 is a near orthographic view. The default=1.
-#
-# -b bcolor ... BCOLOR is the background color. Any valid IM color
+# 
+# -b bcolor ... BCOLOR is the background color. Any valid IM color 
 # specification is allowed. The default=none is tranparent.
-#
-# -z zoom ... ZOOM is the zoom factor for the output image. Values are
-# floats greater than 0. Values larger than 1 will enlarge and values less
+# 
+# -z zoom ... ZOOM is the zoom factor for the output image. Values are 
+# floats greater than 0. Values larger than 1 will enlarge and values less 
 # than 1 will shrink the output. The default=1.
-#
-# -s shadow ... SHADOW enables or disables the optional shadow. Values are:
+# 
+# -s shadow ... SHADOW enables or disables the optional shadow. Values are: 
 # on or off. The default=off.
-#
-# -a altitude ... ALTITUDE is the lighting altitude angle. Values are
+# 
+# -a altitude ... ALTITUDE is the lighting altitude angle. Values are 
 # integers larger than 0 and less than 90 deg. The default=80.
-#
-# -u umbra ... UMBRA is the graylevel percent of the dark innner main part
+# 
+# -u umbra ... UMBRA is the graylevel percent of the dark innner main part 
 # of the shadow. Values are integers between 0 and 100. The default=60.
-#
-# -p penumbra ... PENUMBRA is the extent in pixels of the lighter outer part
+# 
+# -p penumbra ... PENUMBRA is the extent in pixels of the lighter outer part 
 # of the shadow. Values are integers greater than or equal to 0. The default=4.
-#
+# 
 # REQUIREMENTS: This script requires my 3Drotate script to function.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 rotate=20				# perspective pan rotate rotation
@@ -135,13 +135,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -189,7 +189,7 @@ else
 					   ;;
 				-r)    # get rotate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROTATE SPECIFICATION ---"
 					   checkMinus "$1"
 					   rotate=`expr "$1" : '\([0-9]*\)'`
@@ -199,7 +199,7 @@ else
 					   ;;
 				-f)    # get fade
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FADE SPECIFICATION ---"
 					   checkMinus "$1"
 					   fade=`expr "$1" : '\([0-9]*\)'`
@@ -209,7 +209,7 @@ else
 					   ;;
 				-o)    # get opacity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity=`expr "$1" : '\([0-9]*\)'`
@@ -219,7 +219,7 @@ else
 					   ;;
 				-g)    # get gap
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAP SPECIFICATION ---"
 					   checkMinus "$1"
 					   gap=`expr "$1" : '\([0-9]*\)'`
@@ -227,7 +227,7 @@ else
 					   ;;
 				-e)    # get exaggerate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXAGGERATE SPECIFICATION ---"
 					   checkMinus "$1"
 					   exaggerate=`expr "$1" : '\([.0-9]*\)'`
@@ -238,14 +238,14 @@ else
 					   ;;
 				-b)    # get bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-z)    # get zoom
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ZOOM SPECIFICATION ---"
 					   checkMinus "$1"
 					   zoom=`expr "$1" : '\([.0-9]*\)'`
@@ -255,7 +255,7 @@ else
 					   ;;
 				-s)    # get shadow
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHADOW SPECIFICATION ---"
 					   checkMinus "$1"
 					   shadow="$1"
@@ -263,7 +263,7 @@ else
 					   ;;
 				-a)    # get altitude
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ALTITUDE SPECIFICATION ---"
 					   checkMinus "$1"
 					   altitude=`expr "$1" : '\([0-9]*\)'`
@@ -274,7 +274,7 @@ else
 					   ;;
 				-u)    # get umbra
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UMBRA SPECIFICATION ---"
 					   checkMinus "$1"
 					   umbra=`expr "$1" : '\([0-9]*\)'`
@@ -284,7 +284,7 @@ else
 					   ;;
 				-p)    # get penumbra
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PENUMBRA SPECIFICATION ---"
 					   checkMinus "$1"
 					   penumbra=`expr "$1" : '\([0-9]*\)'`
@@ -359,7 +359,7 @@ convert $tmpA1 \
 	-compose multiply -composite \) \
 	\( -clone 2 -clone 3 -alpha off -compose over -compose copy_opacity -composite \) \
 	-delete 2,3 -channel rgba -alpha on -append $tmpA2
-
+	
 # do 3D rotate
 3Drotate pan=$rotate pef=$exaggerate auto=out idx=$xoff idy=$yoff \
 	bgcolor=none skycolor=none $tmpA2 $tmpA3

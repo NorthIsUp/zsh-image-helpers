@@ -3,109 +3,109 @@
 # Developed by Fred Weinhaus 7/22/2013 .......... revised 6/8/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
-# USAGE: puzzle [-s scale] [-o ocolor] [-e ecolor] [-m missing] [-n newseed]
-# [-r rotation] [-x xoffset] [-y yoffset] [-O opacity] [-D depth] [-length]
+# 
+# USAGE: puzzle [-s scale] [-o ocolor] [-e ecolor] [-m missing] [-n newseed] 
+# [-r rotation] [-x xoffset] [-y yoffset] [-O opacity] [-D depth] [-length] 
 # infile outfile
 # USAGE: puzzle [-h or -help]
 #
 # OPTIONS:
 #
 # -s     scale       puzzle pieces scale factor; integer>=50; default=100
-# -o     ocolor      puzzle outline color; any valid IM color or "carve";
+# -o     ocolor      puzzle outline color; any valid IM color or "carve"; 
 #                    default=gray40
-# -e     ecolor      puzzle empty (missing) piece color; any valid IM color;
+# -e     ecolor      puzzle empty (missing) piece color; any valid IM color; 
 #                    default=white
 # -m     missing     number of missing (empty) pieces; 0<=integer<=20; default=0
 # -n     newseed     seed for random missing cells; integer; default=no seed
-# -r     rotate      rotation of overlaid missing pieces; -360<=integer<=360;
+# -r     rotate      rotation of overlaid missing pieces; -360<=integer<=360; 
 #                    default=0
 # -x     xoffset     x offset of overlaid missing pieces; integer>=0; default=0
 # -y     yoffset     y offset of overlaid missing pieces; integer>=0; default=0
-# -O     opacity     opacity for shadow effect on overlaid missing pieces;
+# -O     opacity     opacity for shadow effect on overlaid missing pieces; 
 #                    0<=integer<=100; default=0
-# -D     depth       depth for shadow effect on overlaid missing pieces;
+# -D     depth       depth for shadow effect on overlaid missing pieces; 
 #                    integer>=0; default=3
-# -L     length      length of shadow  on overlaid missing pieces; integer>=0;
+# -L     length      length of shadow  on overlaid missing pieces; integer>=0; 
 #                    default=3
-#
+# 
 ###
 #
-# NAME: PUZZLE
-#
+# NAME: PUZZLE 
+# 
 # PURPOSE: To apply a puzzle like effect to an image.
-#
-# DESCRIPTION: PUZZLE applies a puzzle like effect to an image. Options include:
-# setting the number of missing pieces, setting the missing piece color and the
+# 
+# DESCRIPTION: PUZZLE applies a puzzle like effect to an image. Options include: 
+# setting the number of missing pieces, setting the missing piece color and the 
 # outline color and overlaying the missing pieces at some rotation or offset.
-#
-# OPTIONS:
-#
-# -s  scale ... SCALE is the puzzle cell scale factor. Values are integers>=50.
+# 
+# OPTIONS: 
+# 
+# -s  scale ... SCALE is the puzzle cell scale factor. Values are integers>=50. 
 # The default=100. At scale of 100, the size of a cell is about 50x50 pixels.
-#
-# -o ocolor ... OCOLOR is the puzzle piece outline color. Any valid IM color is
-# allowed or the special value of "carve" (without the quotes). The
+# 
+# -o ocolor ... OCOLOR is the puzzle piece outline color. Any valid IM color is 
+# allowed or the special value of "carve" (without the quotes). The 
 # default=gray40. Using carve will produce a carved-like effect to the puzzle.
-#
-# -e ecolor ... ECOLOR is the color used to fill empty (missing) pieces. Any
+# 
+# -e ecolor ... ECOLOR is the color used to fill empty (missing) pieces. Any 
 # valid IM color is allowed. The default=white.
-#
+# 
 # -m missing ... MISSING is the number of missing (empty) pieces. Values are
 # 0<=integer<=20. The default=0.
-#
-# -n newseed ... NEWSEED is the seed for random missing pieces. Values are
-# non-negative integers. The default is no seed. Thus the pattern will not
+# 
+# -n newseed ... NEWSEED is the seed for random missing pieces. Values are 
+# non-negative integers. The default is no seed. Thus the pattern will not 
 # be repeatable.
-#
+# 
 # -r rotate ... ROTATE is the rotation angle of overlaid missing pieces. Values
-# are -360<=integer<=360. The default=0. Pieces will not be overlaid unless at
+# are -360<=integer<=360. The default=0. Pieces will not be overlaid unless at 
 # least one of rotate, xoffset, yoffset are non-zero.
-#
+# 
 # -x xoffset ... XOFFSET is the x offset of overlaid missing pieces. Value are
-# integers (positive or negative). The default=0. Pieces will not be overlaid
+# integers (positive or negative). The default=0. Pieces will not be overlaid 
 # unless at least one of rotate, xoffset, yoffset are non-zero.
-#
+# 
 # -y yoffset ... YOFFSET is the y offset of overlaid missing pieces. Value are
-# integers (positive or negative). The default=0. Pieces will not be overlaid
+# integers (positive or negative). The default=0. Pieces will not be overlaid 
 # unless at least one of rotate, xoffset, yoffset are non-zero.
-#
+# 
 # -O opacity ... OPACITY for shadow effect on overlaid missing pieces. Values
 # are 0<=integer<=100. The default=0.
-#
-# -D depth ... DEPTH for shadow effect on overlaid missing pieces. Values are
+# 
+# -D depth ... DEPTH for shadow effect on overlaid missing pieces. Values are  
 # integer>=0. The default=3.
-#
-# -L length ... LENGTH of shadow on overlaid missing pieces. Values are
+# 
+# -L length ... LENGTH of shadow on overlaid missing pieces. Values are 
 # integer>=0. The default=3.
-#
-# References - svg puzzle pattern modified from:
+# 
+# References - svg puzzle pattern modified from: 
 # http://www.joshpodolske.com/puzzle-pieces-vector-swatch/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -127,13 +127,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -181,7 +181,7 @@ else
 					   ;;
 				-s)    # get scale
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SCALE SPECIFICATION ---"
 					   checkMinus "$1"
 					   scale=`expr "$1" : '\([0-9]*\)'`
@@ -191,21 +191,21 @@ else
 					   ;;
 				-o)    # get ocolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ocolor="$1"
 					   ;;
 				-e)    # get ecolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ecolor="$1"
 					   ;;
 				-m)    # get missing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MISSING SPECIFICATION ---"
 					   checkMinus "$1"
 					   missing=`expr "$1" : '\([0-9]*\)'`
@@ -213,7 +213,7 @@ else
 					   ;;
 				-n)    # get  newseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NEWSEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   newseed=`expr "$1" : '\([0-9]*\)'`
@@ -221,7 +221,7 @@ else
 					   ;;
 				-r)    # get rotate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID ROTATE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   rotate=`expr "$1" : '\([-0-9]*\)'`
@@ -232,7 +232,7 @@ else
 					   ;;
 				-x)    # get xoffset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID XOFFSET SPECIFICATION ---"
 					   #checkMinus "$1"
 					   xoffset=`expr "$1" : '\([-0-9]*\)'`
@@ -240,7 +240,7 @@ else
 					   ;;
 				-y)    # get yoffset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID YOFFSET SPECIFICATION ---"
 					   #checkMinus "$1"
 					   yoffset=`expr "$1" : '\([-0-9]*\)'`
@@ -248,7 +248,7 @@ else
 					   ;;
 				-O)    # get opacity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity=`expr "$1" : '\([0-9]*\)'`
@@ -258,7 +258,7 @@ else
 					   ;;
 				-D)    # get  depth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DEPTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   depth=`expr "$1" : '\([0-9]*\)'`
@@ -266,7 +266,7 @@ else
 					   ;;
 				-L)    # get  length
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LENGTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   length=`expr "$1" : '\([0-9]*\)'`
@@ -331,9 +331,9 @@ convert -quiet "$infile" +repage "$tmpA1" ||
 
 # read svg data into .svg file
 echo '<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="93" height="94" version="1.1"
+<svg width="93" height="94" version="1.1" 
 	xmlns="http://www.w3.org/2000/svg">
   <circle cx="0" cy="0" r="1" fill="black"/>
   <circle cx="1" cy="0" r="1" fill="black"/>
@@ -9100,7 +9100,7 @@ density=`convert $tmpA1 -format "%[fx:$scale*72/100]" info:`
 # When I use RSVG, the tile shape/size is smaller than with MSVG.
 # convert svg to scaled tiled mpc mask
 if [ $scale -lt 80 ]; then
-	# if scale to small (below about 80), the pattern gets thinned too much and opens up so that more than one cell is filled.
+	# if scale to small (below about 80), the pattern gets thinned too much and opens up so that more than one cell is filled. 
 	# so have to threshold it, which causes aliasing.
 	# empirical tests to try to make the grid transition (width) for anti-aliased to aliased less obvious.
 	# factor=scale/20 - 2.5 so that at scale=60 factor is 0.5 and at scale=80 factor is 1.5
@@ -9109,8 +9109,8 @@ if [ $scale -lt 80 ]; then
 	convert -density $density MSVG:$dir/tmpS.svg -threshold 50% -write mpr:tile +delete \
 		\( -size ${ww}x${hh} tile:mpr:tile +write $tmpA2 +delete \) \
 		-threshold $thresh% -size ${ww}x${hh} tile:mpr:tile $tmpA3
-
-# alternate, makes slightly darker but more aliased
+	
+# alternate, makes slightly darker but more aliased	
 #	convert -density $density $tmpS -write mpr:tile +delete \
 #		-size ${ww}x${hh} tile:mpr:tile \( +write $tmpA2 \) -threshold $thresh% $tmpA3
 
@@ -9181,7 +9181,7 @@ if [ $missing -gt 0 ]; then
 			# use -distort SRT to rotate and/or translate the missing pieces
 			# create edge image of missing pieces
 			# create constant image of ocolor and composite with mask and SRT image
-			# create shadow
+			# create shadow 
 			# use -layers merge with previous image to add shadow to overlaid pieces
 			# composite that result over the previous process image with colored missing pieces
 			convert $tmpA1 \

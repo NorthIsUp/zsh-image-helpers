@@ -3,84 +3,84 @@
 # Developed by Fred Weinhaus 2/28/2018 .......... revised 2/28/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: polyring [-d duplicates] [-f format] [-b bcolor] [-m maxsize] infile1
+# USAGE: polyring [-d duplicates] [-f format] [-b bcolor] [-m maxsize] infile1 
 # [infile2 infile3 ... ] outfile
-#
+# 
 # USAGE: polyring [-h or -help]
 #
 # OPTIONS:
 #
-# -d     duplicates     duplicate images to use when only one input image is supplied,
-#                       including the input; integer>=3; default=6; the associated
-#                       polygon number of sides will be the value of duplicates;
-#                       if multiple images are supplied, then that will take precedence;
-#                       if more than one image is supplied, then there must be at
+# -d     duplicates     duplicate images to use when only one input image is supplied, 
+#                       including the input; integer>=3; default=6; the associated 
+#                       polygon number of sides will be the value of duplicates; 
+#                       if multiple images are supplied, then that will take precedence; 
+#                       if more than one image is supplied, then there must be at 
 #                       minimum 3 images supplied and no more than 6 images supplied
 # -f     format         format for the output; polygon or ring; default=polygon
-# -b     bcolor         color to use for the background color of the output;
+# -b     bcolor         color to use for the background color of the output; 
 #                       default=white
-# -m     maxsize        output image's maximum size; integer>0; default is twice the
-#                       input image's minimum width plus twice the minimum height plus
-#                       twice computed radius
-#
+# -m     maxsize        output image's maximum size; integer>0; default is twice the  
+#                       input image's minimum width plus twice the minimum height plus 
+#                       twice computed radius 
+# 
 ###
 #
-# NAME: POLYRING
-#
+# NAME: POLYRING 
+# 
 # PURPOSE: To create a polygon ring from one or more images.
-#
-# DESCRIPTION: POLYRING creates a polygon ring image from one or more images. One input
-# may be duplicated multiple times so that there are 3 or more copies. Or 3 or more
-# different input images may be supplied. If multiple input images are supplied, they
+# 
+# DESCRIPTION: POLYRING creates a polygon ring image from one or more images. One input 
+# may be duplicated multiple times so that there are 3 or more copies. Or 3 or more 
+# different input images may be supplied. If multiple input images are supplied, they  
 # will be center cropped to the minimum dimensions from all the images supplied.
-#
-# OPTIONS:
-#
-# -d duplicates ... DUPLICATES is the number of duplicate images to use when only one
-# input image is supplied, including the input. Values are integer>=3. The default=6.
-# The associated polygon number of sides will be the value of duplicates. If multiple
-# images are supplied, then that will take precedence. If more than one image is
-# supplied, then there must be at minimum 3 images supplied and no more than
+# 
+# OPTIONS: 
+# 
+# -d duplicates ... DUPLICATES is the number of duplicate images to use when only one 
+# input image is supplied, including the input. Values are integer>=3. The default=6. 
+# The associated polygon number of sides will be the value of duplicates. If multiple 
+# images are supplied, then that will take precedence. If more than one image is 
+# supplied, then there must be at minimum 3 images supplied and no more than 
 # 6 images supplied.
-#
-# -f format ... FORMAT for the output. Choices are: polygon (p) or ring (r). The
-# default=polygon. The polygon shape will be determined by the total number of images
+# 
+# -f format ... FORMAT for the output. Choices are: polygon (p) or ring (r). The 
+# default=polygon. The polygon shape will be determined by the total number of images 
 # used, including the duplicates.
 #
-# -b bcolor ... BCOLOR is the background color of the output. Any valid IM color
+# -b bcolor ... BCOLOR is the background color of the output. Any valid IM color 
 # is allowed. The default=white.
-#
-# -m maxsize ... MAXSIZE is the output image's maximum size (dimension). The value is
-# an integer>0. The default is twice the input image's minimum width plus twice the
+# 
+# -m maxsize ... MAXSIZE is the output image's maximum size (dimension). The value is 
+# an integer>0. The default is twice the input image's minimum width plus twice the 
 # minimum height plus twice computed radius.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -98,13 +98,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -152,7 +152,7 @@ else
 					   ;;
 				-d)    # get duplicates
 					   shift  # to get the next parameter - spread
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DUPLICATES SPECIFICATION ---"
 					   #checkMinus "$1"
 					   duplicates=`expr "$1" : '\([0-9]*\)'`
@@ -162,26 +162,26 @@ else
 					   ;;
 				-f)    # get  format
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   format=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$format" in
+					   case "$format" in 
 					   		polygon|p) format="polygon" ;;
 					   		ring|r) format="ring" ;;
-					   		*) errMsg "--- FORMAT=$format IS AN INVALID VALUE ---"
+					   		*) errMsg "--- FORMAT=$format IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-b)    # get  bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-m)    # get maxsize
 					   shift  # to get the next parameter - spread
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MAXSIZE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   maxsize=`expr "$1" : '\([0-9]*\)'`
@@ -325,7 +325,7 @@ if [ "$format" = "polygon" -a $numi -eq 1 ]; then
 
 elif [ "$format" = "polygon" -a $numi -ge 3 ]; then
 	number=$numi
-	angle=$(convert xc: -format "%[fx:360/$number]" info:)
+	angle=$(convert xc: -format "%[fx:360/$number]" info:)	
 	ix=$(convert xc: -format "%[fx:$width/2]" info:)
 	iy=$(convert xc: -format "%[fx:$height/2]" info:)
 	radius=$(convert xc: -format "%[fx:($height/2) + $width/(2*tan((pi/180)*($angle/2)))]" info:)

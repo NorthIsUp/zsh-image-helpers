@@ -3,77 +3,77 @@
 # Developed by Fred Weinhaus 7/22/2010 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: locatecolors -b begincolor -e endcolor [-m mode] infile outfile
 # USAGE: locatecolors [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -b      begincolor        first color for range of colors; any valid
+# 
+# -b      begincolor        first color for range of colors; any valid 
 #                           IM opaque color
-# -e      endcolor          second color for range of colors; any valid
+# -e      endcolor          second color for range of colors; any valid 
 #                           IM opaque color
 # -m      mode              mode for combining channel ranges into mask;
-#                           choices are: "and" or "or"; for "and" use
+#                           choices are: "and" or "or"; for "and" use 
 #                           overlap of channel color ranges; for "or" use
 #                           all ranges independently; default=and
-#
+# 
 ###
-#
-# NAME: LOCATECOLORS
-#
-# PURPOSE: To modify an image to show only those pixels which are within
+# 
+# NAME: LOCATECOLORS 
+# 
+# PURPOSE: To modify an image to show only those pixels which are within 
 # the specified color range.
-#
-# DESCRIPTION: LOCATECOLORS modifies an image to show only those pixels which
-# are within the specified color range. A count of the number of pixels will
+# 
+# DESCRIPTION: LOCATECOLORS modifies an image to show only those pixels which 
+# are within the specified color range. A count of the number of pixels will 
 # be presented at the terminal.
-#
-#
-# ARGUMENTS:
-#
-# -b begincolor ... BEGINCOLOR is the first color used to specify the desired
+# 
+# 
+# ARGUMENTS: 
+# 
+# -b begincolor ... BEGINCOLOR is the first color used to specify the desired 
 # range of colors. Any valid IM opaque color is allowed.
-#
-# -e endcolor ... ENDCOLOR is the second color used to specify the desired
+# 
+# -e endcolor ... ENDCOLOR is the second color used to specify the desired 
 # range of colors. Any valid IM opaque color is allowed.
-#
-# -m mode ... MODE specifies how the ranges of colors are to be combined into
-# a mask. Choices are: "and" or "or". If "and" is specified, then the mask will
-# be created only where the channels overlap. If "or" is specified, then the
+# 
+# -m mode ... MODE specifies how the ranges of colors are to be combined into 
+# a mask. Choices are: "and" or "or". If "and" is specified, then the mask will 
+# be created only where the channels overlap. If "or" is specified, then the 
 # mask will be created from the sum of all the channel ranges. The default=and.
-#
-# Note: the channel ranges will be manipulated in 8-bit colors to create
+# 
+# Note: the channel ranges will be manipulated in 8-bit colors to create 
 # the mask.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 begincolor=""			# no default value
@@ -87,13 +87,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -153,14 +153,14 @@ else
 					   ;;
 				-b)    # get begincolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BEGINCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   begincolor="$1"
 					   ;;
 				-e)    # get endcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ENDCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   endcolor="$1"
@@ -209,9 +209,9 @@ trap "rm -f $tmp1A $tmp1B $tmp2A $tmp2B $tmpR1 $tmpR2 $tmpG1 $tmpG2 $tmpB1 $tmpB
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -268,9 +268,9 @@ function procChannel()
 	else
 		pct1=`convert xc: -format "%[fx:100*$val1/255]" info:`
 		pct2=`convert xc: -format "%[fx:100*$val2/255]" info:`
-		if [ "$pct2" = "100" ]; then
+		if [ "$pct2" = "100" ]; then 
 			proc="-black-threshold $pct1% -fill white +opaque black"
-		elif [ "$pct1" = "0" ]; then
+		elif [ "$pct1" = "0" ]; then 
 			proc="-fill rgb(1,1,1) -opaque black -white-threshold $pct2% -fill black -opaque white -fill white +opaque black"
 		else
 			proc="-black-threshold $pct1% -white-threshold $pct2% -fill black -opaque white -fill white +opaque black"
@@ -344,7 +344,7 @@ convert $tmp1A -alpha off $setcspace -depth 8 -separate +channel \
 	\( -clone 0 -clone 1 -compose $function -composite \
 	-clone 2 -compose $function -composite -clamp \) \
 	-delete 0-2 $tmp2A
-
+	
 
 # get count of matching colors
 count=`convert $tmp2A -format "%[fx:floor(mean*w*h)]" info:`

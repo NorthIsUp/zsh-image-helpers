@@ -3,87 +3,87 @@
 # Developed by Fred Weinhaus 9/7/2013 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: isolatecolor [-c fcolor] [-C bcolor] [-t toler ] [-s fsat] [-S bsat ]
+# USAGE: isolatecolor [-c fcolor] [-C bcolor] [-t toler ] [-s fsat] [-S bsat ] 
 # infile outfile
 # USAGE: isolatecolor [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -c     fcolor           hue value or color from which to extract the hue
-#                         value for the isolated color (foreground); any IM
-#                         color value is allowed; hue values are 0<=hue<=360;
+# 
+# -c     fcolor           hue value or color from which to extract the hue 
+#                         value for the isolated color (foreground); any IM 
+#                         color value is allowed; hue values are 0<=hue<=360;  
 #                         default=red
-# -C     bcolor           hue value or color from which to extract the hue
-#                         value for the rest of the image (background); any IM
-#                         color value is allowed; hue values are 0<=hue<=360;
-#                         default is background coloring as defined by bsat
-# -t     toler            hue tolerance (fuzz value) for foreground;
+# -C     bcolor           hue value or color from which to extract the hue 
+#                         value for the rest of the image (background); any IM 
+#                         color value is allowed; hue values are 0<=hue<=360;  
+#                         default is background coloring as defined by bsat 
+# -t     toler            hue tolerance (fuzz value) for foreground;  
 #                         0<=float<=50; default=10
-# -s     fsat             saturation of foreground region; integer>=0;
+# -s     fsat             saturation of foreground region; integer>=0; 
 #                         default=100 (no change)
-# -S     bsat             saturation of background region; integer>=0;
+# -S     bsat             saturation of background region; integer>=0; 
 #                         default=0 (grayscale)
-#
+# 
 ###
-#
-# NAME: ISOLATECOLOR
-#
+# 
+# NAME: ISOLATECOLOR 
+# 
 # PURPOSE: To isolate a particular color in an image.
-#
-# DESCRIPTION: ISOLATECOLOR isolates a particular color in an image by
-# thresholding on the corresponding hue value.
-#
-#
-# ARGUMENTS:
-#
-# -c fcolor ... FCOLOR is the hue value or color from which to extract the hue
-# value for the isolated color (foreground). Any IM  color value is allowed.
+# 
+# DESCRIPTION: ISOLATECOLOR isolates a particular color in an image by 
+# thresholding on the corresponding hue value. 
+# 
+# 
+# ARGUMENTS: 
+# 
+# -c fcolor ... FCOLOR is the hue value or color from which to extract the hue 
+# value for the isolated color (foreground). Any IM  color value is allowed. 
 # The hue values are 0<=hue<=360. The default=red.
-#
-# -C bcolor ... BCOLOR is the hue value or color from which to extract the hue
-# value for the rest of the image (background). Any IM color value is allowed.
-# The hue values are 0<=hue<=360. The default is the background coloring as
+# 
+# -C bcolor ... BCOLOR is the hue value or color from which to extract the hue 
+# value for the rest of the image (background). Any IM color value is allowed. 
+# The hue values are 0<=hue<=360. The default is the background coloring as 
 # defined by bsat.
-#
-# -t toler ... TOLER is the hue tolerance (fuzz value) for the foreground.
+# 
+# -t toler ... TOLER is the hue tolerance (fuzz value) for the foreground.  
 # Values are 0<=float<=50. The default=10.
-#
-# -s fsat ... FSAT is the saturation of the foreground region. Values are
+# 
+# -s fsat ... FSAT is the saturation of the foreground region. Values are 
 # integer>=0. The default=100 (no change).
-#
-# -S bsat ... BSAT is the saturation of the background region. Values are
-# integer>=0. The default=0 (grayscale). When background color is specified,
+# 
+# -S bsat ... BSAT is the saturation of the background region. Values are 
+# integer>=0. The default=0 (grayscale). When background color is specified, 
 # a nominal value for bsat is about 25.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 fcolor="red"
@@ -100,13 +100,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -154,21 +154,21 @@ else
 					   ;;
 				-c)    # get fcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   fcolor="$1"
 					   ;;
 				-C)    # get bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-t)    # get toler
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TOLERANCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   toler=`expr "$1" : '\([.0-9]*\)'`
@@ -179,7 +179,7 @@ else
 					   ;;
 				-s)    # get fsat
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FSAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   fsat=`expr "$1" : '\([0-9]*\)'`
@@ -187,7 +187,7 @@ else
 					   ;;
 				-S)    # get bsat
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BSAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   bsat=`expr "$1" : '\([0-9]*\)'`
@@ -238,9 +238,9 @@ convert -quiet "$infile" +repage "$tmpA1" ||
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -256,15 +256,15 @@ if [ "$im_version" -gt "06080504" ]; then
 	setcspace=""
 fi
 
-# test fcolor if color or hue
+# test fcolor if color or hue 
 testF=`expr "$fcolor" : '\([0-9]*\)'`
-if [ "$testF" != "" ]; then
+if [ "$testF" != "" ]; then 
 	test1=`echo "$testF < 0" | bc`
 	test2=`echo "$testF > 360" | bc`
 	[ $test1 -eq 1 -o $test2 -eq 1 ] && errMsg "--- FHUEVAL=$fcolor MUST BE AN INTEGER BETWEEN 0 AND 360 ---"
 fi
 
-# compute fhue
+# compute fhue 
 if [ "$testF" = "" ]; then
 	fhue=`convert xc:"$fcolor" -colorspace HSL -format "%[pixel:u.p{0,0}]" info: | tr -cs "0-9." " " | cut -d\  -f2`
 else
@@ -272,17 +272,17 @@ else
 fi
 
 
-# test bcolor if color or hue
+# test bcolor if color or hue 
 if [ "$bcolor" != "" ]; then
 	testB=`expr "$bcolor" : '\([0-9]*\)'`
-	if [ "$testB" != "" ]; then
+	if [ "$testB" != "" ]; then 
 		test1=`echo "$testB < 0" | bc`
 		test2=`echo "$testB > 360" | bc`
 		[ $test1 -eq 1 -o $test2 -eq 1 ] && errMsg "--- BHUEVAL=$bcolor MUST BE AN INTEGER BETWEEN 0 AND 360 ---"
 	fi
 
 
-	# compute bhue
+	# compute bhue 
 	if [ "$testB" = "" ]; then
 		bhue=`convert xc:"$bcolor" -colorspace HSL -format "%[pixel:u.p{0,0}]" info: | tr -cs "0-9." " " | cut -d\  -f2`
 	else

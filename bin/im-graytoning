@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 2/26/2009 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: graytoning [-r red] [-g green] [-b blue] [-o offset] [-c contrast] [-t tintcolor] [-m mode] [-a amount] infile outfile
@@ -34,57 +34,57 @@
 # -r     red           red mix percent; float; default=29.9
 # -g     green         green mix percent; float; default=58.7
 # -b     blue          blue mix percent; float; default=11.4
-# -o     offset        gray brightness percent change; -100<=float<=100;
+# -o     offset        gray brightness percent change; -100<=float<=100; 
 #                      default=0
-# -c     contrast      gray contrast percent change; -100<=float<=100;
+# -c     contrast      gray contrast percent change; -100<=float<=100; 
 #                      default=0
 # -t     tintcolor     color for tinting; any valid opaque IM color is allowed;
 #                      default is no tinting
-# -m     mode		   mode of tinting: choices are: all, midtones, highlights
+# -m     mode		   mode of tinting: choices are: all, midtones, highlights 
 #                      and shadows; default=midtones
 # -a     amount        amount of tinting; 0<=integer<=100; default=40
 #
 ###
 #
-# NAME: GRAYTONING
-#
-# PURPOSE: To mix color channels from an image into a grayscale image and
+# NAME: GRAYTONING 
+# 
+# PURPOSE: To mix color channels from an image into a grayscale image and 
 # optionally tint it.
-#
-# DESCRIPTION: GRAYTONING mixes color channels from an image into a grayscale
-# image and optionally tints it. Tint modes allow selective tinting of: all,
+# 
+# DESCRIPTION: GRAYTONING mixes color channels from an image into a grayscale 
+# image and optionally tints it. Tint modes allow selective tinting of: all, 
 # midtones, hightlights or shadows.
+# 
+# 
+# OPTIONS: 
 #
-#
-# OPTIONS:
-#
-# -r red ... RED is the red mix percent in forming the grayscale image.
-# Values are floats. The default=29.9 (equivalent to IM standard grayscale or
+# -r red ... RED is the red mix percent in forming the grayscale image. 
+# Values are floats. The default=29.9 (equivalent to IM standard grayscale or 
 # Rec609Luma.
 #
-# -g green ... GREEN is the red mix percent in forming the grayscale image.
-# Valuesare floats. The default=58.7 (equivalent to IM standard grayscale or
+# -g green ... GREEN is the red mix percent in forming the grayscale image. 
+# Valuesare floats. The default=58.7 (equivalent to IM standard grayscale or 
 # Rec609Luma.
 #
-# -b blue ... BLUE is the red mix percent in forming the grayscale image.
-# Values are floats. The default=11.4 (equivalent to IM standard grayscale or
+# -b blue ... BLUE is the red mix percent in forming the grayscale image. 
+# Values are floats. The default=11.4 (equivalent to IM standard grayscale or 
 # Rec609Luma.
 #
 # -o offset ... OFFSET is the gray offset or brightness percent change. Values
 # are -100<=float<=100. The default=0.
-#
-# -c contrast ... CONTRAST is the gray contrast percent change. Values are
+# 
+# -c contrast ... CONTRAST is the gray contrast percent change. Values are 
 # -100<=float<=100. The default=0.
 #
-# -t tintcolor ... TINTCOLOR is the color for tinting the grayscale image.
+# -t tintcolor ... TINTCOLOR is the color for tinting the grayscale image. 
 # Any valid opaque IM color is allowed. The default is no tinting.
-#
-# -m mode ... MODE is the mode of tinting. Choices are: all (a), midtones (m),
+# 
+# -m mode ... MODE is the mode of tinting. Choices are: all (a), midtones (m), 
 # highlights (h) and shadows (s). The default=midtones.
-#
+# 
 # -a amount ... AMOUNT is the amount of tinting. Values are 0<=integer<=100.
 # The default=40.
-#
+# 
 ######
 #
 
@@ -105,13 +105,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -159,7 +159,7 @@ else
 					   ;;
 				-r)    # get red
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID RED SPECIFICATION ---"
 					   #checkMinus "$1"
 					   red=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -167,7 +167,7 @@ else
 					   ;;
 				-g)    # get green
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID GREEN SPECIFICATION ---"
 					   #checkMinus "$1"
 					   green=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-b)    # get blue
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID BLUE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   blue=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -183,7 +183,7 @@ else
 					   ;;
 				-o)    # get offset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID OFFSET SPECIFICATION ---"
 					   #checkMinus "$1"
 					   offset=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -194,7 +194,7 @@ else
 					   ;;
 				-c)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -205,28 +205,28 @@ else
 					   ;;
 				-t)    # get tintcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TINTCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   tintcolor="$1"
 					   ;;
 				-m)    # get  mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$mode" in
+					   case "$mode" in 
 					   		midtones|m) mode="midtones";;
 					   		shadows|s) mode="shadows";;
 					   		highlights|h) mode="highlights";;
 					   		all|a) mode="all";;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([0-9]*\)'`

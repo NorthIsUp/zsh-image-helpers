@@ -1,180 +1,180 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 8/10/2008 .......... revised 7/18/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: fisheye2pano [-w width] [-e extend] [-h hcen,hran] [-f format] [-p pfov] [-c xc,yc] [-v vcen,vrad] [-r radius] [-vp vpmethod] [-b bgcolor] infile outfile
 # USAGE: fisheye2pano -d [-c xc,yc] [-r radius] [-s strokecolor] infile outfile
 # USAGE: fisheye2pano [-help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -w      width             width of output; default is same as input
-# -e      extend            percentage to extend height of output from
+# -e      extend            percentage to extend height of output from 
 #                           natural size. Only allowed for perspective formats.
-# -h      hcen,hran         horizontal angular center of output and horizontal
+# -h      hcen,hran         horizontal angular center of output and horizontal 
 #                           angular range between left and right side of output;
-#                           default=0,360; where hcen increases clockwise
-#                           from the top center of the input as seen from
+#                           default=0,360; where hcen increases clockwise 
+#                           from the top center of the input as seen from 
 #                           its center and must be between 0 and 360.
 # -f      format            output vertical format; angle (A), tilt (T) (perspective),
 #                           or level (L) (perspective); default=angle
 # -p      pfov              perspective image vertical field of view in degrees;
 #                           float; 0<pfov<180; default=vrange=(vrad-vcen)
-# -c      xc,yc             pixel coordinates of the center of the fisheye image area;
+# -c      xc,yc             pixel coordinates of the center of the fisheye image area; 
 #                           float; default=center of fisheye image
 # -v      vcen,vrad         vertical viewing angles corresponding to the
-#                           fisheye circular area center and the circular
-#                           area radius; default=-90,0 (90 degree vertical
+#                           fisheye circular area center and the circular  
+#                           area radius; default=-90,0 (90 degree vertical 
 #                           range of view, i.e. nadir to horizontal)
 # -r      radius            radius of fisheye area in the input image; float;
 #                           radius>0; default=min(width,height)/2
-# -d                        draw circle on the input fisheye image of specified radius,
+# -d                        draw circle on the input fisheye image of specified radius, 
 #                           center and color=scolor, which will then become the output
-# -s      scolor            scolor is the stroke color for a circle that will be
+# -s      scolor            scolor is the stroke color for a circle that will be 
 #                           drawn on the input fisheye image; default=white
-# -vp     vpmethod          virtual-pixel method to use to fill area of output image
+# -vp     vpmethod          virtual-pixel method to use to fill area of output image 
 #                           that are outside the input image; default=black
 # -b      bgcolor           background color for virtual-pixel=background
 #                           any valid IM color is allowed. The default=black
-#
+# 
 ###
-#
+# 
 # NAME: FISHEYE2PANO
-#
-# PURPOSE: To generate a strip panoramic image from a linear type fisheye image
-# with optional vertical perspective correction.
-#
-# DESCRIPTION: FISHEYE2PANO generates a strip panoramic image from a linear type
-# fisheye image. The output formats are either angle, tilt perspective or
-# level perspective. These describe the vertical format for the image, where
+# 
+# PURPOSE: To generate a strip panoramic image from a linear type fisheye image 
+# with optional vertical perspective correction. 
+# 
+# DESCRIPTION: FISHEYE2PANO generates a strip panoramic image from a linear type 
+# fisheye image. The output formats are either angle, tilt perspective or 
+# level perspective. These describe the vertical format for the image, where 
 # the latter two are perspectively corrected. The tilt perspective will be a
-# tilted view with the mid radius at the center of the perspective. The level
-# perspective will be looking horizontally. The horizontal format will always
+# tilted view with the mid radius at the center of the perspective. The level 
+# perspective will be looking horizontally. The horizontal format will always 
 # be angle.
-#
-# ARGUMENTS:
-#
+# 
+# ARGUMENTS: 
+# 
 # -w width ... WIDTH is the desired width for the output image.
-# If not specified, then the width of the output will be identical to
-# that of the input or to 2*radius of circular area of the input if
+# If not specified, then the width of the output will be identical to 
+# that of the input or to 2*radius of circular area of the input if 
 # provided. If the width is adjusted then the height will be adjusted
 # in proportion.
 #
-# -e extend ... EXTEND is the percentage to increase the height of the
-# output from its natural size. A value of 100 results in the natural
-# height. The natural height is (vrange/360)*width, where vrange is the input
-# fisheye image vertical range of view and is given by abs(vcen-vrad).
-# This is only allowed for the two perspective output formats. It will not
-# change the scale of the image in the vertical dimension. It only allows
-# more data to be viewed.
-#
-# -h hcen,aran ... HCEN,HRAN are the angular direction for the horizontal center
-# of the output image and the horizontal angular range between left and right side
-# of the output; default=0,360; where hcen increases clockwise from the top center
+# -e extend ... EXTEND is the percentage to increase the height of the 
+# output from its natural size. A value of 100 results in the natural 
+# height. The natural height is (vrange/360)*width, where vrange is the input 
+# fisheye image vertical range of view and is given by abs(vcen-vrad). 
+# This is only allowed for the two perspective output formats. It will not 
+# change the scale of the image in the vertical dimension. It only allows 
+# more data to be viewed. 
+# 
+# -h hcen,aran ... HCEN,HRAN are the angular direction for the horizontal center   
+# of the output image and the horizontal angular range between left and right side 
+# of the output; default=0,360; where hcen increases clockwise from the top center 
 # of the input as seen from its center and must be between 0 and 360.
-#
-# -f format ... FORMAT is the output image vertical format. The choices are:
-# angle (A), tilt (T) perspective and level (L) perspective. (Note: the output
-# image horizontal format is always angle.) The default is angle. If tilt (T) is
-# chosen, then the output image will have perspective correction applied in the
-# vertical direction and the image will be centered about the mid-angle of the
-# fisheye image. In other words a tilted vertical perspective will be produced.
-# If level (L) is chosen, then the output image will also have perspective
-# correction applied in the vertical direction. But the view will be one that
-# is not tilted, but looking horizontally. The horizon line will be at or near the top
-# of the outpt image for a fisheye image whose center is the nadir and will be
-# at or near the bottom of the output image for a fisheye image whose center is the zenith.
+# 
+# -f format ... FORMAT is the output image vertical format. The choices are: 
+# angle (A), tilt (T) perspective and level (L) perspective. (Note: the output 
+# image horizontal format is always angle.) The default is angle. If tilt (T) is 
+# chosen, then the output image will have perspective correction applied in the 
+# vertical direction and the image will be centered about the mid-angle of the 
+# fisheye image. In other words a tilted vertical perspective will be produced. 
+# If level (L) is chosen, then the output image will also have perspective 
+# correction applied in the vertical direction. But the view will be one that 
+# is not tilted, but looking horizontally. The horizon line will be at or near the top 
+# of the outpt image for a fisheye image whose center is the nadir and will be 
+# at or near the bottom of the output image for a fisheye image whose center is the zenith. 
 # The exact placement depends upon the ratio of vrad to vrange=abs(vcen-vrad).
-# The level format is generally only useful for the latter case and especially
-# with hyperwide fisheye images whose field of view across the circular area
+# The level format is generally only useful for the latter case and especially 
+# with hyperwide fisheye images whose field of view across the circular area 
 # diameter is greater than 180 degrees.
-#
-# -p pfov ... PFOV is the vertical output perspective image field of view
-# in degrees. Values are floats in the range 0<pfov<180. The default is to
-# use the vertical viewing range of the fisheye image, which is vrange =
-# (vrad-vcen) = ifov/2 (half of the field of view across the circular diameter).
-# The amount of input image in the output perspective image will depend upon
-# the pfov parameter. Note that in comparison, a value of 27 degrees
-# corresponds to a vertical field of view from a 35 mm camera
-# (film size 36mm x 24mm) with a 50mm focal length lens, i.e. a "normal"
-#  view.
-#
-# -c xc,yc ... XC,YC are the pixel coordinates in the input fisheye
-# image that correspond to the (circular fisheye area) center. The pixel at
+# 
+# -p pfov ... PFOV is the vertical output perspective image field of view 
+# in degrees. Values are floats in the range 0<pfov<180. The default is to 
+# use the vertical viewing range of the fisheye image, which is vrange = 
+# (vrad-vcen) = ifov/2 (half of the field of view across the circular diameter). 
+# The amount of input image in the output perspective image will depend upon  
+# the pfov parameter. Note that in comparison, a value of 27 degrees 
+# corresponds to a vertical field of view from a 35 mm camera 
+# (film size 36mm x 24mm) with a 50mm focal length lens, i.e. a "normal" 
+#  view. 
+# 
+# -c xc,yc ... XC,YC are the pixel coordinates in the input fisheye  
+# image that correspond to the (circular fisheye area) center. The pixel at 
 # this coordinate will then become the center of the perspective image. The
-# default values are the center of the input fisheye image. Values
-# are non-negative floats. You can use the -d option to validate your
+# default values are the center of the input fisheye image. Values  
+# are non-negative floats. You can use the -d option to validate your 
 # choice of center and radius for the fisheye image. See more below.
-#
-# -v vcen,vrad ... VCEN,VRAD are the vertical viewing angles in the input fisheye
-# image corresponding to the center of the circular area and to its radius
-# (perimeter). The default is -90,0 which corresponds to a 90 degree vertical
-# range of view, i.e. nadir to horizontal and thus 2*90=180 full fisheye
-# diameter field of view). Note: vcen will generally be either -90 or +90,
-# even if the specs says the min value is greater than -90 or the max value
-# is less than +90. You can tell this by the dark circlular area at the center
-# which extends from the center out to whatever is the relevant min or max value
+# 
+# -v vcen,vrad ... VCEN,VRAD are the vertical viewing angles in the input fisheye 
+# image corresponding to the center of the circular area and to its radius 
+# (perimeter). The default is -90,0 which corresponds to a 90 degree vertical 
+# range of view, i.e. nadir to horizontal and thus 2*90=180 full fisheye 
+# diameter field of view). Note: vcen will generally be either -90 or +90, 
+# even if the specs says the min value is greater than -90 or the max value 
+# is less than +90. You can tell this by the dark circlular area at the center  
+# which extends from the center out to whatever is the relevant min or max value 
 # specified by the camera system.
-#
-# -r radius ... RADIUS is the radius of the fisheye circular area in the
-# input image. Values are floats greater than zero. The default is the
+# 
+# -r radius ... RADIUS is the radius of the fisheye circular area in the 
+# input image. Values are floats greater than zero. The default is the 
 # minimum value between the input image width and height.
-#
-# -d ... Use of this argument produces an ouput image that is simply the input
-# image with a circle drawn on it to show where the expected fisheye image
-# area is located. You can specify a radius and center point if you want to
-# adjust the transformation to use the precise center and radius that matches
-# the area delimited by the circle. Radius and center default as described
+# 
+# -d ... Use of this argument produces an ouput image that is simply the input 
+# image with a circle drawn on it to show where the expected fisheye image 
+# area is located. You can specify a radius and center point if you want to 
+# adjust the transformation to use the precise center and radius that matches 
+# the area delimited by the circle. Radius and center default as described 
 # above.
-#
-# -s scolor ... SCOLOR is the stroke color to use to draw the circle when
+# 
+# -s scolor ... SCOLOR is the stroke color to use to draw the circle when 
 # the -d argument is used. The default is white.
-#
-# -vp vpmethod ... VP is the virtual-pixel method. Any valid IM virtual-pixel
+# 
+# -vp vpmethod ... VP is the virtual-pixel method. Any valid IM virtual-pixel 
 # setting is allowed. The default is black.
-#
-# -b bgcolor ... BGCOLOR is the background color to use with vpmethod=background.
+# 
+# -b bgcolor ... BGCOLOR is the background color to use with vpmethod=background. 
 # Any valid IM color may be used. The default is black.
-#
-# See the following references for definitions and mathematical details of each
-# type of fisheye lens:
+# 
+# See the following references for definitions and mathematical details of each 
+# type of fisheye lens: 
 # http://en.wikipedia.org/wiki/Fisheye_lens
 # http://www.bobatkins.com/photography/technical/field_of_view.html
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 thetacenter=0				# center horizontal angle for the output
-thetarange=360				# horizontal angular range for the output
+thetarange=360				# horizontal angular range for the output				
 phicenter=-90				# fisheye vertical view direction at circle center
 phiradius=0					# fisheye vertical view direction at radius of circle
 pfov="" 					# perspective field of view (aperture) in degrees
@@ -197,13 +197,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -251,7 +251,7 @@ else
 					   ;;
 				-w)    # get width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   dwidth=`expr "$1" : '\([0-9]*\)'`
@@ -261,7 +261,7 @@ else
 					   ;;
 				-e)    # get extended height percentage
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXTEND SPECIFICATION ---"
 					   checkMinus "$1"
 					   extend=`expr "$1" : '\([.0-9]*\)'`
@@ -271,7 +271,7 @@ else
 					   ;;
 				-h)    # get hcen,hran = thetacenter,thetarange for output
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HORIZONTAL ANGLE SPECIFICATIONS ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -287,7 +287,7 @@ else
 					   ;;
 				-v)    # get vcen,vrad = phicenter,phiradius for output
 					   shift  # to get the next parameter
-					   # no test if parameter starts with minus sign
+					   # no test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID VERTICAL ANGLE SPECIFICATIONS ---"
 					   #checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -305,7 +305,7 @@ else
 					   ;;
 				-f)    # get  format
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 						case "$1" in
@@ -322,7 +322,7 @@ else
 					   ;;
 				-p)    # get pfov
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PFOV SPECIFICATION ---"
 					   checkMinus "$1"
 					   pfov=`expr "$1" : '\([.0-9]*\)'`
@@ -333,7 +333,7 @@ else
 					   ;;
 				-c)    # get center of fisheye coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FISHEYE CENTER COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -346,7 +346,7 @@ else
 					   ;;
 				-r)    # get rad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   rad=`expr "$1" : '\([.0-9]*\)'`
@@ -356,7 +356,7 @@ else
 					   ;;
 				-s)    # get  scolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STROKE COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   sc="$1"
@@ -366,14 +366,14 @@ else
 					   ;;
 			   -vp)    # get  vpmethod
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIRTUAL-PIXEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   vpmethod="$1"
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -412,7 +412,7 @@ if convert -quiet "$infile" +repage "$tmpA"
 	then
 	swidth=`identify -format %w $tmpA`
 	sheight=`identify -format %h $tmpA`
-
+	
 	# compute last pixels
 	sw1=`convert xc: -format "%[fx:$swidth-1]" info:`
 	sh1=`convert xc: -format "%[fx:$sheight-1]" info:`
@@ -435,7 +435,7 @@ if convert -quiet "$infile" +repage "$tmpA"
 		ycs=$sh2
 	else
 		ycs=$yc
-	fi
+	fi	
 
 	# compute width dimension of output (destination) image
 	if [ "$dwidth" = "" ]; then
@@ -452,7 +452,7 @@ if convert -quiet "$infile" +repage "$tmpA"
 
 	# compute angular aspect ratio = vrange/360 = (ifov/2)/360
 	aspect=`convert xc: -format "%[fx:$ifov/720]" info:`
-
+	
 	# compute output height
 	dheight=`convert xc: -format "%[fx:floor($aspect*$dwidth)]" info:`
 	ddim=$dheight
@@ -474,14 +474,14 @@ if convert -quiet "$infile" +repage "$tmpA"
 	ycd=$h2
 
 
-	# get mode
+	# get mode 
 	if [ `echo "$phicenter < $phiradius" | bc` -eq 1 ]; then
 		mode="nadir"
 	else
 		mode="zenith"
 	fi
-
-
+	
+	
 	else
 		errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
 fi
@@ -509,10 +509,10 @@ if [ "$format" = "tilt" -o "$format" = "level" ]; then
 	# compute perspective focal length from fov
 	pfoc=`convert xc: -format "%[fx:$ddim/(2*tan($pfov*pi/360))]" info:`
 
-	# compute phioffset for offset angle corresponding to center of output
+	# compute phioffset for offset angle corresponding to center of output 
 	# where phioffset is relative to phi=0 at center of input
 	# e.g. phi for mid-radius is at phirange/2 = (phiradius-phicenter)/2
-
+	
 	if [ "$format" = "tilt" ]; then
 		phioffset=`convert xc: -format "%[fx:(pi/180)*abs(($phiradius-$phicenter))/2]" info:`
 	elif [ "$format" = "level" ]; then
@@ -524,7 +524,7 @@ if [ "$format" = "tilt" -o "$format" = "level" ]; then
 	# get yd relative to center point of output
 	# yd is opposite to j for output as yd is spatial y and not image y=j
 	yd="yd=-(j-$ycd);"
-
+	
 	# for nadir, yd increases as phi increases from center of fisheye
 	# for zenith, yd decreases as phi increases from center of fisheye
 	# get phi relative to center of output perspective
@@ -555,7 +555,7 @@ phase=-90
 thetamin=`convert xc: -format "%[fx:$thetacenter-($thetarange/2)]" info:`
 theta0=`convert xc: -format "%[fx:($thetamin+$phase)*pi/180]" info:`
 theta1=`convert xc: -format "%[fx:($thetarange)*pi/180]" info:`
-
+	
 
 # compute xs,ys from theta and rr
 # note: theta defined for any output size to span between theta0 and (theta1+theta0)

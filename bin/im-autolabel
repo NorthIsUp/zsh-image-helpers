@@ -3,117 +3,117 @@
 # Developed by Fred Weinhaus 12/12/2009 .......... revised 10/13/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: autolabel -s size -t text [-m mode] [-b buffer] [-p pointsize] [-f font] [-r rcolor] [-c color] [-u undercolor] infile outfile
 # USAGE: autolabel [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -s      size              size textbox; can be specified as WIDTH, WIDTHx,
+# 
+# -s      size              size textbox; can be specified as WIDTH, WIDTHx, 
 #                           xHEIGHT or WIDTHxHEIGHT
 # -t      text              text to apply to image; enclose in quotes
 # -m      mode              text mode; mode is either label or caption;
 #                           default=label
-# -b      buffer            buffer or padding around text box; integer>=0;
+# -b      buffer            buffer or padding around text box; integer>=0; 
 #                           default=0
-# -p      pointsize         text pointsize; integer>0; default will be
+# -p      pointsize         text pointsize; integer>0; default will be 
 #                           determined from textbox width
 # -f      font              font name or path to font file; default=Arial
-# -r      rcolor            reference color for determining best textbox
+# -r      rcolor            reference color for determining best textbox 
 #                           location; default=white
 # -c      color             text color; any valid IM color specification;
-#                           default will be either black or white, whichever
+#                           default will be either black or white, whichever 
 #                           contrasts better with the reference color
-# -u      undercolor        undercolor for text; any valid IM color
-#                           specification; default=none for transparent so that
+# -u      undercolor        undercolor for text; any valid IM color 
+#                           specification; default=none for transparent so that 
 #                           image coloration shows behind text
-#
+# 
 ###
-#
-# NAME: AUTOLABEL
-#
-# PURPOSE: To place text automatically in a specified size region that best
+# 
+# NAME: AUTOLABEL 
+# 
+# PURPOSE: To place text automatically in a specified size region that best 
 # matches a reference color.
-#
-# DESCRIPTION: AUTOLABEL places text automatically in the first located user
-# specified size region that best matches a reference color. The text can be
-# placed in label or caption mode. In label mode, the text will all be on one
-# line determined either by the textbox width or height or by the specified
-# pointsize. In caption mode, the text will be best fit to the textbox width
-# and height and optionally pointsize. By default the text will be placed on
-# the image with no undercolor. But an undercolor can be used which will cover
+# 
+# DESCRIPTION: AUTOLABEL places text automatically in the first located user 
+# specified size region that best matches a reference color. The text can be 
+# placed in label or caption mode. In label mode, the text will all be on one 
+# line determined either by the textbox width or height or by the specified 
+# pointsize. In caption mode, the text will be best fit to the textbox width 
+# and height and optionally pointsize. By default the text will be placed on 
+# the image with no undercolor. But an undercolor can be used which will cover 
 # the underlying image.
-#
-#
-# ARGUMENTS:
-#
-# -s size ... SIZE of textbox. Also used to find the location in the image that
-# best matches the reference color. In label mode, the text will be placed all
-# in one line. The size of the text will be determined either by the textbox
-# width or height or pointsize. Specifying pointsize and width or height is not
-# a valid combination. In caption mode, the text will be placed in multiple
-# rows as determined by the textbox width and height. Pointsize may optionally
+# 
+# 
+# ARGUMENTS: 
+# 
+# -s size ... SIZE of textbox. Also used to find the location in the image that 
+# best matches the reference color. In label mode, the text will be placed all 
+# in one line. The size of the text will be determined either by the textbox 
+# width or height or pointsize. Specifying pointsize and width or height is not 
+# a valid combination. In caption mode, the text will be placed in multiple 
+# rows as determined by the textbox width and height. Pointsize may optionally 
 # be supplied in addition to the textbox width and height.
 #
 # -t text ... TEXT to apply to image. Be sure to enclose in quotes.
-#
-# -m mode ... MODE for adding text. Options are either label or caption. In
-# label mode the text will be all in one row as determined by either the
-# textbox width or height or pointsize. In caption mode, the text will be on
-# multiple rows to fill the textbox width and height. The pointsize may be
+# 
+# -m mode ... MODE for adding text. Options are either label or caption. In 
+# label mode the text will be all in one row as determined by either the 
+# textbox width or height or pointsize. In caption mode, the text will be on 
+# multiple rows to fill the textbox width and height. The pointsize may be 
 # optionally specified along with the textbox width and height.
-#
-# -b buffer ... BUFFER is the amount of padding around the textbox. Values are
+# 
+# -b buffer ... BUFFER is the amount of padding around the textbox. Values are 
 # integers greater than zero. The default=0.
-#
-# -p pointsize ... POINTSIZE is the size of the font. Values are integers
-# greater than 0. The default is unspecified, so that the pointsize will be
+# 
+# -p pointsize ... POINTSIZE is the size of the font. Values are integers 
+# greater than 0. The default is unspecified, so that the pointsize will be 
 # determined from the textbox width, height or widthxheight.
-#
-# -f font ... FONT is the text font or path to the font file. The default is
+# 
+# -f font ... FONT is the text font or path to the font file. The default is 
 # Arial.
-#
-# -r rcolor ... RCOLOR is the reference color to use to locate a textbox sized
-# region in the image which is closest in color for placing the text. Any valid
+# 
+# -r rcolor ... RCOLOR is the reference color to use to locate a textbox sized 
+# region in the image which is closest in color for placing the text. Any valid 
 # IM color specification is allowed. The default=white.
-#
-# -c color ... COLOR is the text color. Any valid IM color specification is
-# allowed. The default will be either black or white, whichever contrasts best
+# 
+# -c color ... COLOR is the text color. Any valid IM color specification is 
+# allowed. The default will be either black or white, whichever contrasts best 
 # with the reference color.
-#
-# -u undercolor ... UNDERCOLOR is the color to use under the text within the
-# textbox. Any valid IM color specification is allowed. The default=none, which
-# means that the text will be placed over the image without any undercolor. If
+# 
+# -u undercolor ... UNDERCOLOR is the color to use under the text within the 
+# textbox. Any valid IM color specification is allowed. The default=none, which 
+# means that the text will be placed over the image without any undercolor. If 
 # an undercolor is specified, then it will cover the underlying image.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 size=""					# size of match window; width, widthx, xheight, widthxheight
@@ -133,13 +133,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -187,7 +187,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size="${1}x"
@@ -197,21 +197,21 @@ else
 					   		ww1=`expr "$ww" : '\([0-9]*\)'`
 					   		[ "$ww1" = "" -o "$ww1" = "0" ] && errMsg "--- WSIZE=$ww1 MUST BE A POSITIVE INTEGER VALUE (with no sign) ---"
 					   fi
-					   if [ "$hh" != "" ]; then
+					   if [ "$hh" != "" ]; then 
 					   		hh1=`expr "$hh" : '\([0-9]*\)'`
 					   		[ "$hh1" = "" -o "$hh1" = "0" ] && errMsg "--- HSIZE=$hh1 MUST BE A POSITIVE INTEGER VALUE (with no sign) ---"
 					   fi
 					   ;;
 				-t)    # get  text
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   text="$1"
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
@@ -220,7 +220,7 @@ else
 					   ;;
 				-b)    # get  buffer
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BUFFER SPECIFICATION ---"
 					   checkMinus "$1"
 					   buffer=`expr "$1" : '\([0-9]*\)'`
@@ -228,7 +228,7 @@ else
 					   ;;
 				-p)    # get pointsize
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POINTSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   pointsize=`expr "$1" : '\([0-9]*\)'`
@@ -238,28 +238,28 @@ else
 					   ;;
 				-f)    # get  font
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   checkMinus "$1"
 					   font="$1"
 					   ;;
 				-r)    # get rcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   rcolor="$1"
 					   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-u)    # get ucolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ucolor="$1"
@@ -434,3 +434,4 @@ convert $tmpA1 $tmpA2 -geometry +${xxmp}+${yymp} \
 -composite "$outfile"
 
 exit
+

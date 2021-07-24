@@ -3,124 +3,124 @@
 # Developed by Fred Weinhaus 4/10/2010 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: chrome [-i intensity] [-n numcycles] [-s smooth] [-a azimuth]
-# [-e elevation] [-c color] [-b bgcolor] [-d dilation] [-B brightness]
+# USAGE: chrome [-i intensity] [-n numcycles] [-s smooth] [-a azimuth] 
+# [-e elevation] [-c color] [-b bgcolor] [-d dilation] [-B brightness] 
 # [-C contrast] [-A alpha] infile outfile
 # USAGE: chrome [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -i      intensity         intensity of chrome effect; integer>=0;
+# 
+# -i      intensity         intensity of chrome effect; integer>=0; 
 #                           default=100 (nominal)
-# -n      numcycles         number of cycles in the chrome lookup table;
+# -n      numcycles         number of cycles in the chrome lookup table; 
 #                           integer>0; default=2
 # -s      smooth            smoothing amount; float>=0; default=3
-# -a      azimuth           azimuth angle for light source; 0<=integer<=360;
+# -a      azimuth           azimuth angle for light source; 0<=integer<=360; 
 #                           counterclockwise from positive x axis (East);
 #                           default=135 (NorthWest)
 # -e      elevation         elevation angle for light source; 0<=integer<=90;
 #                           upwards from x-y plane; default=45; only for method=1
-# -c      color             color for chrome effect; any valid IM color;
+# -c      color             color for chrome effect; any valid IM color; 
 #                           default=no special coloration
-# -b      bgcolor           background color outside chrome area; any valid
+# -b      bgcolor           background color outside chrome area; any valid 
 #                           IM color including none for transparent
 # -d      dilation          dilation of alpha channel; integer>=0; default=1
-# -B      brightness        percent brightness change; -100<=integer<=100;
+# -B      brightness        percent brightness change; -100<=integer<=100; 
+#                           default=0 
+# -C      contrast     		percent contrast change; -100<=integer<=100; 
 #                           default=0
-# -C      contrast     		percent contrast change; -100<=integer<=100;
-#                           default=0
-# -A      alpha             alpha channel handling; choices are: off or
-#                           extract; if off, the alpha channel is turned off;
-#                           if extract, the alpha channel is used in place of
-#                           the image; default is no change of input alpha
-#                           status
-#
-#
+# -A      alpha             alpha channel handling; choices are: off or 
+#                           extract; if off, the alpha channel is turned off; 
+#                           if extract, the alpha channel is used in place of 
+#                           the image; default is no change of input alpha 
+#                           status 
+#                            
+# 
 ###
-#
-# NAME: CHROME
-#
+# 
+# NAME: CHROME 
+# 
 # PURPOSE: To apply a chrome effect to a binary image.
-#
-# DESCRIPTION: CHROME applies an chrome effect to a binary image. Coloration
-# is optional. A mostly binary image with antialiasing is OK, but the results
-# will be slightly different. If the image has an alpha channel, then the
+# 
+# DESCRIPTION: CHROME applies an chrome effect to a binary image. Coloration 
+# is optional. A mostly binary image with antialiasing is OK, but the results 
+# will be slightly different. If the image has an alpha channel, then the 
 # results will be quite different.
-#
-#
-# ARGUMENTS:
-#
+# 
+# 
+# ARGUMENTS: 
+# 
 # -i intensity ... INTENSITY of chrome effect. This brings out contrast.
 # Values are integers>=0. The default=100 is the nominal values.
-#
-# -n numcycles ... NUMCYCLES is the number of cycles in the chrome look up
-# table that controls the type of chrome effect. Values are integers>0.
+# 
+# -n numcycles ... NUMCYCLES is the number of cycles in the chrome look up 
+# table that controls the type of chrome effect. Values are integers>0. 
 # The default=2.
-#
-# -s smooth ... SMOOTH is the amount of smoothing to  apply to chrome effect.
+# 
+# -s smooth ... SMOOTH is the amount of smoothing to  apply to chrome effect. 
 # Values are floats>=0. The default=3.
-#
-# -a azimuth ... AZIMUTH is the angle in degrees in the x-y plane measured
-# counterclockwise from EAST to the light source. Values are integers in the
+# 
+# -a azimuth ... AZIMUTH is the angle in degrees in the x-y plane measured 
+# counterclockwise from EAST to the light source. Values are integers in the 
 # range 0<=azimuth<=360. The default=135 (NorthWest).
-#
-# -e elevation ... ELEVATION is the angle in degrees upwards from the x-y plane
-# to the light source. Values are integers in the range 0<=elevation<=90.
+# 
+# -e elevation ... ELEVATION is the angle in degrees upwards from the x-y plane 
+# to the light source. Values are integers in the range 0<=elevation<=90. 
 # The default=45.
-#
-# -c color ... COLOR is the optional color to apply to the chrome effect.
-# Any valid IM color is allowed. The default is no additional color on top
+# 
+# -c color ... COLOR is the optional color to apply to the chrome effect. 
+# Any valid IM color is allowed. The default is no additional color on top 
 # of the natural chrome effect.
-#
-# -b bgcolor ... BGCOLOR is the optional background color outside the chromed
-# items. Any valid IM color is allowed including none for transparency.
+# 
+# -b bgcolor ... BGCOLOR is the optional background color outside the chromed 
+# items. Any valid IM color is allowed including none for transparency. 
 # The default is no special background color.
-#
-# -d dilation ... DILATION of alpha channel when bgcolor is specified.
+# 
+# -d dilation ... DILATION of alpha channel when bgcolor is specified. 
 # Values are integers>=0. The default=1.
-#
-# -B brightness ... percent BRIGHTNESS change. Values are -100<=integer<=100.
+# 
+# -B brightness ... percent BRIGHTNESS change. Values are -100<=integer<=100. 
 # The default=0.
-#
+#  
 # -C contrast ... percent CONTRAST change; Values are -100<=integer<=100. The
-# default=0.
-#
-# -A alpha ... ALPHA channel handling. The choices are: off (o) or extract (e).
-# If off, then the alpha channel is turned off and the image is used alone.
-# If extract, then the alpha channel is used in place of the base image. The
-# default is no change of input image alpha status.
+# default=0. 
+# 
+# -A alpha ... ALPHA channel handling. The choices are: off (o) or extract (e). 
+# If off, then the alpha channel is turned off and the image is used alone. 
+# If extract, then the alpha channel is used in place of the base image. The 
+# default is no change of input image alpha status. 
 #
 # REQUIREMENTS: IM 6.4.8-9 in order to support -function sinusoid.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 smooth=3				#smoothing factor; float>=0
@@ -142,13 +142,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -196,7 +196,7 @@ else
 					   ;;
 				-i)    # get intensity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INTENSITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   intensity=`expr "$1" : '\([0-9]*\)'`
@@ -204,7 +204,7 @@ else
 					   ;;
 				-n)    # get numcycles
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMCYCLES SPECIFICATION ---"
 					   checkMinus "$1"
 					   numcycles=`expr "$1" : '\([0-9]*\)'`
@@ -214,7 +214,7 @@ else
 					   ;;
 				-s)    # get smooth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMOOTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   smooth=`expr "$1" : '\([.0-9]*\)'`
@@ -222,7 +222,7 @@ else
 					   ;;
 				-a)    # get azimuth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AZUMUTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   azimuth=`expr "$1" : '\([0-9]*\)'`
@@ -233,7 +233,7 @@ else
 					   ;;
 				-e)    # get elevation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ELEVATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   elevation=`expr "$1" : '\([0-9]*\)'`
@@ -244,21 +244,21 @@ else
 					   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-d)    # get dilation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DILATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dilation=`expr "$1" : '\([0-9]*\)'`
@@ -266,7 +266,7 @@ else
 					   ;;
 				-B)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   brightness=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -277,7 +277,7 @@ else
 					   ;;
 				-C)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -288,15 +288,15 @@ else
 					   ;;
 				-A)    # get  alpha
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ALPHA SPECIFICATION ---"
 					   checkMinus "$1"
 					   alpha="$1"
 					   alpha=`echo "$alpha" | tr "[:upper:]" "[:lower:]"`
-					   case "$alpha" in
+					   case "$alpha" in 
 					   		off|o) alpha="off" ;;
 					   		extract|e) alpha="extract" ;;
-					   		*) errMsg "--- ALPHA=$alpha IS AN INVALID VALUE ---"
+					   		*) errMsg "--- ALPHA=$alpha IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -385,7 +385,7 @@ else
 	stretch="-auto-level"
 fi
 
-# create chrome image
+# create chrome image	
 convert $tmpA1 -colorspace gray -blur 0x$smooth \
 	-shade ${azimuth}x${elevation} $stretch $tmpA3
 convert $tmpA3 $tmpA2 -clut $colorize $tmpA4
@@ -414,8 +414,13 @@ else
 	else
 		bricon="-brightness-contrast ${brightness},${contast}"
 	fi
-
+	
 	convert \( $tmpA4 $bricon \) \( $tmpA1 $dilating \) \
-		-alpha off -compose copy_opacity -composite $bgcolorize "$outfile"
+		-alpha off -compose copy_opacity -composite $bgcolorize "$outfile"	
 fi
 exit 0
+
+
+
+
+

@@ -1,29 +1,29 @@
 #!/bin/bash
 #
 # Developed by Fred Weinhaus 3/1/2008 .......... revised 2/3/2019
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: pinbarrel "ax,bx,cx,dx,ex ay,by,cy,dy,ey" [-c coords] [-m mode] [-v vp] infile outfile
@@ -31,12 +31,12 @@
 #
 # OPTIONS:
 #
-# ax,bx,cx,dx,ex        radial coefficients for x dimension;
+# ax,bx,cx,dx,ex        radial coefficients for x dimension; 
 #                       mode=normal r*(ax+bx*r+cx*r^2+dx*r^3+ex*r^4);
 #                       mode=inverse r/(ax+bx*r+cx*r^2+dx*r^3+ex*r^4);
 #                       ax=1,bx=0,c=0x,dx=0,ex=0 (means no change);
 #                       ax,bx,cx,dx,ex are floating point values;
-# ay,by,cy,dy,ey        radial coefficients for y dimension;
+# ay,by,cy,dy,ey        radial coefficients for y dimension; 
 #                       mode=normal r*(ay+by*r+cy*r^2+dy*r^3+ey*r^4);
 #                       mode=inverse r/(ay+by*r+cy*r^2+dy*r^3+ey*r^4);
 #                       ay=1,by=0,c=0y,dy=0,ey=0 (means no change);
@@ -44,90 +44,90 @@
 # -c      coords        x,y center point coordinates;
 #                       positive or negative floating point values;
 #                       default is center of image
-# -m      mode          normal or inverse; controls whether to use the
+# -m      mode          normal or inverse; controls whether to use the 
 #                       normal polynomial coefficient term or its inverse;
 #                       default=normal
 # -v      vp            vp is the virtual-pixel method; default=black
 #
-# Note: if only one set of values are provided, then they
-# will be used for both dimensions. Enclose the set of
-# coefficients in double quotes and separate the two sets
+# Note: if only one set of values are provided, then they 
+# will be used for both dimensions. Enclose the set of 
+# coefficients in double quotes and separate the two sets 
 # with a space.
-#
+# 
 ###
 #
-# NAME: PINBARREL
-#
+# NAME: PINBARREL 
+# 
 # PURPOSE: To correct or apply pincushion and/or barrel lens distortion to an image.
-#
+# 
 # DESCRIPTION: PINBARREL is designed to correct or apply pincushion and/or
-# barrel lens distortion to an image. The script makes use of -fx and therefore
+# barrel lens distortion to an image. The script makes use of -fx and therefore 
 # will be rather slow.
+# 
+# 
+# ARGUMENTS: 
+# 
+# ax,bx,cx,dx,ex ... These are the radial distortion/correction coefficients for 
+# the X dimension equation of: R=r*(a + b*r + c*r^2 + d*r^3 + e*r^4) for normal mode 
+# and R=r/(a + b*r + c*r^2 + d*r^3 + e*r^4) for inverse mode, where R is the radius 
+# from the center of the infile and r is the radius from the center of the outfile. 
 #
-#
-# ARGUMENTS:
-#
-# ax,bx,cx,dx,ex ... These are the radial distortion/correction coefficients for
-# the X dimension equation of: R=r*(a + b*r + c*r^2 + d*r^3 + e*r^4) for normal mode
-# and R=r/(a + b*r + c*r^2 + d*r^3 + e*r^4) for inverse mode, where R is the radius
-# from the center of the infile and r is the radius from the center of the outfile.
-#
-# ay,by,cy,dy,ey ... These are the radial distortion/correction coefficients for
-# the y dimension equation of: R=r*(a + b*r + c*r^2 + d*r^3 + e*r^4) for normal mode
-# and R=r/(a + b*r + c*r^2 + d*r^3 + e*r^4) for inverse mode, where R is the radius
-# from the center of the infile and r is the radius from the center of the outfile.
+# ay,by,cy,dy,ey ... These are the radial distortion/correction coefficients for 
+# the y dimension equation of: R=r*(a + b*r + c*r^2 + d*r^3 + e*r^4) for normal mode  
+# and R=r/(a + b*r + c*r^2 + d*r^3 + e*r^4) for inverse mode, where R is the radius 
+# from the center of the infile and r is the radius from the center of the outfile. 
 
-# The coefficient a represents scaling and the radial terms control pincushion and
-# barrel distortion. The higher order coefficients affect the pixels further from
-# center. The whole expression has a scaling effect. Thus, to avoid overall scaling,
-# keep a+b+c+d+e=1. For normal mode, pincushion correction and barrel distortion are
-# achieved using b,c,d,e positive and barrel correction and pincushion distortion are
-# achieved using b,c,d,e negative. For a+b+c+d+e>1, the image will be scaled smaller
-# and for a+b+c+d+e<1, the image will be scaled larger. Typical values are: a near 1
-# and b,c,d,e near zero. For inverse mode, the situation above is reversed. Thus for
-# inverse mode, pincushion correction and barrel distortion are achieved using b,c,d,e
-# negative and barrel correction and pincushion distortion are achieved using b,c,d,e
-# positive. For a+b+c+d+e<1, the image will be scaled smaller and for a+b+c+d+e>1,
-# the image will be scaled larger. Values of a=1,b=0,c=0,d=0,e=0 makes no change in
-# the image in the appropriate dimension. Coefficients a,b,c,d,e are floating point
+# The coefficient a represents scaling and the radial terms control pincushion and 
+# barrel distortion. The higher order coefficients affect the pixels further from 
+# center. The whole expression has a scaling effect. Thus, to avoid overall scaling, 
+# keep a+b+c+d+e=1. For normal mode, pincushion correction and barrel distortion are 
+# achieved using b,c,d,e positive and barrel correction and pincushion distortion are 
+# achieved using b,c,d,e negative. For a+b+c+d+e>1, the image will be scaled smaller 
+# and for a+b+c+d+e<1, the image will be scaled larger. Typical values are: a near 1 
+# and b,c,d,e near zero. For inverse mode, the situation above is reversed. Thus for 
+# inverse mode, pincushion correction and barrel distortion are achieved using b,c,d,e 
+# negative and barrel correction and pincushion distortion are achieved using b,c,d,e 
+# positive. For a+b+c+d+e<1, the image will be scaled smaller and for a+b+c+d+e>1, 
+# the image will be scaled larger. Values of a=1,b=0,c=0,d=0,e=0 makes no change in 
+# the image in the appropriate dimension. Coefficients a,b,c,d,e are floating point 
 # values.
 #
-# -c ... COORDS are the x,y center point coordinates for computing the radial
-# distances. These values may be positive or negative floating point values to
+# -c ... COORDS are the x,y center point coordinates for computing the radial 
+# distances. These values may be positive or negative floating point values to 
 # allow the center point to be off the image if the image is a subsection.
 #
-# -m ... MODE controls whether to use the normal polynomial coefficient term or
+# -m ... MODE controls whether to use the normal polynomial coefficient term or 
 # its inverse form. The default is normal.
-#
-# -v ... VP is the virtual-pixel method to use. Any valid IM virtual-pixel may
+# 
+# -v ... VP is the virtual-pixel method to use. Any valid IM virtual-pixel may 
 # be used. The default is black.
-#
-# For more details, see Helmut Dersch's page at
-# http://www.all-in-one.ee/~dersch/barrel/barrel.html or
+# 
+# For more details, see Helmut Dersch's page at 
+# http://www.all-in-one.ee/~dersch/barrel/barrel.html or 
 # http://wiki.panotools.org/Lens_correction_model
 #
-# Note that the meaning and order of a,b,c,d have been reversed in this
-# script from that of Dresch's work to make parameter specification easier
+# Note that the meaning and order of a,b,c,d have been reversed in this 
+# script from that of Dresch's work to make parameter specification easier 
 # and keep the most significant parameters first in the list.
-#
-# Also as some references suggest that a proper barrel or pincushion distortion
-# is modeled by only the coefficients of the even exponents of r, a fifth term
-# (ex*r^4 and ey*r^4) has been added so that one can specify at least three even
-# term (a+c*r^2+e*r^4). See http://www.imatest.com/docs/distortion.html and
+# 
+# Also as some references suggest that a proper barrel or pincushion distortion 
+# is modeled by only the coefficients of the even exponents of r, a fifth term 
+# (ex*r^4 and ey*r^4) has been added so that one can specify at least three even 
+# term (a+c*r^2+e*r^4). See http://www.imatest.com/docs/distortion.html and 
 # http://www.fieldrobotics.org/~cgeyer/OMNIVIS05/final/Li.pdf
 #
-# Other references suggest that the inverse form allows better fit with the same
+# Other references suggest that the inverse form allows better fit with the same 
 # or fewer coefficients. See http://www.fieldrobotics.org/~cgeyer/OMNIVIS05/final/Li.pdf
 #
-# WARNING: The input file must not start with a digit or the script will think
-# it is another set of coefficients.
-#
+# WARNING: The input file must not start with a digit or the script will think 
+# it is another set of coefficients. 
+# 
 # RECOMMENDATION: Use the IM function -distort barrel
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+#  
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -144,13 +144,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -198,14 +198,14 @@ else
 					   ;;
 				-v)    # get  vp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIRTUAL-PIXEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   vp="$1"
 					   ;;
 				-m)    # get  mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
@@ -213,7 +213,7 @@ else
 					   ;;
 				-c)    # get coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -383,7 +383,7 @@ fi
 im_version=`convert -list configure | \
 sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 if [ "$im_version" -ge "06030600" ]
-	then
+	then 
 	rd="rd=hypot(xd,yd)/$sf;"
 else
 	rd="rd=sqrt(xd^2+yd^2)/$sf;"
@@ -415,3 +415,5 @@ else
 		"$outfile"
 fi
 exit 0
+
+

@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 1/3/2008 .......... revised 5/7/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: whitebalance [x,y] [-c color] [-r refcolor] infile outfile
@@ -31,7 +31,7 @@
 #
 # OPTIONS:
 #
-# x,y                    x,y coordinate in the image to get color to
+# x,y                    x,y coordinate in the image to get color to 
 #                        transform to pure white
 # -c      color          color to transform to pure white;
 #                        may be specified in any standard IM notation
@@ -41,37 +41,37 @@
 #
 ###
 #
-# NAME: WHITEBALANCE
-#
-# PURPOSE: To transform an image's overall color balance according to a desired
+# NAME: WHITEBALANCE 
+# 
+# PURPOSE: To transform an image's overall color balance according to a desired 
 # change in a specified white point color.
-#
-# DESCRIPTION: WHITEBALANCE transforms an image's overall color balance according
-# to a desired change in a specified white point color. The white point color may
-# be specified by selecting a pixel coordinate (position) to extract the color or
-# by specifying the color that should be transformed to pure white. One or the
-# other must be specified, but not both. The white point color values (actually
+# 
+# DESCRIPTION: WHITEBALANCE transforms an image's overall color balance according 
+# to a desired change in a specified white point color. The white point color may 
+# be specified by selecting a pixel coordinate (position) to extract the color or 
+# by specifying the color that should be transformed to pure white. One or the 
+# other must be specified, but not both. The white point color values (actually  
 # any color value as an r,g,b triple in the range of 0 to 255) may be specified.
-#
-#
-# OPTIONS:
-#
-# x,y ... x,y are the coordinates in the image where the color is to be
+# 
+# 
+# OPTIONS: 
+# 
+# x,y ... x,y are the coordinates in the image where the color is to be 
 # extracted and transformed to pure white.
-#
-# -c color ... COLOR is the color to be used to transform to pure white.
-# Any IM color specification is valid. Be sure to enclose it in double quotes.
-#
+# 
+# -c color ... COLOR is the color to be used to transform to pure white. 
+# Any IM color specification is valid. Be sure to enclose it in double quotes. 
+# 
 # One or the other of the above must be provided, but not both.
 #
-# -r refcolor ... REFCOLOR is the reference color to which to match.
-# Any IM color specification is valid. Be sure to enclose it in double quotes.
+# -r refcolor ... REFCOLOR is the reference color to which to match. 
+# Any IM color specification is valid. Be sure to enclose it in double quotes. 
 # The default="white".
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -87,13 +87,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -141,14 +141,14 @@ else
 					   ;;
 				-c)    # get user color
 					   shift  # to get the next parameter - lineval
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   usercolor="$1"
 					   ;;
 				-r)    # get reference (white) color
 					   shift  # to get the next parameter - lineval
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REFERENCE COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   refcolor="$1"
@@ -233,21 +233,21 @@ echo ""
 
 # compute color ratio and trap for divide by zero
 if [ $ured -eq 0 ]
-	then
+	then 
 	redfrac=255
-else
+else 
 	redfrac=`echo "scale=3; $rred / $ured" | bc`
 fi
 if [ $ugreen -eq 0 ]
-	then
+	then 
 	greenfrac=255
-else
+else 
 	greenfrac=`echo "scale=3; $rgreen / $ugreen" | bc`
 fi
 if [ $ublue -eq 0 ]
-	then
+	then 
 	bluefrac=255
-else
+else 
 	bluefrac=`echo "scale=3; $rblue / $ublue" | bc`
 fi
 
@@ -265,3 +265,5 @@ fi
 # transform image color
 convert $tmpA $process "$redfrac 0 0 0 $greenfrac 0 0 0 $bluefrac" "$outfile"
 exit 0
+
+

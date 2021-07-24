@@ -3,97 +3,97 @@
 # Developed by Fred Weinhaus 10/12/2011 .......... revised 6/4/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: levels [-C channels ] [-i invals] [-o outvals] [-r range] [-g gammaval] [-c clipvals] infile outfile
 # USAGE: levels [-h or -help]
-#
+# 
 # OPTIONS:
 #
-# -C     channels      processing channels; choices are: global (g),
-#                      rgb (r) or lum (l); default=global
-# -i     invals        input stretch values; ilow,ihi as pair of
-#                      comma separate non-negative floats;
+# -C     channels      processing channels; choices are: global (g), 
+#                      rgb (r) or lum (l); default=global                     
+# -i     invals        input stretch values; ilow,ihi as pair of 
+#                      comma separate non-negative floats; 
 #                      default=no change
-# -o     outvals       output compress values; olow,ohi as pair of
-#                      comma separate non-negative floats;
+# -o     outvals       output compress values; olow,ohi as pair of 
+#                      comma separate non-negative floats; 
 #                      default=no change
 # -r     range         range of values to use for invals and outvals;
 #                      choices are: percent (p) for 0 to 100 percent,
 #                      8bit (8) for 0 to 255, qrange (q) for
-#                      quantumrange for IM Qlevel (e.g. 0 to 65535
-#                      for Q16); default=percent
-# -g     gammaval      gamma value for non-linear adjustment;
+#                      quantumrange for IM Qlevel (e.g. 0 to 65535 
+#                      for Q16); default=percent                      
+# -g     gammaval      gamma value for non-linear adjustment; 
 #                      float>0; default=1 (for no change)
-# -c     clipvals      clip values as percent counts; clow,chi as
-#                      comma separated pair of floats; default is
+# -c     clipvals      clip values as percent counts; clow,chi as 
+#                      comma separated pair of floats; default is 
 #                      for no change
-#
+# 
 ###
-#
+# 
 # NAME: LEVELS
-#
+# 
 # PURPOSE: To apply a Photoshop-like levels operation on an image.
-#
-# DESCRIPTION: LEVELS applies a Photoshop-like levels operation on
-# an image. The user may specify the input stretch values, a gamma value,
-# the output compress (limiting) values and percent count clip values.
+# 
+# DESCRIPTION: LEVELS applies a Photoshop-like levels operation on 
+# an image. The user may specify the input stretch values, a gamma value, 
+# the output compress (limiting) values and percent count clip values. 
 # Processing can be applied globally (i.e. to the rgb channels equally),
 # to the rgb channels independently or to the luminosity channel from YUV.
-#
-# Arguments:
-#
-# -C channels ... CHANNELS are the channel or channels to process. The
-# choices are: global (g) i.e., to RGB equally, rgb (r) for clipping
-# each rgb channel separately or lum (l) i.e. the luminosity Y channel
-# from colorspace YUV. The default=global
-#
-# -i invals ... INVALS=ilow,ihi are the input linear stretch values expressed
-#  as a pair of comma separate non-negative floats. Values will depend upon
+# 
+# Arguments: 
+# 
+# -C channels ... CHANNELS are the channel or channels to process. The 
+# choices are: global (g) i.e., to RGB equally, rgb (r) for clipping 
+# each rgb channel separately or lum (l) i.e. the luminosity Y channel 
+# from colorspace YUV. The default=global  
+# 
+# -i invals ... INVALS=ilow,ihi are the input linear stretch values expressed  
+#  as a pair of comma separate non-negative floats. Values will depend upon   
 # the range parameter. The default=no change
-#
-# -o outvals ... OUTVALS=olow,ohi are the output linear compress or limiting
-# values expressed as a pair of comma separate non-negative floats. Values
+# 
+# -o outvals ... OUTVALS=olow,ohi are the output linear compress or limiting 
+# values expressed as a pair of comma separate non-negative floats. Values  
 # will depend upon the range parameter. The default=no change
-#
+# 
 # -r range ... RANGE is the range of values to use for invals and outvals.
-# Choices are: percent (p) for 0 to 100 percent, 8bit (8) for 0 to 255,
-# qrange (q) for quantumrange for IM Qlevel (e.g. 0 to 65535 for Q16).
+# Choices are: percent (p) for 0 to 100 percent, 8bit (8) for 0 to 255, 
+# qrange (q) for quantumrange for IM Qlevel (e.g. 0 to 65535 for Q16). 
 # The default=percent
 #
-# -g gamma ... GAMMA is the gamma value for non-linear adjustment.
+# -g gamma ... GAMMA is the gamma value for non-linear adjustment. 
 # Values are floats>0. The default=1 (for no change)
-#
-# -c clipvals ... CLIPVALS=clow,chi are the clip values as percent counts
-# from the histogram ends. Values are 0<=floats<=100. The default is no
-# change. Values of 0,0, however, will stretch the min and max to black
+# 
+# -c clipvals ... CLIPVALS=clow,chi are the clip values as percent counts 
+# from the histogram ends. Values are 0<=floats<=100. The default is no 
+# change. Values of 0,0, however, will stretch the min and max to black 
 # and white globally or for each channel depending upon the channels parameter.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -112,13 +112,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -163,58 +163,58 @@ else
 				   ;;
 		 	-C)    # channels
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID CHANNELS SPECIFICATION ---"
 				   checkMinus "$1"
 				   # test mode values
 				   channels="$1"
 				   channels=`echo "$channels" | tr "[:upper:]" "[:lower:]"`
-				   case "$channels" in
+				   case "$channels" in 
 						global|g) channels="global" ;;
 						rgb|r|separate) channels="rgb" ;;
 						luminance|luminosity|lum|l) channels="lum" ;;
-						*) errMsg "--- CHANNELS=$channels IS AN INVALID VALUE ---"
+						*) errMsg "--- CHANNELS=$channels IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 		 	-r)    # range
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID RANGE SPECIFICATION ---"
 				   checkMinus "$1"
 				   # test mode values
 				   range="$1"
 				   range=`echo "$range" | tr "[:upper:]" "[:lower:]"`
-				   case "$range" in
+				   case "$range" in 
 						percent|p) range="percent" ;;
 						8bit|8) range="8bit" ;;
 						qrange|q) range="qrange" ;;
-						*) errMsg "--- RANGE=$range IS AN INVALID VALUE ---"
+						*) errMsg "--- RANGE=$range IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-i)    # invals
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID INVALS SPECIFICATION ---"
 				   checkMinus "$1"
 				   invals=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
 				   ;;
 			-o)    # outvals
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID OUTVALS SPECIFICATION ---"
 				   checkMinus "$1"
 				   outvals=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
 				   ;;
 			-c)    # clipvals
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID CLIPVALS SPECIFICATION ---"
 				   checkMinus "$1"
 				   clipvals=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
 				   ;;
 			-g)    # gammaval
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID GAMMAVAL SPECIFICATION ---"
 				   checkMinus "$1"
 				   gammaval=`expr "$1" : '\([.0-9]*\)'`
@@ -264,13 +264,13 @@ qval=`convert xc: -format "%[fx:quantumrange]" info:`
 # set up range and test values
 if [ "$range" = "percent" ]; then
 	unit="%"
-
+	
 	inval1=`echo "$invals" | cut -d, -f1`
 	inval2=`echo "$invals" | cut -d, -f2`
 	test1=`convert xc: -format "%[fx:$inval1<0||$inval1>100?0:1]" info:`
 	test2=`convert xc: -format "%[fx:$inval2<0||$inval2>100?0:1]" info:`
 	[ $test1 -eq 0 -o $test2 -eq 0 ] && errMsg "--- INVALS MUST BE FLOATS BETWEEN 0 AND 100 ---"
-
+	
 	outvals1=`echo "$outvals" | cut -d, -f1`
 	outvals2=`echo "$outvals" | cut -d, -f2`
 	test1=`convert xc: -format "%[fx:$outvals1<0||$outvals1>100?0:1]" info:`
@@ -279,7 +279,7 @@ if [ "$range" = "percent" ]; then
 
 elif [ "$range" = "8bit" ]; then
 	unit="%"
-
+	
 	inval1=`echo "$invals" | cut -d, -f1`
 	inval2=`echo "$invals" | cut -d, -f2`
 	test1=`convert xc: -format "%[fx:$inval1<0||$inval1>255?0:1]" info:`
@@ -297,10 +297,10 @@ elif [ "$range" = "8bit" ]; then
 	outval1=`convert xc: -format "%[fx:100*$outval1/255]" info:`
 	outval2=`convert xc: -format "%[fx:100*$outval2/255]" info:`
 	outvals="$outval1,$outval2"
-
+	
 elif [ "$range" = "qrange" -a $qval -eq 255 ]; then
 	unit="%"
-
+	
 	inval1=`echo "$invals" | cut -d, -f1`
 	inval2=`echo "$invals" | cut -d, -f2`
 	test1=`convert xc: -format "%[fx:$inval1<0||$inval1>255?0:1]" info:`
@@ -321,7 +321,7 @@ elif [ "$range" = "qrange" -a $qval -eq 255 ]; then
 
 elif [ "$range" = "qrange" -a $qval -eq 65535 ]; then
 	unit=""
-
+	
 	inval1=`echo "$invals" | cut -d, -f1`
 	inval2=`echo "$invals" | cut -d, -f2`
 	test1=`convert xc: -format "%[fx:$inval1<0||$inval1>65535?0:1]" info:`
@@ -374,9 +374,9 @@ fi
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -419,3 +419,6 @@ else
 fi
 
 exit 0
+
+
+

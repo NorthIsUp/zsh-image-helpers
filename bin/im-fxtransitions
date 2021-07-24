@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 6/3/2008 .......... revised 8/12/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: fxtransitions [-e effect] [-f frames] [-d delay] [-p pause] [-b bgcolor] [-r] infile1 infile2 [outfile]
@@ -31,7 +31,7 @@
 #
 # OPTIONS:
 #
-# -e      effect         transition effect type: blur, explode, implode, pixelize,
+# -e      effect         transition effect type: blur, explode, implode, pixelize, 
 #                        recursion, spin, spread, swirl, zoomin, zoomout;
 #                        default=blur
 # -f      frames         number of frames in animation; frames>1; default=10
@@ -40,51 +40,51 @@
 #                        pause>0; default=50
 # -b      bgcolor        background color for use only with effect=zoomout
 # -r                     reverse the animation sequence and append it to the end
-#
+# 
 # The two input files must be the same size.
-#
+# 
 # The output file must be of type that supports multi-frames, such as gif.
-#
-# If no output file is specified, the animation will be displayed automatically
+# 
+# If no output file is specified, the animation will be displayed automatically 
 # but not saved to a file
 #
 ###
 #
-# NAME: FXTRANSITIONS
-#
+# NAME: FXTRANSITIONS 
+# 
 # PURPOSE: To create an animated transition between two images using a special effect distortion.
-#
-# DESCRIPTION: FXTRANSITIONS creates an animated transition between two images using a
-# special effect distortion. The special effects distortions include: blur, explode,
+# 
+# DESCRIPTION: FXTRANSITIONS creates an animated transition between two images using a  
+# special effect distortion. The special effects distortions include: blur, explode,  
 # implode, pixelize, recursion, spin, spread, swirl, zoomin and zoomout.
-#
-# OPTIONS:
-#
-# -e effect ... EFFECT is the type of distortion to use as the means for creating
-# the animated transition between the two input images. The choices are: blur, explode,
+# 
+# OPTIONS: 
+# 
+# -e effect ... EFFECT is the type of distortion to use as the means for creating 
+# the animated transition between the two input images. The choices are: blur, explode, 
 # implode, pixelize, recursion, spin, spread, swirl, zoomin and zoomout. The default=blur.
 #
-# -f frames ... FRAMES is the number of frames in the animation of each of the
-# two input images. Values are integers > 1. The default is 10. Thus the total
-# number of frames will be 2*frames. If the animation is reversed, then the
+# -f frames ... FRAMES is the number of frames in the animation of each of the 
+# two input images. Values are integers > 1. The default is 10. Thus the total 
+# number of frames will be 2*frames. If the animation is reversed, then the 
 # total number of frames will be 4*frames-2.
 #
 # -d delay ... DELAY between frames. Values are integers>0. The default=20
 #
-# -p pause ... PAUSE is the delay to use for the first and last frame of the
+# -p pause ... PAUSE is the delay to use for the first and last frame of the 
 # animation, i.e. the delay for each of the input images. The default=50
 #
-# -b bgcolor ... BGCOLOR is the background color to use for fill when the
+# -b bgcolor ... BGCOLOR is the background color to use for fill when the 
 # effect is zoomout. Any valid IM color specification. The default=black.
-#
-# -r ... If supplied, then reverse the animation sequence, remove the first and
-# last frames of the reversed sequence and append these reversed frames to
+# 
+# -r ... If supplied, then reverse the animation sequence, remove the first and 
+# last frames of the reversed sequence and append these reversed frames to  
 # the end of the animation.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -103,13 +103,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -146,7 +146,7 @@ else
 					   ;;
 				-e)    # get effect
 					   shift  # to get the next parameter - effect
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EFFECT SPECIFICATION ---"
 					   checkMinus "$1"
 					   effect="$1"
@@ -166,7 +166,7 @@ else
 					   ;;
 				-f)    # get frames
 					   shift  # to get the next parameter - frames
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FRAMES SPECIFICATION ---"
 					   checkMinus "$1"
 					   frames=`expr "$1" : '\([0-9]*\)'`
@@ -176,7 +176,7 @@ else
 					   ;;
 				-d)    # get delay
 					   shift  # to get the next parameter - delay
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay=`expr "$1" : '\([0-9]*\)'`
@@ -184,7 +184,7 @@ else
 					   ;;
 				-p)    # get pause
 					   shift  # to get the next parameter - pause
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PAUSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   pause=`expr "$1" : '\([0-9]*\)'`
@@ -192,7 +192,7 @@ else
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter - bgcolor
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -272,7 +272,7 @@ case "$effect" in
 				parm=""
 				func2="-resize ${w1}x${h1}!"
 				;;
-	explode)
+	explode)	
 				factor=`convert xc: -format "%[fx:100/$count]" info:`
 				expression="-100*\(\(1000^\(\$k*$factor/100\)-1\)/999\)"
 				func1="-implode"
@@ -280,7 +280,7 @@ case "$effect" in
 				parm=""
 				func2=""
 				;;
-	implode)
+	implode)	
 				factor=`convert xc: -format "%[fx:2/$count]" info:`
 				expression="2*\(\(1000^\(\$k*$factor/2\)-1\)/999\)"
 				func1="-implode"
@@ -307,7 +307,7 @@ case "$effect" in
 				op="%"
 				parm=""
 				;;
-	   spin)
+	   spin)		
 				factor=`convert xc: -format "%[fx:359.9/$count]" info:`
 				expression="359.9*\(\(1000^\(\$k*$factor/359.9\)-1\)/999\)\)"
 				if [ "$im_version" -ge "07000000" ]; then
@@ -329,7 +329,7 @@ case "$effect" in
 				parm=""
 				func2=""
 				;;
-	  swirl)
+	  swirl)		
 	 			factor=`convert xc: -format "%[fx:360/$count]" info:`
 				expression="3*360*\(\(1000^\(\$k*$factor/360\)-1\)/999\)"
 				func1="-swirl"
@@ -379,7 +379,7 @@ transitionFrames()
 			convert -delay $delay $tmp0 - $tmp0
 		i=`expr $i + 1`
 	done
-
+	
 	echo ""
 	echo "Generating $frames Frames For Image 2:"
 	echo ""
@@ -417,7 +417,7 @@ changeDelay()
 			-quiet -layers Optimize $tmp0
 	fi
 	}
-
+	
 # make transitions for image 1 and image 2
 transitionFrames
 

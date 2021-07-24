@@ -1,31 +1,31 @@
 #!/bin/bash
 #
 # Developed by Fred Weinhaus 4/14/2013 .......... revised 8/27/2020
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: shadowhighlight [-sa samount] [-sw swidth] [-sr sradius]
-# [-ha hamount] [-hw hwidth] [-hr hradius] [-ma mamount] [-ca camount]
+# USAGE: shadowhighlight [-sa samount] [-sw swidth] [-sr sradius] 
+# [-ha hamount] [-hw hwidth] [-hr hradius] [-ma mamount] [-ca camount] 
 # [-bc bclip] [-wc wclip] infile outfile
 #
 # USAGE: shadowhighlight [h or -help]
@@ -45,71 +45,71 @@
 #
 ###
 #
-# NAME: SHADOWHIGHLIGHT
-#
+# NAME: SHADOWHIGHLIGHT 
+# 
 # PURPOSE: To adjust the tone in shadow and highlight areas of an image.
+# 
+# DESCRIPTION: SHADOWHIGHLIGHT adjusts the tone in shadow and highlight areas 
+# of an image. Shadow areas may be lightened and highlight areas darkened using 
+# the amount arguments. The tonal width arguments adjust the range of shadow 
+# and/or highlight tones that will be adjusted. The radius arguments adjust 
+# the regions around each pixel that are used to determine whether a pixel is 
+# shadow or highlight. All processing is done in the LAB colorspace. This 
+# script attempts to emulate the Photoshop function of the same name. 
+# 
+# OPTIONS: 
 #
-# DESCRIPTION: SHADOWHIGHLIGHT adjusts the tone in shadow and highlight areas
-# of an image. Shadow areas may be lightened and highlight areas darkened using
-# the amount arguments. The tonal width arguments adjust the range of shadow
-# and/or highlight tones that will be adjusted. The radius arguments adjust
-# the regions around each pixel that are used to determine whether a pixel is
-# shadow or highlight. All processing is done in the LAB colorspace. This
-# script attempts to emulate the Photoshop function of the same name.
-#
-# OPTIONS:
-#
-# -sa samount ... SAMOUNT is the shadow enhancement amount. Values are
+# -sa samount ... SAMOUNT is the shadow enhancement amount. Values are 
 # 0<=integers<=100. The default=50.
-#
-# -sw swidth ... SWIDTH is the shadow tonal width. Values are
+# 
+# -sw swidth ... SWIDTH is the shadow tonal width. Values are 
 # 0<=integers<=100. The default=50.
-#
-# -sr sradius ... SRADIUS is the shadow radius in pixels. Values are
+# 
+# -sr sradius ... SRADIUS is the shadow radius in pixels. Values are 
 # floats>=0. The default=30.
-#
-# -ha samount ... HAMOUNT is the highlight enhancement amount. Values are
+# 
+# -ha samount ... HAMOUNT is the highlight enhancement amount. Values are 
 # 0<=integers<=100. The default=50.
-#
-# -hw swidth ... HWIDTH is the highlight tonal width. Values are
+# 
+# -hw swidth ... HWIDTH is the highlight tonal width. Values are 
 # 0<=integers<=100. The default=50.
-#
-# -hr sradius ... HRADIUS is the highlight radius in pixels. Values are
+# 
+# -hr sradius ... HRADIUS is the highlight radius in pixels. Values are 
 # floats>=0. The default=30.
-#
-# -ma samount ... MAMOUNT is the midtone enhancement amount. Values are
+# 
+# -ma samount ... MAMOUNT is the midtone enhancement amount. Values are 
 # -100<=integers<=100. The default=0.
-#
-# -ca camount ... CAMOUNT is the color correction amount. Values are
+# 
+# -ca camount ... CAMOUNT is the color correction amount. Values are 
 # -100<=integers<=100. The default=0.
-#
-# -bc bclip ... BCLIP is the black clip percent. Values are 0<=floats<=100.
+# 
+# -bc bclip ... BCLIP is the black clip percent. Values are 0<=floats<=100. 
 # The default=0.01.
 #
-# -wc wclip ... WCLIP is the white clip percent. Values are 0<=floats<=100.
+# -wc wclip ... WCLIP is the white clip percent. Values are 0<=floats<=100. 
 # The default=0.01.
-#
-# REQUIREMENTS: IM 6.7.8.2 or higher, due to the use of the LAB colorspace.
+# 
+# REQUIREMENTS: IM 6.7.8.2 or higher, due to the use of the LAB colorspace. 
 # However, results were not stable until 6.7.8.8
-#
+# 
 # REFERENCES: http://www.photoshopessentials.com/photo-editing/shadow-highlight/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
 # set defaults
-samt=50			# shadow amount; 0<=integer<=100
-swid=50			# shadow tone width; 0<=integer<=100
+samt=50			# shadow amount; 0<=integer<=100			
+swid=50			# shadow tone width; 0<=integer<=100	
 srad=30			# shadow radius; float>=0
-hamt=0			# highlight amount; 0<=integer<=100
-hwid=50			# highlight tone width; 0<=integer<=100
+hamt=0			# highlight amount; 0<=integer<=100	
+hwid=50			# highlight tone width; 0<=integer<=100	
 hrad=30			# highlight radius; float>=0
-mamt=0			# midtone amount; -100<=integer<=100
-camt=0			# color correction amount; -100<=integer<=100
+mamt=0			# midtone amount; -100<=integer<=100	
+camt=0			# color correction amount; -100<=integer<=100	
 bclip=0.01		# black clip percent; 0<=float<=100
 wclip=0.01		# white clip percent; 0<=float<=100
 blend=50		# shadow highlight blend amount; 0<=integer<=100
@@ -122,13 +122,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -177,7 +177,7 @@ else
 					   ;;
 			   -sa)    # get samt
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SAMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   samt=`expr "$1" : '\([0-9]*\)'`
@@ -187,7 +187,7 @@ else
 					   ;;
 			   -sw)    # get swid
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SWIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   swid=`expr "$1" : '\([0-9]*\)'`
@@ -197,7 +197,7 @@ else
 					   ;;
 			   -sr)    # get srad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SRADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   srad=`expr "$1" : '\([.0-9]*\)'`
@@ -205,7 +205,7 @@ else
 					   ;;
 			   -ha)    # get hamt
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HAMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   hamt=`expr "$1" : '\([0-9]*\)'`
@@ -215,7 +215,7 @@ else
 					   ;;
 			   -hw)    # get hwid
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HWIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   hwid=`expr "$1" : '\([0-9]*\)'`
@@ -225,7 +225,7 @@ else
 					   ;;
 			   -hr)    # get hrad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HRADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   hrad=`expr "$1" : '\([.0-9]*\)'`
@@ -233,7 +233,7 @@ else
 					   ;;
 			   -ma)    # get mamt
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MAMOUNT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   mamt=`expr "$1" : '\([0-9-]*\)'`
@@ -244,7 +244,7 @@ else
 					   ;;
 			   -ca)    # get camt
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CAMOUNT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   camt=`expr "$1" : '\([0-9-]*\)'`
@@ -255,7 +255,7 @@ else
 					   ;;
 			   -bc)    # get bclip
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCLIP SPECIFICATION ---"
 					   checkMinus "$1"
 					   bclip=`expr "$1" : '\([.0-9]*\)'`
@@ -265,7 +265,7 @@ else
 					   ;;
 			   -wc)    # get wclip
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WCLIP SPECIFICATION ---"
 					   checkMinus "$1"
 					   wclip=`expr "$1" : '\([.0-9]*\)'`
@@ -335,7 +335,7 @@ convert $tmpA1 -colorspace LAB -channel R -separate +channel $clipping $tmpG1
 if [ "$samt" != 0 ]; then
 	srad=`convert xc: -format "%[fx:$srad/3]" info:`
 	samt=`convert xc: -format "%[fx:$samt/20]" info:`
-	proc="+sigmoidal-contrast $samt,100%"
+	proc="+sigmoidal-contrast $samt,100%"	
 	convert $tmpA1 -colorspace LAB -channel R $proc +channel -colorspace sRGB \
 		\( $tmpG1 -blur 0x${srad} -black-threshold $swid% -level ${swid}x100% -negate \) \
 		-alpha off -compose copy_opacity -composite $tmpS1

@@ -1,233 +1,233 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 7/16/2018 .......... revised 7/16/2018
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
 #
-# USAGE: xtract [-p procedure] [-c coords] [-b bgcolor] [-e extend] [-t1 thresh1]
-# [-t2 thresh2] [-t3 thresh3] [-f filtsize] [-a aspect] [-w width] [-h height]
-# [-d dimension] [-s scolor] [-L linewidth] [-m mcolor] [u unrotate] [-C crop]
+# USAGE: xtract [-p procedure] [-c coords] [-b bgcolor] [-e extend] [-t1 thresh1] 
+# [-t2 thresh2] [-t3 thresh3] [-f filtsize] [-a aspect] [-w width] [-h height]  
+# [-d dimension] [-s scolor] [-L linewidth] [-m mcolor] [u unrotate] [-C crop]  
 # [-F fuzzval] [-R rotate] [-I info] [-S show] infile outfile
-#
+# 
 # USAGE: xtract [-help]
-#
+# 
 # OPTIONS:
-#
-# -p     procedure     procedure (technique) for processing; choices are: deskew,
+# 
+# -p     procedure     procedure (technique) for processing; choices are: deskew, 
 #                      unrotate, mask or perspective; default=perspective
-# -c     coords        pixel coordinate to extract background color;
-#                      may be expressed as gravity value (e.g. northwest) or
+# -c     coords        pixel coordinate to extract background color; 
+#                      may be expressed as gravity value (e.g. northwest) or 
 #                      as "x,y" value; default is 0,0
-# -b     bcolor		   background color outside the quadrilateral region;
+# -b     bcolor		   background color outside the quadrilateral region; 
 #                      any valid IM color; default determined by coords argument
-# -e     extend        extend (pad) the input with background color as preprocessing
-#                      to keep corners away from bounding edges of input image;
+# -e     extend        extend (pad) the input with background color as preprocessing 
+#                      to keep corners away from bounding edges of input image; 
 #                      integer>=0; default=10
-# -t1    thresh1       lower Canny edge detector threshold value in percent;
+# -t1    thresh1       lower Canny edge detector threshold value in percent; 
 #                      0<=integer<=100; default=10
-# -t2    thresh2       upper Canny edge detector threshold value in percent;
-#                      0<=integer<=100; default=75; nominal 75-90; smaller values
+# -t2    thresh2       upper Canny edge detector threshold value in percent; 
+#                      0<=integer<=100; default=75; nominal 75-90; smaller values  
 #                      include more edges
-# -t3    thresh3       Hough line detector threshold value in percent; 0<=integer<=100;
-#                      default=10; percent of longest dimension of input image;
+# -t3    thresh3       Hough line detector threshold value in percent; 0<=integer<=100; 
+#                      default=10; percent of longest dimension of input image; 
 #                      too large values remove longest lines; typically 5-20%
-# -f1    filtsize      Hough line detector filter size in pixels; integer>=0;
-#                      default=15; needs to be larger for larger images; typically 9-15;
+# -f1    filtsize      Hough line detector filter size in pixels; integer>=0;  
+#                      default=15; needs to be larger for larger images; typically 9-15; 
 #                      larger values condense close, nearly parallel edges
-# -a     aspect        desired width/height aspect ratio; float>0; or "edges"
+# -a     aspect        desired width/height aspect ratio; float>0; or "edges" 
 #                      or "points"; default=edges; used only for procedure=unperspective
 #                      default will be computed automatically
-# -w     width         desired width of output in pixels; integer>0; default determined
+# -w     width         desired width of output in pixels; integer>0; default determined 
 #                      automatically from dimension parameter below;
 #                      only one of width or height may be specified
-# -h     height        desired height of output in pixels; integer>0; default determined
+# -h     height        desired height of output in pixels; integer>0; default determined 
 #                      automatically from dimension parameter below;
 #                      only one of width or height may be specified
-# -d     dimension     output dimension method; choices are: el
-#                      (length of longest edge of quadrilaterl, bh (quadrilateral
+# -d     dimension     output dimension method; choices are: el 
+#                      (length of longest edge of quadrilaterl, bh (quadrilateral 
 #                      bounding box height), bw (quadrilateral bounding box width),
 #                      h (input image height), w (input image width); default=el
 # -s     scolor        stroke color for showing the Hough lines on an ancillary image
-#                      when -S show != none, described below; any valid IM color;
+#                      when -S show != none, described below; any valid IM color; 
 #                      default=red
 # -L     linewidth     linewidth of stroke for showing the Hough lines on an ancillary
 #                      image when -S show != none, described below; integer>=0; default=2
-# -m     mcolor        desired masking background color to show outside the extracted
-#                      quadrilateral when procedure=mask; any valid IM color;
+# -m     mcolor        desired masking background color to show outside the extracted 
+#                      quadrilateral when procedure=mask; any valid IM color; 
 #                      default=none
-# -u     unrotate      unrotate the masked result and trim to its bounding box when
-#                      procedure=mask; choices are: yes or no; default=no;
+# -u     unrotate      unrotate the masked result and trim to its bounding box when 
+#                      procedure=mask; choices are: yes or no; default=no; 
 #                      requires separate unrotate script
-# -C     crop          crop (trim) the masked result (without unrotating) when
+# -C     crop          crop (trim) the masked result (without unrotating) when 
 #                      procedure=mask; choices are: yes or no; default=no
-# -F     fuzzval       fuzzvalue to use to extract the background when unrotate=yes;
+# -F     fuzzval       fuzzvalue to use to extract the background when unrotate=yes; 
 #                      0<=integer<=100; default=10
-# -R     rotate        rotate the image in 90 degree amounts as postprocessing;
+# -R     rotate        rotate the image in 90 degree amounts as postprocessing; 
 #                      choices are: 0, 90, 180, 270, -90; default=0
-# -I     info          list various information to the terminal depending upon
-#                      procedure, including: rotation angle, crop box, aspect ratio
+# -I     info          list various information to the terminal depending upon  
+#                      procedure, including: rotation angle, crop box, aspect ratio 
 #                      and/or control points used for perspective correction
-# -S     show          show ancillary images for deskewed/unrotated image,
-#                      Canny edges, Hough lines superimposed on image; choices are:
+# -S     show          show ancillary images for deskewed/unrotated image, 
+#                      Canny edges, Hough lines superimposed on image; choices are: 
 #                      none, view (to display) or save (to disk); default=none
-#
+# 
 ###
-#
-# NAME: XTRACT
-#
+# 
+# NAME: XTRACT 
+#  
 # PURPOSE: To use Hough lines to extract and rectify a quadrilateral area from an image.
-#
-# DESCRIPTION: XTRACT attempts to extract and correct orientation and/or perspective in
-# an image using the Canny edge detector followed by the Hough line detector to find
+# 
+# DESCRIPTION: XTRACT attempts to extract and correct orientation and/or perspective in 
+# an image using the Canny edge detector followed by the Hough line detector to find 
 # the four sides of a quadrilateral region of an image inside a background color.
-# There are four approaches that may be used.
+# There are four approaches that may be used. 
 #
-# If the image has a nearly solid color background and the quadrilateral is a
+# If the image has a nearly solid color background and the quadrilateral is a  
 # rectangle that is rotate by 5 degrees or less, one can use the procedure=deskew.
-#
-# If the image has a nearly solid color background and the quadrilateral is a
-# rectangle that is rotate by more than 5 degrees, one can use the procedure=unrotate.
-# This will estimate the rotation angle from the orientation of longest Hough line
+# 
+# If the image has a nearly solid color background and the quadrilateral is a  
+# rectangle that is rotate by more than 5 degrees, one can use the procedure=unrotate. 
+# This will estimate the rotation angle from the orientation of longest Hough line 
 # as determined by the Hough accumulator value.
 #
-# Otherwise, one can use procedure=unperspective to process the image. This will attempt
-# to correct the perspective distortion. However, it needs to use the aspect ratio
-# of the corrected image. One may provide the aspect ratio as a float value or let the
-# script attempt to estimate the aspect ratio. There are two approaches that may be
-# use for the estimation. One is to use the lengths of the edges of the quadrilateral
-# as determined by the Hough line intersection. The other approach is to use the
+# Otherwise, one can use procedure=unperspective to process the image. This will attempt 
+# to correct the perspective distortion. However, it needs to use the aspect ratio 
+# of the corrected image. One may provide the aspect ratio as a float value or let the 
+# script attempt to estimate the aspect ratio. There are two approaches that may be 
+# use for the estimation. One is to use the lengths of the edges of the quadrilateral  
+# as determined by the Hough line intersection. The other approach is to use the 
 # Hough line intersection vertices. The latter is more subject to inaccurate estimations.
-#
-# Lastly, one can just mask the quadrilateral region with an option to unrotate and
-# trim the image or just trim the image to its bounding box. If unrotate=yes, then
+# 
+# Lastly, one can just mask the quadrilateral region with an option to unrotate and  
+# trim the image or just trim the image to its bounding box. If unrotate=yes, then 
 # my separate script, unrotate, will be needed.
-#
-# The script works best when the quadrilateral area is cleanly separated by good
-# contrast from the background area and contains no very long, high contrast edges in it.
+#   
+# The script works best when the quadrilateral area is cleanly separated by good 
+# contrast from the background area and contains no very long, high contrast edges in it. 
 # The three most important arguments are: thresh2, thresh3 and filtsize.
-#
-# The script will error out, if fewer than 4 edges are extracted. The script will use
-# the longest 4 edges, but will error out, if other than 4 intersection points are
+# 
+# The script will error out, if fewer than 4 edges are extracted. The script will use 
+# the longest 4 edges, but will error out, if other than 4 intersection points are 
 # located within the bounds of the input image.
-#
-# Arguments:
-#
-#
-# -p procedure ... PROCEDURE (technique) for processing. Choices are: deskew, unrotate,
+# 
+# Arguments: 
+# 
+# 
+# -p procedure ... PROCEDURE (technique) for processing. Choices are: deskew, unrotate, 
 # mask or perspective. The default=perspective.
-#
-# -c coords ... COORDS is any location within the input image for the algorithm to find
-# the background color. It may be specified in terms of gravity parameters
-# (NorthWest, North, NorthEast, East, SouthEast, South, SouthWest or West) or as a
-# pixel coordinate "x,y". The default is the upper left corner = NorthWest = "0,0".
-#
-# -b bcolor ... BCOLOR is the background color outside the quadrilateral region.
+# 
+# -c coords ... COORDS is any location within the input image for the algorithm to find 
+# the background color. It may be specified in terms of gravity parameters 
+# (NorthWest, North, NorthEast, East, SouthEast, South, SouthWest or West) or as a 
+# pixel coordinate "x,y". The default is the upper left corner = NorthWest = "0,0". 
+# 
+# -b bcolor ... BCOLOR is the background color outside the quadrilateral region. 
 # Any valid IM color is permitted. The default will be determined by the coords argument.
-#
-# -e extend ... EXTEND (pad) the input with background color as a preprocessing step
-# in order to keep the corners of the quadrilateral area away from bounding edges of
+# 
+# -e extend ... EXTEND (pad) the input with background color as a preprocessing step 
+# in order to keep the corners of the quadrilateral area away from bounding edges of 
 # input image. Values are integer>=0. The default=10.
-#
-# -t1 thresh1 ... THRESH1 is the lower Canny edge detector threshold value in percent.
+# 
+# -t1 thresh1 ... THRESH1 is the lower Canny edge detector threshold value in percent. 
 # Values are 0<=integers<=100. The default=10.
-#
-# -t2 thresh2 ... THRESH2 is the upper Canny edge detector threshold value in percent.
-# Values are 0<=integers<=100. The default=75. Typical values are in the range 75-90.
+# 
+# -t2 thresh2 ... THRESH2 is the upper Canny edge detector threshold value in percent. 
+# Values are 0<=integers<=100. The default=75. Typical values are in the range 75-90. 
 # Smaller values will include more edges.
-#
-# -t1 thresh3 ... THRESH3 is the Hough line detector threshold value in percent of
-# the longest dimension of input image converted to pixels. Values are 0<=integers<=100.
-# The default=10. Too large values remove longer lines. Typical values are in the
+# 
+# -t1 thresh3 ... THRESH3 is the Hough line detector threshold value in percent of 
+# the longest dimension of input image converted to pixels. Values are 0<=integers<=100. 
+# The default=10. Too large values remove longer lines. Typical values are in the 
 # range of 5-20.
-#
-# -f1 filtsize ... FILTSIZE is the Hough line detector filter size in pixels. Value are
-# integers>=0. The default=15. Values needs to be larger for larger image dimensions.
-# Typical values are in the range 9-15. Larger values condense close, nearly parallel
+# 
+# -f1 filtsize ... FILTSIZE is the Hough line detector filter size in pixels. Value are 
+# integers>=0. The default=15. Values needs to be larger for larger image dimensions. 
+# Typical values are in the range 9-15. Larger values condense close, nearly parallel 
 # edges.
-#
-# -a aspect ... ASPECT is the desired width/height aspect ratio. Values are either
+# 
+# -a aspect ... ASPECT is the desired width/height aspect ratio. Values are either 
 # floats>0; or "edges" or "points". The default will be computed automatically
-# using the lengths of the four quadrilateral edges. Aspect is used only for
+# using the lengths of the four quadrilateral edges. Aspect is used only for 
 # procedure=unperspective.
-#
-# -w width ... WIDTH is the desired width of the output. The default is determined
-# automatically from the dimensions parameter below. Only one of width or height may
+# 
+# -w width ... WIDTH is the desired width of the output. The default is determined 
+# automatically from the dimensions parameter below. Only one of width or height may 
 # be specified. Note: the output size will only be close to the value specified.
-#
-# -h height ... HEIGHT is the desired height of the output. The default is determined
-# automatically from the dimensions parameter below. Only one of width or height may
+# 
+# -h height ... HEIGHT is the desired height of the output. The default is determined 
+# automatically from the dimensions parameter below. Only one of width or height may 
 # be specified. Note: the output size will only be close to the value specified.
-#
-# -d dimensions ... DIMENSIONS specifies how to compute the output dimension. Choices
+# 
+# -d dimensions ... DIMENSIONS specifies how to compute the output dimension. Choices 
 # are: el (length of the longest edge of the quadrilateral), bh (quadrilateral
-# bounding box height), bw (quadrilateral bounding box width), h (input image height),
+# bounding box height), bw (quadrilateral bounding box width), h (input image height), 
 # or w (input image width). The default=el.
-#
-# -s scolor ... SCOLOR is the stroke color used for showing the Hough lines on an
-# ancillary image when -S show != none, as described below.  Any valid IM color is
+# 
+# -s scolor ... SCOLOR is the stroke color used for showing the Hough lines on an 
+# ancillary image when -S show != none, as described below.  Any valid IM color is 
 # allowed. The default=red.
-#
-# -L linewidth ... LINEWIDTH of the stroke color for showing the Hough lines on an
-# ancillary image when -S show != none, described below. Values are integers>=0. The
+# 
+# -L linewidth ... LINEWIDTH of the stroke color for showing the Hough lines on an 
+# ancillary image when -S show != none, described below. Values are integers>=0. The 
 # default=2.
-#
-# -m mcolor ... MCOLOR is the desired masking background color to show outside the
-# extracted quadrilateral when procedure=mask. Any valid IM color is allowed.
+# 
+# -m mcolor ... MCOLOR is the desired masking background color to show outside the 
+# extracted quadrilateral when procedure=mask. Any valid IM color is allowed.  
 # The default=none.
-#
-# -u unrotate ... UNROTATE the masked result and trim to its bounding box when
-# procedure=mask. The choices are: yes or no. The default=no. Note that this
+# 
+# -u unrotate ... UNROTATE the masked result and trim to its bounding box when 
+# procedure=mask. The choices are: yes or no. The default=no. Note that this 
 # requires my separate unrotate script.
-#
-# -C  crop ... CROP (trim) the masked result (without unrotating) when procedure=mask.
+# 
+# -C  crop ... CROP (trim) the masked result (without unrotating) when procedure=mask. 
 # The choices are: yes or no. The default=no.
-#
-# -F fuzzval ... FUZZVAL is the fuzz value to use to extract the background when
+# 
+# -F fuzzval ... FUZZVAL is the fuzz value to use to extract the background when 
 # unrotate=yes. Values are 0<=integers<=100. The default=10.
-#
-# -R rotate ... ROTATE the output image in 90 degree amounts as a postprocessing step.
+# 
+# -R rotate ... ROTATE the output image in 90 degree amounts as a postprocessing step. 
 # The choices are: 0, 90, 180, 270, -90. The default=0.
-#
-# -I info ... INFO list various information to the terminal depending upon
-# procedure, including: rotation angle, crop box, aspect ratio and/or control points
+# 
+# -I info ... INFO list various information to the terminal depending upon  
+# procedure, including: rotation angle, crop box, aspect ratio and/or control points 
 # used for the perspective correction.
-#
-# -S show ... SHOW ancillary images: deskewed/unrotated image, Canny edge image, and
-# Hough lines superimposed on input image. Choices are: none, view (to display) or
+# 
+# -S show ... SHOW ancillary images: deskewed/unrotated image, Canny edge image, and 
+# Hough lines superimposed on input image. Choices are: none, view (to display) or 
 # save (to disk). The default=none.
 #
 # REFERENCES for aspect=points:
 # http://www.sagenb.org/home/pub/704/
 # http://research.microsoft.com/users/zhang/Papers/WhiteboardRectification.pdf
 # http://research.microsoft.com/en-us/um/people/zhang/papers/tr03-39.pdf
-#
-# REQUIREMENTS: Imagemggick 6.8.9-0 is needed by the Canny edge detector.
+# 
+# REQUIREMENTS: Imagemggick 6.8.9-0 is needed by the Canny edge detector. 
 # The argument -u unrotate requires my unrotate script.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -250,7 +250,7 @@ mcolor="none"				# mask background color
 crop="no"					# crop mask to bounding box
 unrotate="no"				# unrotate and trim mask result
 fuzzval=10					# unrotate fuzz value
-rotate=0					# post process rotate 0, 90, 180, 270, -90
+rotate=0					# post process rotate 0, 90, 180, 270, -90 
 info="no"					# list angle, cropbox, aspect, control points information
 show="none"					# save, view or none
 debug="false"
@@ -263,13 +263,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -314,21 +314,21 @@ else
 				   ;;
 			-p)    # get  procedure
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID PROCEDURE SPECIFICATION ---"
 				   checkMinus "$1"
 				   procedure="$1"
-				   case "$procedure" in
+				   case "$procedure" in 
 						deskew) procedure=deskew;;
 						unrotate) procedure=unrotate;;
 						unperspective) procedure=unperspective;;
 						mask) procedure=mask;;
-						*) errMsg "--- PROCEDURE=$procedure IS AN INVALID VALUE ---"
+						*) errMsg "--- PROCEDURE=$procedure IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-c)    # coords
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 				   checkMinus "$1"
 				   # further testing done later
@@ -339,7 +339,7 @@ else
 				   ;;
 			-e)    # extend
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID EXTEND SPECIFICATION ---"
 				   checkMinus "$1"
 				   extend=`expr "$1" : '\([0-9]*\)'`
@@ -347,7 +347,7 @@ else
 				   ;;
 			-t1)   # thresh1
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID THRESH1 SPECIFICATION ---"
 				   checkMinus "$1"
 				   thresh1=`expr "$1" : '\([0-9]*\)'`
@@ -358,7 +358,7 @@ else
 				   ;;
 			-t2)   # thresh2
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID THRESH2 SPECIFICATION ---"
 				   checkMinus "$1"
 				   thresh2=`expr "$1" : '\([0-9]*\)'`
@@ -369,7 +369,7 @@ else
 				   ;;
 			-t3)   # thresh3
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID THRESH3 SPECIFICATION ---"
 				   checkMinus "$1"
 				   thresh3=`expr "$1" : '\([0-9]*\)'`
@@ -380,7 +380,7 @@ else
 				   ;;
 			-f)    # filtsize
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID FILTSIZE SPECIFICATION ---"
 				   checkMinus "$1"
 				   filtsize=`expr "$1" : '\([0-9]*\)'`
@@ -394,7 +394,7 @@ else
 				   ;;
 			-w)    # width
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 				   checkMinus "$1"
 				   width=`expr "$1" : '\([0-9]*\)'`
@@ -404,7 +404,7 @@ else
 				   ;;
 			-h)    # height
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID HEIGHT SPECIFICATION ---"
 				   checkMinus "$1"
 				   height=`expr "$1" : '\([0-9]*\)'`
@@ -414,17 +414,17 @@ else
 				   ;;
 			-d)    # get  dimensions
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID DIMENSIONS SPECIFICATION ---"
 				   checkMinus "$1"
 				   dimensions=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-				   case "$dimensions" in
+				   case "$dimensions" in 
 						el) dimensions=el;;
 						bh) dimensions=bh;;
 						bw) dimensions=bw;;
 						h) dimensions=h;;
 						w) dimensions=w;;
-						*) errMsg "--- DIMENSIONS=$default IS AN INVALID VALUE ---"
+						*) errMsg "--- DIMENSIONS=$default IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-s)    # scolor
@@ -433,7 +433,7 @@ else
 				   ;;
 			-L)    # linewidth
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID LINEWIDTH SPECIFICATION ---"
 				   checkMinus "$1"
 				   linewidth=`expr "$1" : '\([0-9]*\)'`
@@ -445,31 +445,31 @@ else
 				   ;;
 			-u)    # unrotate
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID UNROTATE SPECIFICATION ---"
 				   checkMinus "$1"
 				   unrotate=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-				   case "$unrotate" in
+				   case "$unrotate" in 
 						yes|y) unrotate=yes;;
 						no|n) unrotate=no;;
-						*) errMsg "--- UNROTATE=$unrotate IS AN INVALID VALUE ---"
+						*) errMsg "--- UNROTATE=$unrotate IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-C)    # crop
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID CROP SPECIFICATION ---"
 				   checkMinus "$1"
 				   crop=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-				   case "$crop" in
+				   case "$crop" in 
 						yes|y) crop=yes;;
 						no|n) crop=no;;
-						*) errMsg "--- CROP=$crop IS AN INVALID VALUE ---"
+						*) errMsg "--- CROP=$crop IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-F)    # fuzzval
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 				   checkMinus "$1"
 				   fuzzval=`expr "$1" : '\([0-9]*\)'`
@@ -480,42 +480,42 @@ else
 				   ;;
 			-R)    # get  rotate
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID ROTATE SPECIFICATION ---"
 				   #checkMinus "$1"
 				   rotate="$1"
-				   case "$rotate" in
+				   case "$rotate" in 
 						0) rotate=0;;
 						90) rotate=90;;
 						180) rotate=180;;
 						270) rotate=270;;
 						-90) rotate=-90;;
-						*) errMsg "--- ROTATE=$rotate IS AN INVALID VALUE ---"
+						*) errMsg "--- ROTATE=$rotate IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-I)    # info
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID INFO SPECIFICATION ---"
 				   checkMinus "$1"
 				   info=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-				   case "$info" in
+				   case "$info" in 
 						yes|y) info=yes;;
 						no|n) info=no;;
-						*) errMsg "--- INFO=$info IS AN INVALID VALUE ---"
+						*) errMsg "--- INFO=$info IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-S)    # get  show
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SHOW SPECIFICATION ---"
 				   checkMinus "$1"
 				   show="$1"
-				   case "$show" in
+				   case "$show" in 
 						none|n) show=none;;
 						view|v) show=view;;
 						save|s) show=save;;
-						*) errMsg "--- SHOW=$show IS AN INVALID VALUE ---"
+						*) errMsg "--- SHOW=$show IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			 -)    # STDIN and end of arguments
@@ -621,7 +621,7 @@ get_ABC_coefs()
 	C=`convert xc: -format "%[fx:($y1*($x1-$x2) - $x1*($y1-$y2))]" info:`
 	# NOTE: bc calcs give parse errors when x or y is negative
 	}
-
+	
 get_intersection()
 	{
 	A1=$1
@@ -652,7 +652,7 @@ get_intersection()
 	if $debug; then
 		echo "X=$X; Y=$Y;"
 	fi
-	}
+	} 
 
 # reference: http://research.microsoft.com/en-us/um/people/zhang/papers/tr03-39.pdf
 compute_aspect_ratio()
@@ -694,7 +694,7 @@ compute_aspect_ratio()
 		echo "m4x=$m4x; m4y=$m4y"
 		echo ""
 	fi
-
+	
 	#simplified equations, assuming u0=0, v0=0, s=1
 	k2=`echo "scale=8; (($m1y - $m4y)*$m3x - ($m1x - $m4x)*$m3y + $m1x*$m4y - $m1y*$m4x)/(($m2y- $m4y)*$m3x - ($m2x - $m4x)*$m3y + $m2x*$m4y - $m2y*$m4x)" | bc`
 	k3=`echo "scale=8; (($m1y - $m4y)*$m2x - ($m1x - $m4x)*$m2y + $m1x*$m4y - $m1y*$m4x)/(($m3y- $m4y)*$m2x - ($m3x - $m4x)*$m2y + $m3x*$m4y - $m3y*$m4x)" | bc`
@@ -732,8 +732,8 @@ fi
 if $debug; then
 	echo "bcolor=$bcolor;"
 fi
-
-# read the input image, test if valid,
+	
+# read the input image, test if valid, 
 convert -quiet "$infile" -bordercolor "$bcolor" $padding +repage $tmpI1	||
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO size  ---"
 
@@ -817,7 +817,7 @@ if $debug; then
 fi
 
 
-# compute canny image, hough image, hough mvg file
+# compute canny image, hough image, hough mvg file 
 convert "$img" $write1 \
 	\( +clone -colorspace gray -auto-level -canny 0x3+${thresh1}%+${thresh2}% $write2 \
 	-background none -fill "$scolor" -stroke "$scolor" -strokewidth $linewidth \
@@ -884,7 +884,7 @@ for ((j=0; j<4; j++)); do
 			A2=$A
 			B2=$B
 			C2=$C
-
+			
 			get_intersection "$A1" "$B1" "$C1" "$A2" "$B2" "$C2"
 			if $debug; then
 				echo "X=$X; Y=$Y;"
@@ -960,7 +960,7 @@ if [ "$procedure" = "deskew" -o "$procedure" = "unrotate" ]; then
 
 	# crop the image
 	convert $tmpD1 -crop $cropbox +repage $rotating "$outfile"
-
+	
 elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 
 	# convert intersection points to polar coordinates to get the rotation relative to the x axis
@@ -981,7 +981,7 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 			echo "$i rotArr=${rotArr[$i]}"
 		fi
 	done
-
+	
 	# sort by angle
 	# arctan in image coordinates goes from -180 to 0 to 180 (where the x-axis to the right and the y-axis downward)
 	# zero angle is along y downward
@@ -1011,7 +1011,7 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 			echo ""
 		fi
 	done
-
+	
 	# set up for trimming of mask
 	if [ "$crop" = "yes" ]; then
 		trimming="-trim +repage"
@@ -1019,7 +1019,7 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 		trimming=""
 	fi
 	#echo "trimming=$trimming"
-
+	
 
 	if [ "$procedure" = "mask" -a "$mcolor" != "none" ]; then
 		convert $tmpI1 \
@@ -1031,7 +1031,7 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 			"$outfile"
 		if [ "$unrotate" = "yes" ]; then
 			unrotate -f $fuzzval "$outfile" "$outfile"
-			[ $rotate -ne 0 ] && convert "$outfile" $rotating "$outfile"
+			[ $rotate -ne 0 ] && convert "$outfile" $rotating "$outfile"			
 		fi
 
 	elif [ "$procedure" = "mask" -a "$mcolor" = "none" ]; then
@@ -1043,7 +1043,7 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 			"$outfile"
 		if [ "$unrotate" = "yes" ]; then
 			unrotate -f $fuzzval "$outfile" "$outfile"
-			[ $rotate -ne 0 ] && convert "$outfile" $rotating "$outfile"
+			[ $rotate -ne 0 ] && convert "$outfile" $rotating "$outfile"			
 		fi
 
 	elif [ "$procedure" = "unperspective" ]; then
@@ -1067,7 +1067,7 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 			echo "xmax=$xmax; ymax=$ymax; xmin=$xmin; ymin=$ymin; wd=$wd; ht=$ht;"
 		fi
 
-
+		
 		# compute longest edge length from intersection POINTS
 		maxlen=0
 		for ((i=0; i<4; i++)); do
@@ -1075,7 +1075,7 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 			xa=${xsortArr[$i]}
 			ya=${ysortArr[$i]}
 			xb=${xsortArr[$j]}
-			yb=${ysortArr[$j]}
+			yb=${ysortArr[$j]}			
 			dist=`convert xc: -format "%[fx:round(hypot($xa-$xb,$ya-$yb))]" info:`
 			distArr[$i]=$dist
 			[ $dist -gt $maxlen ] && maxlen=$dist
@@ -1136,10 +1136,10 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 		opt1="0,$oh"
 		opt2="$ow,$oh"
 		opt3="$ow,0"
-
+		
 		cpts="${ptArr[0]} $opt0  ${ptArr[1]} $opt1  ${ptArr[2]} $opt2  ${ptArr[3]} $opt3"
 		[ "$info" = "yes" -o "$debug" = "true" ] && echo "cpts=$cpts;"
-
+		
 		# enable alpha channel if mcolor is not fully opaque
 		test=`convert xc:"$mcolor" -alpha extract -format "%[fx:u==1:1:0]" info:`
 		if [ $test -eq 0 ]; then
@@ -1147,7 +1147,7 @@ elif [ "$procedure" = "unperspective" -o "$procedure" = "mask" ]; then
 		else
 			aproc=""
 		fi
-
+		
 		convert $tmpI1 $aproc -background "$mcolor" -virtual-pixel background \
 			-define distort:viewport=${ow}x${oh}+0+0 +distort perspective "$cpts" +repage \
 			$rotating "$outfile"
@@ -1168,5 +1168,5 @@ if [ "$show" = "view" ]; then
 	rm ${inname}_deskew.png ${inname}_canny.gif ${inname}_hough.png ${inname}_hough_longest4.png ${inname}_cropbox.png
 fi
 
-
+	
 exit 0

@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 6/1/2008 .......... revised 6/2/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: variableblur [-m maxblur] [-n numblurs] infile maskfile outfile
@@ -38,32 +38,32 @@
 #
 ###
 #
-# NAME: VARIABLEBLUR
-#
+# NAME: VARIABLEBLUR 
+# 
 # PURPOSE: To apply a variable blur to an image based upon a mask image.
-#
-# DESCRIPTION: VARIABLEBLUR applies a variable blur to an image based
+# 
+# DESCRIPTION: VARIABLEBLUR applies a variable blur to an image based 
 # upon a mask image. The brighter the mask image the larger the blur.
-# Limiting factors are determined by the user supplied parameters:
-# maxblur and numblurs. This is most useful when the mask is a radial
+# Limiting factors are determined by the user supplied parameters: 
+# maxblur and numblurs. This is most useful when the mask is a radial 
 # gradient. It then blurs around the main subject of the image.
-#
-# OPTIONS:
-#
-# -m maxblur ... MAXBLUR is the maximum amount of blur in pixels when the
-# mask image is fully white. No blur is applied where the image is
-# fully black. Values must be integers>1. Typical values are less than
+# 
+# OPTIONS: 
+# 
+# -m maxblur ... MAXBLUR is the maximum amount of blur in pixels when the 
+# mask image is fully white. No blur is applied where the image is 
+# fully black. Values must be integers>1. Typical values are less than 
 # or equal to 32. The default is 16.
 #
-# -n numblurs ... NUMBLURS is the number of evenly spaced blur increments
-# up to maxblur. Values are integers between 2 and maxblur-1.
-# The default=maxblur-1. For improved performance with slight loss
+# -n numblurs ... NUMBLURS is the number of evenly spaced blur increments 
+# up to maxblur. Values are integers between 2 and maxblur-1. 
+# The default=maxblur-1. For improved performance with slight loss 
 # of quality when maxblur is large, use numblurs=maxblur/2.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -78,13 +78,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -132,7 +132,7 @@ else
 					   ;;
 				-m)    # get maxblur
 					   shift  # to get the next parameter - maxblur
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MAXBLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   maxblur=`expr "$1" : '\([0-9]*\)'`
@@ -142,7 +142,7 @@ else
 					   ;;
 				-n)    # get numblurs
 					   shift  # to get the next parameter - numblurs
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMBLURS SPECIFICATION ---"
 					   checkMinus "$1"
 					   numblurs=`expr "$1" : '\([0-9]*\)'`
@@ -262,3 +262,7 @@ count1=`expr $j + 1`
 convert $images -monitor \
 	-fx "aa=$count*u[$count1]; xx=floor(aa); ff=aa-xx; yy=xx+1; u[xx]+ff*(u[yy]-u[xx])" "$outfile"
 exit 0
+
+
+
+

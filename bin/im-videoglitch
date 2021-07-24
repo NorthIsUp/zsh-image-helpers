@@ -3,97 +3,97 @@
 # Developed by Fred Weinhaus 9/29/2018 .......... revised 1/31/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: videoglitch [-c colors] [-d distance] [-a amplitude ] [-n number]
+# USAGE: videoglitch [-c colors] [-d distance] [-a amplitude ] [-n number] 
 # [-t thickness] [-j jaggedness] [-r reseed] infile outfile
-#
+# 
 # USAGE: videoglitch [-h|-help]
-#
+# 
 # OPTIONS:
-#
-# -c     colors         colors to use in channel separation; choices are: red-cyan,
+# 
+# -c     colors         colors to use in channel separation; choices are: red-cyan, 
 #                       green-magenta and blue-yellow; default=red-cyan
-# -d     distance       separation distance of colors; integer (positive or negative);
+# -d     distance       separation distance of colors; integer (positive or negative); 
 #                       default=-5
 # -a     amplitude      amplitude of distortion; integer>=0; default=45
 # -n     number         number of non-glitch spacer segments; integer>0; default=5
-# -t     thickness      thickness (height) of non-glitch spacer segments; integer>=0;
+# -t     thickness      thickness (height) of non-glitch spacer segments; integer>=0; 
 #                       default=25
 # -j     jaggedness     jaggedness of glitches; integer>0; default=20
-# -r     reseed         seed value for random number generator used for the glitches;
+# -r     reseed         seed value for random number generator used for the glitches; 
 #                       integer>=0; default=101
-#
+# 
 ###
-#
-# NAME: VIDEOGLITCH
-#
+# 
+# NAME: VIDEOGLITCH 
+# 
 # PURPOSE: To apply a video glitch effect to an image.
-#
-# DESCRIPTION: VIDEOGLITCH applies a video glitch effect to an image. The effect is
-# composed of two parts. The first part is to make a horizontal separation between
-# the red and cyan coloring channels. The second part is to add random horizontal
-# offsets. The random offsets are created from a one column random image with height
-# the same as the input image. Then random height constant gray segments are randomly
-# placed over and replacing parts of the random column image. This image is then
-# expanded horizontally to fill the the width of the input image and used as a
+# 
+# DESCRIPTION: VIDEOGLITCH applies a video glitch effect to an image. The effect is 
+# composed of two parts. The first part is to make a horizontal separation between 
+# the red and cyan coloring channels. The second part is to add random horizontal 
+# offsets. The random offsets are created from a one column random image with height 
+# the same as the input image. Then random height constant gray segments are randomly  
+# placed over and replacing parts of the random column image. This image is then  
+# expanded horizontally to fill the the width of the input image and used as a 
 # displacement map applied to the input image.
-#
-# ARGUMENTS:
-#
-# -c colors ... COLORS to use in channel separation. The choices are: red-cyan (rc),
+# 
+# ARGUMENTS: 
+# 
+# -c colors ... COLORS to use in channel separation. The choices are: red-cyan (rc), 
 # green-magenta (gm) and blue-yellow (by). The default=red-cyan.
-#
-# -d distance ... DISTANCE is the separation distance of the red-cyan channels in the
-# output. Values are integers (positive or negative which controls the direction).
+# 
+# -d distance ... DISTANCE is the separation distance of the red-cyan channels in the 
+# output. Values are integers (positive or negative which controls the direction). 
 # The default=-5.
-#
-# -a amplitude ... AMPLITUDE of the horizontal distortion of the glitches. Values
+# 
+# -a amplitude ... AMPLITUDE of the horizontal distortion of the glitches. Values 
 # are integers>=0. The default=45.
-#
-# -n number ... NUMBER of non-glitch gray spacer segments in the displacement map.
+# 
+# -n number ... NUMBER of non-glitch gray spacer segments in the displacement map. 
 # Values are integers>0. The default=5.
-#
-# -t thickness ... THICKNESS (or height) of the non-glitch spacer segments. Values
+# 
+# -t thickness ... THICKNESS (or height) of the non-glitch spacer segments. Values 
 # are integers>=0. The default=25.
-#
+# 
 # -j jaggedness ... JAGGEDNESS of the glitches. Values are integers>0. The default=20.
-#
-# -r reseed ... RESEED is the initial seed value for the random number generator.
+# 
+# -r reseed ... RESEED is the initial seed value for the random number generator. 
 # Values are integers>=0. Default=101.
-#
+# 
 # NOTE: This script is not designed for images with transparency.
-#
-# REQUIREMENTS: IM 6.9.9.26 or higher or IM 7.0.7.14 or higher due to the use of
+# 
+# REQUIREMENTS: IM 6.9.9.26 or higher or IM 7.0.7.14 or higher due to the use of 
 # -compose stereo.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 colors="red-cyan"
@@ -112,13 +112,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -166,7 +166,7 @@ else
 					   ;;
 			   	-c)    # colors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -179,7 +179,7 @@ else
 					   ;;
 				-d)    # get distance
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISTANCE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   distance=`expr "$1" : '\([-0-9]*\)'`
@@ -187,7 +187,7 @@ else
 					   ;;
 				-a)    # get amplitude
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMPLITUDE SPECIFICATION ---"
 					   checkMinus "$1"
 					   amplitude=`expr "$1" : '\([0-9]*\)'`
@@ -195,7 +195,7 @@ else
 					   ;;
 				-n)    # get number
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMBER SPECIFICATION ---"
 					   #checkMinus "$1"
 					   number=`expr "$1" : '\([0-9]*\)'`
@@ -205,7 +205,7 @@ else
 					   ;;
 				-t)    # get thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -213,7 +213,7 @@ else
 					   ;;
 				-j)    # get jaggedness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID JAGGEDNESS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   jaggedness=`expr "$1" : '\([0-9]*\)'`
@@ -223,7 +223,7 @@ else
 					   ;;
 				-r)    # get reseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   reseed=`expr "$1" : '\([0-9]*\)'`
@@ -269,7 +269,7 @@ WxH=`convert -ping $tmpA1 -format "%wx%h" info:`
 wd=`echo $WxH | cut -dx -f1`
 ht=`echo $WxH | cut -dx -f2`
 
-# create random length lines for constant gray sections to overlay on random column image below
+# create random length lines for constant gray sections to overlay on random column image below 
 draw_args="line 0,0"
 for ((i=0; i<number; i++)); do
 y1=`convert xc: -seed $reseed -format "%[fx:round(($i+1)*$ht/$number + (random()>0.5?1:-1)*$ht/(3*$number))]" info:`
@@ -304,5 +304,8 @@ convert $tmpA1 \( +clone \) -colorspace gray -geometry ${distance}+0 -compose st
 	-define compose:args=${amplitude},0 -compose displace -composite \
 	$cproc \
 	"$outfile"
-
+	
 exit 0
+
+
+

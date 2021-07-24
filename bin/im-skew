@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 8/6/2008 ..........4/15/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: skew [-a amount] [-m mode] [-d direction] [-v vpmethod] [-b bgcolor] infile outfile
@@ -31,14 +31,14 @@
 #
 # OPTIONS:
 #
-# -a      amount           amount of skew as either degrees or pixels as
+# -a      amount           amount of skew as either degrees or pixels as 
 #                          specified by mode; default=0
 # -m      mode             degrees or pixels; default=degrees
-# -d      direction		   b2r, b2l, r2b or r2t; first letter indicates
-#                          which edge (bottom or right) to skew and the
-#                          last letter indicates which direction to skew
+# -d      direction		   b2r, b2l, r2b or r2t; first letter indicates 
+#                          which edge (bottom or right) to skew and the 
+#                          last letter indicates which direction to skew 
 #                          (right, left, bottom or top)
-# -v      vpmethod         virtual-pixel method to fill background area
+# -v      vpmethod         virtual-pixel method to fill background area 
 #                          around skewed region; default=transparent
 # -b      bgcolor          skew fill color when vpmethod=background; any
 #                          IM color specification or none; default is white
@@ -46,48 +46,48 @@
 ###
 #
 # NAME: SKEW
-#
+# 
 # PURPOSE: Applies a skew distortion to an image.
-#
-# DESCRIPTION: SKEW applies a skew distortion to an image in either the X
-# or the Y direction. The amount of skew can be specified in degrees or pixels.
-#
-# OPTIONS:
-#
-# -a amount ... AMOUNT of skew in either degrees or pixels as specified by the
+# 
+# DESCRIPTION: SKEW applies a skew distortion to an image in either the X 
+# or the Y direction. The amount of skew can be specified in degrees or pixels. 
+#  
+# OPTIONS: 
+# 
+# -a amount ... AMOUNT of skew in either degrees or pixels as specified by the 
 # mode parameter. The default is 0 or no skew.
 #
-# -m mode ... MODE specifies whether the amount is in degrees or pixels. The
+# -m mode ... MODE specifies whether the amount is in degrees or pixels. The 
 # default is degrees.
-#
-# -d direction ... DIRECTION specifies whether the skew is horizontal or vertical
-# and at the same time whether positive or negative. This is done via the following
-# options: b2r, b2l, r2b or r2t. These stand for: shift the bottom edge to the right,
-# shift the bottom edge to the left, shift the right edge to the bottom and shift
+# 
+# -d direction ... DIRECTION specifies whether the skew is horizontal or vertical 
+# and at the same time whether positive or negative. This is done via the following 
+# options: b2r, b2l, r2b or r2t. These stand for: shift the bottom edge to the right, 
+# shift the bottom edge to the left, shift the right edge to the bottom and shift 
 # the right edge to the top. The default is b2r (shift the bottom edge to the right).
-#
-# -v vpmethod ... VPMETHOD is the virtual-pixel method to use to fill the area added
-# due to the skew. Any valid IM virtual-pixel method is allowed. The default is
+# 
+# -v vpmethod ... VPMETHOD is the virtual-pixel method to use to fill the area added 
+# due to the skew. Any valid IM virtual-pixel method is allowed. The default is 
 # background.
 #
-# -b bgcolor ... BGCOLOR specifies the background color to use as the fill color for
-# areas added due to the skew when the virtual-pixel method is background. Any valid
-# IM color may be used including none. The default is none. Note that none will only
-# provide transparency for the fill areas, if the output image type supports transparency,
-# e.g. png or gif. If none is specified and the output type does not support transparency,
+# -b bgcolor ... BGCOLOR specifies the background color to use as the fill color for 
+# areas added due to the skew when the virtual-pixel method is background. Any valid 
+# IM color may be used including none. The default is none. Note that none will only 
+# provide transparency for the fill areas, if the output image type supports transparency, 
+# e.g. png or gif. If none is specified and the output type does not support transparency, 
 # such as for jpg, then the resulting fill color will end up black.
-#
-# REQUIREMENTS: This script works properly as of IM 6.4.2-7 when some fixes were made to
-# -affine -transform. For IM versions prior to this, the script will work to skew the
-# image. The virtual-pixel methods are ignored, But background color control may not
-# work as specified. Results may end up with transparent areas even if undesired for
-# output image types that support transparency, such as gif and png. Also there may be
+# 
+# REQUIREMENTS: This script works properly as of IM 6.4.2-7 when some fixes were made to 
+# -affine -transform. For IM versions prior to this, the script will work to skew the 
+# image. The virtual-pixel methods are ignored, But background color control may not 
+# work as specified. Results may end up with transparent areas even if undesired for 
+# output image types that support transparency, such as gif and png. Also there may be  
 # an artifact showing for -d r2l results, especially when the background is transparent.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -107,13 +107,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -161,7 +161,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter - amount
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([.0-9]*\)'`
@@ -169,7 +169,7 @@ else
 					   ;;
 		 		-m)    # mode
 					   shift  # to get the next parameter - mode
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test mode values
@@ -178,7 +178,7 @@ else
 					   ;;
 		 		-d)    # direction
 					   shift  # to get the next parameter - direction
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test direction values
@@ -197,14 +197,14 @@ else
 						;;
 			   -v)    # get  vpmethod
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIRTUAL-PIXEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   vpmethod="$1"
 					   ;;
 		 		-b)    # bgcolor
 					   shift  # to get the next parameter - color
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -214,7 +214,7 @@ else
   				 	   ;;
 				-*)    # any other - argument
 					   errMsg "--- UNKNOWN OPTION ---"
-					   ;;
+					   ;;					   
 		     	 *)    # end of arguments
 					   break
 					   ;;
@@ -289,7 +289,7 @@ echo "tanang=$tanang;"
 						+distort AffineProjection "1,$tanang,0,1,0,0" "$outfile"
 						;;
 		esac
-
+	
 	elif [ "$mode" = "pixels" ]; then
 	   amount=`expr "$amount" : '\([0-9]*\)'`
 	   [ "$amount" = "" ] && errMsg "AMOUNT=$amount MUST BE A NON-NEGATIVE INTEGER"
@@ -340,7 +340,7 @@ else
 						-transform "$outfile"
 						;;
 		esac
-
+	
 	elif [ "$mode" = "pixels" ]; then
 	   amount=`expr "$amount" : '\([0-9]*\)'`
 	   [ "$amount" = "" ] && errMsg "AMOUNT=$amount MUST BE A NON-NEGATIVE INTEGER"

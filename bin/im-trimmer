@@ -1,95 +1,95 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 5/14/2009 .......... revised 9/5/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: trimmer [-s sides] [-f fuzzval] [-b bcolor] [-g gcolor] infile outfile
 # USAGE: trimmer [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -s       sides        comma delimited list of sides to trim; list can include
-#                       any combination of: north, east, south, west or just "all";
+# 
+# -s       sides        comma delimited list of sides to trim; list can include 
+#                       any combination of: north, east, south, west or just "all"; 
 #                       default=north
-# -f       fuzzamt      fuzz amount in percent for trimming border color; float;
+# -f       fuzzamt      fuzz amount in percent for trimming border color; float; 
 #                       fuzzamt>=0; default=0
-# -b       bcolor       background color for area to trim; any valid IM color
-#                       may be specified; default will be determined automatically
+# -b       bcolor       background color for area to trim; any valid IM color 
+#                       may be specified; default will be determined automatically 
 #                       from the average color of all specified sides
-# -g       gcolor       guard color used to preserve sides not be trimmed;
-#                       any valid IM color that is further from the background color
-#                       than the fuzzval; default will be determined automatically
-#                       as either the complement of the background color, black or
+# -g       gcolor       guard color used to preserve sides not be trimmed; 
+#                       any valid IM color that is further from the background color 
+#                       than the fuzzval; default will be determined automatically 
+#                       as either the complement of the background color, black or 
 #                       white whichever is furthest from the background color.
-#
+# 
 ###
-#
-# NAME: TRIMMER
-#
+# 
+# NAME: TRIMMER 
+#  
 # PURPOSE: To trim the background from any number of specified sides of an image.
-#
-# DESCRIPTION: TRIMMER trims the background from any number of specified sides
-# of an image. The user may specify from one to four sides as a comma delimited list
-# that is enclosed in quotes. A fuzz value may be specified if the background is not
+# 
+# DESCRIPTION: TRIMMER trims the background from any number of specified sides 
+# of an image. The user may specify from one to four sides as a comma delimited list 
+# that is enclosed in quotes. A fuzz value may be specified if the background is not 
 # a constant color.
-#
-#
-# Arguments:
-#
-# -s sides --- SIDES is a comma delimited list of the sides to be trimmed enclosed
-# in quotes. Any number of sides from one to four may be specified. The list can
-# include any combination of: north, east, south, west or just "all".
+# 
+# 
+# Arguments: 
+# 
+# -s sides --- SIDES is a comma delimited list of the sides to be trimmed enclosed 
+# in quotes. Any number of sides from one to four may be specified. The list can 
+# include any combination of: north, east, south, west or just "all". 
 # The default=north.
-#
-# -f fuzzamt --- FUZZAMT is the fuzz amount specified as a float percent greater
-# than zero (without the % sign). The default is zero which indicates that border
+# 
+# -f fuzzamt --- FUZZAMT is the fuzz amount specified as a float percent greater 
+# than zero (without the % sign). The default is zero which indicates that border 
 # is a uniform color. Larger values are needed when the border is not a uniform color.
-#
-# -b bcolor --- BCOLOR is the background color for the area to trim. Any valid IM
-# color may be specified. The default will be determined automatically from the
-# average color of all specified sides. There is no guarantee that this will be
+# 
+# -b bcolor --- BCOLOR is the background color for the area to trim. Any valid IM  
+# color may be specified. The default will be determined automatically from the  
+# average color of all specified sides. There is no guarantee that this will be 
 # accurate. So if it does not work, then you will need to supply the border color.
-#
-# -g gcolor --- GCOLOR is the guard color used to preserve the side that are not
-# to be trimmed. Any valid IM color may be specified that is further from the
-# background color than the fuzzval. The default will be determined automatically
-# as either the complement of the background color, black or white whichever is
-# furthest from the background color. There is no guarantee that this will be
+# 
+# -g gcolor --- GCOLOR is the guard color used to preserve the side that are not 
+# to be trimmed. Any valid IM color may be specified that is further from the 
+# background color than the fuzzval. The default will be determined automatically 
+# as either the complement of the background color, black or white whichever is 
+# furthest from the background color. There is no guarantee that this will be 
 # accurate. So if it does not work, then you will need to supply the guard color.
-#
-# NOTE: This script will not trim more than half way in any dimension. Also for
+# 
+# NOTE: This script will not trim more than half way in any dimension. Also for 
 # images with transparency, you will have to provide a guard color.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
-# set default values;
+# set default values; 
 sides="north"			# comma delimited list: north, south, east, west, all
 fuzzamt=0				# fuzz amount in percent
 bcolor=""				# background color; use none for transparent background
@@ -102,13 +102,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -153,7 +153,7 @@ else
 				   ;;
 			-s)    # sides
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SIDES SPECIFICATION ---"
 				   checkMinus "$1"
 				   sides=$1
@@ -161,7 +161,7 @@ else
 				   ;;
 			-f)    # fuzzamt
 				   shift  # to get the next parameter - fuzzval
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID FUZZAMT SPECIFICATION ---"
 				   checkMinus "$1"
 				   fuzzamt=`expr "$1" : '\([.0-9]*\)'`
@@ -171,14 +171,14 @@ else
 				   ;;
 			-b)    # bcolor
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 				   checkMinus "$1"
 				   bcolor=$1
 				   ;;
 			-g)    # gcolor
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID GUARD COLOR SPECIFICATION ---"
 				   checkMinus "$1"
 				   gcolor=$1
@@ -231,7 +231,7 @@ num=${#sidesArray[*]}
 i=0
 while [ $i -lt $num ]; do
 	side="${sidesArray[$i]}"
-	case "$side" in
+	case "$side" in 
 		north) ;;
 		east) ;;
 		south) ;;
@@ -263,7 +263,7 @@ if [ "$sides_list" = "all" -o $num -eq 4 ]; then
 fi
 
 
-# change sides to "remove" to sides to "preserve" by
+# change sides to "remove" to sides to "preserve" by 
 # deleting elements from list of all possible values
 pSidesArray=(north east south west)
 i=0
@@ -286,7 +286,7 @@ pnum="${#pSidesArray[*]}"
 
 if [ "$bcolor" = "" ]; then
 	# get average color of specified sides
-
+	
 	# get width and height and sides to be removed
 	ww=`identify -ping -format "%w" $tmpA`
 	hh=`identify -ping -format "%h" $tmpA`
@@ -294,7 +294,7 @@ if [ "$bcolor" = "" ]; then
 	[ "${sidesArray[1]}" != "" ] && side2="${sidesArray[1]}"
 	[ "${sidesArray[2]}" != "" ] && side3="${sidesArray[2]}"
 	[ "${sidesArray[3]}" != "" ] && side4="${sidesArray[3]}"
-
+	
 	# get average colors for all four outer edges
 	color_north=`convert ${infile} -gravity north -crop ${ww}x1+0+0 +repage -format '%[pixel:s.p{0,0}]' info:`
 	color_east=`convert ${infile} -gravity east -crop 1x${hh}+0+0 +repage -format '%[pixel:s.p{0,0}]' info:`
@@ -334,10 +334,10 @@ if [ "$gcolor" = "" ]; then
 	# that seems to work
 	ncolor=`convert -size 1x1 xc:"$bcolor" \
 		-negate -format '%[pixel:s.p{0,0}]' info:`
-
-	# test differnce between background color (in percent) with complement (in percent)
+	
+	# test differnce between background color (in percent) with complement (in percent) 
 	# and also with opaque black and opaque white
-	# choose color that is furtherest (largest diff) from background color
+	# choose color that is furtherest (largest diff) from background color 
 	# to use as guard color
 	diffn=`compare -metric rmse -size 1x1 xc:"$bcolor" xc:"$ncolor" null: 2>&1 | \
 		sed -n 's/^.*[(]\(.*\)[)].*$/\1/p'`
@@ -364,7 +364,7 @@ while [ $i -lt $pnum ]; do
 		amountsArray[$i]="0x1+0+0"
 	elif [ "$side" = "south" ]; then
 		amountsArray[$i]="0x1+0+0"
-	elif [ "$side" = "west" ]; then
+	elif [ "$side" = "west" ]; then 
 		amountsArray[$i]="1x0+0+0"
 	elif [ "$side" = "east" ]; then
 		amountsArray[$i]="1x0+0+0"

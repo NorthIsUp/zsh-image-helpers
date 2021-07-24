@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/5/2013 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: limitedtrim [-t trimlimit] [-f fuzzval] infile outfile
@@ -31,8 +31,8 @@
 #
 # OPTIONS:
 #
-# -t     trimlimit     limit on amount of trim in pixels; integer>=0;
-#                      default will limit the trim to smallest trim amount
+# -t     trimlimit     limit on amount of trim in pixels; integer>=0; 
+#                      default will limit the trim to smallest trim amount 
 #                      from all the sides
 # -f     fuzzval       fuzz value (color tolerance) percent for trimming;
 #                      float>=0; default=0
@@ -40,26 +40,26 @@
 ###
 #
 # NAME: LIMITEDTRIM
-#
-# PURPOSE: To trim an image on all sides by a maximum amount specified by the
+# 
+# PURPOSE: To trim an image on all sides by a maximum amount specified by the 
 # user.
-#
-# DESCRIPTION: LIMITEDTRIM trims an image on all sides by a maximum amount
+# 
+# DESCRIPTION: LIMITEDTRIM trims an image on all sides by a maximum amount  
 # specified by the user.
-#
-# OPTIONS:
-#
-# -t trimlimit ... TRIMLIMIT is maximum amount of trim in pixels. Values are
-# integesr>=0. The default will limit the trim to smallest trim amount from all
+# 
+# OPTIONS: 
+# 
+# -t trimlimit ... TRIMLIMIT is maximum amount of trim in pixels. Values are 
+# integesr>=0. The default will limit the trim to smallest trim amount from all 
 # the sides.
-#
-# -f fuzzval ... FUZZVAL is fuzz value (color tolerance) percent associated
+# 
+# -f fuzzval ... FUZZVAL is fuzz value (color tolerance) percent associated  
 # with trimming. Values are floats greater than or equal to zero. The default=0
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -75,13 +75,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -129,7 +129,7 @@ else
 					   ;;
 				-t)    # trimlimit
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TRIMLIMIT SPECIFICATION ---"
 					   checkMinus "$1"
 					   trimlimit=`expr "$1" : '\([0-9]*\)'`
@@ -137,7 +137,7 @@ else
 					   ;;
 				-f)    # fuzzval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   fuzzval=`expr "$1" : '\([.0-9]*\)'`

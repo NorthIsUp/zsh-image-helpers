@@ -1,55 +1,55 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 7/2/2014 .......... revised 6/22/2016
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: houghlines [-d distinc] [-a anginc] [-m maskthresh] [-D dilation]
+# USAGE: houghlines [-d distinc] [-a anginc] [-m maskthresh] [-D dilation] 
 # [-b bgcolor] [-c color] [-t thickness] infile linefile [accumulatorfile]
 # USAGE: houghlines [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -d     dstinc         distance bin increment; float>0; default=1
 # -a     anginc         angle bin increment; float>0; default=1
-# -m     maskthresh     masking threshold; most critical parameter to find
-#                       peaks in the accumulator image (i.e., longest edges);
+# -m     maskthresh     masking threshold; most critical parameter to find 
+#                       peaks in the accumulator image (i.e., longest edges); 
 #                       0<integer<100; default=50
 # -D     dilation       mask dilation amount; integer>1; default=4
 # -b     bgcolor        background color for Hough lines
 # -c     color          color of Hough lines
 # -t     thickness      thickness of Hough lines; integer>0
 # -C                    apply contrast stretch to the accumulator image
-#
+# 
 ###
-#
-# NAME: HOUGHLINES
-#
-# PURPOSE: Uses the Hough Transform technique to compute and display straight
+# 
+# NAME: HOUGHLINES 
+# 
+# PURPOSE: Uses the Hough Transform technique to compute and display straight 
 # lines from a binary edge image.
-#
+# 
 # DESCRIPTION: Uses the Hough Transform technique to compute and display
 # straight lines from an input binary edge image. The input must be a binary
 # edge image that is created by any edge extraction technique. The Canny
@@ -60,59 +60,59 @@
 # need to be contrast stretched (-contrast-stretch 0x0.25% to see the data).
 # The accumulator horizontal axis corresponds to the line distance relative
 # to the upper left corner of the image and the vertical axis corresponds to
-# the angle of of the lines (0 to 180 deg). The horizontal dimension of the
-# accumulator image is 2*width+1 of the input image, since distances can be
+# the angle of of the lines (0 to 180 deg). The horizontal dimension of the 
+# accumulator image is 2*width+1 of the input image, since distances can be 
 # negative. The convergent points of the "butterfly patterns" are the relevant
-# peaks that are extracted to compute the straight lines. The line endpoints
-# are clipped to the dimensions of the input image. Note that this script was
-# a prototype for the IM development of -hough-lines and has the origin at
-# the top left corner rather than at the center as is done in the IM function.
+# peaks that are extracted to compute the straight lines. The line endpoints 
+# are clipped to the dimensions of the input image. Note that this script was 
+# a prototype for the IM development of -hough-lines and has the origin at 
+# the top left corner rather than at the center as is done in the IM function. 
 # The mask threshold argument is the critical parameter to locate the centers
-# of the "butterfly patterns" and thus extract the Hough lines. The script
+# of the "butterfly patterns" and thus extract the Hough lines. The script 
 # allows the user to specify both the distance increment and angle increment
-# contrary to the IM function -hough-lines, which is restricted to values of
+# contrary to the IM function -hough-lines, which is restricted to values of 
 # 1 for the increments.
-#
-# OPTIONS:
+# 
+# OPTIONS: 
 #
 # -d dstinc ... DSTINC is the distance bin increment. Values are float>0. The
 # default=1.
-#
-# -a anginc ... ANGINC is the angle bin increment. Values are float>0. The
+# 
+# -a anginc ... ANGINC is the angle bin increment. Values are float>0. The 
 # default=1.
-#
-# -m maskthresh ... MASKTHRESH is the masking threshold for creating a mask
-# from the accumulator image. This is the most critical parameter to find
-# peaks in the accumulator image (i.e., longest edges). Values are
-# 0<integer<100. The default=50. Larger values will produce fewer lines and
+# 
+# -m maskthresh ... MASKTHRESH is the masking threshold for creating a mask 
+# from the accumulator image. This is the most critical parameter to find 
+# peaks in the accumulator image (i.e., longest edges). Values are 
+# 0<integer<100. The default=50. Larger values will produce fewer lines and 
 # smaller values will produce more lines.
-#
-# -D dilation ... DILATION is the dilation amount applied to the mask image.
+# 
+# -D dilation ... DILATION is the dilation amount applied to the mask image.  
 # Values are integer>1. The default=4.
-#
-# -b bgcolor ... BGCOLOR is the background color for the Hough lines. Any
+# 
+# -b bgcolor ... BGCOLOR is the background color for the Hough lines. Any  
 # valid IM color is allowed. The default is black.
-#
-# -c color ... COLOR is the line color for the Hough lines. Any valid IM color
+# 
+# -c color ... COLOR is the line color for the Hough lines. Any valid IM color 
 # is allowed. The default is white.
 #
-# -t thickness ... THICKNESS is the thickness of the Hough lines. Values are
+# -t thickness ... THICKNESS is the thickness of the Hough lines. Values are 
 # integer>0. The default=2
-#
+# 
 # -C ... apply CONTRAST STRETCH to the accumulator image
-#
-# Limitations: Requires IM 6.8.8.6 or higher due to the use of
+# 
+# Limitations: Requires IM 6.8.8.6 or higher due to the use of 
 # -define identify:locate=maximum and -define identify:limit
-#
-# References:
+# 
+# References: 
 # http://undergraduate.csse.uwa.edu.au/units/CITS4240/Labs/Lab6/lab6.html
 # http://docs.opencv.org/doc/tutorials/imgproc/imgtrans/hough_lines/hough_lines.html
 # http://www.cs.sfu.ca/~hamarneh/ecopy/compvis1999_hough.pdf
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -139,13 +139,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -194,7 +194,7 @@ else
 					   ;;
 				-d)    # get distinc
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISTINC SPECIFICATION ---"
 					   checkMinus "$1"
 					   distinc=`expr "$1" : '\([.0-9]*\)'`
@@ -204,7 +204,7 @@ else
 					   ;;
 				-a)    # get anginc
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGINC SPECIFICATION ---"
 					   checkMinus "$1"
 					   anginc=`expr "$1" : '\([.0-9]*\)'`
@@ -214,7 +214,7 @@ else
 					   ;;
 				-m)    # get maskthresh
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MASKTHRESH SPECIFICATION ---"
 					   checkMinus "$1"
 					   maskthresh=`expr "$1" : '\([0-9]*\)'`
@@ -225,7 +225,7 @@ else
 					   ;;
 				-D)    # get dilation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DILATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dilation=`expr "$1" : '\([0-9]*\)'`
@@ -235,21 +235,21 @@ else
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-t)    # get thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -315,7 +315,7 @@ getPoints()
 	# point of intersection with normal from origin --> x0=dist*cos(angle), y0=dist*sin(angle) (from simple geometry)
 	# y=slope*x + yint = -(cos(angle)/sin(angle))*x + (dist/sin(angle))
 	# (y1-y0)/(x1-x0)=slope=-(cos(angle)/sin(angle)); thus
-	# (y1-y0)=t*cos(angle); (x1-x0)=-t*sin(angle);
+	# (y1-y0)=t*cos(angle); (x1-x0)=-t*sin(angle); 
 	# where t is distance along slope of line (parametric form) and a good overestimate is the diagonal of the input image plus a few pixels, say 5
 	dstbin=`echo "$location" | cut -d, -f1`
 	angbin=`echo "$location" | cut -d, -f2`
@@ -327,10 +327,10 @@ getPoints()
 	itan=`convert xc: -format "%[fx:$cos/($sin+$epsilon2)]" info:`
 	x0=`convert xc: -format "%[fx:$disto*$cos]" info:`
 	y0=`convert xc: -format "%[fx:$disto*$sin]" info:`
-
+	
 	slope=`convert -precision 7 xc: -format "%[fx:-1/tan($anginc*($angbin + $epsilon)*pi/180)]" info:`
 	intrcpt=`convert xc: -precision 7 -format "%[fx:$disto/sin($anginc*($angbin + $epsilon)*pi/180)]" info:`
-
+	
 	# intersect line with bounds of input image
 	# use parametric equation above and solve for t in x or y equation and then substitute into the other
 	# left
@@ -353,9 +353,9 @@ getPoints()
 	xx2=`convert xc: -format "%[fx:($xx2>=0 && $xx2<=$wl)?$xx2:-1]" info:`
 	yy3=`convert xc: -format "%[fx:($yy3>=0 && $yy3<=$hl)?$yy3:-1]" info:`
 	xx4=`convert xc: -format "%[fx:($xx4>=0 && $xx4<=$wl)?$xx4:-1]" info:`
-
+	
 	#echo "$xx1,$yy1; $xx2,$yy2; $xx3,$yy3; $xx4,$yy4; "
-
+	
 	# find 2 points that satisfy limits
 	unset pointArr
 	i=0
@@ -377,10 +377,10 @@ getPoints()
 
 	point1="${pointArr[0]}"
 	point2="${pointArr[1]}"
-
+	
 	#echo "${pointArr[*]}"
 	numpoints="${#pointArr[*]}"
-
+	
 	[ $numpoints -gt 2 ] && echo "--- WARNING: TOO MANY END POINTS ---"
 	}
 
@@ -411,7 +411,7 @@ echo "# ImageMagick pixel enumeration: $ww,$hh,65535,gray" > $dir/hough.txt
 # sort by dist then angle
 # reformat to save as IM txt: file
 convert $dir/tmpA1.miff -depth 8 txt: | grep "white\|gray(255)" | sed -n 's/^\([0-9]*\),\([0-9]*\):.*$/\1 \2/p' |\
-	awk -v ox="$ox" -v hh="$hh" -v anginc="$anginc" -v dstinc="$dstinc" ' { d2r=3.1415927/180; for (angbin=0; angbin<hh; angbin++)
+	awk -v ox="$ox" -v hh="$hh" -v anginc="$anginc" -v dstinc="$dstinc" ' { d2r=3.1415927/180; for (angbin=0; angbin<hh; angbin++) 
 		{ dstbin=($1*cos(d2r*anginc*angbin)+$2*sin(d2r*anginc*angbin))/dstinc; dstbin=(dstbin>=0?int(dstbin+0.5)+ox:-int(-dstbin+0.5)+ox); accum[dstbin,angbin]+=1; } }
 		END { for (combindex in accum) { split(combindex,sepindex,SUBSEP); print sepindex[1], sepindex[2], "("accum[sepindex[1],sepindex[2]]","accum[sepindex[1],sepindex[2]]","accum[sepindex[1],sepindex[2]]")" } }' | \
 		sort -n -k1 -k2 | sed -n 's/^\([^ ]*\) \([^ ]*\) \([^ ]*\)$/\1,\2: \3/p' >> $dir/hough.txt
@@ -460,7 +460,7 @@ until [ $count -lt 1 ]; do
 	# store count and position in array,
 	# then mask out the region around the max for next iteration
 	if [ $count -ge 1 ]; then
-	convert $dir/tmpHM.miff -fill black -draw "color $position floodfill" -alpha off $dir/tmpHM.miff
+	convert $dir/tmpHM.miff -fill black -draw "color $position floodfill" -alpha off $dir/tmpHM.miff 
 	convert $dir/tmpH.miff $dir/tmpHM.miff -compose multiply -composite $dir/tmpH.miff
 	countArr[$i]=$count
 	positionArr[$i]=$position
@@ -494,3 +494,8 @@ convert -size ${wd}x${ht} xc:"$bgcolor" \
 	-stroke "$color" -strokewidth $thickness -draw "${lineArr[*]}" "$linefile"
 
 exit 0
+
+
+
+
+

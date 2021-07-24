@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 2/25/2010 .......... 8/16/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: separate [-m mode] [-g grid] [-t] [-v] [-l] [-b bgcolor] [-e exponent] infile outfile
@@ -32,83 +32,83 @@
 # OPTIONS:
 #
 # -m      mode           output mode: 1=index number; 2=stretch index number;
-#                        3=colored index number; 4=output image for each
-#                        stretched index number; 5=output image for each
-#                        binarized index number; 6=output image for each
+#                        3=colored index number; 4=output image for each 
+#                        stretched index number; 5=output image for each 
+#                        binarized index number; 6=output image for each 
 #                        colored index number; default=3
-# -g      grid           grid spacing in both x and y as percent of
+# -g      grid           grid spacing in both x and y as percent of 
 #                        image width and height; used to locate white areas;
-#                        integer>0; default is not to use grid, but use
+#                        integer>0; default is not to use grid, but use 
 #                        precise but slower method
 # -t                     trim to bounding box in method=4,5,6
 # -v                     keep virtual canvas when trimming
-# -l                     list image size, offset, area, centroid and morphology
+# -l                     list image size, offset, area, centroid and morphology 
 #                        distance center when trimming for method=4,5,6
 # -b      bgcolor        color for desired background in the output image(s);
 #                        choices are: black or none; default=black
-# -e      exponent       exponent used in non-linear log transformation to
+# -e      exponent       exponent used in non-linear log transformation to 
 #                        help shift colors away from black for mode=3 or 6;
 #                        integer>0; default=1
 #
 ###
 #
-# NAME: SEPARATE
-#
+# NAME: SEPARATE 
+# 
 # PURPOSE: To identify each separate isolated white shape in a binary image.
-#
-# DESCRIPTION: SEPARATE identifies each separate (isolated) white shape in
-# a binary (white on black) image. Any two-tone image may be used. The image
-# will be converted to binary black/white. Multiple output formats are
-# available. The background for the output image(s) can be either black or
+# 
+# DESCRIPTION: SEPARATE identifies each separate (isolated) white shape in 
+# a binary (white on black) image. Any two-tone image may be used. The image 
+# will be converted to binary black/white. Multiple output formats are 
+# available. The background for the output image(s) can be either black or 
 # transparent (none).
-#
-#
-# OPTIONS:
-#
-# -m mode ... MODE is the desired output format. It can one image or multiple
-# images. Mode=1 simply sets the graylevel of each shape to an index from 1
+# 
+# 
+# OPTIONS: 
+# 
+# -m mode ... MODE is the desired output format. It can one image or multiple 
+# images. Mode=1 simply sets the graylevel of each shape to an index from 1 
 # to the number of shapes. The max number of shades is 255. The background will
-# have index 0. For a small number of shapes, this will result in a visually
-# black result. Mode=2 is the same as mode=1, except the resulting image is
-# linearly stretched to full dynamic range so that the shapes has visible
+# have index 0. For a small number of shapes, this will result in a visually 
+# black result. Mode=2 is the same as mode=1, except the resulting image is 
+# linearly stretched to full dynamic range so that the shapes has visible 
 # graylevels. Mode=3 is the same as mode=2, except the shapes are color coded.
-# Mode=4 is the same as mode=2, but one output image is created for each shape.
-# Mode=5 is the same as mode=4, except the each output is binarized. Mode=6 is
+# Mode=4 is the same as mode=2, but one output image is created for each shape. 
+# Mode=5 is the same as mode=4, except the each output is binarized. Mode=6 is 
 # the same as mode=4, except each output is color coded. The default=3
 #
-# -g grid ... GRID is the grid spacing for testing points in the input image
-# to see if they are white or black. The grid value is specified as an
-# integer percent greater than 0 and less than 100 of the width and height
-# of the input image. The default is not to use the grid, but to use a precise,
+# -g grid ... GRID is the grid spacing for testing points in the input image 
+# to see if they are white or black. The grid value is specified as an 
+# integer percent greater than 0 and less than 100 of the width and height 
+# of the input image. The default is not to use the grid, but to use a precise,  
 # but slower method.
-#
+# 
 # -t ... TRIM to bounding box for methods 4, 5 or 6
-#
-# -v ... Keep virtual canvas information with trimmed outputs. This requires
-# that the output format be one that keeps a virtual canvas, such as PNG or GIF
+# 
+# -v ... Keep virtual canvas information with trimmed outputs. This requires 
+# that the output format be one that keeps a virtual canvas, such as PNG or GIF 
 # or TIFF.
-#
-# -l ... List image size and offset (WIDTHxHEIGHT+XOFF+YOFF), area, centroid,
+# 
+# -l ... List image size and offset (WIDTHxHEIGHT+XOFF+YOFF), area, centroid, 
 # and morphology distance center for trimmed outputs for methods 4, 5 or 6.
-#
-# -b bgcolor ... BGCOLOR is the background color to be used in the output
-# image(s). The choices are: black or none (i.e. transparency). The default
+# 
+# -b bgcolor ... BGCOLOR is the background color to be used in the output 
+# image(s). The choices are: black or none (i.e. transparency). The default 
 # is black.
-#
-# -e exponent ... EXPONENT is used in a non-linear transformation of the
-# graylevel values to map them to colors such that the colors are shifted
-# away from black. Values are integers>0. The default=1. The more shapes/colors
-# that are used, the larger the value. Typical value is about 6 for
+# 
+# -e exponent ... EXPONENT is used in a non-linear transformation of the 
+# graylevel values to map them to colors such that the colors are shifted 
+# away from black. Values are integers>0. The default=1. The more shapes/colors 
+# that are used, the larger the value. Typical value is about 6 for 
 # example, for 26 colors used.
-#
-# REQUIREMENT: IM version 6.5.5-1 due to the use of auto-level, 6.5.0-9
-# due to the use of compare with unequal sized images, 6.7.5-7 for
+# 
+# REQUIREMENT: IM version 6.5.5-1 due to the use of auto-level, 6.5.0-9 
+# due to the use of compare with unequal sized images, 6.7.5-7 for 
 # morphology distance for option -l.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -128,13 +128,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -182,7 +182,7 @@ else
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter - lineval
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -190,7 +190,7 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter - lineval
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`expr "$1" : '\([0-9]\)'`
@@ -199,7 +199,7 @@ else
 					   ;;
 				-g)    # grid
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRID SPECIFICATION ---"
 					   checkMinus "$1"
 					   grid=`expr "$1" : '\([0-9]*\)'`
@@ -210,7 +210,7 @@ else
 					   ;;
 				-e)    # get exponent
 					   shift  # to get the next parameter - lineval
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXPONENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   exp=`expr "$1" : '\([0-9]\)'`
@@ -264,9 +264,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmpA2 $tmpB2; exit 1" 1 2 3 15
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -293,7 +293,7 @@ convert -quiet "$infile" $setcspace -colorspace gray -auto-level +repage "$tmpA1
 # copy tmpA1 to tmpA2
 convert $tmpA1 $tmpA2
 
-#test if file is binary
+#test if file is binary 
 uniquecolors=`convert $tmpA1 -format "%k" info:`
 [ $uniquecolors -ne 2 ] && echo "--- IMAGE IS NOT BINARY ---"
 
@@ -330,10 +330,10 @@ if [ "$grid" = "" ]; then
 		coords=`echo "$result" | cut -d\  -f 4`
 #		echo "graylvl=$graylvl; val=$val; coords=$coords"
 		[ $val -ne 0 ] && break
-
+	
 		# floodfill $tmpA2 with graylevel index at coords
 		convert $tmpA2 -fill "gray(${graylvl})" -draw "color ${coords} floodfill" $tmpA2
-
+	
 		# floodfill $tmpA1 with black at coords
 		convert $tmpA1 -fill "black" -draw "color ${coords} floodfill" $tmpA1
 		graylvl=$(($graylvl + 1))
@@ -356,7 +356,7 @@ else
 			x=$(($x + $wg))
 			# test if found white
 			testcolor=`convert $tmpA1 -format \
-				"%[fx:u.p{$x,$y}=="white"?1:0]" info:`
+				"%[fx:u.p{$x,$y}=="white"?1:0]" info:` 
 			if [ $testcolor -eq 1 ]; then
 #			echo "$x $y $testcolor $graylvl"
 				coords="$x,$y"
@@ -401,7 +401,7 @@ suffix=`echo "$outfile" | sed -n 's/^.*[.]\([^.]*\)$/\1/p'`
 # set up for trim and virtual canvas
 if [ $mode -gt 3 -a "$trim" = "yes" -a "$vc" = "yes" ]; then
 	trimming="-bordercolor $bgcolor -border 5 -trim"
-elif [ $mode -gt 3 -a "$trim" = "yes" -a "$vc" = "no" ]; then
+elif [ $mode -gt 3 -a "$trim" = "yes" -a "$vc" = "no" ]; then	
 	trimming="-bordercolor $bgcolor -border 5 -trim +repage"
 else
 	trimming=""
@@ -410,12 +410,12 @@ fi
 # process output images
 # NOTE for method 3 and 6, the lut does not stretch to pure black but to gray(11),
 # so add -level-colors "gray(11)",white to force it to pure black
-#
-# NOTE if the -v is on and the trim is to a solid rectangle of white or some color,
+# 
+# NOTE if the -v is on and the trim is to a solid rectangle of white or some color, 
 # then the display in most viewers will show a solid color (of original size),
 # rather than the rectangle on a black background (of original size).
 # but IM display only shows the cropped size.
-#
+# 
 if [ $mode -eq 1 ]; then
 	convert $tmpA2  $outfile
 elif [ $mode -eq 2 ]; then

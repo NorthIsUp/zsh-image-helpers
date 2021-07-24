@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 7/23/2012 .......... 4/15/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: sketch [-k kind] [-e edge] [-c con] [-s sat] [-g] infile outfile
@@ -31,48 +31,48 @@
 #
 # OPTIONS:
 #
-# -k     kind     kind of grayscale conversion; options are gray(g) or
+# -k     kind     kind of grayscale conversion; options are gray(g) or 
 #                 desat(d); default=desat
-# -e     edge     edge coarseness; integer>0; default=4
+# -e     edge     edge coarseness; integer>0; default=4 
 # -c     con      percent contrast change; integer>=0; default=125
 # -s     sat      percent saturation change; integer>=0; default=100
 # -g              output grayscale only
 #
 ###
 #
-# NAME: SKETCH
-#
+# NAME: SKETCH 
+# 
 # PURPOSE: Applies a sketch like effect to an image.
-#
-# DESCRIPTION: SKETCH applies a sketch like effect to an image. If
-# a color image is provided as input, then the output can be either color
-# or grayscale.
-#
-#
-# OPTIONS:
-#
-# -k kind ... KIND of grayscale conversion. Choices are gray(g) or desat(d).
+# 
+# DESCRIPTION: SKETCH applies a sketch like effect to an image. If 
+# a color image is provided as input, then the output can be either color 
+# or grayscale. 
+# 
+# 
+# OPTIONS: 
+# 
+# -k kind ... KIND of grayscale conversion. Choices are gray(g) or desat(d). 
 # The default=desat.
-#
-# -e edge ... EDGE coarseness. Values are integers>0. The default=4.
-#
-# -c con ... percent CONTRAST change. Values are integers>=0. The default=125.
+# 
+# -e edge ... EDGE coarseness. Values are integers>0. The default=4. 
+# 
+# -c con ... percent CONTRAST change. Values are integers>=0. The default=125. 
 # Note that con=125 for kind=desat is similar to con=0 for kind=gray.
-#
+# 
 # -s sat ... percent SATURATION change. Values are integers>=0. The default=100.
-#
+# 
 # -g ... output GRAYSCALE only.
-#
+# 
 # see http://www.photoshopessentials.com/photo-effects/portrait-to-sketch/
 #
-# REQUIREMENTS: Results for -k gray will be nearly identical to those of
-# -k desat for IM versions prior to 6.7.8.3. Starting at this version,
+# REQUIREMENTS: Results for -k gray will be nearly identical to those of 
+# -k desat for IM versions prior to 6.7.8.3. Starting at this version,  
 # grayscale images became linear and thus the different look for -k gray.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -90,13 +90,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -144,11 +144,11 @@ else
 					   ;;
 				-k)    # get  kind
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID KIND SPECIFICATION ---"
 					   checkMinus "$1"
 					   kind=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$kind" in
+					   case "$kind" in 
 					   		gray|g) kind="gray" ;;
 					   		desat|d) kind="desat" ;;
 					   		*) errMsg "--- KIND=$kind IS AN INVALID VALUE ---" ;;
@@ -156,7 +156,7 @@ else
 					   ;;
 				-e)    # get edge
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EDGE SPECIFICATION ---"
 					   checkMinus "$1"
 					   edge=`expr "$1" : '\([0-9]*\)'`
@@ -166,7 +166,7 @@ else
 					   ;;
 				-c)    # get con
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CON SPECIFICATION ---"
 					   checkMinus "$1"
 					   con=`expr "$1" : '\([0-9]*\)'`
@@ -176,7 +176,7 @@ else
 					   ;;
 				-s)    # get sat
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   sat=`expr "$1" : '\([0-9]*\)'`
@@ -186,7 +186,7 @@ else
 					   ;;
 				-g)    # get gray
 					   #shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID GRAY SPECIFICATION ---"
 					   #checkMinus "$1"
 					   gray="yes"
@@ -227,9 +227,9 @@ trap "rm -f $tmp1A $tmp1B; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -280,7 +280,7 @@ else
 fi
 #echo "con1=$con1; con2=$con2; con=$con"
 
-if [ "$gray" = "no" ]; then
+if [ "$gray" = "no" ]; then	
 	convert $tmp1A \
 	\( -clone 0 $grayscaling \) \
 	\( -clone 1 -negate -blur 0x${edge} \) \
@@ -300,3 +300,7 @@ else
 fi
 
 exit 0
+
+
+
+

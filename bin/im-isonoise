@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 9/13/2007 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: isonoise [-r radius] [-t threshold] infile outfile
@@ -32,39 +32,39 @@
 # OPTIONS:
 #
 # -r              radius         radius of filter; default=1
-# -t              threshold      threshold percentage for separating noise from image;
+# -t              threshold      threshold percentage for separating noise from image; 
 #                                (default=10)
 # -h or -help                    get help
 #
 ###
 #
-# NAME: ISONOISE
-#
-# PURPOSE: To reduce isolated noise in an image.
-#
-# DESCRIPTION: ISONOISE is a noise filter designed to try to
-# reduce impulse or isolated (sparce) noise in an image. It works by
-# using the median filtered image where it assesses that noise is
-# present and the original image where it assesses that no noise is
+# NAME: ISONOISE 
+# 
+# PURPOSE: To reduce isolated noise in an image. 
+# 
+# DESCRIPTION: ISONOISE is a noise filter designed to try to 
+# reduce impulse or isolated (sparce) noise in an image. It works by  
+# using the median filtered image where it assesses that noise is  
+# present and the original image where it assesses that no noise is 
 # present.
+# 
+# Arguments: 
 #
-# Arguments:
-#
-# -h or -help    ---  displays help information.
-#
+# -h or -help    ---  displays help information. 
+# 
 # -r     radius       radius is an integer >=1. It determines the neighborhood of pixels
-# to use to compute the median at each pixel in the image. A radius=1 means use a 3x3
-# neighborhood about each pixel. A radius=2 means use a 5x5 neighborhood about each
-# pixel. The larger the radius, the longer the processing and the more blurring that
+# to use to compute the median at each pixel in the image. A radius=1 means use a 3x3 
+# neighborhood about each pixel. A radius=2 means use a 5x5 neighborhood about each 
+# pixel. The larger the radius, the longer the processing and the more blurring that 
 # will occur. Noise filters generally trade some degree or blurring for noise reduction.
+# 
 #
-#
-# -t     threshold    threshold is in percent (without % symbol) and determines how much
-# of the image is assessed to be noise. A smaller threshold, will reduce noise more
-# effectively but cause more blurring. On the other hand, a larger threshold will
+# -t     threshold    threshold is in percent (without % symbol) and determines how much 
+# of the image is assessed to be noise. A smaller threshold, will reduce noise more 
+# effectively but cause more blurring. On the other hand, a larger threshold will 
 # produce reduce noise less effectively, but cause less blurring.
-#
-#
+# 
+# 
 ######
 
 
@@ -80,13 +80,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -132,7 +132,7 @@ else
 				   ;;
 			-r)    # radius
 				   shift  # to get the next parameter - radius
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 				   checkMinus "$1"
 				   radius=`expr "$1" : '\([0-9]*\)'`
@@ -142,7 +142,7 @@ else
 				   ;;
 			-t)    # threshold
 				   shift  # to get the next parameter - threshold
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID THRESHOLD SPECIFICATION ---"
 				   checkMinus "$1"
 				   thresh=`expr "$1" : '\([.0-9]*\)'`

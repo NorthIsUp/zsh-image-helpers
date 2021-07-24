@@ -1,214 +1,214 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 5/1/2009 .......... revised 12/31/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: cylinderize [-m mode] [-r radius] [-l length] [-w wrap] [-f fcolor]
-# [-a angle] [-p pitch] [-d direction] [-n narrow] [e efactor] [-s scale]
-# [-o offset] [-v vpmethod] [-b bgcolor] [-t] [-R rotate] [-c compose] [-E]
+# USAGE: cylinderize [-m mode] [-r radius] [-l length] [-w wrap] [-f fcolor] 
+# [-a angle] [-p pitch] [-d direction] [-n narrow] [e efactor] [-s scale]  
+# [-o offset] [-v vpmethod] [-b bgcolor] [-t] [-R rotate] [-c compose] [-E] 
 # [-D dfile] infile [bgfile] outfile
-#
+# 
 # USAGE: cylinderize [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -m      mode           mode of orientation for cylinder axis; options are
+# 
+# -m      mode           mode of orientation for cylinder axis; options are 
 #                        horizontal (or h) or vertical (or v); default=vertical
 # -r      radius         radius of cylinder; float>0; default is one quarter
 #                        of image width or height depending upon mode.
-# -l      length         length of cylinder; lenght>0; default=width or height
-#                        depending upon mode and adjusted for the cylinder
+# -l      length         length of cylinder; lenght>0; default=width or height 
+#                        depending upon mode and adjusted for the cylinder 
 #                        pitch angle.
-# -w      wrap           percentage of image to wrap about the cylinder; float;
-#                        10<=wrap<=100 or 0; default=50; use wrap=0 to preserve
+# -w      wrap           percentage of image to wrap about the cylinder; float; 
+#                        10<=wrap<=100 or 0; default=50; use wrap=0 to preserve 
 #                        aspect ratio of input as it is wrapped about the cylinder
-# -f      fcolor         fill color for portion of cylinder not covered by the
+# -f      fcolor         fill color for portion of cylinder not covered by the 
 #                        image; default=none (transparent)
-# -a      angle          rotation angle in degrees about cylinder axis;
+# -a      angle          rotation angle in degrees about cylinder axis; 
 #                        best used when wrap=full; float; -360<=angle<=360;
 #                        default=0
 # -p      pitch          pitch (tilt) angle of cylinder; float; 0<=pitch<90;
 #                        default=0
-# -d      direction      pitch direction; choices are down (d), up (u),
-#                        right (r), left (l) or both (b). Option both is for
-#                        the case of a straight on view with perspective
-#                        distortion. The default is down or right depending
-#                        upon mode of vertical or horizontal, respectively.
-# -n      narrow         narrow is the percent ratio of the bottom-to-top or
-#                        right-to-left radii used to simulate perspective
+# -d      direction      pitch direction; choices are down (d), up (u), 
+#                        right (r), left (l) or both (b). Option both is for 
+#                        the case of a straight on view with perspective 
+#                        distortion. The default is down or right depending 
+#                        upon mode of vertical or horizontal, respectively.                 
+# -n      narrow         narrow is the percent ratio of the bottom-to-top or 
+#                        right-to-left radii used to simulate perspective 
 #                        tapering; floats>=0; default=100 means same size radii
 # -e      efactor        exaggeration factor for pitch curvature of the opposite
 #                        side of the cylinder adjusted by the pitch argument
-#                        to make perspective views more realistic; float>=1;
+#                        to make perspective views more realistic; float>=1; 
 #                        default=1 i.e. no exaggeration. Nominal is 2.
-# -s      scale          percent scaling of the infile in either the vertical or
-#                        horizontal dimension as appropriate to the mode;
+# -s      scale          percent scaling of the infile in either the vertical or 
+#                        horizontal dimension as appropriate to the mode; 
 #                        integer>=100; default=100
 # -o      offsets        x and y offset pair in following form: +-Xoff+-Yoff;
-#                        where either the + or - sign is required; values are
+#                        where either the + or - sign is required; values are 
 #                        integers; default=+0+0
 # -v      vpmethod       virtual-pixel method; default=black
-# -b      bgcolor        background color for the case when vpmethod=background;
+# -b      bgcolor        background color for the case when vpmethod=background; 
 #                        default=black
 # -t                     trim background
-# -R      rotation       rotation angle of output before compositing with
+# -R      rotation       rotation angle of output before compositing with 
 #                        background;float; -360<=rotation<=360; default=0
 # -c      compose        compose method when overlaying the input pattern on
-#                        the background image; choices are: over (o) and
-#                        multiply (m); the default is over; to apply shading
+#                        the background image; choices are: over (o) and 
+#                        multiply (m); the default is over; to apply shading 
 #                        from the background image, use multiply
-# -E      export         export the displacement map and other needed parameters
-#                        to be able to use a condensed script to repeat the
-#                        processing on the same size input images for faster
+# -E      export         export the displacement map and other needed parameters 
+#                        to be able to use a condensed script to repeat the 
+#                        processing on the same size input images for faster 
 #                        processing.
-# -D      dfile          path to and including desired displacement file name;
-#                        used in conjunction with -E (export) option;
+# -D      dfile          path to and including desired displacement file name; 
+#                        used in conjunction with -E (export) option; 
 #                        default="displace.png"; do not use a compressed file
 #                        format; also use Q16 or higher IM compilation, not Q8
-#
-# bgfile is an optional background file onto which the cylinderized infile is
+# 
+# bgfile is an optional background file onto which the cylinderized infile is 
 # to be composited at the offset coordinated relative to the center of the bgfile
-#
-#
+# 
+# 
 ###
-#
-# NAME: CYLINDERIZE
-#
+# 
+# NAME: CYLINDERIZE 
+# 
 # PURPOSE: To apply a cylinder distortion to an image.
-#
-# DESCRIPTION: CYLINDERIZE applies a cylinder distortion to an image so
-# that the image is wrapped about the cylinder. The image can be wrapped
-# about any percentage of the cylinder from 10 to 100 percent. If the wrap
-# is less than 100%, then the cylinder will be colored to fill the remaining
+# 
+# DESCRIPTION: CYLINDERIZE applies a cylinder distortion to an image so 
+# that the image is wrapped about the cylinder. The image can be wrapped 
+# about any percentage of the cylinder from 10 to 100 percent. If the wrap 
+# is less than 100%, then the cylinder will be colored to fill the remaining 
 # amount. The cylinder can also be pitched (tilted).
-#
-#
-# ARGUMENTS:
-#
-# -m mode ... MODE specifies the orientation for the cylinder axis. The
+# 
+# 
+# ARGUMENTS: 
+# 
+# -m mode ... MODE specifies the orientation for the cylinder axis. The 
 # choices are horizontal (or h) or vertical (or v). The default is vertical.
-#
-# -r radius ... RADIUS is the radius of the cylinder in pixels. The values are
-# floats>0. The default is one quarter of the image width or height depending
+# 
+# -r radius ... RADIUS is the radius of the cylinder in pixels. The values are 
+# floats>0. The default is one quarter of the image width or height depending 
 # upon the mode.
-#
-# -l length ... Length is the length of the cylinder along its axis in pixels.
-# The values are floats with length>0. The default is either the width or height
-# depending upon mode and adjusted for the pitch of the cylinder. If a length
-# is provided, then the cylinder length will not be adjusted for pitch, but
+# 
+# -l length ... Length is the length of the cylinder along its axis in pixels. 
+# The values are floats with length>0. The default is either the width or height 
+# depending upon mode and adjusted for the pitch of the cylinder. If a length 
+# is provided, then the cylinder length will not be adjusted for pitch, but 
 # the ends will still be adjusted for pitch.
-#
-# -w wrap ... WRAP is the percentage of the cylinder circumference that is wrapped
-# with the image. Values are floats such that 10<=wrap<=100 or 0. Default=50. Use
+# 
+# -w wrap ... WRAP is the percentage of the cylinder circumference that is wrapped 
+# with the image. Values are floats such that 10<=wrap<=100 or 0. Default=50. Use 
 # wrap=0 to preserve aspect ratio of input as it is wrapped around the cylinder.
-#
-# -f fcolor ... FCOLOR is the fill color to put on the remainder of the cylinder
-# that is not covered by the image. Any valid IM color is allowed. The default
+# 
+# -f fcolor ... FCOLOR is the fill color to put on the remainder of the cylinder 
+# that is not covered by the image. Any valid IM color is allowed. The default 
 # is none (for transparent).
-#
-# -a angle ... ANGLE is the rotation the cylinder about its axis. This is
-# best used when wrap=full. The values are floats with -360<=angle<=360.
+# 
+# -a angle ... ANGLE is the rotation the cylinder about its axis. This is 
+# best used when wrap=full. The values are floats with -360<=angle<=360. 
 # The default=0.
-#
-# -p pitch ... PITCH (tilt) angle of the cylinder. Values are floats with
+# 
+# -p pitch ... PITCH (tilt) angle of the cylinder. Values are floats with 
 # 0<=pitch<90. The default=0.
 #
-# -d direction ... pitch DIRECTION (sign). The choices are down (d), up (u),
-# right (r), left (l) or both (b). Option both is for the case of a straight
-# on view with perspective distortion pitching either up and down or left and
-# right. The default is down or right depending upon mode of vertical or
-# horizontal, respectively.
+# -d direction ... pitch DIRECTION (sign). The choices are down (d), up (u), 
+# right (r), left (l) or both (b). Option both is for the case of a straight 
+# on view with perspective distortion pitching either up and down or left and 
+# right. The default is down or right depending upon mode of vertical or 
+# horizontal, respectively.                   
 #
-# -n narrow ... NARROW is the percent ratio of the bottom-to-top or
-# right-to-left radii used to simulate perspective tapering. Values are
+# -n narrow ... NARROW is the percent ratio of the bottom-to-top or 
+# right-to-left radii used to simulate perspective tapering. Values are 
 # floats>=0. The default=100 means same size radii.
-#
-# -e efactor ... EFACTOR is the exaggeration factor for the pitch curvature
-# of the opposite side of the cylinder adjusted by the pitch argument in order
-# to make perspective views more realistic. Values are floats>=1. The default=1
-# i.e. no exaggeration. From my limited tests a value of 2 works well for
+# 
+# -e efactor ... EFACTOR is the exaggeration factor for the pitch curvature 
+# of the opposite side of the cylinder adjusted by the pitch argument in order 
+# to make perspective views more realistic. Values are floats>=1. The default=1 
+# i.e. no exaggeration. From my limited tests a value of 2 works well for 
 # pitch values up to at least 20 degrees.
-#
-# -s scale ... SCALE is the percent scaling of the infile in the vertical or
-# horizontal dimension as appropriate to the mode. Values are integer>=100;
-# The default=100. This can be used to compensate for the distortions
+# 
+# -s scale ... SCALE is the percent scaling of the infile in the vertical or 
+# horizontal dimension as appropriate to the mode. Values are integer>=100; 
+# The default=100. This can be used to compensate for the distortions 
 # introduced by the top and bottom curvatures.
 #
-# -o offsets ... OFFSETS are the x and y offset pair in the following form:
-# +-Xoff+-Yoff (no spaces) where either the + or - sign is required. Numerical
-# values are integers. The default=+0+0. The offsets are used to position the
+# -o offsets ... OFFSETS are the x and y offset pair in the following form: 
+# +-Xoff+-Yoff (no spaces) where either the + or - sign is required. Numerical 
+# values are integers. The default=+0+0. The offsets are used to position the 
 # cylinderized image over the background image relative to its center.
-#
-# -v vpmethod ... VPMETHOD is the virtual-pixel method to use. Any valid IM
-# virtual-pixel may be used. The background will be transparent if
-# vpmethod=transparent. The default is black.
-#
-# -b bgcolor ... BGCOLOR is the background color to use when vpmethod=background.
-# Any valid IM color is allowed. The background will be transparent if
-# bgcolor=none and vpmethod=background. The bgcolor must be set to match the
-# virtual pixel color when using the -R rotation option, as well. This is most
-# simply done by using -vpmethod=background and setting the bgcolor. The
+# 
+# -v vpmethod ... VPMETHOD is the virtual-pixel method to use. Any valid IM 
+# virtual-pixel may be used. The background will be transparent if 
+# vpmethod=transparent. The default is black. 
+# 
+# -b bgcolor ... BGCOLOR is the background color to use when vpmethod=background. 
+# Any valid IM color is allowed. The background will be transparent if 
+# bgcolor=none and vpmethod=background. The bgcolor must be set to match the 
+# virtual pixel color when using the -R rotation option, as well. This is most 
+# simply done by using -vpmethod=background and setting the bgcolor. The  
 # default vpmethod is black.
-#
+# 
 # -t ... TRIM the background.
-#
-# -R ... ROTATION angle of output before compositing with background. The
+# 
+# -R ... ROTATION angle of output before compositing with background. The 
 # values are floats with -360<=rotation<=360. The default=0.
 #
-# -c ... COMPOSE method when overlaying the input pattern on the background
-# image. The choices are: over (o) and multiply (m). The default is over.
+# -c ... COMPOSE method when overlaying the input pattern on the background 
+# image. The choices are: over (o) and multiply (m). The default is over. 
 # To apply shading from the background image, use multiply
-#
-# -E ... EXPORT the displacement map and other needed parameters for use with
-# a condensed script to repeat the processing on the same size input images
-# for faster processing. The default displacement map will named displace.png.
-# The other arguments will be displayed to the terminal and can be copied and
+# 
+# -E ... EXPORT the displacement map and other needed parameters for use with 
+# a condensed script to repeat the processing on the same size input images 
+# for faster processing. The default displacement map will named displace.png.  
+# The other arguments will be displayed to the terminal and can be copied and 
 # pasted into other scripts. See my script, cylinderwarp.
-#
-# -D dfile ... DFILE is the desired location of the displacement file. It is
-# the path to and including the desired name of the displacement file. It is
-# used in conjunction with -E (export) option. The default="displace.png".
+# 
+# -D dfile ... DFILE is the desired location of the displacement file. It is 
+# the path to and including the desired name of the displacement file. It is 
+# used in conjunction with -E (export) option. The default="displace.png". 
 # Do not specify a compressed file format such as jpg. Also you must use a
-# Q16 or higher IM compilation and not Q8. A Q8 system will write an 8-bit
+# Q16 or higher IM compilation and not Q8. A Q8 system will write an 8-bit  
 # displacement file, which may cause severe blocky results in the output image.
-#
-# NOTE: Thanks to Anthony Thyssen for the concept and basic equation for
-# achieving the tilted cylinder effect. Thanks to Glen Fiebich for the
-# suggestion to allow any amount of wrap and to be able to fill the
-# remainder with color or transparency and still rotate the cylinder.
-# Thanks to Marcos Passos for the suggestion and processing concept
-# to handle face on cylindrical objects with perspective distortion up
+# 
+# NOTE: Thanks to Anthony Thyssen for the concept and basic equation for 
+# achieving the tilted cylinder effect. Thanks to Glen Fiebich for the 
+# suggestion to allow any amount of wrap and to be able to fill the 
+# remainder with color or transparency and still rotate the cylinder. 
+# Thanks to Marcos Passos for the suggestion and processing concept 
+# to handle face on cylindrical objects with perspective distortion up 
 # and down and for his extensive testing.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 mode="vertical"			# vertical or horizontal
@@ -239,13 +239,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -293,7 +293,7 @@ else
 					   ;;
 				-m)    # get  mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
@@ -308,7 +308,7 @@ else
 					   ;;
 				-r)    # get radius
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   radius=`expr "$1" : '\([.0-9]*\)'`
@@ -318,7 +318,7 @@ else
 					   ;;
 				-l)    # get length
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LENGTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   length=`expr "$1" : '\([.0-9]*\)'`
@@ -328,7 +328,7 @@ else
 					   ;;
 				-w)    # get wrap
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WRAP SPECIFICATION ---"
 					   #checkMinus "$1"
 					   wrap=`expr "$1" : '\([.0-9]*\)'`
@@ -339,14 +339,14 @@ else
 					   ;;
 				-f)    # get  fcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FILL COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   fcolor="$1"
 					   ;;
 				-a)    # get angle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   angle=`expr "$1" : '\([-.0-9]*\)'`
@@ -357,7 +357,7 @@ else
 					   ;;
 				-p)    # get pitch
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PITCH SPECIFICATION ---"
 					   #checkMinus "$1"
 					   pitch=`expr "$1" : '\([-.0-9]*\)'`
@@ -367,7 +367,7 @@ else
 					   ;;
 				-d)    # get  direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   direction="$1"
@@ -383,7 +383,7 @@ else
 					   ;;
 				-e)    # get efact
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EFACTOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   efact=`expr "$1" : '\([.0-9]*\)'`
@@ -393,7 +393,7 @@ else
 					   ;;
 				-n)    # get narrow
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NARROW SPECIFICATION ---"
 					   checkMinus "$1"
 					   narrow=`expr "$1" : '\([.0-9]*\)'`
@@ -401,7 +401,7 @@ else
 					   ;;
 				-s)    # get scale
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SCALE SPECIFICATION ---"
 					   checkMinus "$1"
 					   scale=`expr "$1" : '\([0-9]*\)'`
@@ -411,7 +411,7 @@ else
 					   ;;
 				-o)    # get offsets
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSETS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   offsets=`expr "$1" : '\([-+0-9]*\)'`
@@ -419,14 +419,14 @@ else
 					   ;;
 				-v)    # get  vpmethod
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIRTUAL-PIXEL METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   vpmethod="$1"
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -436,7 +436,7 @@ else
 					   ;;
 				-R)    # get rotation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROTATION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   rotation=`expr "$1" : '\([-.0-9]*\)'`
@@ -447,7 +447,7 @@ else
 					   ;;
 				-c)    # get compose method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COMPOSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   compose="$1"
@@ -463,7 +463,7 @@ else
 					   ;;
 				-D)    # dfile
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISPLACEMENT FILE SPECIFICATION ---"
 					   checkMinus "$1"
 					   dfile="$1"
@@ -572,7 +572,7 @@ fi
 sign=`convert xc: -format "%[fx:sign($angle)]" info:`
 [ $sign -lt 0 ] && sign="-" || sign="+"
 
-if [ "$mode" = "vertical" -a "$angle" != "0" ]; then
+if [ "$mode" = "vertical" -a "$angle" != "0" ]; then	
 	rollx=`convert xc: -format "%[fx:abs($angle)*$pwidth/360]" info:`
 	roll="${sign}${rollx}+0"
 	rolling="-roll $roll"
@@ -585,9 +585,9 @@ else
 fi
 
 # set up resize
-if [ "$scale" != "100" -a "$mode" = "vertical" ]; then
+if [ "$scale" != "100" -a "$mode" = "vertical" ]; then 
 	resizing="-resize 100x${scale}%"
-elif [ "$scale" != "100" -a "$mode" = "horizontal" ]; then
+elif [ "$scale" != "100" -a "$mode" = "horizontal" ]; then 
 	resizing="-resize ${scale}x100%"
 else
 	resizing=""
@@ -612,12 +612,12 @@ fi
 # read the input image into the TMP cached image.
 convert -quiet "$infile" $rproc $resizing +repage \
 	-gravity center -background ${fcolor} -extent ${pwidth}x${pheight} \
-	$rolling $flipping "$tmpA1" ||
+	$rolling $flipping "$tmpA1" || 
 	errMsg "--- FILE $infile NOT READABLE OR HAS ZERO SIZE ---"
 
 
 if [ "$bgfile" != "" ]; then
-	convert -quiet -regard-warnings "$bgfile" +repage $tmpA2 ||
+	convert -quiet -regard-warnings "$bgfile" +repage $tmpA2 || 
 		errMsg "--- FILE $bgfile NOT READABLE OR HAS ZERO SIZE ---"
 	wbg=`convert $tmpA2 -format "%w" info:`
 	hbg=`convert $tmpA2 -format "%h" info:`
@@ -723,8 +723,8 @@ if [ "$mode" = "vertical" ]; then
 	#	convert $tmpA1 -virtual-pixel $vpmethod -fx \
 	#		"xd=(i-$xc)/$radius; $ffx xs=$xc*ffx+$xc; u.p{xs,j}" \
 	#		$outfile
-	# Equivalent displace map must be relative to i and range from 0 to 1,
-	# but slow fx method above is relative to $xc and
+	# Equivalent displace map must be relative to i and range from 0 to 1, 
+	# but slow fx method above is relative to $xc and 
 	# ffx ranges from -1 to 1 (for wrap=half)
 	# Thus we must modify the conversion to a displament map
 	# from simply 0.5*(ffx-0.5) [which scales ffx from -1,1 to 0,1]
@@ -733,7 +733,7 @@ if [ "$mode" = "vertical" ]; then
 	# create horizontal cylinder map
 	ffx="ffx=$factor*asin(xd);"
 
-	# NOTE: need to clamp at range -1 to 1 for xd, since asin argument must be in that range,
+	# NOTE: need to clamp at range -1 to 1 for xd, since asin argument must be in that range, 
 	# esp for HDRI to avoid NAN, so use xd>1?1:xd<-1?-1:xs
 	# NOTE: also need to add clamp after -fx to avoid negative values.
 	convert -size ${pwidth}x1 xc: -virtual-pixel black -fx \
@@ -749,7 +749,7 @@ if [ "$mode" = "vertical" ]; then
 	if [ "$efact" != 1 ]; then
 		# exaggerate bottom relative to top (actually reduce top relative to exaggerated radius)
 		convert \( -size ${pwidth}x${height12} gradient:black-white +level ${iefact}x100% \) $tmpA4 \
-			-compose mathematics -define compose:args="1,0,-0.5,0.5" -composite $tmpA4
+			-compose mathematics -define compose:args="1,0,-0.5,0.5" -composite $tmpA4 
 	fi
 
 
@@ -773,7 +773,7 @@ if [ "$mode" = "vertical" ]; then
 	convert $tmpA3 $tmpA4 \( -clone 0 -fill black -colorize 100 \) -colorspace sRGB -combine -alpha set -depth 16 $dfile
 	fi
 
-	# set up gravity
+	# set up gravity 
 	# need to use north if direction positive, or negative (since using -flip for negative case), center if direction both
 	if [ "$direction" = "both" ]; then
 		gravityval="center"
@@ -817,7 +817,7 @@ if [ "$mode" = "vertical" ]; then
 		y4=$hh
 		coords="0,0 $x1,$y1  $ww,0 $x2,$y2  $ww,$hh $x3,$y3  0,$hh $x4,$y4"
 		convert $tmpA1 -virtual-pixel $vpmethod $backgroundcolor \
-		-distort perspective "$coords" $tmpA1
+		-distort perspective "$coords" $tmpA1	
 	fi
 
 
@@ -835,7 +835,7 @@ elif [ "$mode" = "horizontal" ]; then
 # create vertical cylinder map
 	ffy="ffy=$factor*asin(yd);"
 
-	# NOTE: need to clamp at range -1 to 1 for xd, since asin argument must be in that range,
+	# NOTE: need to clamp at range -1 to 1 for xd, since asin argument must be in that range, 
 	# esp for HDRI to avoid NAN, so use yd>1?1:yd<-1?-1:ys
 	# NOTE: also need to add clamp after -fx to avoid negative values.
 	convert -size 1x${pheight} xc: -virtual-pixel black -fx \
@@ -852,7 +852,7 @@ elif [ "$mode" = "horizontal" ]; then
 	if [ "$efact" != 1 ]; then
 		# exaggerate right relative to left (actually reduce left relative to exaggerated radius)
 		convert \( -size ${pheight}x${width12} gradient:black-white -rotate -90 +level ${iefact}x100% \) $tmpA4 \
-			-compose mathematics -define compose:args="1,0,-0.5,0.5" -composite $tmpA4
+			-compose mathematics -define compose:args="1,0,-0.5,0.5" -composite $tmpA4 
 	fi
 
 	if [ "$direction" = "both" ]; then
@@ -875,7 +875,7 @@ elif [ "$mode" = "horizontal" ]; then
 	convert $tmpA4 $tmpA3 \( -clone 0 -fill black -colorize 100 \) -colorspace sRGB -combine -alpha set -depth 16 $dfile
 	fi
 
-	# set up gravity
+	# set up gravity 
 	# need to use west if direction positive, or negative (since using -flop for negative case), center if direction both
 	if [ "$direction" = "both" ]; then
 		gravityval="center"
@@ -896,7 +896,7 @@ elif [ "$mode" = "horizontal" ]; then
 		convert $tmpA1 $tmpA4 $tmpA3 $channels -virtual-pixel $vpmethod $backgroundcolor \
 			-define compose:args=${radius2}x${yc} -compose displace -composite $tmpA1
 	fi
-
+	
 	if [ "$trim" = "yes" ]; then
 		convert $tmpA1 -fill $bgcolor -trim $tmpA1
 	else
@@ -919,7 +919,7 @@ elif [ "$mode" = "horizontal" ]; then
 		y4=$hh
 		coords="0,0 $x1,$y1  $ww,0 $x2,$y2  $ww,$hh $x3,$y3  0,$hh $x4,$y4"
 		convert $tmpA1 -virtual-pixel $vpmethod $backgroundcolor \
-		-distort perspective "$coords" $tmpA1
+		-distort perspective "$coords" $tmpA1		
 	fi
 
 	if [ "$bgfile" != "" ]; then

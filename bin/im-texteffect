@@ -8,27 +8,27 @@
 # Enhancement provided by Aditya Naik  .......... revised 5/16/2010
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: texteffect -t "some text" [-f font] [-p pointsize] [-S size] [-s style] [-e effect] [-l lineweight] [-d distortion] [-r rotation] [-x excess-area] [-c text-color(s)] [-o outline-color] [-b background-color] [-u under-color] [-g glow-shadow-color] [-m smudge] [-w wavecycles] [-a arc-angle] [-A gradient-angle] [-D distance] [-R rounding] [infile] outfile
@@ -39,11 +39,11 @@
 # -t      "some text"			text to use; enclose in double quotes
 # -f      font					fontname; use bold/italic font to make bold/italic;
 #                               default=Arial
-# -p      pointsize				pointsize for font; default=48;
+# -p      pointsize				pointsize for font; default=48; 
 #                               size will supercedes pointsize
 # -S      size					approximate width or height of text image;
-#                               expressed as WIDTHx or xHEIGHT; but not both;
-#                               default is unspecified in favor of pointsize;
+#                               expressed as WIDTHx or xHEIGHT; but not both; 
+#                               default is unspecified in favor of pointsize; 
 #                               size will supercedes pointsize
 # -s      style         		style=plain,outline,glow,softshadow,hardshadow,stamp,
 #                               bevel,antibevel,innerbevel,roundbevel; default=plain
@@ -52,70 +52,70 @@
 #                       		bulge,bulge-top,bulge-bottom,concave,concave-top,concave-bottom,
 #                       		convex,convex-top,convex-bottom,pinch,pinch-top,pinch-bottom,
 #                       		wave-top,wave-bottom,wedge_right,wedge-top-right,wedge-bottom-right,
-#                       		wedge-left,wedge-top-left,wedge-bottom-left,wedge-top,wedge-bottom;
+#                       		wedge-left,wedge-top-left,wedge-bottom-left,wedge-top,wedge-bottom; 
 #                               default=normal
 # -l      lineweight			line thickness in pixels; float>0; default=1
 # -d      distortion			distortion amount; 0<=float<=1; default=0.5
 # -r      rotation				rotation angle; -180<=float<=180; default=0
 # -x      excess-area			excess area or pad in pixels around outside of text; default=10
-# -c      text-color(s)			color(s) of text; any single valid IM color or any dual (hypenated)
-#                               opaque-opaque or opaque-none color combination; default=skyblue;
-# 								optional hyphenated second different color makes a gradient;
+# -c      text-color(s)			color(s) of text; any single valid IM color or any dual (hypenated) 
+#                               opaque-opaque or opaque-none color combination; default=skyblue; 
+# 								optional hyphenated second different color makes a gradient; 
 # -o      outline-color			color of outline; any IM color specification; default=black
 # -b      background-color      color of background; any IM color specification; default=white;
 #								use none for transparent;
 # -u      under-color			color under text; any IM color specification; default=none;
-# -g      glow-shadow-color		color for glow or shadow; any IM color specification;
+# -g      glow-shadow-color		color for glow or shadow; any IM color specification; 
 #                               default=outline-color;
-# -m      smudge				spread for glow, softshadow, bevel, antibevel and stamp in pixels;
+# -m      smudge				spread for glow, softshadow, bevel, antibevel and stamp in pixels; 
 #                               float>=0; default=3
 # -w      wave-cycles			number of wave cycles; float>0; default=1
 # -a      arc-angle             angle for arc; 0<=float<=360; default=60
-# -A      gradient-angle        angle for gradient; 0<=float<=360 or nw,ne,se,sw for diagonal;
+# -A      gradient-angle        angle for gradient; 0<=float<=360 or nw,ne,se,sw for diagonal; 
 #                               default=90
-# -D      distance              innerbevel distance from border of character;
-#                               integer>0; default will have bevel peak in middle
+# -D      distance              innerbevel distance from border of character; 
+#                               integer>0; default will have bevel peak in middle 
 #                               of character
 # -R      rounding              rounding effect for roundbevel; float>0; default=3
 #
-# infile                        if infile is provided, it represents a tile pattern image that
+# infile                        if infile is provided, it represents a tile pattern image that 
 #                               will be used in place of the text color.
 ###
 #
-# NAME: TEXTEFFECT
-#
+# NAME: TEXTEFFECT 
+# 
 # PURPOSE: To convert text to an image after applying various effects, styling and color.
-#
+# 
 # DESCRIPTION: TEXTEFFECT convert text to an image after applying various
 # effects, styling and color. Effects include: normal, arc-top, arc-bottom,
 # arch-top, arch-bottom, bulge, bulge-top, bulge-bottom, concave, concave-top,
 # concave-bottom, convex, convex-top, convex-bottom, pinch, pinch-top,
 # pinch-bottom, wave-top, wave-bottom, wedge-top, wedge-top-right,
-# wedge-bottom-right, wedge-left, wedge-top-left, wedge-bottom-left,
-# wedge-top and wedge-bottom. Styles include: plain, outline, glow, hardshadow,
+# wedge-bottom-right, wedge-left, wedge-top-left, wedge-bottom-left, 
+# wedge-top and wedge-bottom. Styles include: plain, outline, glow, hardshadow, 
 # softshadow, bevel, antibevel, stamp, innerbevel, roundbevel.
-#
-#
-# ARGUMENTS:
-#
-# -t "some text" ... The text to apply some effect, style and/or color and convert
+# 
+# 
+# ARGUMENTS: 
+# 
+# -t "some text" ... The text to apply some effect, style and/or color and convert 
 # to an image. Required parameter. Be sure to enclose in double quotes.
 #
-# -f font ... FONT is the desired font for the text. Use a bold/italics font if
-# you want the text to be bold/italics or use the italic option. The default
+# -f font ... FONT is the desired font for the text. Use a bold/italics font if 
+# you want the text to be bold/italics or use the italic option. The default 
 # is Arial.
 #
-# -p pointsize ... POINTSIZE is the desired pointsize for the font. The output
-# image will be generated to the size consistent with this pointsize and any
-# padding you apply. The default is 48. If size is specified, it will
+# -p pointsize ... POINTSIZE is the desired pointsize for the font. The output 
+# image will be generated to the size consistent with this pointsize and any 
+# padding you apply. The default is 48. If size is specified, it will 
 # superceded the pointsize.
-#
-# -S size ... SIZE (approximate) of text image. The choices are WIDTHx or
-# xHEIGHT, but not both. The default is unspecified in favor of pointsize.
-# SIZE and POINTSIZE may not be used simultaneously. If size is specified,
-# it will superceded the pointsize. Using WIDTHx seems to work out a bit
+# 
+# -S size ... SIZE (approximate) of text image. The choices are WIDTHx or 
+# xHEIGHT, but not both. The default is unspecified in favor of pointsize. 
+# SIZE and POINTSIZE may not be used simultaneously. If size is specified, 
+# it will superceded the pointsize. Using WIDTHx seems to work out a bit 
 # better than xHEIGHT.
-#
+# 
 # -s style ... STYLE is the style of the text. The choices are plain, outline,
 # glow, softshadow, hardshadow, stamp, bevel, antibevel, innerbevel and roundbevel.
 # Plain is just colored text with no outline. Outline is text that has an
@@ -130,106 +130,106 @@
 # darkening on the NorthWest. Bevel and antibevel allow both a line weight and
 # smudge to soften the style. Innerbevel and roundbevel have brightenning on the
 # Northwest side and darkening on the SouthEast side, but inside the text
-# rather than on the outside as in Bevel. The innerbevel amount is determined by
-# the linewt. Plain and outline allow an undercolor. The others do not.
+# rather than on the outside as in Bevel. The innerbevel amount is determined by 
+# the linewt. Plain and outline allow an undercolor. The others do not. 
 # The default is plain.
-#
-# -i italic ... ITALIC is the font slant angle in degrees which creates an italic effect.
+#  
+# -i italic ... ITALIC is the font slant angle in degrees which creates an italic effect. 
 # Values are floats between -45 and 45. The default=0.
-#
-# -e effect ... EFFECT is the geometric shapes/distortions to apply. The choices are:
-# normal (no effect), arc-top, arc-bottom, arch-top, arch-bottom, bulge, bulge-top,
-# bulge-bottom, concave, concave-top, concave-bottom, convex, convex-top, convex-bottom,
-# pinch, pinch-top, pinch-bottom, wave-right, wedge-top-right, wedge-bottom-right,
+# 
+# -e effect ... EFFECT is the geometric shapes/distortions to apply. The choices are: 
+# normal (no effect), arc-top, arc-bottom, arch-top, arch-bottom, bulge, bulge-top, 
+# bulge-bottom, concave, concave-top, concave-bottom, convex, convex-top, convex-bottom,  
+# pinch, pinch-top, pinch-bottom, wave-right, wedge-top-right, wedge-bottom-right, 
 # wedge-left, wedge-top-left, wedge-bottom-left, wedge-top and wedge-bottom.
-#
-# -l lineweight ... LINEWEIGHT is the outline border thickness in pixels. Values may be
-# floats greater than 0. Glow and shadow styles require lineweights of atleast 1.
+# 
+# -l lineweight ... LINEWEIGHT is the outline border thickness in pixels. Values may be 
+# floats greater than 0. Glow and shadow styles require lineweights of atleast 1. 
 # The default is 1 pixel.
-#
-# -d distort ... DISTORT is the control for the amount of distortion for the effect.
-# Values may be floats between 0 and 1. The default is 0.5. Larger values produce
+# 
+# -d distort ... DISTORT is the control for the amount of distortion for the effect. 
+# Values may be floats between 0 and 1. The default is 0.5. Larger values produce 
 # more distortion, i.e., a greater effect.
-#
-# -r rotation ... ROTATION is the rotation angle for the resulting image. Values
+# 
+# -r rotation ... ROTATION is the rotation angle for the resulting image. Values 
 # are floats ranging from -180 to 180 degrees. The default=0.
-#
-# -x excess-area ... EXCESS-AREA is the padding around the text. Padding will be
-# background color. See below for background color. Excess-area (padding) is an
+# 
+# -x excess-area ... EXCESS-AREA is the padding around the text. Padding will be 
+# background color. See below for background color. Excess-area (padding) is an 
 # integer greater than or equal to 0. The default is 10 pixels.
-#
-# -c text-color(s) ... TEXT-COLOR(S) are the colors to apply to the text. Any single
-# valid IM color or any dual (hyphenated) opaque-opaque or opaque-none combination may be used.
-# If a hyphenated pair of different colors is provided, a gradient effect will be produced.
-# The default is skyblue.
+# 
+# -c text-color(s) ... TEXT-COLOR(S) are the colors to apply to the text. Any single 
+# valid IM color or any dual (hyphenated) opaque-opaque or opaque-none combination may be used. 
+# If a hyphenated pair of different colors is provided, a gradient effect will be produced. 
+# The default is skyblue. 
 # See http://imagemagick.org/script/color.php
-#
-# -o outline-color ... OUTLINE-COLOR is the color to apply to the text border or
-# outline. Any valid IM text color may be used. The default is black.
+# 
+# -o outline-color ... OUTLINE-COLOR is the color to apply to the text border or 
+# outline. Any valid IM text color may be used. The default is black. 
 # See http://imagemagick.org/script/color.php
-#
-# -b background-color ... BACKGROUND-COLOR is the color to apply to the background and
-# padding if any. Any valid IM text color may be used. The default is white. Use none
+# 
+# -b background-color ... BACKGROUND-COLOR is the color to apply to the background and  
+# padding if any. Any valid IM text color may be used. The default is white. Use none 
 # for transparent background. See http://imagemagick.org/script/color.php
-#
-# -u under-color ... UNDER-COLOR is the color to apply directly under the text, but
-# separate from the background/padding. Any valid IM text color may be used.
+# 
+# -u under-color ... UNDER-COLOR is the color to apply directly under the text, but  
+# separate from the background/padding. Any valid IM text color may be used. 
 # The default is none. See http://imagemagick.org/script/color.php
-#
-# -g glow-shadow-color ... GLOW-SHADOW-COLOR is the color to apply to generate a glow
-# or shadow effect. For shadow this is typically black. Any valid IM text color may be used.
+# 
+# -g glow-shadow-color ... GLOW-SHADOW-COLOR is the color to apply to generate a glow 
+# or shadow effect. For shadow this is typically black. Any valid IM text color may be used. 
 # The default is the outline-color. See http://imagemagick.org/script/color.php
-#
-# -m smudge ... SMUDGE is the spreading amount or distance for the glow, softshadow, bevel,
-# antibevel and stamp. It is specified in pixels as a float greater than or equal to 0.
+# 
+# -m smudge ... SMUDGE is the spreading amount or distance for the glow, softshadow, bevel, 
+# antibevel and stamp. It is specified in pixels as a float greater than or equal to 0. 
 # The default is 3.
-#
-# -w wave-cycles ... WAVE-CYCLES is the number of cycles for the wave effect. Values
+# 
+# -w wave-cycles ... WAVE-CYCLES is the number of cycles for the wave effect. Values 
 # are floats greater than zero. The default=1 (one up and down wave cycle)
-#
-# -a arc-angle ... ARC-ANGLE is the angle for the arc in degrees. Values must be greater
-# than or equal to 0 and less than or equal to 360. Alternately, specify ne, se, sw or nw
+# 
+# -a arc-angle ... ARC-ANGLE is the angle for the arc in degrees. Values must be greater 
+# than or equal to 0 and less than or equal to 360. Alternately, specify ne, se, sw or nw  
 # to automatically create the specified diagonal direction. The default=60.
-#
-# -A gradient-angle ... GRADIENT-ANGLE is the angle for the gradient coloration in degrees.
-# Values must be greater than or equal to 0 and less than or equal to 360. Alternately,
-# values of nw, ne, se, or sw may be specified to have the diagonal angle automatically,
-# computed. For gradient-angle=0, the gradient will have the first color at the top and
-# the second color at the bottom. As the gradient-angle is increased, the gradient rotates
+# 
+# -A gradient-angle ... GRADIENT-ANGLE is the angle for the gradient coloration in degrees. 
+# Values must be greater than or equal to 0 and less than or equal to 360. Alternately, 
+# values of nw, ne, se, or sw may be specified to have the diagonal angle automatically, 
+# computed. For gradient-angle=0, the gradient will have the first color at the top and 
+# the second color at the bottom. As the gradient-angle is increased, the gradient rotates 
 # clockwise. The default=90.
-#
-# -D distance ... DISTANCE in pixels of inner bevel from border of character;
+# 
+# -D distance ... DISTANCE in pixels of inner bevel from border of character; 
 # Values are integers>0. The default will have bevel peak in middle of character.
-#
-# -R rounding ... ROUNDING amount used to convert innerbevel into roundbevel.
+# 
+# -R rounding ... ROUNDING amount used to convert innerbevel into roundbevel. 
 # Values are floats>0. The default=3.
-#
-# IMPORTANT: Please note that you can use only one instance of each argument. For
-# example, you cannot have multiple styles (-s style) in the same command line,
-# except as noted where some styles allow you to have an outline also, such as glow.
-# But in those cases the outline is controlled by the -o outline-color and -l
+# 
+# IMPORTANT: Please note that you can use only one instance of each argument. For 
+# example, you cannot have multiple styles (-s style) in the same command line, 
+# except as noted where some styles allow you to have an outline also, such as glow. 
+# But in those cases the outline is controlled by the -o outline-color and -l 
 # lineweight arguments.
 #
-# NOTE: See http://www.imagemagick.org/Usage/text/ and
-# http://www.imagemagick.org/Usage/fonts/ for more examples and detailed explanations
+# NOTE: See http://www.imagemagick.org/Usage/text/ and 
+# http://www.imagemagick.org/Usage/fonts/ for more examples and detailed explanations 
 # of how many of these styles were created.
-#
-# NOTE: Some effects require the use of -fx and thus will be slower than the others.
-# These include: the variations on bulge, concave, convex and pinch for IM versions
-# prior to 6.4.3-7. The arc effect requires IM 6.3.5-5. The innerbevel and
-# roundbevel require IM 6.5.9-1. Proper looking wedge effects likely require
-# 6.5.7-0, when a bug in -distort BilinearForward was fixed. Prior to that,
-# the script will -distort perspective and the wedge-top and wedge-bottom will
-# not be properly centered. The other wedge effects may not be centered properly
+# 
+# NOTE: Some effects require the use of -fx and thus will be slower than the others. 
+# These include: the variations on bulge, concave, convex and pinch for IM versions 
+# prior to 6.4.3-7. The arc effect requires IM 6.3.5-5. The innerbevel and 
+# roundbevel require IM 6.5.9-1. Proper looking wedge effects likely require 
+# 6.5.7-0, when a bug in -distort BilinearForward was fixed. Prior to that, 
+# the script will -distort perspective and the wedge-top and wedge-bottom will 
+# not be properly centered. The other wedge effects may not be centered properly 
 # until after about 6.6.0-x.
-#
-# Thanks to Aditya Naik for improvments on the techniques for generating the
+# 
+# Thanks to Aditya Naik for improvments on the techniques for generating the 
 # concave, convex, pinch and bulge effects.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -247,7 +247,7 @@ gc=""							# -g glow/shadow color (or none=match oc)
 style="plain"					# -s style: plain, outline, glow, hardshadow, softshadow, bevel, stamp, antibevel
 italic=0						# -i italic slant angle
 linewt=1						# -l (out)line weight or thickness
-effect="normal"					# -e effect:
+effect="normal"					# -e effect: 
 distort=0.5						# -d distortion amount
 cycles=1.0						# -w number of wave cycles
 arcangle=60						# -a angle for arc
@@ -265,13 +265,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -319,14 +319,14 @@ else
 					   ;;
 				-f)    # get  font
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   checkMinus "$1"
 					   font="$1"
 					   ;;
 				-p)    # get pointsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POINTSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   point=`expr "$1" : '\([0-9]*\)'`
@@ -336,22 +336,22 @@ else
 					   ;;
 				-S)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size1=`expr "$1" : '\(x[0-9][0-9]*\)'`
-					   size2=`expr "$1" : '\([0-9][0-9]*x\)'`
+					   size2=`expr "$1" : '\([0-9][0-9]*x\)'`				   
 					   [ "$size1" = "" -a "$size2" = "" ] && errMsg "--- SIZE=$size MUST BE A NON-NEGATIVE INTEGER EXPRESSED AS WIDTHx or xHEIGHT ---"
 					   [ "$size1" = "" ] && size=$size2
 					   [ "$size2" = "" ] && size=$size1
 					   ;;
 				-s)    # get  style
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STYLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   style="$1"
-					   case "$1" in
+					   case "$1" in 
 					   		plain) ;;
 					   		outline) ;;
 					   		glow) ;;
@@ -362,12 +362,12 @@ else
 					   		antibevel) ;;
 					   		innerbevel) ;;
 					   		roundbevel) ;;
-					   		*) errMsg "--- STYLE=$style IS AN INVALID VALUE ---"
+					   		*) errMsg "--- STYLE=$style IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-i)    # get italic slant
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID ITALIC SPECIFICATION ---"
 					   #checkMinus "$1"
 					   italic=`expr "$1" : '\([.0-9\-]*\)'`
@@ -378,11 +378,11 @@ else
 					   ;;
 				-e)    # get  effect
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EFFECT SPECIFICATION ---"
 					   checkMinus "$1"
 					   effect="$1"
-					   case "$1" in
+					   case "$1" in 
 					   		normal) ;;
 					   		arc-top) ;;
 					   		arc-bottom) ;;
@@ -410,12 +410,12 @@ else
 					   		wedge-bottom-right) ;;
 					   		wedge-top) ;;
 					   		wedge-bottom) ;;
-					   		*) errMsg "--- EFFECT=$effect IS AN INVALID VALUE ---"
+					   		*) errMsg "--- EFFECT=$effect IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-l)    # get lineweight
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LINEWEIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   linewt=`expr "$1" : '\([.0-9]*\)'`
@@ -425,7 +425,7 @@ else
 					   ;;
 				-d)    # get distort
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISTORT SPECIFICATION ---"
 					   checkMinus "$1"
 					   distort=`expr "$1" : '\([.0-9]*\)'`
@@ -436,7 +436,7 @@ else
 					   ;;
 				-r)    # get rotation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID ROTATION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   rotation=`expr "$1" : '\([-.0-9]*\)'`
@@ -447,7 +447,7 @@ else
 					   ;;
 				-x)    # get excess-area (pad)
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXCESS-AREA SPECIFICATION ---"
 					   checkMinus "$1"
 					   pad=`expr "$1" : '\([0-9]*\)'`
@@ -455,42 +455,42 @@ else
 					   ;;
 				-c)    # get  text-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEXT-COLOR(S) SPECIFICATION ---"
 					   checkMinus "$1"
 					   tc="$1"
 					   ;;
 				-o)    # get  outline-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OUTLINE-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   oc="$1"
 					   ;;
 				-b)    # get  background-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bc="$1"
 					   ;;
 				-u)    # get  under-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UNDER-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   uc="$1"
 					   ;;
 				-g)    # get  glow-shadow-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GLOW-SHADOW-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   gc="$1"
 					   ;;
 				-m)    # get smudge
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMUDGE SPECIFICATION ---"
 					   checkMinus "$1"
 					   smudge=`expr "$1" : '\([.0-9]*\)'`
@@ -498,7 +498,7 @@ else
 					   ;;
 				-w)    # get wave cycles
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CYCLES SPECIFICATION ---"
 					   checkMinus "$1"
 					   cycles=`expr "$1" : '\([.0-9]*\)'`
@@ -508,7 +508,7 @@ else
 					   ;;
 				-a)    # get arcangle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ARC ANGLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   arcangle=`expr "$1" : '\([.0-9]*\)'`
@@ -519,7 +519,7 @@ else
 					   ;;
 				-A)    # get gradangle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRADIENT ANGLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   gradangle=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -533,7 +533,7 @@ else
 					   ;;
 				-D)    # get distance
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISTANCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   distance=`expr "$1" : '\([0-9]*\)'`
@@ -543,7 +543,7 @@ else
 					   ;;
 				-R)    # get rounding
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROUNDING SPECIFICATION ---"
 					   checkMinus "$1"
 					   rounding=`expr "$1" : '\([.0-9]*\)'`
@@ -553,7 +553,7 @@ else
 					   ;;
 		   		-t)	   # get text
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEXT SPECIFICATION ---"
 					   checkMinus "$1"
 			   		   text="$1"
@@ -614,20 +614,20 @@ fi
 # get IM version
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
-
+	
 # test acceptible versions for arc, innerbevel and roundbevel
 [ "$effect" = "arc-top" -a "$im_version" -lt "06030505" ] && errMsg "--- ARC EFFECT REQUIRES IM 6.3.5-5 OR HIGHER ---"
 [ "$effect" = "arc-bottom" -a "$im_version" -lt "06030505" ] && errMsg "--- ARC EFFECT REQUIRES IM 6.3.5-5 OR HIGHER ---"
 [ "$effect" = "innerbevel" -a "$im_version" -lt "06050901" ] && errMsg "--- INNERBEVEL EFFECT REQUIRES IM 6.5.9-1 OR HIGHER ---"
 [ "$effect" = "roundbevel" -a "$im_version" -lt "06050901" ] && errMsg "--- ROUNDBEVEL EFFECT REQUIRES IM 6.5.9-1 OR HIGHER ---"
-
+	
 # make sure glow and shadow have at least one pixel outline
 [ "$style" = "glow" -o "$style" = "shadow" ] && linewt=`convert xc: -format "%[fx:$linewt/3]" info:`
 
 # set default for glow color to be same as outline color
 [ "$gc" = "" ] && gc="$oc"
 
-# set trim of initial text image before distorting according to effect
+# set trim of initial text image before distorting according to effect 
 if [ "$effect" = "bulge" -o "$effect" = "bulge-top" -o "$effect" = "bulge-bottom" -o "$effect" = "pinch" -o "$effect" = "pinch-top" -o "$effect" = "pinch-bottom" -o "$effect" = "concave" -o "$effect" = "concave-top" -o "$effect" = "concave-bottom" -o "$effect" = "convex" -o "$effect" = "convex-top" -o "$effect" = "convex-bottom" ]
 	then
 	trimpad="-fuzz 0.1 -trim +repage -bordercolor $bc -border $pad"
@@ -685,7 +685,7 @@ if [ "$size" = "" ]; then
 			-format "%wx%h" info:`
 	wd=`echo $dim | cut -dx -f 1`
 	ht=`echo $dim | cut -dx -f 2`
-
+	
 	# seems to be bug in IM such that -annotate makes image to short vertically (tested IM 6.8.5.10 and before)
 	# so make height 1.5 times larger from label
 	ht=`convert xc: -format "%[fx:1.5*$ht]" info:`
@@ -705,7 +705,7 @@ elif [ "$size" != "" ]; then
 		[ $size -lt 1 ] && errMsg "--- SIZE MUST BE GREATER THAN $pad ---"
 		size="${size}x"
 	fi
-	if [ "$im_version" -lt "06060207" ]; then
+	if [ "$im_version" -lt "06060207" ]; then	
 		str=`convert -size "$size" -background "$bc" \
 				-fill "$tc1" $stroke -font $font \
 				-gravity center -debug annotate label:"$text" \
@@ -751,7 +751,7 @@ makeGradient1()
 			$tmpA1
 	fi
 	}
-
+	
 # function to make directional gradient without -distort SRT
 # note: results are not same as makeGradient1
 makeGradient2()
@@ -807,7 +807,7 @@ if [ "$infile" != "" ]
 elif [ "$infile" = "" -a "$tc2" != "" ]
 	then
 	# gradient color
-
+	
 	# get max dimension
 	maxdim=`convert xc: -format "%[fx:max($wd,$ht)]" info:`
 
@@ -824,18 +824,18 @@ elif [ "$infile" = "" -a "$tc2" != "" ]
 	elif [ "$gradangle" = "se" ]; then
 		gradangle=`convert xc: -format "%[fx:(180/pi)*atan2($ht,-$wd)]" info:`
 	fi
-
+	
 # test if -alpha copy exists in current IM version (IM v6.4.3-7)
 	if [ "$im_version" -ge "06040307" ]; then
 		operation1="-alpha copy"
 	else
-		operation1="-clone 0 -compose copy_opacity -composite"
+		operation1="-clone 0 -compose copy_opacity -composite" 
 	fi
 
 	# set up colorpair and operations
 	# note as of IM 6.5.2-8, +level-colors did not handle transparency correctly
-	# when add alpha channel via -alpha copy -channel rgba, the alpha
-	# channel needed to be negated. Anthony wants to fix/change that,
+	# when add alpha channel via -alpha copy -channel rgba, the alpha 
+	# channel needed to be negated. Anthony wants to fix/change that, 
 	# thus no point in using -alpha copy -channel A -negate -channel RGBA
 	# before +level-colors for transparency situation
 	if [ "$tc1" != "none" -a "$tc2" != "none" ]; then
@@ -852,8 +852,8 @@ elif [ "$infile" = "" -a "$tc2" != "" ]
 
 
 	# process gradient
-
-# test if IM version compatible with -distort SRT
+	
+# test if IM version compatible with -distort SRT 
 # (earliest is IM 6.3.5-1 but possibly not stable until IM v6.4.2-6)
 	if [ "$im_version" -ge "06040206" ]; then
 		makeGradient1
@@ -876,7 +876,7 @@ if [ "$style" = "plain" ]
 		-font $font -pointsize $point \
 		-gravity center -annotate 0x${italic}+0+0 "$text" \
 		$trimpad +repage $tmpA0
-
+	
 elif [ "$style" = "outline" -a "$uc" = "none" ]
 	then
 	# any stroke and no undercolor
@@ -1092,7 +1092,7 @@ elif [ "$effect" = "wedge-bottom-left" ]
 		coords="0,0 $width,0 $width,$height 0,$height   0,0 $width,0 $width,$height 0,$hh4"
 	else
 		coords="0,0 0,0  $width,0 $width,0  $width,$height $width,$height  0,$height 0,$hh4"
-	fi
+	fi		
 elif [ "$effect" = "wedge-top" ]
 	then
 	# coordinates TL, TR, BR, BL
@@ -1173,7 +1173,7 @@ elif [ "$effect" = "bulge" -o "$effect" = "pinch" -o "$effect" = "concave" -o "$
 fi
 
 if [ "$im_version" -ge "06030600" ]
-	then
+	then 
 	rd="rd=hypot(xd,yd)/$sf;"
 else
 	rd="rd=sqrt(xd^2+yd^2)/$sf;"
@@ -1185,7 +1185,7 @@ if [ "$effect" = "normal" ]
 	then
 	convert $tmpA0 -background "$bc" -fuzz 0.3% -trim +repage -bordercolor "$bc" -border $pad \
 		$tmpA0
-
+		
 elif [ "$effect" = "wedge-right" -o "$effect" = "wedge-left" -o "$effect" = "wedge-top-left" -o "$effect" = "wedge-top-right" -o "$effect" = "wedge-bottom-left" -o "$effect" = "wedge-bottom-right" -o "$effect" = "wedge-top" -o "$effect" = "wedge-bottom" ]
 	then
 	# note bilinearforward introduced at 6.5.1.2, but does not seem to work for 6.5.4.7 (on Godaddy).
@@ -1218,7 +1218,7 @@ elif [ "$effect" = "bulge" -o "$effect" = "pinch" -o "$effect" = "bulge-top" -o 
 	if [ "$im_version" -ge "06040307" ]
 		then
 		# convert $b into format consistent with -distort by normalizing coefficient by Rm=min(wd,ht)/2
-		# trim if the effect is concave or convex for top or bottom
+		# trim if the effect is concave or convex for top or bottom 
 		if [ "$effect" = "bulge-top" -o "$effect" = "bulge-bottom" -o "$effect" = "pinch-top" -o "$effect" = "pinch-bottom" ]
 		  then
 		  convert $tmpA0 $vp -fuzz 0.3% -trim +repage $tmpA0
@@ -1253,7 +1253,7 @@ elif [ "$effect" = "bulge" -o "$effect" = "pinch" -o "$effect" = "bulge-top" -o 
 				-gravity center -extent ${ww}x${newhh} \
 				-distort barrelinverse "0 0 0 1   0 0 $b $a" \
 				$trimpad $tmpA0
-		fi
+		fi				
 	else
 	convert $tmpA0 $vp -background $bc \
 		-monitor -fx \
@@ -1261,13 +1261,13 @@ elif [ "$effect" = "bulge" -o "$effect" = "pinch" -o "$effect" = "bulge-top" -o 
 		-background $bc -fuzz 0.3% -trim +repage -bordercolor $bc -border $pad \
 		$tmpA0
 	fi
-
+		
 elif [ "$effect" = "concave" -o "$effect" = "convex" -o "$effect" = "concave-top" -o "$effect" = "concave-bottom" -o "$effect" = "convex-top" -o "$effect" = "convex-bottom" ]
 	then
 	if [ "$im_version" -ge "06040307" ]
 		then
 		# convert $b into format consistent with -distort by normalizing coefficient by Rm=min(wd,ht)/2
-		# trim if the effect is concave or convex for top or bottom
+		# trim if the effect is concave or convex for top or bottom 
 		if [ "$effect" = "concave-top" -o "$effect" = "concave-bottom" -o "$effect" = "convex-top" -o "$effect" = "convex-bottom" ]
 		  then
 		  convert $tmpA0 $vp -fuzz 0.3% -trim +repage $tmpA0
@@ -1285,7 +1285,7 @@ elif [ "$effect" = "concave" -o "$effect" = "convex" -o "$effect" = "concave-top
 		else
 			b=`convert xc: -format "%[fx:$b*(2*min($ww,$hh)/($ww+$hh))^2]" info:`
 		    fac=2.0
-		fi
+		fi		
 		newhh=`convert xc: -format "%[fx:$hh*$fac]" info:`
 
 		if [ "$effect" = "convex-top" -o "$effect" = "concave-top" ]
@@ -1308,7 +1308,7 @@ elif [ "$effect" = "concave" -o "$effect" = "convex" -o "$effect" = "concave-top
 				-gravity center -extent ${ww}x${newhh} \
 				-distort barrelinverse "0 0 0 1   0 $b 0 $a" \
 				$trimpad $tmpA0
-		fi
+		fi				
 	else
 	convert $tmpA0 $vp -background $bc \
 		-monitor -fx \
@@ -1334,3 +1334,5 @@ else
 fi
 
 exit 0
+
+

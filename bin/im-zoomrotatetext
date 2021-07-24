@@ -3,113 +3,113 @@
 # Developed by Fred Weinhaus 8/8/2018 .......... 8/8/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: zoomrotatetext -t "text" [-w width ] [-f font] [-c color] [-b bgcolor ]
-# [-r revolutions] [-D direction] [-m mode ] [-p pause] [-F frames] [-d delay]
+# USAGE: zoomrotatetext -t "text" [-w width ] [-f font] [-c color] [-b bgcolor ] 
+# [-r revolutions] [-D direction] [-m mode ] [-p pause] [-F frames] [-d delay]   
 # [infile] outfile
 # USAGE: zoomrotatetext [-h or -help]
 #
 # OPTIONS:
 #
-# -t     text            text string to be used to create the animation; required
-#                        argument
-# -w     width           width of text in pixels; integer>0; default=400;
-#                        output will be square of size determined from the text
-#                        diagonal dimension
-# -f     font            font to use for the text; font name or path to font file;
+# -t     text            text string to be used to create the animation; required 
+#                        argument 
+# -w     width           width of text in pixels; integer>0; default=400; 
+#                        output will be square of size determined from the text 
+#                        diagonal dimension                     
+# -f     font            font to use for the text; font name or path to font file; 
 #                        default=arial
 # -c     color           color of text; any valid IM color is allowed; default=black
-# -b     bgcolor         background color for the animation frames; any valid IM color
+# -b     bgcolor         background color for the animation frames; any valid IM color 
 #                        is allowed; default=white
-# -r     revolutions     number of 360 degree revolutions of the text; integer>0;
+# -r     revolutions     number of 360 degree revolutions of the text; integer>0; 
 #                        default=4
-# -D     direction       direction of the revolutions; clockwise or counterclockwise;
+# -D     direction       direction of the revolutions; clockwise or counterclockwise; 
 #                        default=clockwise
-# -m     mode            mode for the zoom; 1 (zoom out once only), 2 (zoom out,
-#                        then zoom in, then zoom out again once only), 3 (zoom out,
+# -m     mode            mode for the zoom; 1 (zoom out once only), 2 (zoom out, 
+#                        then zoom in, then zoom out again once only), 3 (zoom out, 
 #                        then zoom in, then repeat continuosly); default=2
-# -p     pause           number of frames to pause between zoom in/out steps with
+# -p     pause           number of frames to pause between zoom in/out steps with 
 #                        method 2 or 3; integer>0; default=10
-# -F     frames          number of frames to generate in the animation; integer>0;
+# -F     frames          number of frames to generate in the animation; integer>0; 
 #                        default=30
-# -d     delay           animation delay between frames; integer>0; default=10
+# -d     delay           animation delay between frames; integer>0; default=10 
 #
 # infile is optional and will be tiled (or cropped) to replace the background color
-#
+# 
 ###
 #
 # NAME: ZOOMROTATETEXT
-#
+# 
 # PURPOSE: Creates a zoomed and rotating text animation.
-#
-# DESCRIPTION: ZOOMROTATETEXT creates a zoomed and rotating text animation. The number
+# 
+# DESCRIPTION: ZOOMROTATETEXT creates a zoomed and rotating text animation. The number  
 # of revolutions may be specified as well as the mode for the zoom.
-#
-#
-# OPTIONS:
-#
+# 
+# 
+# OPTIONS: 
+# 
 # -t text ... TEXT string to be used to create the animation. This is a required argument
-#
-# -w width ... WIDTH of text in pixels. Values are integers>0. The default=400. The
-# output will be square of size determined from the text diagonal dimension.
-#
-# -f font ... FONT to use for the text. Either the font name or path to font file may
+# 
+# -w width ... WIDTH of text in pixels. Values are integers>0. The default=400. The  
+# output will be square of size determined from the text diagonal dimension.                    
+# 
+# -f font ... FONT to use for the text. Either the font name or path to font file may 
 # be used. The default=arial.
-#
+# 
 # -c color ... COLOR of the text. Any valid IM color is allowed. The default=black.
-#
-# -b bgcolor ... BGCOLOR is the background color for the animation frames. Any valid
+# 
+# -b bgcolor ... BGCOLOR is the background color for the animation frames. Any valid 
 # IM color is allowed. The default=white.
-#
-# -r revolutions ... REVOLUTIONS is the number of 360 degree revolutions of the text.
+# 
+# -r revolutions ... REVOLUTIONS is the number of 360 degree revolutions of the text. 
 # Values are integers>0. The default=4.
-#
-# -D direction ... DIRECTION of the revolutions. Choices are: clockwise (cw) or
+# 
+# -D direction ... DIRECTION of the revolutions. Choices are: clockwise (cw) or 
 # counterclockwise (ccw). The default=clockwise.
-#
-# -m mode ... MODE for the zoom. Choices are: 1 (zoom out once only), 2 (zoom out,
-# then zoom in, then zoom out again once only), 3 (zoom out, then zoom in, then
+# 
+# -m mode ... MODE for the zoom. Choices are: 1 (zoom out once only), 2 (zoom out, 
+# then zoom in, then zoom out again once only), 3 (zoom out, then zoom in, then 
 # repeat continuosly). The default=2
-#
-# -p pause ... Pause is the number of frames to pause between zoom in/out steps with
+# 
+# -p pause ... Pause is the number of frames to pause between zoom in/out steps with 
 # method 2 or 3. Values are integers>0. The default=10.
-#
-# -F frames ... FRAMES is the number of frames to generate in the animation. Values are
+# 
+# -F frames ... FRAMES is the number of frames to generate in the animation. Values are 
 # integers>0. The default=30.
-#
-# -d delay ... DELAY is the animation delay between frames. Values are integers>0. The
+# 
+# -d delay ... DELAY is the animation delay between frames. Values are integers>0. The 
 # default=10.
-#
+#  
 # infile is optional and will be tiled (or cropped) to replace the background color.
-#
+# 
 # REQUIREMENTS: Imagemagick 6.6.8-10 due to the use of -duplicate.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -134,13 +134,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -188,14 +188,14 @@ else
 					   ;;
 		   		-t)	   # get text
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEXT SPECIFICATION ---"
 					   #checkMinus "$1"
 			   		   text="$1"
 			   		   ;;
 				-w)    # get width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width=`expr "$1" : '\([0-9]*\)'`
@@ -205,28 +205,28 @@ else
 					   ;;
 				-f)    # get font
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   checkMinus "$1"
 					   font="$1"
 		   			   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-r)    # get revolutions
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REVOLUTIONS SPECIFICATION ---"
 					   checkMinus "$1"
 					   revolutions=`expr "$1" : '\([.0-9]*\)'`
@@ -236,7 +236,7 @@ else
 					   ;;
 			   	-D)    # direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   direction=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -248,7 +248,7 @@ else
 					   ;;
 			   	-m)    # mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -261,7 +261,7 @@ else
 					   ;;
 				-p)    # get pause
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PAUSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   pause=`expr "$1" : '\([0-9]*\)'`
@@ -271,7 +271,7 @@ else
 					   ;;
 				-F)    # get frames
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FRAMES SPECIFICATION ---"
 					   checkMinus "$1"
 					   frames=`expr "$1" : '\([0-9]*\)'`
@@ -281,7 +281,7 @@ else
 					   ;;
 				-d)    # get delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay=`expr "$1" : '\([0-9]*\)'`
@@ -369,7 +369,7 @@ if [ "$mode" = "1" ]; then
 	scale=`convert xc: -format "%[fx:$zoomstart+$k*$zoom_inc]" info:`
 	convert $tmp1A -background "$bgcolor" -virtual-pixel background \
 	+distort SRT "$scale $rot" +repage \
-	-gravity center -extent ${diag}x${diag} $tileproc miff:-
+	-gravity center -extent ${diag}x${diag} $tileproc miff:- 
 	done
 	) | convert -delay $delay - -layers optimize -loop 1 "$outfile"
 
@@ -380,7 +380,7 @@ elif [ "$mode" = "2" ]; then
 	scale=`convert xc: -format "%[fx:$zoomstart+$k*$zoom_inc]" info:`
 	convert $tmp1A -background "$bgcolor" -virtual-pixel background \
 	+distort SRT "$scale $rot" +repage \
-	-gravity center -extent ${diag}x${diag} $tileproc miff:-
+	-gravity center -extent ${diag}x${diag} $tileproc miff:- 
 	done
 	) | convert -delay $delay - -duplicate $pause \
 		\( -clone 0-$frames -reverse \) -duplicate $pause  \
@@ -394,7 +394,7 @@ elif [ "$mode" = "3" ]; then
 	scale=`convert xc: -format "%[fx:$zoomstart+$k*$zoom_inc]" info:`
 	convert $tmp1A -background "$bgcolor" -virtual-pixel background \
 	+distort SRT "$scale $rot" +repage \
-	-gravity center -extent ${diag}x${diag} $tileproc miff:-
+	-gravity center -extent ${diag}x${diag} $tileproc miff:- 
 	done
 	) | convert -delay $delay - -duplicate $pause \
 		\( -clone 0-$frames -reverse \) -duplicate $pause  \
@@ -402,3 +402,7 @@ elif [ "$mode" = "3" ]; then
 fi
 
 exit 0
+
+
+
+

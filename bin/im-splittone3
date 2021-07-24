@@ -3,108 +3,108 @@
 # Developed by Fred Weinhaus 12/19/2013 .......... revised 5/12/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: splittone3 [-sc shadowcolor] [-hc highlightcolor] [-m mix]
+# USAGE: splittone3 [-sc shadowcolor] [-hc highlightcolor] [-m mix] 
 # [-f format] [-t type] [-c compose] [-p] [-b bri] [-c con] infile outfile
 # USAGE: splittone3 [-help]
-#
+# 
 # OPTIONS:
-#
-# -sc     shadowcolor        shadow color; any opaque IM color allowed;
+# 
+# -sc     shadowcolor        shadow color; any opaque IM color allowed; 
 #                        	 default=black
-# -hc     highlightcolor     highlight color; any opaque IM color allowed;
+# -hc     highlightcolor     highlight color; any opaque IM color allowed; 
 #                            default=white
-# -m      mix                mix between shadow and highlight coloring;
-#                            0<=interger<=100; 0 is all shadow coloring;
+# -m      mix                mix between shadow and highlight coloring; 
+#                            0<=interger<=100; 0 is all shadow coloring; 
 #                            100 is all highlight coloring; default=50
-# -f      format             format of image to process; image or grayscale;
+# -f      format             format of image to process; image or grayscale; 
 #                            default=image
-# -t      type               type of color processing; color or gradient;
+# -t      type               type of color processing; color or gradient; 
 #                            default=color
-# -c      compose            compose method to use; choices are: colorize,
+# -c      compose            compose method to use; choices are: colorize, 
 #                            overlay, softlight and hardlight; default=colorize
 # -p                         preserve luminosity
 # -b      bri                brightness; -100<=integer<=100; default=0
 # -s      sat                saturation; -100<=integer<=100; default=0
 #
 ###
-#
-# NAME: SPLITTONE3
-#
+# 
+# NAME: SPLITTONE3 
+# 
 # PURPOSE: To apply a color splittone effect to an image.
-#
-# DESCRIPTION: SPLITTONE3 applies a color splittone effect to an image by
-# adjusting shadow and highlight color separately.
-#
-#
-# ARGUMENTS:
-#
-# -sc shadowcolor ... SHADOWCOLOR is the shadow color. Any opaque IM color is
+# 
+# DESCRIPTION: SPLITTONE3 applies a color splittone effect to an image by 
+# adjusting shadow and highlight color separately. 
+# 
+# 
+# ARGUMENTS: 
+# 
+# -sc shadowcolor ... SHADOWCOLOR is the shadow color. Any opaque IM color is 
 # allowed. The default=black
-#
-# -hc highlightcolor ... HIGHLIGHTCOLOR is the highlight color. Any opaque IM
+# 
+# -hc highlightcolor ... HIGHLIGHTCOLOR is the highlight color. Any opaque IM 
 # color is allowed. The default=black
-#
-# -m mix ... MIX between shadow and highlight coloring. Values are integers
-# between 0 and 100. Zero is all shadow coloring. One hundred is all
+# 
+# -m mix ... MIX between shadow and highlight coloring. Values are integers 
+# between 0 and 100. Zero is all shadow coloring. One hundred is all 
 # highlight coloring. The default=50 (equal blend).
-#
-# -f format ... FORMAT the image to process. Choices are: image (leave image
+# 
+# -f format ... FORMAT the image to process. Choices are: image (leave image 
 # unchanged) or grayscale (convert image to grayscale before processing). The
 # default=image.
-#
-# -t type ... TYPE of color processing. The choices are: color (solid color
-# composition of grayscale version with image) or gradient (+level-colors
+#  
+# -t type ... TYPE of color processing. The choices are: color (solid color 
+# composition of grayscale version with image) or gradient (+level-colors 
 # composition of grayscale version with image). The default=color.
 #
-# -c compose ... COMPOSE method to use to combine the image and the colored
-# grayscale image. The choices are: colorize, overlay, softlight and hardlight.
+# -c compose ... COMPOSE method to use to combine the image and the colored 
+# grayscale image. The choices are: colorize, overlay, softlight and hardlight. 
 # The default=colorize.
-#
-# -m mode ... MODE for overlaying the shadow processed image with highlight
-# processed image. The choices are HS (highlight first, then shadow overlaid)
-# or SH (shadow first, then high;light overlaid). The default=HS.
-#
+# 
+# -m mode ... MODE for overlaying the shadow processed image with highlight 
+# processed image. The choices are HS (highlight first, then shadow overlaid) 
+# or SH (shadow first, then high;light overlaid). The default=HS. 
+# 
 # -p ... Preserve luminosity.
-#
-# -b bri ... BRI is the percent change in brightness. Values are integers
+# 
+# -b bri ... BRI is the percent change in brightness. Values are integers 
 # between -100 and 100. The default=0 (no change)
-#
-# -s sat ... SAT is the percent change in saturation. Values are integers
+# 
+# -s sat ... SAT is the percent change in saturation. Values are integers 
 # between -100 and 100. The default=0 (no change)
-#
-# LIMITATION: Works best for compose=colorize for IM 6.8.5.5 or higher due to
-# the introduction and use of colorspace HCLp. Otherwise, a quite different
+# 
+# LIMITATION: Works best for compose=colorize for IM 6.8.5.5 or higher due to 
+# the introduction and use of colorspace HCLp. Otherwise, a quite different 
 # result will be obtained using colorspace HSL.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 scolor="black"				# shadow color; default=black
@@ -126,13 +126,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -180,21 +180,21 @@ else
 					   ;;
 				-sc)    # get  shadowcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHADOWCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   scolor="$1"
 					   ;;
 				-hc)    # get  highlightcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HIGHLIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   hcolor="$1"
 					   ;;
 				-m)    # get mix
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIX SPECIFICATION ---"
 					   checkMinus "$1"
 					   mix=`expr "$1" : '\([0-9]*\)'`
@@ -205,7 +205,7 @@ else
 					   ;;
 			   	-f)    # format
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   format=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -217,7 +217,7 @@ else
 					   ;;
 			   	-t)    # type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -229,7 +229,7 @@ else
 					   ;;
 			   	-c)    # compose
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COMPOSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -246,7 +246,7 @@ else
 					   ;;
 				-b)    # get bri
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID BRI SPECIFICATION ---"
 					   #checkMinus "$1"
 					   bri=`expr "$1" : '\([-0-9]*\)'`
@@ -257,7 +257,7 @@ else
 					   ;;
 				-s)    # get sat
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID SAT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   sat=`expr "$1" : '\([-0-9]*\)'`
@@ -316,9 +316,9 @@ convert -quiet "$infile" +repage "$tmpA1" ||
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -375,7 +375,7 @@ if [ "$im_version" -ge "06080505" ]; then
 else
 	colormode="HSL"
 fi
-
+	
 # colorize grayscale image for shadows
 if [ "$compose" = "colorize" ]; then
 	convert $tmpG1 \
@@ -402,8 +402,8 @@ else
 		-compose $compose -composite \
 		$tmpH1
 fi
-
-
+	
+	
 
 # merge shadow with input image
 convert $img \
@@ -435,4 +435,5 @@ else
 		-define compose:args=$mix -compose blend -composite -modulate 100,$sat,100 "$outfile"
 fi
 
-exit 0
+exit 0	
+	

@@ -3,68 +3,68 @@
 # Developed by Fred Weinhaus 12/15/2016 .......... revised 10/29/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: neg2pos [-p position] [-o offset] [-C color] [-m method] [-r refinefuzz]
-# [-t trimfuzz ] [-a area] [-s stretch] [-l cliplow] [-h cliphigh]
+# USAGE: neg2pos [-p position] [-o offset] [-C color] [-m method] [-r refinefuzz] 
+# [-t trimfuzz ] [-a area] [-s stretch] [-l cliplow] [-h cliphigh] 
 # [ -c crop] [-cb colorbalance] [-P percent] [-S showmask] infile outfile
 #
 # USAGE: neg2pos [-help]
 #
 # OPTIONS:
-#
-# -p      position         position to extract perforation region background
-#                          color; choices are: northwest, northeast, southwest,
+# 
+# -p      position         position to extract perforation region background  
+#                          color; choices are: northwest, northeast, southwest, 
 #                          southeast, corners, or x,y coord; default=northwest
-# -o      offset           offset from position when position is not x,y coord;
-#                          comma separate non-negative x,y pair of integers;
+# -o      offset           offset from position when position is not x,y coord; 
+#                          comma separate non-negative x,y pair of integers; 
 #                          default="1,1"
 # -C      color            color of the perforations region; any valid IM opaque
-#                          color may be use; default is to use the -p position and
-#                          -o offset to get the color; if color is specified,
+#                          color may be use; default is to use the -p position and 
+#                          -o offset to get the color; if color is specified,  
 #                          the -p and -o arguments will be ignored.
-# -m      method           method to use to refine perforation region
-#                          background color and get crop bounds; choices are:
+# -m      method           method to use to refine perforation region 
+#                          background color and get crop bounds; choices are: 
 #                          floodfill, threshold or none; default=floodfill
-# -r      refinefuzz       fuzz value for refining the perforation region
+# -r      refinefuzz       fuzz value for refining the perforation region 
 #                          background color; 0<=float<=100; default=5
-# -t      trimfuzz         fuzz value for trimming of image region with or
-#                          without crop; value or "none"; 0<=float<=100;
+# -t      trimfuzz         fuzz value for trimming of image region with or 
+#                          without crop; value or "none"; 0<=float<=100; 
 #                          default=10
-# -a      area             connected components area threshold when
+# -a      area             connected components area threshold when 
 #                          method=threshold; integer>=0; default=10000
-# -s      stretch          stretch image channels dynamic range; options are:
-#                          none (n), together (t), or separate (s);
+# -s      stretch          stretch image channels dynamic range; options are: 
+#                          none (n), together (t), or separate (s); 
 #                          default=separate
-# -l      cliplow          clip percent on low end of histogram;
+# -l      cliplow          clip percent on low end of histogram; 
 #                          float; 0<=cliplow<=100; default=1
 # -h      cliphigh         clip percent on high end of histogram;
 #                          float; 0<=cliphigh<=100; default=1
 # -c      crop             crop the central image; yes or no; default=yes
-# -cb     colorbalance     color balance mode; choices are gray,
+# -cb     colorbalance     color balance mode; choices are gray,  
 #                          white, both, auto or none; default=none
-# -P      percent          percent threshold for colorbalance processing;
+# -P      percent          percent threshold for colorbalance processing; 
 #                          0<float<100; default=10
 # -S      showmask         show the mask that delineates the perforation region
 #                          from the interior image; choices are: view, save or
@@ -73,81 +73,81 @@
 ###
 #
 # NAME: NEG2POS
-#
+# 
 # PURPOSE: To convert from a (scanned film) negative image to a positive image.
-#
-# DESCRIPTION: NEG2POS converts from a (scanned film) negative image to a
-# positive image when the negative contains the exterior perforation region.
-# Options include: stretching the image channels' dynamic range with without
-# clipping, connected components processing to remove small regions before
-# trimming or cropping and color balancing via white balance, gray balance
+# 
+# DESCRIPTION: NEG2POS converts from a (scanned film) negative image to a 
+# positive image when the negative contains the exterior perforation region. 
+# Options include: stretching the image channels' dynamic range with without 
+# clipping, connected components processing to remove small regions before 
+# trimming or cropping and color balancing via white balance, gray balance 
 # or automatic.
-#
-# OPTIONS:
-#
-# -p position ... POSITION for extracting the perforation region background
-# color. The choices are: northwest, northeast, southwest, southeast, corners,
-# or an x,y coordinate. The default=northwest. The choice of corners gets the
+# 
+# OPTIONS: 
+# 
+# -p position ... POSITION for extracting the perforation region background  
+# color. The choices are: northwest, northeast, southwest, southeast, corners, 
+# or an x,y coordinate. The default=northwest. The choice of corners gets the 
 # color at each corner and takes the average of the four.
-#
-# -o offset ... OFFSET from the directional positions. Ignored for the case
-# when the position is a coordinate pair. Values are a comma separated
+# 
+# -o offset ... OFFSET from the directional positions. Ignored for the case  
+# when the position is a coordinate pair. Values are a comma separated 
 # non-negative x,y pair of integers. The  default="1,1".
+# 
+# -C color ... COLOR of the perforations region. Any valid IM opaque color may 
+# be use. The default is to use the -p position and -o offset to get the color. 
+# If color is specified, the -p and -o arguments will be ignored. 
 #
-# -C color ... COLOR of the perforations region. Any valid IM opaque color may
-# be use. The default is to use the -p position and -o offset to get the color.
-# If color is specified, the -p and -o arguments will be ignored.
-#
-# -m method ... METHOD to use to refine the perforation region background color
-# and to get the crop bounds of the interior image. The choices are:
-# floodfill (f), threshold (t) or none (n). The default=floodfill. Note that
-# method=threshold needs my script innercrop. Also if color is specified, then
-# refining will be disabled for -m floodfill, since there is no coordinate to seed
+# -m method ... METHOD to use to refine the perforation region background color 
+# and to get the crop bounds of the interior image. The choices are: 
+# floodfill (f), threshold (t) or none (n). The default=floodfill. Note that 
+# method=threshold needs my script innercrop. Also if color is specified, then 
+# refining will be disabled for -m floodfill, since there is no coordinate to seed 
 # the floodfill. It will work for -m threshold.
-#
-# -r refinefuzz ... REFINEFUZZ is the fuzz value for refining the perforation
-# region background color. Values are 0<=float<=100. The default=5. The
-# refinefuzz value is often much smaller for method=threshold than for
+# 
+# -r refinefuzz ... REFINEFUZZ is the fuzz value for refining the perforation 
+# region background color. Values are 0<=float<=100. The default=5. The 
+# refinefuzz value is often much smaller for method=threshold than for 
 # method=floodfill
-#
-# -t trimfuzz ... TRIMFUZZ is the fuzz value for the trimming of the image
-# region with or without final cropping. The choices are a numerical value
+# 
+# -t trimfuzz ... TRIMFUZZ is the fuzz value for the trimming of the image 
+# region with or without final cropping. The choices are a numerical value 
 # in the range 0<=float<=100 or "none". The default=10.
-#
-# -a area ... AREA is the connected components area threshold when the
+# 
+# -a area ... AREA is the connected components area threshold when the 
 # method=threshold. Values are integers>=0. The default=10000.
-#
-# -s stretch ... STRETCH the image channels' dynamic range. The options are:
+# 
+# -s stretch ... STRETCH the image channels' dynamic range. The options are: 
 # none (n), together (t) or separate (s). The default=separate.
-#
-# -l cliplow ... CLIPLOW is the cumulative percent at the low end of the
-# histogram whose graylevel will be autostretched to full black. Values are
-# floats between 0 and 100. If cliplow=0, then the autostretch will locate
+# 
+# -l cliplow ... CLIPLOW is the cumulative percent at the low end of the 
+# histogram whose graylevel will be autostretched to full black. Values are 
+# floats between 0 and 100. If cliplow=0, then the autostretch will locate 
 # the minimum value in the channel histogram. The default=1.
-#
-# -h cliphigh ... CLIPHIGH is the cumulative percent at the high end of
-# the histogram whose graylevel will be autostretched to full white. Values are
-# floats between 0 and 100. If cliplow=0, then the autostretch will locate
+# 
+# -h cliphigh ... CLIPHIGH is the cumulative percent at the high end of  
+# the histogram whose graylevel will be autostretched to full white. Values are 
+# floats between 0 and 100. If cliplow=0, then the autostretch will locate 
 # the maximum value in the channel histogram. The default=1.
-#
-# -c crop ... CROP the central image, if possible depending upon whether color
+# 
+# -c crop ... CROP the central image, if possible depending upon whether color 
 # is specified and the refining method used. Choices are yes or no. The default=yes.
-#
-# -cb colorbalance ... COLORBALANCE mode. The choices are none, gray, white,
-# both, or auto. The default=auto. Both will be an equal blend of gray and
-# white. Auto will try to choose the better of gray or white depending upon
+# 
+# -cb colorbalance ... COLORBALANCE mode. The choices are none, gray, white, 
+# both, or auto. The default=auto. Both will be an equal blend of gray and 
+# white. Auto will try to choose the better of gray or white depending upon 
 # which one's percent selected pixels' rmse value is the smallest.
-#
-# -P percent ... PERCENT is the percent threshold for detecting gray/white
+# 
+# -P percent ... PERCENT is the percent threshold for detecting gray/white 
 # in the image for auto color balance. Values are 0<floats<100. The default=10.
-#
-# -S showmask ... SHOWMASK presents the mask image that delineates the
-# perforation region from the interior image. The choices are: view (v),
-# save (s) or none (n). The default=none. If the value is save, then the
+# 
+# -S showmask ... SHOWMASK presents the mask image that delineates the 
+# perforation region from the interior image. The choices are: view (v), 
+# save (s) or none (n). The default=none. If the value is save, then the 
 # mask will be the input file name with "_mask.gif" appended.
-#
+# 
 # REQUIREMENTS: Note that method=threshold needs my script innercrop.
-#
+# 
 # REFERENCES AND TUTORIALS:
 # http://www.instructables.com/id/How-to-Convert-Digitized-Film-Negatives-into-Quali/?ALLSTEPS
 # http://www.computer-darkroom.com/tutorials/tutorial_6_1.htm
@@ -156,10 +156,10 @@
 # http://petapixel.com/2012/05/18/how-to-scan-film-negatives-with-a-dslr/
 # https://www.youtube.com/watch?v=iMO50AlGyrw
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -186,13 +186,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -240,7 +240,7 @@ else
 					   ;;
 				-p)    # get position
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POSITION SPECIFICATION ---"
 					   checkMinus "$1"
 					   position="$1"
@@ -248,7 +248,7 @@ else
 					   ;;
 				-o)    # get offset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSET SPECIFICATION ---"
 					   checkMinus "$1"
 					   offset=`expr "$1" : '\([0-9]*,[0-9]*\)'`
@@ -256,18 +256,18 @@ else
 					   ;;
 				-C)    # get  COLOR
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-m)    # get  method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$method" in
+					   case "$method" in 
 							floodfill|f) method="floodfill" ;;
 							threshold|t) method="threshold" ;;
 							none|n) method="none" ;;
@@ -276,7 +276,7 @@ else
 					   ;;
 			    -r)    # get refinefuzz
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REFINEFUZZ SPECIFICATION ---"
 					   checkMinus "$1"
 					   refinefuzz=`expr "$1" : '\([.0-9]*\)'`
@@ -287,7 +287,7 @@ else
 					   ;;
 			    -t)    # get trimfuzz
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TRIMFUZZ SPECIFICATION ---"
 					   checkMinus "$1"
 					   trimfuzz=`expr "$1" : '\([.0-9]*\)'`
@@ -298,7 +298,7 @@ else
 					   ;;
 				-a)    # get area
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AREA SPECIFICATION ---"
 					   checkMinus "$1"
 					   area=`expr "$1" : '\([0-9]*\)'`
@@ -306,11 +306,11 @@ else
 					   ;;
 				-s)    # get  stretch
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STRETCH SPECIFICATION ---"
 					   checkMinus "$1"
 					   stretch=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$stretch" in
+					   case "$stretch" in 
 							together|t) stretch="together" ;;
 							separately|separate|s) stretch="separate" ;;
 							none|n) stretch="none" ;;
@@ -319,7 +319,7 @@ else
 					   ;;
 				-l)    # get cliplow
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CLIPLOW SPECIFICATION ---"
 					   checkMinus "$1"
 					   cliplow=`expr "$1" : '\([.0-9]*\)'`
@@ -330,7 +330,7 @@ else
 					   ;;
 				-h)    # get cliphigh
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CLIPHIGH SPECIFICATION ---"
 					   checkMinus "$1"
 					   cliphigh=`expr "$1" : '\([.0-9]*\)'`
@@ -341,11 +341,11 @@ else
 					   ;;
 				-c)    # get  crop
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CROP SPECIFICATION ---"
 					   checkMinus "$1"
 					   crop=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$crop" in
+					   case "$crop" in 
 							yes|y) crop="yes" ;;
 							no|n) crop="no" ;;
 							*) errMsg "--- CROP=$crop IS AN INVALID VALUE ---" ;;
@@ -353,11 +353,11 @@ else
 					   ;;
 			   -cb)    # get colorbalance mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORBALANCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   colorbalance=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$colorbalance" in
+					   case "$colorbalance" in 
 							none|n) colorbalance="none" ;;
 							gray|g) colorbalance="gray" ;;
 							white|w) colorbalance="white" ;;
@@ -368,7 +368,7 @@ else
 					   ;;
 			    -P)    # get percent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PERCENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   percent=`expr "$1" : '\([.0-9]*\)'`
@@ -379,11 +379,11 @@ else
 					   ;;
 				-S)    # get  showmask
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHOWMASK SPECIFICATION ---"
 					   checkMinus "$1"
 					   showmask=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$showmask" in
+					   case "$showmask" in 
 							save|s) showmask="save" ;;
 							view|v) showmask="view" ;;
 							none|n) showmask="none" ;;
@@ -438,15 +438,15 @@ convert -quiet "$infile" +repage $dir/tmpI.mpc ||
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
 # but we need to use -set colorspace RGB before using them at appropriate times
 # so that results stay as in original script
-# The following was determined from various version tests
+# The following was determined from various version tests 
 # with IM 6.7.4.10, 6.7.6.10, 6.7.8.6
 if [ "$im_version" -lt "06070607" -o "$im_version" -gt "06070707" ]; then
 	setcspace="-set colorspace RGB"
@@ -569,7 +569,7 @@ if [ "$method" = "floodfill" -a "$icolor" = "" ]; then
 			break
 		fi
 	done
-
+		
 elif [ "$method" = "threshold" ]; then
 	convert $dir/tmpM.mpc -define connected-components:verbose=true \
 		-define connected-components:area-threshold=$area \
@@ -680,7 +680,7 @@ if [ "$colorbalance" = "gray" -o "$colorbalance" = "both" -o "$colorbalance" = "
 
 		rmse_gray=`convert xc: -format "%[fx: ((0.5-$redave)^2 + (0.5-$greenave)^2 + (0.5-$blueave)^2)/(3*$gray_pixels) ]" info:`
 		#echo "rmse_gray=$rmse_gray"
-	else
+	else 
 		colorbalance="white"
 	fi
 

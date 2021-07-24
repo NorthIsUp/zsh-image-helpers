@@ -3,97 +3,97 @@
 # Developed by Fred Weinhaus 4/21/2016 .......... revised 12/16/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: replacecolor [-i icolor] [-o ocolor] [-f fuzzval ] [-g gain]
+# USAGE: replacecolor [-i icolor] [-o ocolor] [-f fuzzval ] [-g gain] 
 # [-t thresh] [-b brightness] [-s saturation] [-c colormode] infile [outdir]
 #
 # USAGE: replacecolor [-help]
 #
 # OPTIONS:
 #
-# -i     icolor         color in the input image to be replaced;
+# -i     icolor         color in the input image to be replaced; 
 #                       any valid opaque IM color; default=blue
-# -o     ocolor         color in the output image to replace the input color;
+# -o     ocolor         color in the output image to replace the input color; 
 #                       any valid opaque IM color; default=red
-# -f     fuzzval        fuzzval on each side of icolor for the range of hues;
+# -f     fuzzval        fuzzval on each side of icolor for the range of hues;   
 #                       0<=float<=180 degrees; default=40 degrees
 # -g     gain           gain on color conversion; integers>=0; default=100
 # -t     thresh         threshold value in percent for forcing low saturation
-#                       colors to zero saturation, i.e. converts near gray
+#                       colors to zero saturation, i.e. converts near gray 
 #                       (white through black) to pure gray; float>=0; default=0
-# -b     brightness     percent change in newcolor brightness; integer>=-100;
+# -b     brightness     percent change in newcolor brightness; integer>=-100; 
 #                       default=0 (no change)
 # -s     saturation     percent change in new color saturation;
 #                       -100<=integer<=100; default=0 (no change)
-# -c     colormode      colormode in which to do processing; choices are:
+# -c     colormode      colormode in which to do processing; choices are: 
 #                       hsv, hsl, hsi or hcl; default=hsv
-#
+# 
 ###
 #
-# NAME: REPLACECOLOR
-#
+# NAME: REPLACECOLOR 
+# 
 # PURPOSE: To change one color to another color in an image.
-#
-# DESCRIPTION: REPLACECOLOR changes one color to another color in an image by
-# modifying the input color hue to the desired output color hue and adjusting
+# 
+# DESCRIPTION: REPLACECOLOR changes one color to another color in an image by 
+# modifying the input color hue to the desired output color hue and adjusting 
 # the saturation and brightness.
-#
-# OPTIONS:
-#
-# -i icolor ... ICOLOR is the color in the input image to be changed.
+# 
+# OPTIONS: 
+# 
+# -i icolor ... ICOLOR is the color in the input image to be changed. 
 # Any valid opaque IM color is allowed. The default=blue
-#
-# -o ocolor ... OCOLOR is the replacement color for the output image.
+# 
+# -o ocolor ... OCOLOR is the replacement color for the output image. 
 # Any valid opaque IM color is allowed. The default=red
-#
-# -f fuzzval ... FUZZVAL on each side of the old color for the range of input
+# 
+# -f fuzzval ... FUZZVAL on each side of the old color for the range of input  
 # hues to be recolored. Values are 0<=float<=180 degrees. The default=40.
-#
-# -g gain ... GAIN on color conversion. Values are integers>=0. The
+# 
+# -g gain ... GAIN on color conversion. Values are integers>=0. The 
 # default=100.
-#
-# -t thresh ... THRESHOLD value in percent for forcing low saturation colors
-# to zero saturation, i.e. converts near gray (white through black) to pure
+# 
+# -t thresh ... THRESHOLD value in percent for forcing low saturation colors 
+# to zero saturation, i.e. converts near gray (white through black) to pure 
 # gray. Values are floats>=0. The default=0.
-#
-# -b brightness ... BRIGHTNESS is the percent additional change in brightness.
+# 
+# -b brightness ... BRIGHTNESS is the percent additional change in brightness. 
 # Values are integer>=-100. The default=0 (no change).
-#
-# -s saturation ... SATURATION is the percent additional change in saturation.
+# 
+# -s saturation ... SATURATION is the percent additional change in saturation. 
 # Values are -100<=integer<=100. The default=0 (no change).
-#
-# -c colormode ... COLORMODE in which to do processing. The choices are:
+# 
+# -c colormode ... COLORMODE in which to do processing. The choices are: 
 # hsv, hsl, hsi or hcl. The default=hsv.
-#
-# REQUIREMENTS: IM 6.5.3-7 or higher, so that -modulate uses HSL and not
+# 
+# REQUIREMENTS: IM 6.5.3-7 or higher, so that -modulate uses HSL and not 
 # HSB colorspace.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -115,13 +115,13 @@ tmpdir="."		# suggestions are tmpdir="." or tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -169,21 +169,21 @@ else
 					   ;;
 				-i)    # get icolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ICOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   icolor="$1"
 					   ;;
 				-o)    # get ocolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ocolor="$1"
 					   ;;
 				-f)    # get fuzzval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   fuzzval=`expr "$1" : '\([.0-9]*\)'`
@@ -193,7 +193,7 @@ else
 					   ;;
 				-g)    # get gain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   gain=`expr "$1" : '\([0-9]*\)'`
@@ -201,7 +201,7 @@ else
 					   ;;
 				-t)    # get thresh
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THRESH SPECIFICATION ---"
 					   checkMinus "$1"
 					   thresh=`expr "$1" : '\([.0-9]*\)'`
@@ -209,7 +209,7 @@ else
 					   ;;
 				-b)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   brightness=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -219,7 +219,7 @@ else
 					   ;;
 				-s)    # get saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   saturation=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -230,7 +230,7 @@ else
 					   ;;
 				-c)    # get colormode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORMODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   colormode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -276,7 +276,7 @@ trap "rm -rf $dir; exit 1" 1 2 3 15
 # read input image and force near white to pure white
 convert -quiet "$infile" +repage -fuzz $thresh% -fill white -opaque white $dir/tmpI.mpc ||
 echo  "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE  ---"
-
+	
 # get im version
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
@@ -373,3 +373,4 @@ convert \( $dir/tmpI.mpc -depth 8 \) \
 	"$outfile"
 
 exit 0
+

@@ -3,258 +3,258 @@
 # Developed by Fred Weinhaus 11/11/2014 .......... revised 7/17/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: tshirt [-r region] [-c coords] [-f fit] [-g gravity] [-v vshift]
-# [-o offset] [-R rotate] [-l lighting] [-s sharpen] [-b blur] [-d displace]
-# [-a antialias] [-A attenuate] [-B brightness] [-S saturation] [-C compose]
+# USAGE: tshirt [-r region] [-c coords] [-f fit] [-g gravity] [-v vshift] 
+# [-o offset] [-R rotate] [-l lighting] [-s sharpen] [-b blur] [-d displace] 
+# [-a antialias] [-A attenuate] [-B brightness] [-S saturation] [-C compose] 
 # [-o opacity] [-E] [-D directory] infile bgfile [maskfile] outfile
 #
 # USAGE: tshirt [-help|-h]
 #
 # OPTIONS:
 #
-# -r     region        region is a simple rectangle defined as the WxH+X+Y
-#                      of the region in the tshirt (bgfile) where the overlay
-#                      image (bgfile) will be placed. The components of W, H
-#                      X and Y are integers and specify the width, height
-#                      xoffset and yoffset of the rectangle. Only one or the
-#                      other of region or coordinates should be specified.
+# -r     region        region is a simple rectangle defined as the WxH+X+Y 
+#                      of the region in the tshirt (bgfile) where the overlay 
+#                      image (bgfile) will be placed. The components of W, H 
+#                      X and Y are integers and specify the width, height 
+#                      xoffset and yoffset of the rectangle. Only one or the 
+#                      other of region or coordinates should be specified. 
 #                      But coordinates take precedent.
-# -c     coords        coords are the 4 x,y corners of the region in the
-#                      tshirt (bgfile) where the overlay image (infile) will
-#                      be placed; coordinates must be listed clockwise from
-#                      top left corner; coordinates are integers>=0. Only
-#                      one or the other of region or coordinates should be
-#                      specified. But coordinates take precedent. Coordinates
-#                      are not restricted to a rectangle and the region
+# -c     coords        coords are the 4 x,y corners of the region in the  
+#                      tshirt (bgfile) where the overlay image (infile) will  
+#                      be placed; coordinates must be listed clockwise from 
+#                      top left corner; coordinates are integers>=0. Only  
+#                      one or the other of region or coordinates should be 
+#                      specified. But coordinates take precedent. Coordinates 
+#                      are not restricted to a rectangle and the region 
 #                      defined by the coordinates can have rotation.
-# -f     fit           fit can be: crop (c), distort (d) scale (s), top (t)
-#                      or none (n); If crop, then the overlay image (infile)
-#                      will be resized to the width of the region (or coordinate
-#                      area) and cropped if needed. This will not distort the
-#                      image. The image will not be cropped, if its height is
-#                      smaller than that of the region and it will then be
-#                      aligned at the top of the region. If distort, then the
-#                      overlay image (infile) will be resized to fit exactly
-#                      to the region (or coordinate area). This will cause
-#                      distortion, if the aspect ratio of the overlay image
-#                      (infile) does not match the aspect ratio of the region
-#                      (or coordinate area). If scale, then the overlay image
-#                      (infile) will be resized so that the larger dimension
-#                      fits the region (or coordinate area) and the other
-#                      dimension is smaller. The resized overlay image (infile)
-#                      will be centered in the region. If top, then the overlay
-#                      image (infile) will be resized so that both width and
-#                      height fit into the region without distorting and placed
-#                      at the top center of the region. The default=none, which
-#                      means that the image will be resized to fit the width of
-#                      the region (or coordinate area) and aligned at the top of
-#                      the region. If the height of the resized image is larger
-#                      than the height of the region, it will extend past the
+# -f     fit           fit can be: crop (c), distort (d) scale (s), top (t) 
+#                      or none (n); If crop, then the overlay image (infile) 
+#                      will be resized to the width of the region (or coordinate 
+#                      area) and cropped if needed. This will not distort the 
+#                      image. The image will not be cropped, if its height is 
+#                      smaller than that of the region and it will then be 
+#                      aligned at the top of the region. If distort, then the 
+#                      overlay image (infile) will be resized to fit exactly    
+#                      to the region (or coordinate area). This will cause 
+#                      distortion, if the aspect ratio of the overlay image 
+#                      (infile) does not match the aspect ratio of the region 
+#                      (or coordinate area). If scale, then the overlay image 
+#                      (infile) will be resized so that the larger dimension 
+#                      fits the region (or coordinate area) and the other 
+#                      dimension is smaller. The resized overlay image (infile) 
+#                      will be centered in the region. If top, then the overlay 
+#                      image (infile) will be resized so that both width and 
+#                      height fit into the region without distorting and placed 
+#                      at the top center of the region. The default=none, which 
+#                      means that the image will be resized to fit the width of  
+#                      the region (or coordinate area) and aligned at the top of 
+#                      the region. If the height of the resized image is larger 
+#                      than the height of the region, it will extend past the 
 #                      bottom of the region.
 # -g     gravity       gravity for selecting the crop location; choices are:
 #                      north (n), south (s) or center (c). The default=center
-# -v     vshift        vertical shift of the crop region with respect to the
-#                      gravity setting; integer; negative is upward and positive
+# -v     vshift        vertical shift of the crop region with respect to the 
+#                      gravity setting; integer; negative is upward and positive 
 #                      is downward; default=0 (no shift)
-# -o     offset        additional x,y offset of the region or coordinates
-#                      in order to make positional adjustments easier;
-#                      comma separated x,y pair; positive or negative integer;
+# -o     offset        additional x,y offset of the region or coordinates 
+#                      in order to make positional adjustments easier; 
+#                      comma separated x,y pair; positive or negative integer; 
 #                      default is no offset.
-# -R     rotate        additional clockwise positive rotation in order to make
-#                      orientational adjustments easier; -360<=float<=360;
+# -R     rotate        additional clockwise positive rotation in order to make 
+#                      orientational adjustments easier; -360<=float<=360; 
 #                      default=0
-# -l     lighting      lighting is the contrast increase/decrease for highlights to
-#                      apply to the overlay image (infile); -100<=integer=<100;
-#                      positive values increase contrast; negative values decrease
-#                      contrast; default=20
+# -l     lighting      lighting is the contrast increase/decrease for highlights to 
+#                      apply to the overlay image (infile); -100<=integer=<100; 
+#                      positive values increase contrast; negative values decrease 
+#                      contrast; default=20                     
 # -s     sharpen       sharpening to apply to the overlay (infile) image;
 #                      float>=0; default=1
-# -b     blur          blurring to apply to the displacement map to avoid
+# -b     blur          blurring to apply to the displacement map to avoid 
 #                      jagged displacement; float>=0; default=1
-# -d     displace      amount of displacement for the distortion of the
+# -d     displace      amount of displacement for the distortion of the 
 #                      overlay (infile) image; integer>=0; default=10
-# -a     antialias     antialias amount to apply to alpha channel of tshirt
+# -a     antialias     antialias amount to apply to alpha channel of tshirt 
 #                      (bgfile) image; float>=0; default=2
-# -A     attenuate     attenuation of the effect of coarse texture on the background
-#                      (bgfile) image from showing on the overlay (input) image;
-#                      float>=0; larger values blur the tshirt texture more which
+# -A     attenuate     attenuation of the effect of coarse texture on the background 
+#                      (bgfile) image from showing on the overlay (input) image; 
+#                      float>=0; larger values blur the tshirt texture more which 
 #                      attenuates the effects; default=0
-# -B     brightness    brightness percent change to the input overlay image;
+# -B     brightness    brightness percent change to the input overlay image; 
 #                      positive or negative integer; default=0
-# -S     saturation    saturation percent change to the input overlay image;
+# -S     saturation    saturation percent change to the input overlay image; 
 #                      positive or negative integer; default=0
-# -C     compose       compose method to merge the input overlay (infile) image with
-#                      the background (bgfile); choices are: hardlight, multiply,
+# -C     compose       compose method to merge the input overlay (infile) image with  
+#                      the background (bgfile); choices are: hardlight, multiply, 
 #                      screen or over; default=hardlight
-# -O     opacity       opacity to apply to the image; 0<=integer<=100; default=100
+# -O     opacity       opacity to apply to the image; 0<=integer<=100; default=100 
 #                      (fully opaque)
-# -E     export        export the lighting image, displacement map and other
-#                      needed parameters to be able to use a condensed script
-#                      to repeat the processing on the same size and style tshirt
+# -E     export        export the lighting image, displacement map and other 
+#                      needed parameters to be able to use a condensed script 
+#                      to repeat the processing on the same size and style tshirt 
 #                      image for faster processing.
-# -D     directory     directory to write all the exported data, including a text file
-#                      called tshirtdata.txt containing the same textual parameter data
-#                      sent to terminal. The directory can be specified in the tshirtwarp
+# -D     directory     directory to write all the exported data, including a text file 
+#                      called tshirtdata.txt containing the same textual parameter data 
+#                      sent to terminal. The directory can be specified in the tshirtwarp 
 #                      script to import all the needed images and textual data.
 #
 # infile is the overlay image to apply to the tshirt.
-#
+# 
 # bgfile is the tshirt image.
-#
-# maskfile is a mask of part or all of the tshirt to limit the region onto which the
+# 
+# maskfile is a mask of part or all of the tshirt to limit the region onto which the 
 # overlay image is to be applied.
 #
 ###
 #
-# NAME: TSHIRT
-#
+# NAME: TSHIRT 
+# 
 # PURPOSE: Transforms an image to place it in a region of a tshirt image.
-#
-# DESCRIPTION: TSHIRT transforms an image to place it in a region of a tshirt
-# image. The transformed image will display hightlights from the tshirt image
+# 
+# DESCRIPTION: TSHIRT transforms an image to place it in a region of a tshirt 
+# image. The transformed image will display hightlights from the tshirt image 
 # and be distorted to match the wrinkles in the tshirt image.
-#
-#
-# OPTIONS:
-#
-# -r region ... REGION is a simple (unrotated) rectangle defined as the
-# WxH+X+Y of the region in the tshirt (bgfile) where the overlay image (bgfile)
-# will be placed. The components of W, H, X, Y are integers and specify the
-# width, height, upperleft xoffset and yoffset of the rectangle. Only one or
-# the other of region or coordinates should be specified. But coordinates take
+# 
+# 
+# OPTIONS: 
+# 
+# -r region ... REGION is a simple (unrotated) rectangle defined as the 
+# WxH+X+Y of the region in the tshirt (bgfile) where the overlay image (bgfile) 
+# will be placed. The components of W, H, X, Y are integers and specify the 
+# width, height, upperleft xoffset and yoffset of the rectangle. Only one or 
+# the other of region or coordinates should be specified. But coordinates take 
 # precedent.
-#
-# -c coords ... COORDS are the 4 x,y corners of the region in the tshirt
-# (bgfile) where the overlay image (bgfile) will be placed. The coordinates
-# must be listed clockwise from top left corner; coordinates are integers>=0.
-# Only one or the other of region or coordinates should be specified. But
-# coordinates take precedent. Coordinates are not restricted to a rectangle
+# 
+# -c coords ... COORDS are the 4 x,y corners of the region in the tshirt 
+# (bgfile) where the overlay image (bgfile) will be placed. The coordinates 
+# must be listed clockwise from top left corner; coordinates are integers>=0. 
+# Only one or the other of region or coordinates should be specified. But 
+# coordinates take precedent. Coordinates are not restricted to a rectangle 
 # and the region defined by the coordinates can have rotation.
-#
-# -f fit ... fit can be: crop (c), distort (d) scale (s), top (t) or none (n);
-# If crop, then the overlay image (infile) will be resized to the width of the
-# region (or coordinate area) and cropped if needed. This will not distort the
-# image. The image will not be cropped, if its height is smaller than that of
-# the region and it will then be aligned at the top of the region. If distort,
-# then the overlay image (infile) will be resized to fit exactly to the region
-# (or coordinate area). This will cause distortion, if the aspect ratio of the
-# overlay image (infile) does not match the aspect ratio of the region (or
-# coordinate area). If scale, then the overlay image (infile) will be resized
-# so that the larger dimension fits the region (or coordinate area) and the
-# other dimension is smaller. The resized overlay image (infile) will be
-# centered in the region. If top, then the overlay image (infile) will be
-# resized so that both width and height fit into the region without distorting
-# and placed at the top center of the region. The default=none, which means
-# that the image will be resized to fit the width of the region (or coordinate
-# area) and aligned at the top of the region. If the height of the resized
-# image is larger than the height of the region, it will extend past the bottom
+# 
+# -f fit ... fit can be: crop (c), distort (d) scale (s), top (t) or none (n); 
+# If crop, then the overlay image (infile) will be resized to the width of the 
+# region (or coordinate area) and cropped if needed. This will not distort the 
+# image. The image will not be cropped, if its height is smaller than that of 
+# the region and it will then be aligned at the top of the region. If distort, 
+# then the overlay image (infile) will be resized to fit exactly to the region 
+# (or coordinate area). This will cause distortion, if the aspect ratio of the 
+# overlay image (infile) does not match the aspect ratio of the region (or 
+# coordinate area). If scale, then the overlay image (infile) will be resized 
+# so that the larger dimension fits the region (or coordinate area) and the 
+# other dimension is smaller. The resized overlay image (infile) will be 
+# centered in the region. If top, then the overlay image (infile) will be 
+# resized so that both width and height fit into the region without distorting 
+# and placed at the top center of the region. The default=none, which means 
+# that the image will be resized to fit the width of the region (or coordinate 
+# area) and aligned at the top of the region. If the height of the resized 
+# image is larger than the height of the region, it will extend past the bottom 
 # of the region.
-#
+# 
 # -g gravity ... GRAVITY for selecting the crop location. The choices are:
-# north (n), south (s) or center (c). The default=center.
-#
-# -v vshift ... VSHIFT is the vertical shift of the crop region with respect
-# to the gravity setting. Values are integer.  Negative is upward and positive
+# north (n), south (s) or center (c). The default=center. 
+# 
+# -v vshift ... VSHIFT is the vertical shift of the crop region with respect 
+# to the gravity setting. Values are integer.  Negative is upward and positive 
 # is downward. The default=0 (no shift).
-#
-# -o offset ... OFFSET is an additional x,y offset of the region or coordinates
-# in order to make positional adjustments easier. This is a comma separated
-# x,y pair. Values are ositive or negative integers for x and y. The default
+# 
+# -o offset ... OFFSET is an additional x,y offset of the region or coordinates 
+# in order to make positional adjustments easier. This is a comma separated 
+# x,y pair. Values are ositive or negative integers for x and y. The default 
 # is no offset.
-#
-# -R rotate ... ROTATE is an additional clockwise positive rotation in order
-# to make orientational adjustments easier. Values are -360<=float<=360.
+# 
+# -R rotate ... ROTATE is an additional clockwise positive rotation in order 
+# to make orientational adjustments easier. Values are -360<=float<=360. 
 # The default=0.
 #
-# -l lighting ... LIGHTING is the contrast increase/decrease for highlights to
-# apply to the overlay image (infile). Values are -100<=integer<=100. Positive values
+# -l lighting ... LIGHTING is the contrast increase/decrease for highlights to  
+# apply to the overlay image (infile). Values are -100<=integer<=100. Positive values 
 # increase contrast and negative values decrease contrast. The default=20.
-#
-# -s sharpen ... SHARPEN is the sharpening to apply to the overlay (infile)
+#                    
+# -s sharpen ... SHARPEN is the sharpening to apply to the overlay (infile) 
 # image. Values are floats>=0. The default=1.
-#
-# -b blur ... BLUR is the blurring to apply to the displacement map to avoid
+# 
+# -b blur ... BLUR is the blurring to apply to the displacement map to avoid 
 # jagged displacement. Values are floats>=0. The default=1.
-#
-# -d displace ... DISPLACE is the amount of displacement for the distortion
+# 
+# -d displace ... DISPLACE is the amount of displacement for the distortion 
 # of the overlay (infile) image. Values are integers>=0. The default=10.
-#
-# -a antialias ... ANTIALIAS amount to apply to alpha channel of tshirt
+# 
+# -a antialias ... ANTIALIAS amount to apply to alpha channel of tshirt 
 # (bgfile) image. Values are floats>=0. The default=2.
-#
-# -A attenuate ... ATTENUATE is the attenuation of the effect of coarse texture from
-# the background (bgfile) image from showing on the overlay (input) image. Values are
-# floats>=0. Larger values blur the tshirt texture more which attenuates the effects.
+# 
+# -A attenuate ... ATTENUATE is the attenuation of the effect of coarse texture from 
+# the background (bgfile) image from showing on the overlay (input) image. Values are  
+# floats>=0. Larger values blur the tshirt texture more which attenuates the effects. 
 # The default=0.
-#
-# -B brightness ... BRIGHTNESS percent change to the input overlay image. Value are
+# 
+# -B brightness ... BRIGHTNESS percent change to the input overlay image. Value are  
 # positive or negative integers. The default=0.
-#
-# -S saturation ... SATURATION percent change to the input overlay image. Values are
+# 
+# -S saturation ... SATURATION percent change to the input overlay image. Values are  
 # positive or negative integers. The default=0.
-#
-# -C compose ... COMPOSE method to merge the overlay (infile) image with the
-# background (bgfile). Choices are: hardlight (h), multiply (m), screen (s) or over (o).
-# The default=hardlight. The choice of hardlight allows the overlay image
-# to be brighten and darken according to the folds in the tshirt. The other compose
-# methods will not do that. The choice of over simply places the overlay image
-# unchanged upon the tshirt image. The choice of multiply does a multiply operation,
+# 
+# -C compose ... COMPOSE method to merge the overlay (infile) image with the 
+# background (bgfile). Choices are: hardlight (h), multiply (m), screen (s) or over (o). 
+# The default=hardlight. The choice of hardlight allows the overlay image 
+# to be brighten and darken according to the folds in the tshirt. The other compose 
+# methods will not do that. The choice of over simply places the overlay image 
+# unchanged upon the tshirt image. The choice of multiply does a multiply operation, 
 # which may change colors and would need adjustment by -B and -S arguments.
-#
-# -O opacity ... OPACITY to apply to the image. Values are 0<=integers<=100.
+# 
+# -O opacity ... OPACITY to apply to the image. Values are 0<=integers<=100. 
 # The default=100 (fully opaque).
-#
-# -E ... EXPORT the lighting image, displacement map and other needed
-# parameters for use with a condensed script to repeat the processing on the
-# same tshirt image apart from coloring for faster processing. The lighting
-# image will be named lighting.png and the displacement map will named
-# displace.png. The other arguments will be displayed to the terminal and
+# 
+# -E ... EXPORT the lighting image, displacement map and other needed 
+# parameters for use with a condensed script to repeat the processing on the 
+# same tshirt image apart from coloring for faster processing. The lighting 
+# image will be named lighting.png and the displacement map will named 
+# displace.png. The other arguments will be displayed to the terminal and 
 # can be copied and pasted into my script, tshirtwarp.
-#
-# -D directory ... DIRECORTY to write all the exported data when using the -E export
-# option, including a text file called tshirtdata.txt that contains the same textual
-# parameter data sent to terminal. The directory can be specified in the tshirtwarp
-# script to import all the needed images and textual data. This permits one tshirtwarp
-# script to be used with all style tshirts, rather than save a customized script for
+# 
+# -D directory ... DIRECORTY to write all the exported data when using the -E export 
+# option, including a text file called tshirtdata.txt that contains the same textual 
+# parameter data sent to terminal. The directory can be specified in the tshirtwarp 
+# script to import all the needed images and textual data. This permits one tshirtwarp 
+# script to be used with all style tshirts, rather than save a customized script for 
 # each style tshirt. If the directory does not exist, it will be created.
-#
-# IMPORTANT: The nominal transformed image will not fit the exact height of the
-# region or coordinates area, if the aspect ratio of the image differs from
-# that of the region or coordinate area. The process maintains the correct
-# aspect ratio of the input image. Depending upon the aspect ratio, the
-# transformed image may be shorter or taller than the height of the region.
-# To crop the image so that it fits the region or coordinate area, use the
-# -f option.
-#
+# 
+# IMPORTANT: The nominal transformed image will not fit the exact height of the  
+# region or coordinates area, if the aspect ratio of the image differs from   
+# that of the region or coordinate area. The process maintains the correct  
+# aspect ratio of the input image. Depending upon the aspect ratio, the 
+# transformed image may be shorter or taller than the height of the region. 
+# To crop the image so that it fits the region or coordinate area, use the 
+# -f option. 
+# 
 # REQUIREMENTS: IM 6.5.3.4 due to the use of -compose displace.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -271,9 +271,9 @@ blur=1					# blurring/smoothing of displacement image to reduce texture; float
 displace=10				# amount of displacement for distortions; integer
 sharpen=1				# sharpening of warped overlay image; float
 antialias=2				# antialias amount to apply to alpha channel of tshirt image; float
-attenuate=0				# attenuation of bgfile texture onto the infile; float
-brightness=0			# brightness change to the infile; integer
-saturation=0			# saturation change to the infile; integer
+attenuate=0				# attenuation of bgfile texture onto the infile; float 
+brightness=0			# brightness change to the infile; integer 
+saturation=0			# saturation change to the infile; integer 
 compose="hardlight"		# compose method; hardlight or multiply
 opacity=100             # opacity to apply to the image.
 export="no"				# export lighting image, displacement map and other arguments
@@ -287,13 +287,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -341,7 +341,7 @@ else
 					   ;;
 				-r)    # get region
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REGION SPECIFICATION ---"
 					   checkMinus "$1"
 					   region=`expr "$1" : '\([0-9]*[x][0-9]*[+][0-9]*[+][0-9]*\)'`
@@ -349,7 +349,7 @@ else
 					   ;;
 				-c)    # get coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   coords=`expr "$1" : '\([ ,0-9]*\)'`
@@ -357,39 +357,39 @@ else
 					   ;;
 		 		-f)    # fit
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FIT SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   fit="$1"
 					   fit=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$fit" in
+					   case "$fit" in 
 					   		none|n) fit="none" ;;
 					   		crop|c) fit="crop" ;;
 					   		distort|d) fit="distort" ;;
 					   		scale|s) fit="scale" ;;
 					   		top|t) fit="top" ;;
-					   		*) errMsg "--- FIT=$fit IS AN INVALID VALUE ---"
+					   		*) errMsg "--- FIT=$fit IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 		 		-g)    # gravity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   gravity="$1"
 					   gravity=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$gravity" in
+					   case "$gravity" in 
 					   		center|c) gravity=center ;;
 					   		north|n) gravity=north ;;
 					   		south|s) gravity=south ;;
-					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---"
+					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-v)    # get vshift
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VSHIFT SPECIFICATION ---"
 #					   checkMinus "$1"
 					   vshift=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -397,7 +397,7 @@ else
 					   ;;
 				-o)    # get offset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSET SPECIFICATION ---"
 #					   checkMinus "$1"
 					   offset=`expr "$1" : '\([-]*[0-9]*,[-]*[0-9]*\)'`
@@ -405,7 +405,7 @@ else
 					   ;;
 				-R)    # get rotate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROTATE SPECIFICATION ---"
 #					   checkMinus "$1"
 					   rotate=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -416,7 +416,7 @@ else
 					   ;;
 				-s)    # get sharpen
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHARPEN SPECIFICATION ---"
 					   checkMinus "$1"
 					   sharpen=`expr "$1" : '\([.0-9]*\)'`
@@ -424,7 +424,7 @@ else
 					   ;;
 				-b)    # get blur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   blur=`expr "$1" : '\([.0-9]*\)'`
@@ -432,7 +432,7 @@ else
 					   ;;
 				-a)    # get antialias
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANTIALIAS SPECIFICATION ---"
 					   checkMinus "$1"
 					   antialias=`expr "$1" : '\([.0-9]*\)'`
@@ -440,7 +440,7 @@ else
 					   ;;
 				-l)    # get lighting
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LIGHTING SPECIFICATION ---"
 					   #checkMinus "$1"
 					   lighting=`expr "$1" : '\([-0-9]*\)'`
@@ -451,7 +451,7 @@ else
 					   ;;
 				-d)    # get displace
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISPLACE SPECIFICATION ---"
 					   checkMinus "$1"
 					   displace=`expr "$1" : '\([0-9]*\)'`
@@ -459,7 +459,7 @@ else
 					   ;;
 				-A)    # get attenuate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ATTENUATE SPECIFICATION ---"
 					   checkMinus "$1"
 					   attenuate=`expr "$1" : '\([.0-9]*\)'`
@@ -467,7 +467,7 @@ else
 					   ;;
 				-B)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   brightness=`expr "$1" : '\([-0-9]*\)'`
@@ -478,7 +478,7 @@ else
 					   ;;
 				-S)    # get saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   saturation=`expr "$1" : '\([-0-9]*\)'`
@@ -489,23 +489,23 @@ else
 					   ;;
 		 		-C)    # compose
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COMPOSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   compose="$1"
 					   compose=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$compose" in
+					   case "$compose" in 
 					   		hardlight|h) compose="hardlight" ;;
 					   		multiply|m) compose="multiply" ;;
 					   		screen|s) compose="screen" ;;
 					   		over|o) compose="over" ;;
-					   		*) errMsg "--- COMPOSE=$compose IS AN INVALID VALUE ---"
+					   		*) errMsg "--- COMPOSE=$compose IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-O)    # get opacity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity=`expr "$1" : '\([0-9]*\)'`
@@ -518,7 +518,7 @@ else
 					   ;;
 				-D)    # get directory
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTORY SPECIFICATION ---"
 					   checkMinus "$1"
 					   directory="$1"
@@ -587,18 +587,18 @@ fi
 # read overlay image
 if ! convert -quiet "$infile" +repage $modulating $dir/tmpI.mpc; then
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
-fi
+fi	
 
 # read tshirt image and make color (so that result is not grayscale when overlay image is grayscale)
 if ! convert -quiet "$bgfile" +repage -colorspace sRGB $dir/tmpT.mpc; then
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
-fi
+fi	
 
 if [ "$maskfile" != "" ]; then
 	# read maskfile image
 	if ! convert -quiet "$maskfile" +repage $dir/tmpM.mpc; then
 		errMsg "--- FILE $maskfile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
-	fi
+	fi	
 fi
 
 # extract coordinates of subsection of tshirt and bounding box
@@ -616,7 +616,7 @@ elif [ "$coords" != "" ]; then
 		y3=`echo $clist | cut -d\  -f6`
 		x4=`echo $clist | cut -d\  -f7`
 		y4=`echo $clist | cut -d\  -f8`
-
+		
 		if [ "$offset" != "" ]; then
 			xx=`echo "$offset" | cut -d, -f1`
 			yy=`echo "$offset" | cut -d, -f2`
@@ -630,7 +630,7 @@ elif [ "$coords" != "" ]; then
 			y4=$((y4+yy))
 		fi
 		#echo "$x1,$y1;  $x2,$y2;  $x3,$y3;  $x4,$y4;"
-
+	
 		# get bounding box
 		minx=`convert xc: -format "%[fx:min(min(min($x1,$x2),$x3),$x4)]" info:`
 		miny=`convert xc: -format "%[fx:min(min(min($y1,$y2),$y3),$y4)]" info:`
@@ -847,12 +847,12 @@ elif [ "$region" != "" ]; then
 	fi
 fi
 #echo "$xo1,$yo1;  $xo2,$yo2;  $xo3,$yo3;  $xo4,$yo4;"
-
+	
 
 # apply rotation about center of scaled down image translated to correct upper left corner
 if [ "$rotate" != "0" ]; then
 	rotate=`convert xc: -format "%[fx:(pi/180)*$rotate]" info:`
-	xcent=`convert xc: -format "%[fx:round(0.5*$topwidth)+$x1]" info:`
+	xcent=`convert xc: -format "%[fx:round(0.5*$topwidth)+$x1]" info:`		
 	ycent=`convert xc: -format "%[fx:round(0.5*($hh/$scale)+$y1)]" info:`
 #	echo "rotate=$rotate; xcent=$xcent; ycent=$ycent"
 	x1=`convert xc: -format "%[fx:round($xcent+($x1-$xcent)*cos($rotate)-($y1-$ycent)*sin($rotate))]" info:`
@@ -883,7 +883,7 @@ is_alpha=`$identifying -verbose $dir/tmpT.mpc | grep "Alpha" | head -n 1`
 # use bounding box before any additional rotation as good approximation of region
 diff=`convert $dir/tmpT.mpc -alpha off -colorspace gray -write $dir/tmpTG.mpc \
 	-crop ${wd}x${ht}+${minx}+${miny} +repage -format "%[fx:100*mean-50]" info:`
-#echo "diff=$diff"
+#echo "diff=$diff"	
 
 
 # set up lighting
@@ -924,7 +924,7 @@ convert \( $dir/tmpTG.mpc -evaluate subtract $diff% \) \
 # check if export directory exists.
 if [ "$export" = "yes" -a "$directory" != "" ]; then
 	# remove trailing \
-	if [ ! -d "$directory" ]; then
+	if [ ! -d "$directory" ]; then 
 		mkdir "$directory" || {
   		echo >&2 "UNABLE TO CREATE DIRECTORY \"$directory\" -- ABORTING"
   		exit 10
@@ -977,7 +977,7 @@ fi
 
 # line2 1-4:  process overlay image to perspective transform with transparent
 #             background the size of the tshirt image and sharpen
-# lines 5-7:  apply lighting image and make tshirt background from lighting image
+# lines 5-7:  apply lighting image and make tshirt background from lighting image 
 #			  transparent using alpha of previous steps
 # lines 8-10: apply displacement image
 # note: need to add -colorspace sRGB to tmpTG to keep tmpI as color after layers merge 7/17/2020 some time after 7.0.8.23

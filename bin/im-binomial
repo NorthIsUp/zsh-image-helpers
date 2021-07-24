@@ -1,64 +1,64 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 9/18/2007 .......... revised 4/29/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: binomial [-w width] [-t type] [-m mix] [-b bias] infile outfile
 # USAGE: binomial [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -w        width      width of square filter; width=3, 5 or 7; default=3
 # -t        type       type=high or low (pass filter); default=high
-# -m        mix        mixing percent with original image;
+# -m        mix        mixing percent with original image; 
 #                      mix=integer 0 to 100; default=50
 # -b        bias       bias to add to result to brighten or darken;
 #                      bias=integer -100 to 100; default=0
 # -h                   get help information
 # -help                get help information
-#
+# 
 ###
-#
-# NAME: BINOMIAL
-#
-# PURPOSE: To generate high pass or low pass filtered images based upon
-# convolution kernels whose weights are derived from the binomial coefficients.
-#
-# DESCRIPTION: BINOMIAL generates an output image which is a user defined mix
-# or blend of the original image and a binomial convolution filtered version
-# of the image. This is achieved by forming a single convolution kernel whose
-# weights depend upon a mixing of the binomial coefficients and the identity
-# kernel.
-#
+# 
+# NAME: BINOMIAL 
+# 
+# PURPOSE: To generate high pass or low pass filtered images based upon 
+# convolution kernels whose weights are derived from the binomial coefficients. 
+# 
+# DESCRIPTION: BINOMIAL generates an output image which is a user defined mix 
+# or blend of the original image and a binomial convolution filtered version 
+# of the image. This is achieved by forming a single convolution kernel whose 
+# weights depend upon a mixing of the binomial coefficients and the identity 
+# kernel. 
+# 
 # The basic blended low pass filtering formula is F = (1-m)*I + m*B, where I is
 # the original image, B is the binomial filtered image and m = mix/100. When
 # m=0, we get only the original image and when m=1, we get only the low pass
 # binomial filtered image. For intermediate value of m, we get a blend of the
 # image and the binomial low pass filtered image. Now, we can consider both I
-# and B as a convolution of some kernel with the original image, namely I = i x I
+# and B as a convolution of some kernel with the original image, namely I = i x I 
 # and B = b x I, where x means convolution. Note that a convolution is
 # simply a weighted average of all the pixels in some neighborhood of a give
 # pixel. Usually an odd sized neighborhood, such as 3x3, 5x5, etc is used to
@@ -70,8 +70,8 @@
 # filter. Thus we can consider the final filtered image, F = f x I, where f =
 # (1-m)*i + m*b. Consequently, we only have to do one convolution using the
 # convolution kernel, f. For high pass filtering, we form the high pass
-# filter by subtracting the low pass filter from the original image.
-# Thus in the formula above B is replaced by (I-B), so that
+# filter by subtracting the low pass filter from the original image. 
+# Thus in the formula above B is replaced by (I-B), so that 
 # F = (1-m)*I + m*(I-B). But likewise this can be converted into
 # one convolution kernel, namely, f = i - m*b. Note, that properly, all
 # convolution kernels, must be normalize so that the sum of weights is equal
@@ -80,22 +80,22 @@
 # brightness of the image unchanged. However, as IM does the normalization
 # automatically, you will notice that my binomial and blended convolution
 # kernels have weights that do not sum to 1. This allows the convolution
-# kernel weights to be presented primarily as easily read integers. So
-# in order to compensate for the un-normalized binomial convolution kernel
-# in order to keep the two components properly balanced, the two formulae
-# become: f = s*(1-m)*i + m*b for the low pass filter kernel and
-# f = s*i - m*b for the high pass filter kernel, where s is the sum of the
+# kernel weights to be presented primarily as easily read integers. So 
+# in order to compensate for the un-normalized binomial convolution kernel 
+# in order to keep the two components properly balanced, the two formulae 
+# become: f = s*(1-m)*i + m*b for the low pass filter kernel and 
+# f = s*i - m*b for the high pass filter kernel, where s is the sum of the 
 # weights for the un-normalized binomial kernel b.
 #
-# For width=3, the 1D binomial series is 1 2 1. For width=5, the 1D binomial
+# For width=3, the 1D binomial series is 1 2 1. For width=5, the 1D binomial 
 # series is 1 4 6 4 1. For width=7, the 1D binomial series is 1 6 15 20 15 6 1.
-# To form the 2D binomial filters, the outer product of the 1D column with the
+# To form the 2D binomial filters, the outer product of the 1D column with the 
 # 1D row is computed.
 #
 # For width=3, this becomes:
 # 1 2 1
 # 2 4 2
-# 1 2 1
+# 1 2 1    
 #
 # For width=5, this becomes:
 # 1  4  6  4 1
@@ -112,39 +112,39 @@
 # 15  90 225 300 225  90 15
 #  6  36  90 120  90  36  6
 #  1   6  15  20  15   6  1
-#
-# For more information about the binomial coefficients, see
+# 
+# For more information about the binomial coefficients, see 
 # <a href="http://en.wikipedia.org/wiki/Pascal%27s_triangle" target="_blank">Pascal's Triangle</a>.
-#
-# OPTIONS:
-#
-# -w width is dimension of a square convolution kernel. Width can be 3, 5 or 7.
-# the default is 3. For example a width of 3 will generate a 3x3 convolution
-# kernel.
-#
-# -t type is the kind of filter, either a high pass or low pass filter.
-# Thus type=high or low. The default=high. A low pass filter will cause
-# blurring. A high pass filtered image will produce either sharpening or
+# 
+# OPTIONS: 
+# 
+# -w width is dimension of a square convolution kernel. Width can be 3, 5 or 7. 
+# the default is 3. For example a width of 3 will generate a 3x3 convolution 
+# kernel. 
+# 
+# -t type is the kind of filter, either a high pass or low pass filter. 
+# Thus type=high or low. The default=high. A low pass filter will cause 
+# blurring. A high pass filtered image will produce either sharpening or 
 # it will extract edges. See below.
-#
-# -m mix is the percentage mixing factor to use to blend the filtered result
-# with the original image. A value of mix=0, results in the original image. A
+# 
+# -m mix is the percentage mixing factor to use to blend the filtered result 
+# with the original image. A value of mix=0, results in the original image. A 
 # value of mix=100 results in a pure high pass or pure low pass filtered image.
-# For low pass filtering, a larger value for mix will produce more blurring. For
-# high pass filtering, a middle value will produce sharpening of the edges in
+# For low pass filtering, a larger value for mix will produce more blurring. For 
+# high pass filtering, a middle value will produce sharpening of the edges in 
 # the image; whereas a value of 100 will extract the edges from the image.
-#
-# -b bias is a percentage to brighten or darken the image. Values for bias
-# are integers ranging from -100 to 100 (percent). Positive values will
+# 
+# -b bias is a percentage to brighten or darken the image. Values for bias 
+# are integers ranging from -100 to 100 (percent). Positive values will 
 # brighten the image and negative values will darken the image.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
-#
+# 
+# 
 
 # set default params
 width=3
@@ -164,13 +164,13 @@ bin7="1 6 15 20 15 6 1"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -220,7 +220,7 @@ else
 					   ;;
 				-w)    # get width
 					   shift  # to get the next parameter - width
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width="$1"
@@ -229,7 +229,7 @@ else
 					   ;;
 				-t)    # get type
 					   shift  # to get the next parameter - type
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type="$1"
@@ -238,7 +238,7 @@ else
 					   ;;
 				-m)    # get mix
 					   shift  # to get the next parameter - mix
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIX SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test mix values
@@ -391,7 +391,7 @@ while [ $i -lt $width ]
 		k=`expr $k + 1`
 		j=`expr $j + 1`
 	done
-	i=`expr $i + 1`
+	i=`expr $i + 1`	
 done
 echo ""
 echo "2D Final Kernel"

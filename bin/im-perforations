@@ -3,79 +3,79 @@
 # Developed by Fred Weinhaus 4/8/2013 .......... revised 2/6/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: perforations [-n number] [-s size] [-p position] [-b border]
+# USAGE: perforations [-n number] [-s size] [-p position] [-b border] 
 # infile outfile
 # USAGE: perforations [-h or -help]
 #
 # OPTIONS:
 #
 # -n     number       number of perforations; integer>0; default=8
-# -s     size         size of perforations as percentage of smaller image
+# -s     size         size of perforations as percentage of smaller image 
 #                     dimension; 0<float<=15; default=6
 # -p     position     position of perforations; choices are: TB (for top/bottom
-#                     sides or LR (for left/right sides); default is along the
+#                     sides or LR (for left/right sides); default is along the 
 #                     sides corresponding to the larger image dimension
 # -b     border       border type; choices are: black, aged, faded or none;
 #                     default=black
-#
+# 
 ###
 #
-# NAME: PERFORATIONS
-#
+# NAME: PERFORATIONS 
+# 
 # PURPOSE: To apply film-like perforations to two opposite edges of an image.
-#
-# DESCRIPTION: PERFORATIONS applies film-like perforations to two opposite
+# 
+# DESCRIPTION: PERFORATIONS applies film-like perforations to two opposite 
 # edges of an image. Various border types may be selected.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -n number ... NUMBER of perforations. Values are integers>0. The default=8.
-#
-# -s size ... SIZE of perforations as percentage of smaller image dimension.
+# 
+# -s size ... SIZE of perforations as percentage of smaller image dimension. 
 # Values are 0<floats<=15. The default=6.
-#
+# 
 # -p position POSITION of perforations. The choices are: TB (for top/bottom
-# sides or LR (for left/right sides). The default is along the sides
+# sides or LR (for left/right sides). The default is along the sides 
 # corresponding to the larger image dimension.
-#
-# -b border ... BORDER type. The choices are: black (b), aged (a), faded (f)
+# 
+# -b border ... BORDER type. The choices are: black (b), aged (a), faded (f) 
 # or none (n). The default=black. Note: border=faded fades to transparent.
-#
-# Requirements: IM 6.5.9.3 or higher due to the use of 1D morphology blur
+# 
+# Requirements: IM 6.5.9.3 or higher due to the use of 1D morphology blur 
 # for border=aged or faded.
-#
-# References:
+# 
+# References: 
 # http://motion.kodak.com/motion/uploadedFiles/US_plugins_acrobat_en_motion_newsletters_filmEss_11_Film_Specs.pdf
 # http://en.wikipedia.org/wiki/Film_perforations
 # http://askville.amazon.com/Sprockets-frame-film/AnswerViewer.do?requestId=1796570
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -96,13 +96,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -150,7 +150,7 @@ else
 					   ;;
 				-n)    # get number
 					   shift  # to get the next parameter - spread
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMBER SPECIFICATION ---"
 					   checkMinus "$1"
 					   number=`expr "$1" : '\([0-9]*\)'`
@@ -160,7 +160,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter - spread
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([.0-9]*\)'`
@@ -171,28 +171,28 @@ else
 					   ;;
 				-p)    # get  position
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POSITION SPECIFICATION ---"
 					   checkMinus "$1"
 					   position=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$position" in
+					   case "$position" in 
 					   		tb) ;;
 					   		lr)  ;;
-					   		*) errMsg "--- POSITION=$position IS AN INVALID VALUE ---"
+					   		*) errMsg "--- POSITION=$position IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-b)    # get  border
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDER SPECIFICATION ---"
 					   checkMinus "$1"
 					   border=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$border" in
+					   case "$border" in 
 					   		black|b) border=black ;;
 					   		faded|f) border=faded ;;
 					   		aged|a) border=aged ;;
 					   		none|n) border=none ;;
-					   		*) errMsg "--- BORDER=$border IS AN INVALID VALUE ---"
+					   		*) errMsg "--- BORDER=$border IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -220,7 +220,7 @@ fi
 [ "$outfile" = "" ] && errMsg "NO OUTPUT FILE SPECIFIED"
 
 
-# References:
+# References: 
 # http://motion.kodak.com/motion/uploadedFiles/US_plugins_acrobat_en_motion_newsletters_filmEss_11_Film_Specs.pdf
 # http://en.wikipedia.org/wiki/Film_perforations
 # http://askville.amazon.com/Sprockets-frame-film/AnswerViewer.do?requestId=1796570
@@ -382,3 +382,4 @@ elif [ "$border" = "aged" ]; then
 fi
 
 exit 0
+

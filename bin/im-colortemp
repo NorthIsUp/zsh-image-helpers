@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 1/2/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: colortemp [-t temperatures] [-f fov] [infile] outfile
@@ -31,55 +31,55 @@
 #
 # OPTIONS:
 #
-# -t     temperture(s)      t1[,t2]; 1000 to 40000 deg K
+# -t     temperture(s)      t1[,t2]; 1000 to 40000 deg K 
 #                           t1=desired temperature; t2=current temperature;
 #                           t2 default=pure white (near 6500)
 # -f     fov				fov=field of view for observation;
 #                           fov=2 or 10 deg; default=2
-# infile outfile            if no infile and no temperature provided, then
+# infile outfile            if no infile and no temperature provided, then 
 #                           outfile will be a color vs temperature chart;
-#                           if no infile but t1 provided, then outfile
+#                           if no infile but t1 provided, then outfile 
 #                           will be a color swatch for the provided temperture;
-#                           if infile and t1[,t2] provided, then infile will
-#                           be color transformed to generate the outfile
-#                           according to the temperture(s) provided
+#                           if infile and t1[,t2] provided, then infile will 
+#                           be color transformed to generate the outfile 
+#                           according to the temperture(s) provided 
 #
 ###
 #
-# NAME: COLORTEMP
-#
-# PURPOSE: To transform an image's overall color balance according to a desired
+# NAME: COLORTEMP 
+# 
+# PURPOSE: To transform an image's overall color balance according to a desired 
 # color temperature change.
-#
-# DESCRIPTION: COLORTEMP transforms an image's overall color balance according
-# to a desired color temperature change. If no infile and no temperature is
-# provided, the script will generate a color vs temperature chart. If no infile
-# is provided, but a desired temperature is specified, then the script will
+# 
+# DESCRIPTION: COLORTEMP transforms an image's overall color balance according 
+# to a desired color temperature change. If no infile and no temperature is 
+# provided, the script will generate a color vs temperature chart. If no infile 
+# is provided, but a desired temperature is specified, then the script will 
 # generate a color swatch for the specified temperature.
-#
-#
-# OPTIONS:
-#
-# -t temperature(s) ... TEMPERATURE(S) specifies the desired (t1) temperature
-# and the current (t2) temperature. Values range from 1000 to 40,000 deg K.
+# 
+# 
+# OPTIONS: 
+# 
+# -t temperature(s) ... TEMPERATURE(S) specifies the desired (t1) temperature 
+# and the current (t2) temperature. Values range from 1000 to 40,000 deg K. 
 # The default for t2 is pure white which is near 6500 deg K.
-#
-# -f fov ... FOV is the observer's field of view. Allowed values are fov=2 or 10
-# deg. The default is 2. Differences in color temperature are slight between
+# 
+# -f fov ... FOV is the observer's field of view. Allowed values are fov=2 or 10 
+# deg. The default is 2. Differences in color temperature are slight between 
 # the two.
-#
-# infile outfile ... If no infile and no temperature are provided, then
+# 
+# infile outfile ... If no infile and no temperature are provided, then 
 # outfile will be a color vs temperature chart. If no infile but t1 is
 # provided, then outfile will be a color swatch for the provided
 # temperture. If infile and t1[,t2] provided, then infile will be color
 # transformed to generate the outfile according to temperture(s) provided.
-#
+# 
 # Requires NetPBM (http://netpbm.sourceforge.net/)
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -98,13 +98,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -152,14 +152,14 @@ else
 					   ;;
 				-t)    # get temperatures
 					   shift  # to get the next parameter - temperatures
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEMPERATURE SPECIFICATION ---"
 					   checkMinus "$1"
 					   temp="$1,"
 					   ;;
 				-f)    # get fov
 					   shift  # to get the next parameter - fov
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FOV SPECIFICATION ---"
 					   checkMinus "$1"
 					   fov="$1"
@@ -216,7 +216,7 @@ if [ "$temp" != "" ]
 	then
 	t1=`echo "$temp" | cut -d, -f1`
 	t2=`echo "$temp" | cut -d, -f2`
-
+	
 	[ $t1 -lt 1000 -o $t1 -gt 40000 ] && errMsg "--- TEMPERATURE T1 IS NOT VALID ---"
 	if [ "$t2" != "" ]
 		then
@@ -1057,7 +1057,7 @@ if [ "$infile" = "" -a "$t1" = "" ]
 	echo "P2 391 1 255 ${blueArr[*]}" | convert - -scale 391x50! $tmp3
 
 	convert $tmp1 $tmp2 $tmp3 -combine $tmp0
-
+	
 	convert \( $tmp0[120x50+0+0] -resize 480x50! \) $tmp0[1x50+120+0] +append $tmp1
 	convert \( -size 481x10 xc:gray \) -stroke white \
 		-draw "line 0,0 0,7 line 40,0 40,7 line 80,0 80,7 line 120,0 120,7 line 160,0 160,7 line 200,0 200,7 line 240,0 240,7 line 280,0 280,7 line 320,0 320,7 line 360,0 360,7 line 400,0 400,7 line 440,0 440,7 line 480,0 480,7 " $tmp2
@@ -1075,7 +1075,7 @@ interpolateColor()
 	temp=$1
 	# get integer and fractional temperature position
 	int=`echo "scale=0; $num * ($temp - $firsttemp) / ($lasttemp - $firsttemp)" | bc`
-
+	
 	# interpolate colors
 	if [ $temp -eq $lasttemp ]
 		then
@@ -1132,27 +1132,29 @@ if [ "$infile" != "" -a "$outfile" != "" -a "$t1" != "" ]
 		cgreen=$green
 		cblue=$blue
 	fi
-
+	
 	# compute color ratio and trap for divide by zero
 	if [ $cred -eq 0 ]
-		then
+		then 
 		redfrac=$dred
-	else
+	else 
 		redfrac=`echo "scale=3; $dred / $cred" | bc`
 	fi
 	if [ $cgreen -eq 0 ]
-		then
+		then 
 		greenfrac=$dgreen
-	else
+	else 
 		greenfrac=`echo "scale=3; $dgreen / $cgreen" | bc`
 	fi
 	if [ $cblue -eq 0 ]
-		then
+		then 
 		bluefrac=$dblue
-	else
+	else 
 		bluefrac=`echo "scale=3; $dblue / $cblue" | bc`
 	fi
 
 	convert $tmpA $process "$redfrac 0 0 0 $greenfrac 0 0 0 $bluefrac" "$outfile"
 fi
 exit 0
+
+

@@ -3,114 +3,114 @@
 # Developed by Fred Weinhaus 12/8/2011 .......... revised 6/17/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: maxima [-r rad ] [-s shape] [-n num] [-t thresh] [-u units] [-d dist]
+# USAGE: maxima [-r rad ] [-s shape] [-n num] [-t thresh] [-u units] [-d dist] 
 # [-m metric] [-c color] [-g graphic] infile [outfile]
 #
 # USAGE: maxima [-h or -help]
-#
+# 
 # OPTIONS:
 #
 # -r     rad        x,y ${radx},${rady} for masking out peaks; integer>0;
 #                   one value will be used for both dimensions;
-#                   default=5;
-# -s     shape      shape for masking; choices are: ellipse or rectangle;
+#                   default=5; 
+# -s     shape      shape for masking; choices are: ellipse or rectangle; 
 #                   default=ellipse
 # -n     num        stopping number of maxima; integer>0; default=1
-# -t     thresh     graylevel (maxima amplitude) stopping threshold;
+# -t     thresh     graylevel (maxima amplitude) stopping threshold; 
 #                   integer>0; default=ignore argument
 # -u     units      units for graylevel threshold; choices are:
 #                   percent (p), raw (r), 8bit (8); default=percent
-# -d     dist       pixel distance for stopping; integer>0;
+# -d     dist       pixel distance for stopping; integer>0; 
 #                   default=ignore argument
 # -m     metric     compare metric; any valid IM metric; default=rmse
-# -c     color      masking color if output image is specified; any valid
+# -c     color      masking color if output image is specified; any valid  
 #                   opaque IM color is allowed; default=black
 # -g                display intermediate images
-#
-# An optional output image may be specified which will be the input
+# 
+# An optional output image may be specified which will be the input 
 # image with the masked areas showing where the maxima are located.
 #
 ###
-#
+# 
 # NAME: MAXIMA
-#
+# 
 # PURPOSE: To locate one or more local maxima in a grayscale image.
-#
-# DESCRIPTION: MAXIMA locates one or more local maxima in a grayscale
-# image. It does this by finding the highest graylevel value and its
-# location (via the compare function). Then it draws a black circle
-# (ellipse) at that location and repeats the process. The process can
-# be stopped by any combination of more than some number of maxima,
-# the graylevel (amplitude) at a maxima is lower than some threshold
-# value or the distance between any two maxima are less than some
-# spacing distance. Each maxima location and its graylevel will be
-# returned to the terminal. If the input is not grayscale it will be
+# 
+# DESCRIPTION: MAXIMA locates one or more local maxima in a grayscale 
+# image. It does this by finding the highest graylevel value and its 
+# location (via the compare function). Then it draws a black circle 
+# (ellipse) at that location and repeats the process. The process can 
+# be stopped by any combination of more than some number of maxima, 
+# the graylevel (amplitude) at a maxima is lower than some threshold 
+# value or the distance between any two maxima are less than some 
+# spacing distance. Each maxima location and its graylevel will be 
+# returned to the terminal. If the input is not grayscale it will be 
 # converted to grayscale.
-#
-# Arguments:
-#
+# 
+# Arguments: 
+# 
 # -r  rad ... RAD are the x,y ${radx},${rady} for masking out peaks. Values are
 # integers>0. One value will be used for both dimensions. The default=5.
-#
-# -s shape ... SHAPE for masking. The choices are: ellipse or rectangle.
+# 
+# -s shape ... SHAPE for masking. The choices are: ellipse or rectangle. 
 # The default=ellipse.
-#
-# -n num ... NUM is the number of maxima used to stop the iterative
+# 
+# -n num ... NUM is the number of maxima used to stop the iterative 
 # process. Stopping occurs when the iteration exceeds the num value.
-# Values are integers>0. The default=1. Note that a number must be set
+# Values are integers>0. The default=1. Note that a number must be set 
 # even if one uses thresh.
-#
+# 
 # -t thresh ... THRESH is the graylevel (maxima amplitude) used as the
-# stopping threshold. Stopping occurs when a maxima graylevel is less
+# stopping threshold. Stopping occurs when a maxima graylevel is less 
 # than thresh. Values are integers>0. The default=ignore this argument.
-#
+# 
 # -u units ... UNITS for the graylevel threshold. Choices are:
 # percent (or p), raw (or r), 8bit (or 8). The default=percent.
-#
-# -d dist ... DISTANCE in pixels between maxima used for stopping.
-# Stopping occurs when any two maxima are too close together, i.e.
-# less than dist. Values are integers>0. The default=ignore this
+# 
+# -d dist ... DISTANCE in pixels between maxima used for stopping. 
+# Stopping occurs when any two maxima are too close together, i.e. 
+# less than dist. Values are integers>0. The default=ignore this 
 # argument.
-#
-# -m metric ... METRIC is the compare metric used to locate the maxima.
-# Any valid IM metric may be used. The default=rmse. Only needed for
+# 
+# -m metric ... METRIC is the compare metric used to locate the maxima. 
+# Any valid IM metric may be used. The default=rmse. Only needed for 
 # Imagemagick versions less than 6.8.6-10.
-#
-# -c color ... masking COLOR, if an output image is specified. Any valid opaque
+# 
+# -c color ... masking COLOR, if an output image is specified. Any valid opaque 
 # IM color is allowed. The default=black.
-#
+# 
 # -g ... Indicates to display the intermediate masked images.
-#
-# An optional output image may be specified which will be the input
+# 
+# An optional output image may be specified which will be the input 
 # image with the masked areas showing where the maxima are located.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -140,13 +140,13 @@ trap "rm -rf $dir; exit 1" 1 2 3 15
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -191,7 +191,7 @@ else
 				   ;;
 			-r)    # rad
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID RAD SPECIFICATION ---"
 				   checkMinus "$1"
 				   rad=`expr "$1" : '\([0-9]*,*[0-9]*\)'`
@@ -199,21 +199,21 @@ else
 				   ;;
 		 	-s)    # shape
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SHAPE SPECIFICATION ---"
 				   checkMinus "$1"
 				   # test mode values
 				   shape="$1"
 				   shape=`echo "$shape" | tr "[:upper:]" "[:lower:]"`
-				   case "$shape" in
+				   case "$shape" in 
 				   		ellipse|e) shape="ellipse";;
 				   		rectangle|r) shape="rectangle";;
-						*) errMsg "--- SHAPE=$shape IS AN INVALID VALUE ---"
+						*) errMsg "--- SHAPE=$shape IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-n)    # num
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID NUM SPECIFICATION ---"
 				   checkMinus "$1"
 				   num=`expr "$1" : '\([0-9]*\)'`
@@ -223,7 +223,7 @@ else
 				   ;;
 			-t)    # thresh
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID THRESH SPECIFICATION ---"
 				   checkMinus "$1"
 				   thresh=`expr "$1" : '\([0-9]*\)'`
@@ -233,22 +233,22 @@ else
 				   ;;
 		 	-u)    # units
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID UNITS SPECIFICATION ---"
 				   checkMinus "$1"
 				   # test mode values
 				   units="$1"
 				   units=`echo "$units" | tr "[:upper:]" "[:lower:]"`
-				   case "$units" in
+				   case "$units" in 
 				   		percent|p) units="percent";;
 				   		raw|r) units="raw";;
 				   		8bit|8) units="8bit";;
-						*) errMsg "--- UNITS=$units IS AN INVALID VALUE ---"
+						*) errMsg "--- UNITS=$units IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-d)    # dist
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID DIST SPECIFICATION ---"
 				   checkMinus "$1"
 				   dist=`expr "$1" : '\([0-9]*\)'`
@@ -258,13 +258,13 @@ else
 				   ;;
 		 	-m)    # metric
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID METRIC SPECIFICATION ---"
 				   checkMinus "$1"
 				   # test mode values
 				   metric="$1"
 				   metric=`echo "$metric" | tr "[:upper:]" "[:lower:]"`
-				   case "$metric" in
+				   case "$metric" in 
 				   		ae) ;;
 						fuzz) ;;
 						mae) ;;
@@ -274,12 +274,12 @@ else
 						pae) ;;
 						psnr) ;;
 						rmse) ;;
-						*) errMsg "--- METRIC=$metric IS AN INVALID VALUE ---"
+						*) errMsg "--- METRIC=$metric IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-c)    # color
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 				   checkMinus "$1"
 				   color="$1"
@@ -324,9 +324,9 @@ qrange=`convert xc: -format "%[fx:quantumrange]" info:`
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -354,7 +354,7 @@ rady=`echo $rad | cut -d, -f2`
 test1=`echo "$radx <= 0" | bc`
 test2=`echo "$rady <= 0" | bc`
 [ $test1 -eq 1 -o $test2 -eq 1 ] && errMsg "--- RAD=$rad MUST BE TWO COMMA SEPARATED POSITIVE INTEGER ---"
-
+	
 
 
 # set up for using (new) %[max] or (old) %[maxima]
@@ -483,3 +483,4 @@ fi
 [ "$outfile" != "" ] && convert $dir/tmpI.mpc -set colorspace $cspace $proc1 "$outfile"
 
 exit 0
+

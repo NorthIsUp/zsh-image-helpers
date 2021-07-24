@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 6/22/2011 .......... revised 9/19/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: turn [-a angle] [-x xshift] [-y yshift] [-f format] infile outfile
@@ -34,45 +34,45 @@
 # -a      angle			clockwise angle of rotation; -360<=float<=360; default=0
 # -x      xshift        xshift of image; integer; default=0
 # -y      yshift        yshift of image; integer; default=0
-# -f      format        format for the output; choices are aspect (a),
-#                       square (s) or maxarea (m); default=aspect
-#
+# -f      format        format for the output; choices are aspect (a), 
+#                       square (s) or maxarea (m); default=aspect 
+# 
 ###
 #
-# NAME: TURN
-#
-# PURPOSE: To simultaneously rotate and crop an image to eliminate any
+# NAME: TURN 
+# 
+# PURPOSE: To simultaneously rotate and crop an image to eliminate any 
 # background.
-#
-# DESCRIPTION: TURN simultaneously rotate and crop an image to eliminate any
-# background. Two methods are available: preserve the input image's w:h
-# aspect ratio in the output or make the output square.
-#
-# OPTIONS:
-#
-# -a angle ... ANGLE of rotation. Values are floats in the range of -360 to 360
+# 
+# DESCRIPTION: TURN simultaneously rotate and crop an image to eliminate any 
+# background. Two methods are available: preserve the input image's w:h 
+# aspect ratio in the output or make the output square. 
+# 
+# OPTIONS: 
+# 
+# -a angle ... ANGLE of rotation. Values are floats in the range of -360 to 360 
 # degrees.
-#
-# -x xshift ... XSHIFT of image. Values are integers (positive or negative).
+# 
+# -x xshift ... XSHIFT of image. Values are integers (positive or negative). 
 # The default=0.
-#
-# -y xshift ... YSHIFT of image. Values are integers (positive or negative).
+# 
+# -y xshift ... YSHIFT of image. Values are integers (positive or negative). 
 # The default=0.
-#
-# -f format ... FORMAT for the output image. The choices are: aspect (a),
-# square (s) or maxarea (m). Format=aspect preserves the input image's w:h
-# aspect ratio. Format=square makes the output square. Format=maxarea uses
+# 
+# -f format ... FORMAT for the output image. The choices are: aspect (a), 
+# square (s) or maxarea (m). Format=aspect preserves the input image's w:h  
+# aspect ratio. Format=square makes the output square. Format=maxarea uses 
 # largest subsection possible for the output. The default=aspect.
-#
-# Requirement: IM 6.3.6-1 or higher due to the use of
+# 
+# Requirement: IM 6.3.6-1 or higher due to the use of 
 # -set distort:viewport WxH+X+Y
-#
+# 
 # Reference: http://stackoverflow.com/questions/16702966/rotate-image-and-crop-out-black-borders/16778797#16778797
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -91,13 +91,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -145,7 +145,7 @@ else
 					   ;;
 				-a)    # get angle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   angle=`expr "$1" : '\([-.0-9]*\)'`
@@ -156,7 +156,7 @@ else
 					   ;;
 				-x)    # get xshift
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID XSHIFT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   xshift=`expr "$1" : '\([-0-9]*\)'`
@@ -164,7 +164,7 @@ else
 					   ;;
 				-y)    # get yshift
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID YSHIFT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   yshift=`expr "$1" : '\([-0-9]*\)'`
@@ -172,16 +172,16 @@ else
 					   ;;
 				-f)    # get  format
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   format="$1"
 					   format=`echo "$format" | tr "[:upper:]" "[:lower:]"`
-					   case "$format" in
+					   case "$format" in 
 					   		aspect|a) format="aspect" ;;
 					   		square|s) format="square" ;;
 					   		maxarea|m) format="maxarea" ;;
-					   		*) errMsg "--- FORMAT=$format IS AN INVALID VALUE ---"
+					   		*) errMsg "--- FORMAT=$format IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -275,7 +275,7 @@ if [ $xshift -ne 0 -o $yshift -ne 0 ]; then
 		[ "$shaveval" != "0" ] && convert $tmpA1 -shave 0x${shaveval} $tmpA1
 	fi
 	#echo "shaveval=$shaveval;"
-
+	
 	# get shaved image width, height and aspect
 	width=`convert -ping $tmpA1 -format "%w" info:`
 	height=`convert -ping $tmpA1 -format "%h" info:`
@@ -290,7 +290,7 @@ fi
 
 if [ "$format" = "aspect" -o "$format" = "square" ]; then
 	# computation from personal notes
-
+	
 	# evaluate asbolute value sin and cos of angle so that don't have to change sign for each quadrant
 	asang=`convert xc: -format "%[fx:abs(sin($angle*pi/180))]" info:`
 	acang=`convert xc: -format "%[fx:abs(cos($angle*pi/180))]" info:`
@@ -331,13 +331,13 @@ elif [ "$format" = "maxarea" ]; then
 
 	# make angle modulo 360 to convert negatives to equivalent positive angles
 	ang=`convert xc: -format "%[fx:mod($angle,360)]" info:`
-
+	
 	# convert angle from second to first quadrant
 	ang=`convert xc: -format "%[fx:($ang>90 && $ang<=180)?(180-$ang):$ang]" info:`
 
 	# convert angle from third to first quadrant
 	ang=`convert xc: -format "%[fx:($ang>180 && $ang<=270)?($ang-180):$ang]" info:`
-
+	
 	# convert angle from fourth to first quadrant
 	ang=`convert xc: -format "%[fx:($ang>270 && $ang<=360)?(360-$ang):$ang]" info:`
 
@@ -361,7 +361,7 @@ elif [ "$format" = "maxarea" ]; then
 		hh=$width
 		rwidth=$height
 		rheight=$width
-	else
+	else	
 		test=`convert xc: -format "%[fx:($short<2*$sina*$cosa*$long)?1:0]" info:`
 		if [ $test -eq 1 ]; then
 			# 3 point coincident with sides of inscribed rectangle
@@ -378,7 +378,7 @@ elif [ "$format" = "maxarea" ]; then
 			# 4 point coincident with sides of inscribed rectangle
 			test1=`convert xc: -format "%[fx:($ang>45)?1:0]" info:`
 			if [ $test1 -eq 1 ]; then
-				# note: to make it work for ang>45, I had to use complement angle,
+				# note: to make it work for ang>45, I had to use complement angle, 
 				# which is equivalent to switching sin and cos and also swap ww and hh
 				cos2a=`convert xc: -format "%[fx:$sina*$sina - $cosa*$cosa]" info:`
 				ww=`convert xc: -format "%[fx:($height*$sina - $width*$cosa)/$cos2a]" info:`

@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 4/27/2010 .......... 5/7/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: wavemap [-c cycles] [-p phase] infile outfile
@@ -38,39 +38,39 @@
 #
 ###
 #
-# NAME: WAVEMAP
-#
-# PURPOSE: To transform the graylevels in each RGB channel according to a
+# NAME: WAVEMAP 
+# 
+# PURPOSE: To transform the graylevels in each RGB channel according to a 
 # sinusoidal wave function.
-#
-# DESCRIPTION: WAVEMAP transform the graylevels in each RGB channel according
+# 
+# DESCRIPTION: WAVEMAP transform the graylevels in each RGB channel according 
 # to a sinusoidal wave function. This is similar to GIMP's Alien Map.
+# 
+# 
+# OPTIONS: 
+# 
+# -c cycle ... CYCLES is the number of cycles in the sinusoidal wave transform. 
+# Values are floats>=0. One or three comma delimited values may be provided, 
+# one for each of the RGB channels. If only the one value is provided, the other 
+# two will be set to the same value. The default=0.5 (which is the same as 
+# 0.5,0.5,0.5). With phase=0, this produces a nearly linear transform. 
 #
-#
-# OPTIONS:
-#
-# -c cycle ... CYCLES is the number of cycles in the sinusoidal wave transform.
-# Values are floats>=0. One or three comma delimited values may be provided,
-# one for each of the RGB channels. If only the one value is provided, the other
-# two will be set to the same value. The default=0.5 (which is the same as
-# 0.5,0.5,0.5). With phase=0, this produces a nearly linear transform.
-#
-# -p phase ... PHASE is the phase shift in degrees from a cosine wave. Values
-# are in the range 0<=float<=360. One or three comma delimited values may be
-# provided, one for each of the RGB channels. If only the one value is provided,
-# the other two will be set to the same value. The default=0 (or 0,0,0) will
-# produce a cosine wave. See
+# -p phase ... PHASE is the phase shift in degrees from a cosine wave. Values 
+# are in the range 0<=float<=360. One or three comma delimited values may be 
+# provided, one for each of the RGB channels. If only the one value is provided, 
+# the other two will be set to the same value. The default=0 (or 0,0,0) will 
+# produce a cosine wave. See 
 # http://www.imagemagick.org/Usage/transform/#function_sinusoid.
-# In wavemap, we will add 90 degrees to the phase value so that the sinusoid
-# will be shifted from a sine to a cosine wave as the default. With cycles=0.5,
+# In wavemap, we will add 90 degrees to the phase value so that the sinusoid 
+# will be shifted from a sine to a cosine wave as the default. With cycles=0.5, 
 # this produces a nearly linear transform.
-#
+# 
 # REQUIREMENT: IM version 6.4.8-9 or higher due to the use of -function sinusoid.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -85,13 +85,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -139,7 +139,7 @@ else
 					   ;;
 				-c)    # get cycles
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CYCLES SPECIFICATION ---"
 					   checkMinus "$1"
 					   cycles=`expr "$1" : '\([,.0-9]*\)'`
@@ -147,7 +147,7 @@ else
  					   ;;
 				-p)    # get phase
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PHASE SPECIFICATION ---"
 					   checkMinus "$1"
 					   phase=`expr "$1" : '\([,.0-9]*\)'`
@@ -181,9 +181,9 @@ fi
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear

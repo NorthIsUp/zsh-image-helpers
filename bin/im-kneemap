@@ -3,95 +3,95 @@
 # Developed by Fred Weinhaus 3/31/2011 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: kneemap [-a amount] [-c channels] [-l lutlength] [-g] infile outfile
 # USAGE: kneemap [-h or -help]
 #
 # OPTIONS:
-#
-# -a     amount     	 amount of curvature for knee curve mapping
-#                        transformation; -1<float<1; positive values
-#                        non-linearly brighten the image and negative values
+# 
+# -a     amount     	 amount of curvature for knee curve mapping 
+#                        transformation; -1<float<1; positive values 
+#                        non-linearly brighten the image and negative values 
 #                        non-linearly darken the image; default=0 for no change
-# -c     channels        any valid IM combination of channels corresponding to
-#                        the image's colorspace to which to apply the
-#                        transformation: r,g,b,a, or c,m,y,k,a;
+# -c     channels        any valid IM combination of channels corresponding to 
+#                        the image's colorspace to which to apply the 
+#                        transformation: r,g,b,a, or c,m,y,k,a; 
 #                        default=all non-alpha channels
 # -l     lutlength       length of 1D lut; integer>0; default=1000
-# -g                	 enables the creation of a graph of the knee curve
-#                        mapping transformation, which is then displayed
-#                        automatically. There is a default setting below that
-#                        can be changed to enable this to be save to a file
+# -g                	 enables the creation of a graph of the knee curve 
+#                        mapping transformation, which is then displayed 
+#                        automatically. There is a default setting below that 
+#                        can be changed to enable this to be save to a file 
 #                        named outfile_kneegraph.gif rather than just viewed.
-#
+#                         
 ###
 #
 # NAME: KNEEMAP
 #
-# PURPOSE: To create a symmetric soft knee-shaped curved mapping look up table
+# PURPOSE: To create a symmetric soft knee-shaped curved mapping look up table 
 # and applies it to an image.
 #
-# DESCRIPTION: KNEEMAP creates a symmetric soft knee-shaped curved mapping
-# transformation similar to -evaluate log or -evaluate pow (-gamma), but which
-# is symmetric. This transformation is generated as 1D lut and applied
-# to the image using -clut to affect the intensity/color transformation. The
+# DESCRIPTION: KNEEMAP creates a symmetric soft knee-shaped curved mapping 
+# transformation similar to -evaluate log or -evaluate pow (-gamma), but which 
+# is symmetric. This transformation is generated as 1D lut and applied 
+# to the image using -clut to affect the intensity/color transformation. The 
 # transformation is sensitive to the desired channels specified.
-#
-# OPTIONS:
-#
-#
-# -a amount ... AMOUNT is the amount of curvature for knee curve mapping
-# transformation. Values are in the range 1<float<1. Positive values
-# non-linearly brighten the image and negative values non-linearly darken the
+# 
+# OPTIONS: 
+# 
+# 
+# -a amount ... AMOUNT is the amount of curvature for knee curve mapping 
+# transformation. Values are in the range 1<float<1. Positive values 
+# non-linearly brighten the image and negative values non-linearly darken the 
 # image. The default=0 for no change.
-#
-# -c  channels ... CHANNELS are any valid IM combination of channels
-# corresponding to the image's colorspace to which to apply the transformation.
-# Combinations include: r,g,b,a, or c,m,y,k,a (with no commas). The
+# 
+# -c  channels ... CHANNELS are any valid IM combination of channels 
+# corresponding to the image's colorspace to which to apply the transformation. 
+# Combinations include: r,g,b,a, or c,m,y,k,a (with no commas). The 
 # default=all non-alpha channels
-#
-# -l lutlength ... LUTLENGTH is the length of 1D lut. Values are integer>0.
+# 
+# -l lutlength ... LUTLENGTH is the length of 1D lut. Values are integer>0. 
 # The default=1000
-#
-# -g ... enables the creation of a graph of the knee curve mapping
-# transformation, which is then displayed automatically. There is a default
-# setting below that can be changed to enable this to be save to a file named
+# 
+# -g ... enables the creation of a graph of the knee curve mapping 
+# transformation, which is then displayed automatically. There is a default 
+# setting below that can be changed to enable this to be save to a file named 
 # outfile_kneegraph.gif. The graph will be scaled to size 100x100.
-#
-# My thanks to Max Usatov for bringing the dynamic range compressor or soft
+# 
+# My thanks to Max Usatov for bringing the dynamic range compressor or soft  
 # knee compressor to my attention. See
 # http://www.scribd.com/doc/14599153/Fast-Dynamic-Range-Compression-for-Grayscale-Images
-#
+# 
 # REQUIREMENTS: IM 6.3.5-7 is required to support the use of -clut
-#
-# CAVEAT: No guarantee that this script will work on all platforms, nor that
-# trapping of inconsistent parameters is complete and foolproof. Use At Your
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, nor that 
+# trapping of inconsistent parameters is complete and foolproof. Use At Your 
 # Own Risk.
-#
+# 
 ######
-#
+# 
 
 # set default value for scale and height of lut
 amount=0			# amount of curvature; -1<float<1
@@ -108,13 +108,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -162,7 +162,7 @@ else
 					   display_graph="yes" ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   # checkMinus "$1"
 					   # test values
@@ -174,7 +174,7 @@ else
 					   ;;
 				-l)    # get lutlength
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LUTLENGTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test values
@@ -185,7 +185,7 @@ else
 					   ;;
 				-c)    # get channels
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CHANNELS SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test values

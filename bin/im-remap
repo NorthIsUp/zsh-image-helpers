@@ -3,91 +3,91 @@
 # Developed by Fred Weinhaus 10/21/2011 .......... revised 10/12/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: remap [-n numcolors ] [-m metric] [-s] infile mapfile outfile
 # USAGE: remap [-h or -help]
-#
+# 
 # OPTIONS:
 #
 # -n     numcolors      desired number of colors, if the input image
-#                       has more than 256 unique colors;
+#                       has more than 256 unique colors; 
 #                       0<integer<=256; default is to use the number
 #                       of input colors if <= 256, otherwise 24
 # -m     metric         colorspace distance metric; choices are:
 #                       RGB or RGBL (luminance weighted RGB);
 #                       default=RGB
 # -s                    show/display textual data to the terminal
-#
+# 
 ###
-#
+# 
 # NAME: REMAP
-#
-# PURPOSE: To remap the colors in an image using a 3D color distance
+# 
+# PURPOSE: To remap the colors in an image using a 3D color distance 
 # metric relative to a color table map image.
-#
+# 
 # DESCRIPTION: REMAP remaps colors in an image using a 3D color distance
 # metric relative to a (map) color table image. The mapfile is an image
 # that contains only the desired output colors. The infile should contain
 # a limited number of colors, less than or equal to 256. However, it may
 # take a long time to process with 256 colors and generally will not
-# more produce results much different than much fewer colors, certainly
+# more produce results much different than much fewer colors, certainly  
 # no more colors than are in the mapfile.
-#
+# 
 # The RGB distance metric is
 # dist=sqrt(rdiff^2+gdiff^2+bdiff^2), where the diffs are the channel
 # differences between the infile color and the mapfile color.
-#
-# The RGBL distance metric is
+# 
+# The RGBL distance metric is 
 # dist=sqrt((0.299*rdiff^2+0.587gdiff^2+0.114*bdiff^2)*0.75+ldiff^2)),
-# where ldiff is the difference in Rec601 luminosity value between the
+# where ldiff is the difference in Rec601 luminosity value between the 
 # infile color and the mapfile color, with lum=(0.299*R+0.587G+0.114*B).
-#
-# Arguments:
-#
-# -n numcolors ... NUMCOLORs is the desired number of colors. If the
-# input image has more than 256 unique colors, then the image will
-# use -colors numcolors to reduce the number of colors. Values are
-# 0<integer<=256. The default is to use the number of input colors,
+# 
+# Arguments: 
+# 
+# -n numcolors ... NUMCOLORs is the desired number of colors. If the 
+# input image has more than 256 unique colors, then the image will 
+# use -colors numcolors to reduce the number of colors. Values are 
+# 0<integer<=256. The default is to use the number of input colors, 
 # if it is less than or equal to 256, otherwise 24.
-#
-# -m metric ... METRIC is the colorspace distance metric. The choices
+# 
+# -m metric ... METRIC is the colorspace distance metric. The choices 
 # are: RGB or RGBL (luminance weighted RGB). The default=RGB
-#
+# 
 # -s ... SHOW/display textual data to the terminal
-#
+# 
 # Limitation: The script only works for fully opaque images and mapimages.
-#
+# 
 # References:
 # http://bisqwit.iki.fi/story/howto/dither/jy/
 # http://en.wikipedia.org/wiki/X11_color_names
 # http://www.imagemagick.org/discourse-server/viewtopic.php?f=3&t=19646#p77472
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -111,13 +111,13 @@ trap "rm -rf $dir; exit 1" 1 2 3 15
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -162,21 +162,21 @@ else
 				   ;;
 		 	-m)    # metric
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID METRIC SPECIFICATION ---"
 				   checkMinus "$1"
 				   # test mode values
 				   metric="$1"
 				   metric=`echo "$metric" | tr "[:upper:]" "[:lower:]"`
-				   case "$metric" in
+				   case "$metric" in 
 						rgb) metric="rgb" ;;
 						rgbl) metric="rgbl" ;;
-						*) errMsg "--- METRIC=$metric IS AN INVALID VALUE ---"
+						*) errMsg "--- METRIC=$metric IS AN INVALID VALUE ---" 
 					esac
 				   ;;
 			-n)    # get ncolors
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID NUMCOLORS SPECIFICATION ---"
 				   checkMinus "$1"
 				   ncolors=`expr "$1" : '\([0-9]*\)'`
@@ -216,7 +216,7 @@ fi
 [ "$outfile" = "" ] && errMsg "--- NO OUTPUT FILE SPECIFIED ---"
 
 
-
+	
 
 # NOTE: need to add -depth 8 before saving to mpc as it normally is 16-bits vs 8-bits for miff
 # Assumes images are RGB or sRGB
@@ -273,32 +273,32 @@ colorlist=":${colorArr[*]}:${mapcolorArr[*]}:"
 #echo "$colorlist"
 
 # get matching color indices
-# note because of colons in colorlist, there are 3 items when split, #1 is empty,
+# note because of colons in colorlist, there are 3 items when split, #1 is empty, 
 # so we use #2 and #3
 IFS=":"
 
 if [ "$metric" = "rgb" ]; then
 	pairlist=`for color in $colorlist; do
-	echo "$color"
+	echo "$color" 
 	done |\
 	awk ' { FS="x"; j=NR; Arr[j]=$1; split(Arr[2], colorArr, " "); split(Arr[3], mapcolorArr, " "); }
 	END { FS=" ";
-	for (j in colorArr)
-	{ mindist=1000000; k=1; for (i in mapcolorArr)
-	{ split(colorArr[j], c, ","); split(mapcolorArr[i], m, ",");
+	for (j in colorArr) 
+	{ mindist=1000000; k=1; for (i in mapcolorArr) 
+	{ split(colorArr[j], c, ","); split(mapcolorArr[i], m, ","); 
 	dist=sqrt( (c[1]-m[1])*(c[1]-m[1])+(c[2]-m[2])*(c[2]-m[2])+(c[3]-m[3])*(c[3]-m[3]) );
 	if ( dist<mindist) { mindist=dist; k=i; cc="rgb("c[1]","c[2]","c[3]")"; mm="rgb("m[1]","m[2]","m[3]")"; } } print cc":"mm; }
 	} '`
 
 elif [ "$metric" = "rgbl" ]; then
 	pairlist=`for color in $colorlist; do
-	echo "$color"
+	echo "$color" 
 	done |\
 	awk ' { FS="x"; j=NR; Arr[j]=$1; split(Arr[2], colorArr, " "); split(Arr[3], mapcolorArr, " "); }
 	END { FS=" ";
-	for (j in colorArr)
-	{ mindist=1000000; k=1; for (i in mapcolorArr)
-	{ split(colorArr[j], c, ","); split(mapcolorArr[i], m, ",");
+	for (j in colorArr) 
+	{ mindist=1000000; k=1; for (i in mapcolorArr) 
+	{ split(colorArr[j], c, ","); split(mapcolorArr[i], m, ","); 
 	clum=0.299*c[1]+0.587*c[2]+0.114*c[3]; mlum=0.299*m[1]+0.587*m[2]+0.114*m[3];
 	dist=sqrt( (0.299*(c[1]-m[1])*(c[1]-m[1])+0.587*(c[2]-m[2])*(c[2]-m[2])+0.114*(c[3]-m[3])*(c[3]-m[3]))*.75 + (clum-mlum)*(clum-mlum) );
 	if ( dist<mindist) { mindist=dist; k=i; cc="rgb("c[1]","c[2]","c[3]")"; mm="rgb("m[1]","m[2]","m[3]")"; } } print cc":"mm; }
@@ -344,3 +344,4 @@ if [ "$show" = "yes" ]; then
 fi
 
 exit 0
+

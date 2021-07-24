@@ -3,113 +3,113 @@
 # Developed by Fred Weinhaus 6/20/2015 .......... revised 6/20/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: negative2positive [-a autostretch] [-l cliplow] [-h cliphigh]
-# [ -c color] [-d density] [-cb colorbalance] [-P1 percent1] [-P2 percent2]
+# USAGE: negative2positive [-a autostretch] [-l cliplow] [-h cliphigh] 
+# [ -c color] [-d density] [-cb colorbalance] [-P1 percent1] [-P2 percent2] 
 # infile outfile
 #
 # USAGE: negative2positive [-h or -help]
 #
 # OPTIONS:
 #
-# -a      autostretch      autostretch image channels; options are:
-#                          none (n), together (t), or separate (s);
+# -a      autostretch      autostretch image channels; options are: 
+#                          none (n), together (t), or separate (s); 
 #                          default=separate
-# -l      cliplow          clip percent on low end of histogram;
+# -l      cliplow          clip percent on low end of histogram; 
 #                          float; 0<=cliplow<=100; default=1
 # -h      cliphigh         clip percent on high end of histogram;
 #                          float; 0<=cliphigh<=100; default=1
-# -c      color            desired filter color; any valid IM opaque color
+# -c      color            desired filter color; any valid IM opaque color 
 #                          value is valid default=yellow
-# -d      density          density of filter; 0<=integer<=100; 0 is no change;
+# -d      density          density of filter; 0<=integer<=100; 0 is no change; 
 #                          100 is most change towards the color;
-#                          default=15 for colorbalance != level and
-#                          default=0 for colorbalance = level
-# -cb     colorbalance     color balance mode; choices are level, gray,
+#                          default=15 for colorbalance != level and  
+#                          default=0 for colorbalance = level 
+# -cb     colorbalance     color balance mode; choices are level, gray,  
 #                          white, both, auto or none; default=auto
-# -P1     percent          percent1 threshold for autolevel processing;
+# -P1     percent          percent1 threshold for autolevel processing; 
 #                          0<float<100; default=1
-# -P2     percent          percent threshold for detecting gray/white
+# -P2     percent          percent threshold for detecting gray/white 
 #                          for auto gray and auto white balance; 0<float<100;
 #                          default=1
 #
 ###
 #
 # NAME: NEGATIVE2POSITIVE
-#
+# 
 # PURPOSE: To convert from a (scanned film) negative image to a positive image.
-#
-# DESCRIPTION: NEGATIVE2POSITIVE converts from a (scanned film) negative image
-# to a positive image. Options include: autostretching the image channels with
-# or without clipping, color filtering and to color balance via white balance,
+# 
+# DESCRIPTION: NEGATIVE2POSITIVE converts from a (scanned film) negative image 
+# to a positive image. Options include: autostretching the image channels with 
+# or without clipping, color filtering and to color balance via white balance, 
 # gray balance, both, automatic or via levels.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -a autostretch --- autostretch image channels as preprocessing step. The options
-# are: together (t), separate (s) or none (n). The default=separate.
-# Note, for some images with severe channel autostretch, the option separate
+# are: together (t), separate (s) or none (n). The default=separate. 
+# Note, for some images with severe channel autostretch, the option separate 
 # can cause severe color shifts.
-#
-# -l cliplow ... CLIPLOW is the cumulative percent at the low end of the
-# histogram whose graylevel will be autostretched to full black. Values are
-# floats between 0 and 100. If cliplow=0, then the autostretch will locate
+# 
+# -l cliplow ... CLIPLOW is the cumulative percent at the low end of the 
+# histogram whose graylevel will be autostretched to full black. Values are 
+# floats between 0 and 100. If cliplow=0, then the autostretch will locate 
 # the minimum value in the channel histogram. The default=1.
-#
-# -h cliphigh ... CLIPHIGH is the cumulative percent at the high end of
-# the histogram whose graylevel will be autostretched to full white. Values are
-# floats between 0 and 100. If cliplow=0, then the autostretch will locate
+# 
+# -h cliphigh ... CLIPHIGH is the cumulative percent at the high end of  
+# the histogram whose graylevel will be autostretched to full white. Values are 
+# floats between 0 and 100. If cliplow=0, then the autostretch will locate 
 # the maximum value in the channel histogram. The default=1.
 #
-# -c color ... COLOR is the desired filter color. Any valid IM opaque color
+# -c color ... COLOR is the desired filter color. Any valid IM opaque color 
 # value is valid. The default=yellow, since yellow is the complement of blue.
-# (After the image is negated, the color is mostly bluish and yellow will
+# (After the image is negated, the color is mostly bluish and yellow will 
 # remove most of the blue tint).
-#
-# -d density ... DENSITY of the color filter. Values are 0<=integers<=100.
-# 0 is no color filter processing. 100 is most change towards the selected
-# color. The default=15 for colorbalance != level and the default=0 for
-# colorbalance = level. Density, generally, will not make any significant
+# 
+# -d density ... DENSITY of the color filter. Values are 0<=integers<=100. 
+# 0 is no color filter processing. 100 is most change towards the selected 
+# color. The default=15 for colorbalance != level and the default=0 for 
+# colorbalance = level. Density, generally, will not make any significant 
 # change when colorbalance = level.
-#
-# -cb colorbalance ... COLORBALANCE mode. The choices are none, gray, white,
-# both, auto or level. The default=auto. Both will be an equal blend of gray and
-# white. Auto will try to choose the better of gray or white depending upon
-# which one's percent selected pixels' rmse value (from gray or white,
-# respectively is the smallest value. Level uses an autolevel process to get
+# 
+# -cb colorbalance ... COLORBALANCE mode. The choices are none, gray, white, 
+# both, auto or level. The default=auto. Both will be an equal blend of gray and 
+# white. Auto will try to choose the better of gray or white depending upon 
+# which one's percent selected pixels' rmse value (from gray or white, 
+# respectively is the smallest value. Level uses an autolevel process to get 
 # the black point, white point and (gray point converted to) gamma values.
-#
-# -P1 percent2 ... PERCENT2 threshold for level processing. Values are
+# 
+# -P1 percent2 ... PERCENT2 threshold for level processing. Values are 
 # 0<floats<100; default=1.
 #
-# -P2 percent2 ... PERCENT2 is the percent threshold for detecting gray/white
+# -P2 percent2 ... PERCENT2 is the percent threshold for detecting gray/white 
 # in the image for auto color balance. Values are 0<floats<100. The default=1.
-#
-# NOTE: I thank Dr. Guenter Grau for the suggestion to normalize the r,g,b
+# 
+# NOTE: I thank Dr. Guenter Grau for the suggestion to normalize the r,g,b 
 # ratios by their average in the color balance part of the code.
-#
+# 
 # REFERENCES AND TUTORIALS:
 # http://www.colorpilot.com/silver.html
 # http://www.instructables.com/id/How-to-Convert-Digitized-Film-Negatives-into-Quali/?ALLSTEPS
@@ -121,10 +121,10 @@
 # http://petapixel.com/2012/05/18/how-to-scan-film-negatives-with-a-dslr/
 # https://www.youtube.com/watch?v=iMO50AlGyrw
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -146,13 +146,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -200,11 +200,11 @@ else
 					   ;;
 				-a)    # get  autostretch
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AUTOSTRETCH SPECIFICATION ---"
 					   checkMinus "$1"
 					   autostretch=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$autostretch" in
+					   case "$autostretch" in 
 							together|t) autostretch="together" ;;
 							separately|separate|s) autostretch="separate" ;;
 							none|n) autostretch="none" ;;
@@ -213,7 +213,7 @@ else
 					   ;;
 				-l)    # get cliplow
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CLIPLOW SPECIFICATION ---"
 					   checkMinus "$1"
 					   cliplow=`expr "$1" : '\([.0-9]*\)'`
@@ -224,7 +224,7 @@ else
 					   ;;
 				-h)    # get cliphigh
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CLIPHIGH SPECIFICATION ---"
 					   checkMinus "$1"
 					   cliphigh=`expr "$1" : '\([.0-9]*\)'`
@@ -235,11 +235,11 @@ else
 					   ;;
 			   -cb)    # get colorbalance mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORBALANCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   colorbalance=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$colorbalance" in
+					   case "$colorbalance" in 
 							none|n) colorbalance="none" ;;
 							gray|g) colorbalance="gray" ;;
 							white|w) colorbalance="white" ;;
@@ -251,14 +251,14 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-d)    # get density
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DENSITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   density=`expr "$1" : '\([0-9]*\)'`
@@ -269,7 +269,7 @@ else
 					   ;;
 			   -P1)    # get percent1
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PERCENT1 SPECIFICATION ---"
 					   checkMinus "$1"
 					   percent1=`expr "$1" : '\([.0-9]*\)'`
@@ -280,7 +280,7 @@ else
 					   ;;
 			   -P2)    # get percent2
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PERCENT2 SPECIFICATION ---"
 					   checkMinus "$1"
 					   percent2=`expr "$1" : '\([.0-9]*\)'`
@@ -355,7 +355,7 @@ if [ "$cliplow" = "0" -a "$cliphigh" = "0" -a "$im_version" -gt "06050501" ]; th
 	elif [ "$autostretch" = "none" ]; then
 		aproc=""
 	fi
-else
+else 
 	if [ "$autostretch" = "separate" ]; then
 		aproc="-channel rgb -contrast-stretch $cliplow,$cliphigh%"
 	elif [ "$autostretch" = "together" ]; then
@@ -374,15 +374,15 @@ else
 	process="-color-matrix"
 fi
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
 # but we need to use -set colorspace RGB before using them at appropriate times
 # so that results stay as in original script
-# The following was determined from various version tests
+# The following was determined from various version tests 
 # with IM 6.7.4.10, 6.7.6.10, 6.7.8.6
 if [ "$im_version" -lt "06070607" -o "$im_version" -gt "06070707" ]; then
 	setcspace="-set colorspace RGB"
@@ -404,7 +404,7 @@ if [ "$im_version" -gt "06080504" ]; then
 fi
 #echo "setscpace=$setscpace; cspace1=$cspace1; cspace2=$cspace2;"
 
-# read input image into temporary memory mapped (mpc) format image,
+# read input image into temporary memory mapped (mpc) format image, 
 # do inversion using either -negate or CMYK to sRGB profiles
 # autostretch
 convert -quiet "$infile" $inversion $aproc +repage $dir/tmpI.mpc ||
@@ -522,7 +522,7 @@ else
 		#echo "R: ave=$redave; redratio=$redratio"
 		#echo "G: ave=$greenave; greenratio=$greenratio;"
 		#echo "B: ave=$blueave; blueratio=$blueratio;"
-
+	
 		# normalize r,g,b ratios by ave ratio, so no added increase in brightness
 		gnormfact=`convert xc: -format "%[fx: ($redratio+$greenratio+$blueratio)/3]" info:`
 		redratio=`convert xc: -format "%[fx: $redratio/$gnormfact]" info:`
@@ -617,3 +617,4 @@ elif [ "$colorbalance" = "auto" ]; then
 fi
 
 exit 0
+

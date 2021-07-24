@@ -3,84 +3,84 @@
 # Developed by Fred Weinhaus 7/28/2012 .......... revised 10/31/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: enhancelab [-b blackpt ] [-w whitept] [-g gammaval] [-s sigmoid] [-c colorize] infile outfile
 # USAGE: enhancelab [-h or -help]
-#
+# 
 # OPTIONS:
 #
-# -b     blackpt      black point percent value for level adjustment of the L
-#                     channel; 0<=integer<=100; default=0 (no change)
-# -w     whitept      white point percent value for level adjustment of the L
+# -b     blackpt      black point percent value for level adjustment of the L 
+#                     channel; 0<=integer<=100; default=0 (no change)                   
+# -w     whitept      white point percent value for level adjustment of the L 
 #                     channel; 0<=integer<=100; default=100 (no change)
-# -g     gammaval     gamma value for non-linear adjustment on the L channel;
+# -g     gammaval     gamma value for non-linear adjustment on the L channel;  
 #                     float>0; default=1 (no change)
-# -s     sigmoid      sigmoidal contrast value for non-linear adjustment of
-#                     the L channel; float (positive or negative); default=0
-#                     (no change)
-# -c     colorize     percent change in colorization; integer (positive or
-#                     negative; default=0 (no change)
-#
+# -s     sigmoid      sigmoidal contrast value for non-linear adjustment of 
+#                     the L channel; float (positive or negative); default=0 
+#                     (no change)                      
+# -c     colorize     percent change in colorization; integer (positive or 
+#                     negative; default=0 (no change)                      
+# 
 ###
-#
+# 
 # NAME: ENHANCELAB
-#
-# PURPOSE: To apply brightness/contrast/colorization enhancement on an image
+# 
+# PURPOSE: To apply brightness/contrast/colorization enhancement on an image 
 # via LAB colorspace.
-#
-# DESCRIPTION: ENHANCELAB applies brightness/contrast/colorization enhancement
+# 
+# DESCRIPTION: ENHANCELAB applies brightness/contrast/colorization enhancement 
 # on an image via LAB colorspace.
-#
-# Arguments:
-#
-# -b blackpt ... BLACKPT is the black point percent value for level adjustment
-# of the L channel. Values are integers between 0 and 100. The default=0
+# 
+# Arguments: 
+# 
+# -b blackpt ... BLACKPT is the black point percent value for level adjustment 
+# of the L channel. Values are integers between 0 and 100. The default=0 
+# (no change) 
+#                  
+# -w whitept ... WHITEPT is the white point percent value for level adjustment 
+# of the L channel. Values are integers between 0 and 100. The default=0 
 # (no change)
-#
-# -w whitept ... WHITEPT is the white point percent value for level adjustment
-# of the L channel. Values are integers between 0 and 100. The default=0
-# (no change)
-#
-# -g gammaval ... GAMMAVAL is the gamma value for non-linear adjustment on the
+#               
+# -g gammaval ... GAMMAVAL is the gamma value for non-linear adjustment on the 
 # L channel. Values are floats greater than 0. The default=1 (no change)
-#
-# -s sigmoid ... SIGMOID is the sigmoidal contrast value for non-linear
+# 
+# -s sigmoid ... SIGMOID is the sigmoidal contrast value for non-linear 
 # adjustment of the L channel. Values are floats (positive or negative). The
 # default=0 (no change)
-#
-# -c colorize ... COLORIZE is the percent change in colorization. Values are
-# integers (positive or negative). The default=0 (no change)
-#
+#                      
+# -c colorize ... COLORIZE is the percent change in colorization. Values are 
+# integers (positive or negative). The default=0 (no change)                      
+# 
 # REQUIREMENTS: IM 6.7.8.2 or higher, when the LAB colorspace conversions were fixed.
-#
+# 
 # REFERENCE: http://digital-photography-school.com/turn-ho-hum-color-into-wow-with-photoshop
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -98,13 +98,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -149,7 +149,7 @@ else
 				   ;;
 			-b)    # get blackpt
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BLACKPT SPECIFICATION ---"
 				   checkMinus "$1"
 				   blackpt=`expr "$1" : '\([0-9]*\)'`
@@ -160,7 +160,7 @@ else
 				   ;;
 			-w)    # get whitept
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID WHITEPT SPECIFICATION ---"
 				   checkMinus "$1"
 				   whitept=`expr "$1" : '\([0-9]*\)'`
@@ -171,7 +171,7 @@ else
 				   ;;
 			-g)    # get gammaval
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID GAMMAVAL SPECIFICATION ---"
 				   checkMinus "$1"
 				   gammaval=`expr "$1" : '\([.0-9]*\)'`
@@ -181,7 +181,7 @@ else
 				   ;;
 			-s)    # get sigmoid
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SIGMOID SPECIFICATION ---"
 				   #checkMinus "$1"
 				   sigmoid=`expr "$1" : '\([-.0-9]*\)'`
@@ -189,7 +189,7 @@ else
 				   ;;
 			-c)    # get colorize
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID COLORIZE SPECIFICATION ---"
 				   #checkMinus "$1"
 				   colorize=`expr "$1" : '\([-0-9]*\)'`
@@ -243,7 +243,7 @@ high=$((100-$colorize))
 
 # test for sign to use for sigmoidal-contrast function
 test=`convert xc: -format "%[fx:$sigmoid<0?1:0]" info:`
-if [ $test -eq 1 ]; then
+if [ $test -eq 1 ]; then 
 	sign="+"
 else
 	sign="-"
@@ -257,7 +257,7 @@ sigmoid=`convert xc: -format "%[fx:abs($sigmoid)]" info:`
 
 # test if sigmoid too close to zero
 [ "$sigmoid" = "0" ] && sigmoid=0.001
-
+	
 
 # process image
 convert $tmpA1 -colorspace LAB \

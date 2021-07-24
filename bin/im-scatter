@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 12/14/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: scatter [-s scale] [-m] infile1 infile2 outfile
@@ -33,48 +33,48 @@
 #
 # -s        scale     subsampling scale size for input images in both dimensions;
 #                     default=50 (pixels)
-# -m                  mirror the resulting scatter diagram vertically
-#
+# -m                  mirror the resulting scatter diagram vertically 
+# 
 # The two input images must be the same size.
 #
 ###
 #
-# NAME: SCATTER
-#
-# PURPOSE: To generate a channel-by-channel scatter diagram between two images.
-#
-# DESCRIPTION: SCATTER generates a channel-by-channel scatter diagram between
-# two images. The 8-bit channel graylevel values at each corresponding pixel
-# in the two images are used as the x and y coordinates to plot white points
-# on a 256x256 black background image. The process is slow and is proportional
-# to the size of the input images. Therefore the two images will be scaled
-# down to the desired size in order to keep the processing to a reasonable time,
-# but have an adequate uniform sampling of the data. The resulting graph image
-# may be mirrored vertically so that the x,y origin is at the bottom left, if
+# NAME: SCATTER 
+# 
+# PURPOSE: To generate a channel-by-channel scatter diagram between two images. 
+# 
+# DESCRIPTION: SCATTER generates a channel-by-channel scatter diagram between 
+# two images. The 8-bit channel graylevel values at each corresponding pixel 
+# in the two images are used as the x and y coordinates to plot white points 
+# on a 256x256 black background image. The process is slow and is proportional 
+# to the size of the input images. Therefore the two images will be scaled 
+# down to the desired size in order to keep the processing to a reasonable time, 
+# but have an adequate uniform sampling of the data. The resulting graph image 
+# may be mirrored vertically so that the x,y origin is at the bottom left, if 
 # desired, rather than the default top left.
-#
-#
-# OPTIONS:
-#
-# -s scale ... SCALE is the resulting subsampled scale size of the two input
-# images. The two images will be scaled to the desired size in pixels maximum on
-# each side, if the images are larger than this size. The default is 50. Thus
-# for a square image equal to or larger than 50, 50x50=2500 points will be
+# 
+# 
+# OPTIONS: 
+# 
+# -s scale ... SCALE is the resulting subsampled scale size of the two input  
+# images. The two images will be scaled to the desired size in pixels maximum on  
+# each side, if the images are larger than this size. The default is 50. Thus  
+# for a square image equal to or larger than 50, 50x50=2500 points will be 
 # plotted.
-#
-# -m ... Indicates to mirror the resulting scatter diagram vertically,
+# 
+# -m ... Indicates to mirror the resulting scatter diagram vertically, 
 # so that the x,y origin is at the bottom left rather than the top left.
 #
-# The two input images must be the same size. If both images are grayscale,
+# The two input images must be the same size. If both images are grayscale, 
 # only the one channel will be processed.
 #
-# NOTE: This process is slow and takes about 2 minutes to generate with the
+# NOTE: This process is slow and takes about 2 minutes to generate with the 
 # default sample size of 50 on my Mac Mini 1.4 GHz G4.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 # set default values
@@ -88,13 +88,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -143,7 +143,7 @@ else
 					   ;;
 				-s)    # scale size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SCALE SPECIFICATION ---"
 					   checkMinus "$1"
 					   scale=`expr "$1" : '\([0-9]*\)'`
@@ -197,9 +197,9 @@ trap "rm -f $tmpA1 $tmpA2 $tmpB1 $tmpB2 $tmpC1 $tmpC2 $tmpRed $tmpGreen $tmpBlue
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -293,12 +293,12 @@ for color in $colorlist; do
 	tail -n +2 |\
 	tr -cs '0-9\n'  ' ' |\
 	cut -d' ' -f3`)
-
+		
 	yArray=(`convert  $tmpB1 -depth 8 $setcspace -channel $color -separate txt:- |\
 	tail -n +2 |\
 	tr -cs '0-9\n'  ' ' |\
 	cut -d' ' -f3`)
-
+		
 	# Generate a MVG file for IM to draw all components
 	( echo "viewbox 0 0 256 256   fill black  rectangle 0,0 256 256"
 	echo "fill white"

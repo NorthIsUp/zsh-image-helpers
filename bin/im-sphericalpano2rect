@@ -1,105 +1,105 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 9/20/2017 .......... revised 9/20/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: sphericalpano2rect [-c coords] [-u units] [-f fov] [-m maxsize] [-b bgcolor]
+# USAGE: sphericalpano2rect [-c coords] [-u units] [-f fov] [-m maxsize] [-b bgcolor] 
 # [-i intepolation] infile outfile
 # USAGE: sphericalpano2rect [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -c     coords            coordinates in the panorama image (cx,cy) to be used as the
-#                          center of the output image; floats>=0; default=center of
+# 
+# -c     coords            coordinates in the panorama image (cx,cy) to be used as the 
+#                          center of the output image; floats>=0; default=center of 
 #                          panorama
-# -u     units             units for center coordinates: degrees or pixels; floats>=0;
+# -u     units             units for center coordinates: degrees or pixels; floats>=0;  
 #                          default=pixels
-# -f     fov               field of view of the output image (xfov,yfov) in degrees;
+# -f     fov               field of view of the output image (xfov,yfov) in degrees; 
 #                          0<floats<180; default=60,60
-# -m     maxsize           maximum size of the output image in pixels corresponding to
+# -m     maxsize           maximum size of the output image in pixels corresponding to   
 #                          the larger field of view dimension; default=512
-# -b     bgcolor           background color for virtual-pixel; any valid IM color is
+# -b     bgcolor           background color for virtual-pixel; any valid IM color is 
 #                          allowed; default=black
-# -i     interpolation     intepolation method; any valid IM interpolation method is
+# -i     interpolation     intepolation method; any valid IM interpolation method is 
 #                          allowed; default=bilinear
-#
+# 
 ###
-#
-# NAME: SPHERICALPANO2RECT
-#
-# PURPOSE: To generate a perspective (rectilinear) image from a region of a spherical
+# 
+# NAME: SPHERICALPANO2RECT 
+# 
+# PURPOSE: To generate a perspective (rectilinear) image from a region of a spherical 
 # panorama image.
-#
-# DESCRIPTION: SPHERICALPANO2RECT generates a perspective (rectilinear) image from a
-# region of a spherical panorama image. The region is identified by a point
-# on the panorama image in pixels or degrees and the specified output field of view.
-#
-# ARGUMENTS:
-#
-# -c coords ... COORDS is the coordinates in the panorama image (cx,cy) to be used as
+# 
+# DESCRIPTION: SPHERICALPANO2RECT generates a perspective (rectilinear) image from a 
+# region of a spherical panorama image. The region is identified by a point 
+# on the panorama image in pixels or degrees and the specified output field of view. 
+# 
+# ARGUMENTS: 
+# 
+# -c coords ... COORDS is the coordinates in the panorama image (cx,cy) to be used as  
 # the center of the output image (look point). Values are floats>=0. The default=center
 # of panorama. Two comma separated values are required, if provided.
-#
-# -u units ... UNITS for specifying the look coordinates. Choices are degrees (d) or
+# 
+# -u units ... UNITS for specifying the look coordinates. Choices are degrees (d) or 
 # pixels (p). VAlues are floats>=0. The default=pixels.
-#
-# -f fov ... FOV are the fields of view of the output image (xfov,yfov) in degrees.
-# Values are 0<floats<180. The default="60,60". If only one value is supplied, it will
-# be use for both dimensions. Smaller values zoom in (telephoto lens) and larger values
-# zoom out (wide angle lens). For 35 mm film, a 50 mm focal length lens will have a
-# diagonal field of view of about 47 degrees. Values larger than about 120 degrees
+# 
+# -f fov ... FOV are the fields of view of the output image (xfov,yfov) in degrees. 
+# Values are 0<floats<180. The default="60,60". If only one value is supplied, it will 
+# be use for both dimensions. Smaller values zoom in (telephoto lens) and larger values  
+# zoom out (wide angle lens). For 35 mm film, a 50 mm focal length lens will have a 
+# diagonal field of view of about 47 degrees. Values larger than about 120 degrees 
 # for the field of view will show distortions.
-#
-# -m maxsize ... MAXSIZE is the maximum size of the output image in pixels corresponding
+# 
+# -m maxsize ... MAXSIZE is the maximum size of the output image in pixels corresponding  
 # to the the larger field of view dimension. The default=512.
-#
-# -b bgcolor ... BGCOLOR is the background color for virtual-pixels. Any valid IM color
+# 
+# -b bgcolor ... BGCOLOR is the background color for virtual-pixels. Any valid IM color 
 # is allowed. The default=black.
-#
-# -i interpolation ... INTEPOLATION method. Any valid IM interpolation method is allowed.
+# 
+# -i interpolation ... INTEPOLATION method. Any valid IM interpolation method is allowed. 
 # The default=bilinear.
-#
-# NOTE: This script will be slow due to the use of -fx. On my dual core INTEL Mac mini
-# with 2.8 GHz processor and OSX Sierra, it takes about 10 sec to create a 512x512
-# perspective output starting from a 2000x1000 pixel spherical panorama. Processing
+# 
+# NOTE: This script will be slow due to the use of -fx. On my dual core INTEL Mac mini 
+# with 2.8 GHz processor and OSX Sierra, it takes about 10 sec to create a 512x512  
+# perspective output starting from a 2000x1000 pixel spherical panorama. Processing  
 # time increases/decreases approximately with the square of the output dimension.
-#
+# 
 # REFERENCES:
 # https://en.wikipedia.org/wiki/Perspective_projection_distortion
 # http://mathworld.wolfram.com/SphericalCoordinates.html
 # https://en.wikipedia.org/wiki/Field_of_view
 # https://www.nikonians.org/reviews/fov-tables
 # https://en.wikipedia.org/wiki/Angle_of_view
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 coords=""
@@ -117,13 +117,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -171,7 +171,7 @@ else
 					   ;;
 				-c)    # center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   coords=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
@@ -182,7 +182,7 @@ else
 					   ;;
 			   	-u)    # units
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UNITS SPECIFICATION ---"
 					   checkMinus "$1"
 					   units=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -194,7 +194,7 @@ else
 					   ;;
 				-f)    # fov
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FOV SPECIFICATION ---"
 					   checkMinus "$1"
 					   fov=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
@@ -202,7 +202,7 @@ else
 					   ;;
 				-m)    # maxsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MAXSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   maxsize=`expr "$1" : '\([0-9]*\)'`
@@ -210,7 +210,7 @@ else
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -323,7 +323,7 @@ yd="yd=(j-$ycd);"
 # get theta,phi relative to center of output perspective and add theta_look and phi_look to get angles in panorama
 #xd=f*tan(theta)
 #yd=f*tan(phi)
-# use inverse equations and
+# use inverse equations and 
 # add theta_look and phi_look to get absolute angles from top left of panorama
 # note yd is positive down and we want phi positive down
 pi2=`convert xc: -format "%[fx:2*pi]" info:`

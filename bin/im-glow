@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/27/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: glow [-a amount] [-s softening] infile outfile
@@ -36,29 +36,29 @@
 #
 ###
 #
-# NAME: GLOW
-#
+# NAME: GLOW 
+# 
 # PURPOSE: To create a glowing effect in an image.
-#
-# DESCRIPTION: GLOW creates a glowing effect in an image by
-# applying a gain factor (amount) and optionally a blurring (soft).
-#
-# OPTIONS:
-#
-# -a amount ... AMOUNT of glow expressed as a gain factor. Values floats
-# greater than or equal to 1. A value of 1 produces no glow. Larger
-# values increase the glow. Typical values are between 1 and 2. The
+# 
+# DESCRIPTION: GLOW creates a glowing effect in an image by 
+# applying a gain factor (amount) and optionally a blurring (soft). 
+# 
+# OPTIONS: 
+# 
+# -a amount ... AMOUNT of glow expressed as a gain factor. Values floats  
+# greater than or equal to 1. A value of 1 produces no glow. Larger 
+# values increase the glow. Typical values are between 1 and 2. The 
 # default is 1.5.
 #
-# -s softening ... SOFTENING creates a soft blurring effect to the glow.
-# Values are integers greater than or equal to 0. A value of 0 produces
-# no softening. Larger values increase the softening. Typical values
+# -s softening ... SOFTENING creates a soft blurring effect to the glow. 
+# Values are integers greater than or equal to 0. A value of 0 produces 
+# no softening. Larger values increase the softening. Typical values 
 # are between 0 and 50. The default is 0.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -73,13 +73,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -127,7 +127,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter - amount
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([.0-9]*\)'`
@@ -137,7 +137,7 @@ else
 					   ;;
 				-s)    # get soft
 					   shift  # to get the next parameter - soft
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SOFT SPECIFICATION ---"
 					   checkMinus "$1"
 					   soft=`expr "$1" : '\([0-9]*\)'`

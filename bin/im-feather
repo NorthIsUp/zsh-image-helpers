@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 11/9/2007 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: feather [-d distance] infile outfile
@@ -36,32 +36,32 @@
 ###
 #
 # NAME: FEATHER
-#
-# PURPOSE: To feather (smooth) the white-to-black transition in a
+# 
+# PURPOSE: To feather (smooth) the white-to-black transition in a 
 # binary mask image.
-#
-# DESCRIPTION: FEATHER smoothes the white-to-black transition in
-# a binary mask image so that it can be used to composite one image
-# over another in an antialiased manner. The feathering process makes
-# a ramped grayscale transition over a short distance just inside the
+# 
+# DESCRIPTION: FEATHER smoothes the white-to-black transition in 
+# a binary mask image so that it can be used to composite one image 
+# over another in an antialiased manner. The feathering process makes  
+# a ramped grayscale transition over a short distance just inside the 
 # white region at the white-to-black transition in the binary mask.
+# 
+# 
+# OPTIONS: 
 #
-#
-# OPTIONS:
-#
-# -d distance ... DISTANCE specifies the distance (in pixels) over which
-# the smoothing occurs at the white-to-black transition in the binary mask.
-# Typically a value of one or two will suffice to anti-alias the rough
-# transition so that the composite formed by using the feathered mask
-# does not show the jagged edge of the overlay image on the background
-# image. The value for distance should be kept small to avoid removing
-# too much from the boundary of the overlay image. The default value is
+# -d distance ... DISTANCE specifies the distance (in pixels) over which 
+# the smoothing occurs at the white-to-black transition in the binary mask. 
+# Typically a value of one or two will suffice to anti-alias the rough 
+# transition so that the composite formed by using the feathered mask 
+# does not show the jagged edge of the overlay image on the background 
+# image. The value for distance should be kept small to avoid removing 
+# too much from the boundary of the overlay image. The default value is 
 # distance=1.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -75,13 +75,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -129,7 +129,7 @@ else
 					   ;;
 				-d)    # get distance
 					   shift  # to get the next parameter - opacity
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISTANCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test width values
@@ -143,7 +143,7 @@ else
   				 	   ;;
 				-*)    # any other - argument
 					   errMsg "--- UNKNOWN OPTION ---"
-					   ;;
+					   ;;					   
 		     	 *)    # end of arguments
 					   break
 					   ;;

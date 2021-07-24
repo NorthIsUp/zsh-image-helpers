@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/8/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: stutter [-s size] [-d direction] infile outfile
@@ -32,31 +32,31 @@
 # OPTIONS:
 #
 # -s      size           stutter offset size; size>0; default=16
-#
+# 
 # -d      direction      x,h,horizontal or y,v,vertical or xy,vh,both;
 #                        default=x
 #
 ###
 #
-# NAME: STUTTER
-#
+# NAME: STUTTER 
+# 
 # PURPOSE: To create a "stuttered" offset-like effect in an image.
-#
+# 
 # DESCRIPTION: STUTTER creates a "stuttered" offset-like effect in an image.
-#
-# OPTIONS:
-#
-# -s size ... SIZE is the stutter offset size. Values are greater
+# 
+# OPTIONS: 
+# 
+# -s size ... SIZE is the stutter offset size. Values are greater 
 # than 0. The default is 16.
-#
-# -d direction ... DIRECTION is the stutter offset direction. Values may
-# be horizontal specified as either x, h or horizontal; vertical specified
+# 
+# -d direction ... DIRECTION is the stutter offset direction. Values may  
+# be horizontal specified as either x, h or horizontal; vertical specified 
 # as y, v or vertical or both specified as xy, hv or both. The default=x.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -71,13 +71,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -125,7 +125,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter - scale
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*\)'`
@@ -135,11 +135,11 @@ else
 					   ;;
 				-d)    # get  direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   direction="$1"
-					   case "$1" in
+					   case "$1" in 
 					   		x) ;;
 					   		X) ;;
 					   		y) ;;
@@ -155,7 +155,7 @@ else
 					   		vh) ;;
 					   		VH) ;;
 					   		both) ;;
-					   		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---"
+					   		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments

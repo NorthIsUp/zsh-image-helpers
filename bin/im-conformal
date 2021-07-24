@@ -3,100 +3,100 @@
 # Developed by Fred Weinhaus 6/29/2015 .......... revised 4/21/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
-#
-# USAGE: conformal [-d dimensions] [-f formula] [-g gain] [-v vp] [-b bcolor]
+# 
+# USAGE: conformal [-d dimensions] [-f formula] [-g gain] [-v vp] [-b bcolor] 
 # [-z zcolor] [-m monitor] infile outfile
-#
+# 
 # USAGE: conformal [-h|help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -d     dimension     output dimensions WxH; "x" separated pair of integers>0;
 #                      default=input dimension
-# -f     formula       flag for the complex expression; integer between
+# -f     formula       flag for the complex expression; integer between 
 #                      1 and 8; default=1
-# -g     gain          effect gain factor (zoom); pair of comma separate
+# -g     gain          effect gain factor (zoom); pair of comma separate 
 #                      floats>0; xgain,ygain; default="1,1"
 # -v     vp            virtual-pixel method; default=tile
-# -b     bcolor        background color for virtual-pixel method; any valid
+# -b     bcolor        background color for virtual-pixel method; any valid 
 #                      IM color is allowed; default=black
-# -z     zcolor        zero color; color for where the formula has a divide
+# -z     zcolor        zero color; color for where the formula has a divide 
 #                      by zero; default=black
-# -m     monitor       monitor enables the progress monitor; choices are:
+# -m     monitor       monitor enables the progress monitor; choices are: 
 #                      on or off; default=off
-#
+# 
 ###
-#
-# NAME: CONFORMAL
-#
+# 
+# NAME: CONFORMAL 
+# 
 # PURPOSE: To apply a conformal mapping to an image.
-#
-# DESCRIPTION: CONFORMAL applies a conformal mapping to an image. The user may
-# select from on of 8 complex expressions. The virtual pixel method may also
+# 
+# DESCRIPTION: CONFORMAL applies a conformal mapping to an image. The user may 
+# select from on of 8 complex expressions. The virtual pixel method may also 
 # be selected.
-#
-# OPTIONS:
-#
-# -d dimension ... DIMENSIONS specify the output image dimensions WxH. The
+# 
+# OPTIONS: 
+# 
+# -d dimension ... DIMENSIONS specify the output image dimensions WxH. The 
 # value is an "x" separated pair of integers>0. The default=input dimensions
-#
-# -f formula ... FORMULA is a flag for the complex expression. Value are
-# integer between 1 and 6. 1=-1/z, 2=(z+1/z)/2, 3=z^2, 4=sin(z), 5=cos(z),
-# 6=ln(z), 7=(z+1)/(z-1), 8=1/(4*z^2-1), where z=x+i*y is a complex value.
+# 
+# -f formula ... FORMULA is a flag for the complex expression. Value are 
+# integer between 1 and 6. 1=-1/z, 2=(z+1/z)/2, 3=z^2, 4=sin(z), 5=cos(z), 
+# 6=ln(z), 7=(z+1)/(z-1), 8=1/(4*z^2-1), where z=x+i*y is a complex value. 
 # The default=1.
-#
-# -g gain ... GAIN is a gain factor (zoom) that controls the look of the
-# conformal mapping. Values are a pair of comma separate floats>0 as
-# "xgain,ygain". If only one value is provided it will be used for both. The
+# 
+# -g gain ... GAIN is a gain factor (zoom) that controls the look of the 
+# conformal mapping. Values are a pair of comma separate floats>0 as 
+# "xgain,ygain". If only one value is provided it will be used for both. The 
 # default="1,1".
-#
-# -v vp ... VP is the virtual-pixel method. Any virtual-pixel method is
+# 
+# -v vp ... VP is the virtual-pixel method. Any virtual-pixel method is 
 # allowed. The default=tile.
-#
+# 
 # -b bcolor ... BCOLOR is the background color for the virtual-pixel method
 # that is a color. Any valid IM color is allowed. The default=black.
-#
-# -z zcolor ... ZCOLOR is the zero color, which is the color for where the
-# formula has a divide by zero. Relevant only to formula 1, 2 and 6. The
+# 
+# -z zcolor ... ZCOLOR is the zero color, which is the color for where the 
+# formula has a divide by zero. Relevant only to formula 1, 2 and 6. The 
 # default=black.
-#
-# -m monitor ... MONITOR enables the progress monitor. Choices are: on or off.
+# 
+# -m monitor ... MONITOR enables the progress monitor. Choices are: on or off. 
 # The default=off
-#
-# NOTE: This script will be slow due to the use of -fx. On my Mac Mini with
+# 
+# NOTE: This script will be slow due to the use of -fx. On my Mac Mini with 
 # two cores, it took about 10-15 sec for a 500x500 image.
-#
+# 
 # REFERENCES:
 # https://www.youtube.com/watch?v=CMMrEDIFPZY
 # http://www.dimensions-math.org/Dim_CH5_E.htm
 # http://www.mathworks.com/help/images/examples/exploring-a-conformal-mapping.html?requestedDomain=www.mathworks.com
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -116,13 +116,13 @@ tmpdir="."		# suggestions are tmpdir="." or tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -170,7 +170,7 @@ else
 					   ;;
 				-d)    # get dimensions
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSIONS SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimensions=`expr "$1" : '\([0-9]*x[0-9]*\)'`
@@ -178,7 +178,7 @@ else
 					   ;;
 				-f)    # get formula
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMULA SPECIFICATION ---"
 					   checkMinus "$1"
 					   formula=`expr "$1" : '\([1-8]\)'`
@@ -186,7 +186,7 @@ else
 					   ;;
 				-g)    # get gain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   gain=`expr "$1" : '\([,.0-9]*\)'`
@@ -194,35 +194,35 @@ else
 					   ;;
 				-v)    # get  vp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VP SPECIFICATION ---"
 					   checkMinus "$1"
 					   vp="$1"
 					   ;;
 				-b)    # get  bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-z)    # get  zcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ZCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   zcolor="$1"
 					   ;;
 				-m)    # get  monitor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MONITOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   monitor=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$monitor" in
+					   case "$monitor" in 
 					   		on) monitor="on";;
 					   		off) monitor="off";;
-					   		*) errMsg "--- MONITOR=$monitor IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MONITOR=$monitor IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -279,7 +279,7 @@ hh4=`convert xc: -format "%[fx:$hh/4]" info:`
 if [ "$dimensions" = "" ]; then
 	wd=$ww
 	ht=$hh
-else
+else 
 	wd=`echo "$dimensions" | cut -dx -f1`
 	ht=`echo "$dimensions" | cut -dx -f2`
 fi

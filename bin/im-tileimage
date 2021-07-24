@@ -3,41 +3,41 @@
 # Developed by Fred Weinhaus 8/10/2015 .......... revised 8/10/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: tileimage [-a arrangement] [-o orientation ] [-r repeats] [-w width ]
+# USAGE: tileimage [-a arrangement] [-o orientation ] [-r repeats] [-w width ]  
 # [-h height] [-b bgcolor] infile outfile
 #
 # USAGE: tileimage [-help]
 #
 # OPTIONS:
 #
-# -a     arrangement     tiling arrangement; choices are: repeat, halfdrop,
-#                        brick, verticalmirror, horizontalmirror or rotate;
+# -a     arrangement     tiling arrangement; choices are: repeat, halfdrop,  
+#                        brick, verticalmirror, horizontalmirror or rotate; 
 #                        default=repeat
-# -o     orientation     orientation mode for image repeats; choices are: 0,
-#                        90, 180, 270, flip, flop, transpose, transverse;
+# -o     orientation     orientation mode for image repeats; choices are: 0, 
+#                        90, 180, 270, flip, flop, transpose, transverse; 
 #                        default=0
 # -r     repeats         number of horizontal repeats; integer>0; default=4
 # -w     width           width of canvas in pixels; integer>0; default=512
@@ -47,41 +47,41 @@
 #
 ###
 #
-# NAME: TILEIMAGE
-#
+# NAME: TILEIMAGE 
+# 
 # PURPOSE: To tile an image to a given size with various tile arrangements.
-#
-# DESCRIPTION: TILEIMAGE tiles an image to a given size. Several arrangements
-# are possible as well as several orientations. The user can also specify the
-# number of repeats across the width of the image. This script is typically
+# 
+# DESCRIPTION: TILEIMAGE tiles an image to a given size. Several arrangements 
+# are possible as well as several orientations. The user can also specify the 
+# number of repeats across the width of the image. This script is typically 
 # used to tile objects on a constant color background.
-#
-# OPTIONS:
-#
-# -a arrangement ... tiling ARRANGEMENT. The choices are: repeat (r),
-# halfdrop (h), brick (b), verticalmirror (vm), horizontalmirror (hm), or .
+# 
+# OPTIONS: 
+# 
+# -a arrangement ... tiling ARRANGEMENT. The choices are: repeat (r), 
+# halfdrop (h), brick (b), verticalmirror (vm), horizontalmirror (hm), or . 
 # rotate (ro). The default=repeat.
-#
-# -o orientation ... ORIENTATION mode for the image repeats. The choices are:
-# 0 (degree rotation), 90 (degree rotation), 180 (degree rotation),
+# 
+# -o orientation ... ORIENTATION mode for the image repeats. The choices are: 
+# 0 (degree rotation), 90 (degree rotation), 180 (degree rotation), 
 # 270 (degree rotation), flip, flop, transpose, transverse. The default=0.
-#
-# -r repeats ... REPEATS is the number of horizontal repeats across the image.
+# 
+# -r repeats ... REPEATS is the number of horizontal repeats across the image. 
 # Values are integers>0. The default=4.
-#
-# -w width ... WIDTH of output image in pixels. Values are integers>0. The
+# 
+# -w width ... WIDTH of output image in pixels. Values are integers>0. The 
 # default=512.
-#
-# -h height ... HEIGHT of output image in pixels. Values are integers>0. The
+# 
+# -h height ... HEIGHT of output image in pixels. Values are integers>0. The 
 # default=512.
-#
-# -b bgcolor ... BGCOLOR is the desired background color for the output image,
+# 
+# -b bgcolor ... BGCOLOR is the desired background color for the output image, 
 # if the input image is transparent. Any valid IM color. The default="white".
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -100,7 +100,7 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -148,13 +148,13 @@ else
 					   ;;
 		 		-a)    # arrangement
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ARRANGEMENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   arrangement="$1"
 					   arrangement=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$arrangement" in
+					   case "$arrangement" in 
 					   		repeat|r) arrangement="repeat" ;;
 					   		halfdrop|h) arrangement="halfdrop" ;;
 					   		brick|b) arrangement="brick" ;;
@@ -166,13 +166,13 @@ else
 					   ;;
 		 		-o)    # orientation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ORIENTATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   orientation="$1"
 					   orientation=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$orientation" in
+					   case "$orientation" in 
 					   		0) orientation="0" ;;
 					   		90) orientation="90" ;;
 					   		180) orientation="180" ;;
@@ -186,7 +186,7 @@ else
 					   ;;
 				-w)    # get width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width=`expr "$1" : '\([.0-9]*\)'`
@@ -196,7 +196,7 @@ else
 					   ;;
 				-h)    # get height
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HEIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   height=`expr "$1" : '\([.0-9]*\)'`
@@ -206,7 +206,7 @@ else
 					   ;;
 				-r)    # get repeats
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REPEATS SPECIFICATION ---"
 					   checkMinus "$1"
 					   repeats=`expr "$1" : '\([0-9]*\)'`
@@ -216,7 +216,7 @@ else
 					   ;;
 			    -b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -264,7 +264,7 @@ ww=`identify -ping -format "%w" $tmpA1`
 hh=`identify -ping -format "%h" $tmpA1`
 
 # get scaling factor for infile in percent
-factor=`convert xc: -format "%[fx:100*$width/($repeats*$ww)]" info:`
+factor=`convert xc: -format "%[fx:100*$width/($repeats*$ww)]" info:` 
 
 # scale the infile
 convert $tmpA1 -resize $factor% $tmpA1
@@ -274,8 +274,8 @@ ww=`identify -ping -format "%w" $tmpA1`
 hh=`identify -ping -format "%h" $tmpA1`
 
 # get half sizes for offsets
-ww2=`convert xc: -format "%[fx:round($ww/2)]" info:`
-hh2=`convert xc: -format "%[fx:round($hh/2)]" info:`
+ww2=`convert xc: -format "%[fx:round($ww/2)]" info:` 
+hh2=`convert xc: -format "%[fx:round($hh/2)]" info:` 
 
 
 # set up orientation
@@ -303,7 +303,7 @@ if [ "$arrangement" = "repeat" ]; then
 	convert $tmpA1 $orienting -write mpr:cell +delete \
 		-size ${width}x${height} tile:mpr:cell \
 		-background $bgcolor -flatten "$outfile"
-
+				
 elif [ "$arrangement" = "halfdrop" ]; then
 	convert $tmpA1 \
 		\( -clone 0 $orienting -roll +0+${hh2} \) +append \
@@ -317,7 +317,7 @@ elif [ "$arrangement" = "brick" ]; then
 		-write mpr:cell +delete \
 		-size ${width}x${height} tile:mpr:cell \
 		-background "$bgcolor" -flatten "$outfile"
-
+		
 elif [ "$arrangement" = "verticalmirror" ]; then
 	convert $tmpA1 \
 		\( -clone 0 $orienting \) +append \

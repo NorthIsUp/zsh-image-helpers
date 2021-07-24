@@ -3,110 +3,110 @@
 # Developed by Fred Weinhaus 1/6/2018 .......... revised 1/6/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: outfitwarper [-r reduce] [-m modulate] [-x xroll] [-y yroll] [-o orientation]
 # [-d displace] [-D directory] infile bgfile outfile
-#
+# 
 # or
-#
+# 
 # USAGE: outfitwarper [-r reduce] [-m modulate] [-x xroll] [-y yroll] [-o orientation]
-# [-d displace] [-D directory] lightingfile displacementfile maskfile infile
+# [-d displace] [-D directory] lightingfile displacementfile maskfile infile 
 # bgfile outfile
 #
 # USAGE: outfitwarper [-help|-h]
 #
 # OPTIONS:
 #
-# -r     reduce          reduction amount as percent for the infile (pattern image)
+# -r     reduce          reduction amount as percent for the infile (pattern image) 
 #                        before tiling it; integer>=0; default=10
-# -m     modulate        modulation (lightness, saturation, hue) for the infile
-#                        (pattern image) before tiling it; comma separate triplet
+# -m     modulate        modulation (lightness, saturation, hue) for the infile 
+#                        (pattern image) before tiling it; comma separate triplet 
 #                        L,S,H; integers>=0; default="100,100,100" (no change)
-# -x     xroll           roll amount in pixels for the tiled image in the horizontal
+# -x     xroll           roll amount in pixels for the tiled image in the horizontal 
+#                        dimension; integer; default=0 
+# -y     xroll           roll amount in pixels for the tiled image in the vertical 
 #                        dimension; integer; default=0
-# -y     xroll           roll amount in pixels for the tiled image in the vertical
-#                        dimension; integer; default=0
-# -o     orientation     orientation angle for rotation of the tiled image;
+# -o     orientation     orientation angle for rotation of the tiled image; 
 #                        -360<=integer<=360; default=0
-# -d     displace        displacement amount when applying the displacement image;
+# -d     displace        displacement amount when applying the displacement image; 
 #                        integer>=0; default=5
-# -D     directory       directory to write all the exported data, including a text file
-#                        called outfit.txt containing the same textual parameter data
-#                        sent to terminal. The directory can be specified in the
-#                        outfitwarp script to import all the needed images and textual
+# -D     directory       directory to write all the exported data, including a text file 
+#                        called outfit.txt containing the same textual parameter data 
+#                        sent to terminal. The directory can be specified in the  
+#                        outfitwarp script to import all the needed images and textual 
 #                        data.
 #
-# infile is the pattern image to be applied to the background outfit (clothing) image.
+# infile is the pattern image to be applied to the background outfit (clothing) image. 
 #
 ###
 #
-# NAME: OUTFITWARPER
-#
-# PURPOSE: Transforms a pattern image to place it over an image of some piece of
+# NAME: OUTFITWARPER 
+# 
+# PURPOSE: Transforms a pattern image to place it over an image of some piece of 
 # clothing or outfit.
-#
-# DESCRIPTION: OUTFITWARPER transforms a pattern image to place it over an image of
-# same piece of clothing or outfit. The transformed image will display hightlights
-# from the outfit image and be distorted to match the wrinkles in the outfit image.
-# The outfitwarper script must be run once first using -E to create the lighting,
+# 
+# DESCRIPTION: OUTFITWARPER transforms a pattern image to place it over an image of  
+# same piece of clothing or outfit. The transformed image will display hightlights  
+# from the outfit image and be distorted to match the wrinkles in the outfit image.  
+# The outfitwarper script must be run once first using -E to create the lighting,  
 # displacement and mask images. This can be done with or without -D directory.
-#
-#
-# OPTIONS:
-#
-# -r reduce ... REDUCE is the reduction amount as percent for the infile (pattern image)
+# 
+# 
+# OPTIONS: 
+# 
+# -r reduce ... REDUCE is the reduction amount as percent for the infile (pattern image) 
 # before tiling it. Values are integers>=0. The default=10.
-#
-# -m modulate ... MODULATE is the modulation (lightness, saturation, hue) applied to the
-# infile (pattern image) before tiling it. Values are a comma separate triplet L,S,H of
+# 
+# -m modulate ... MODULATE is the modulation (lightness, saturation, hue) applied to the  
+# infile (pattern image) before tiling it. Values are a comma separate triplet L,S,H of 
 # integers>=0. The default="100,100,100" (no change).
-#
-# -x xroll ... XROLL is the roll amount in pixels for the tiled image in the horizontal
+# 
+# -x xroll ... XROLL is the roll amount in pixels for the tiled image in the horizontal 
 # dimension. Values are integers. The default=0.
-#
-# -x yroll ... YROLL is the roll amount in pixels for the tiled image in the vertical
+# 
+# -x yroll ... YROLL is the roll amount in pixels for the tiled image in the vertical 
 # dimension. Values are integers. The default=0.
-#
-# -o orientation ... ORIENTATION angle in degrees for rotation of the tiled pattern
+# 
+# -o orientation ... ORIENTATION angle in degrees for rotation of the tiled pattern 
 # image. Values are -360<=integer<=360; default=0.
-#
-# -d displace ... DISPLACE is the displacement amount when applying the displacement
-# image to distort the pattern on the background image. Values are integers>=0. The
+# 
+# -d displace ... DISPLACE is the displacement amount when applying the displacement 
+# image to distort the pattern on the background image. Values are integers>=0. The 
 # default=5.
-#
-# -D directory ... DIRECTORY to write all the exported data, including a text file
-# called outfit.txt containing the same textual parameter data as sent to terminal.
-# The directory can be specified later in the outfitwarp script to import all the
+# 
+# -D directory ... DIRECTORY to write all the exported data, including a text file 
+# called outfit.txt containing the same textual parameter data as sent to terminal. 
+# The directory can be specified later in the outfitwarp script to import all the 
 # needed images and textual data.
-#
+# 
 # REQUIREMENTS: IM 6.5.3.4 due to the use of -compose displace.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -127,13 +127,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -181,7 +181,7 @@ else
 					   ;;
 				-r)    # get reduce
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REDUCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   reduce=`expr "$1" : '\([0-9]*\)'`
@@ -189,7 +189,7 @@ else
 					   ;;
 				-m)    # get modulate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODULATE SPECIFICATION ---"
 					   checkMinus "$1"
 					   modulate=`expr "$1" : '\([0-9]*,[0-9]*,[0-9]*\)'`
@@ -197,7 +197,7 @@ else
 					   ;;
 				-x)    # get xroll
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID XROLL SPECIFICATION ---"
 #					   checkMinus "$1"
 					   xroll=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -205,7 +205,7 @@ else
 					   ;;
 				-y)    # get yroll
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID YROLL SPECIFICATION ---"
 #					   checkMinus "$1"
 					   yroll=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -213,7 +213,7 @@ else
 					   ;;
 				-o)    # get orientation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ORIENTATION SPECIFICATION ---"
 #					   checkMinus "$1"
 					   orientation=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -224,7 +224,7 @@ else
 					   ;;
 				-d)    # get displace
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISPLACE SPECIFICATION ---"
 					   checkMinus "$1"
 					   displace=`expr "$1" : '\([0-9]*\)'`
@@ -232,7 +232,7 @@ else
 					   ;;
 				-D)    # set directory
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTORY SPECIFICATION ---"
 					   checkMinus "$1"
 					   directory="$1"
@@ -319,7 +319,7 @@ else
 	orientation_in=$orientation
 	displace_in=$displace
 	modulate_in=$modulate
-
+	
 	# read the arguments from the textfile in the directory
 	source $directory/outfitdata.txt
 
@@ -360,7 +360,7 @@ if [ "$directory" = "" ]; then
 	if ! convert -quiet "$lightingfile" +repage $dir/tmpL.mpc; then
 		errMsg "--- FILE $lightingfile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
 	fi
-
+	
 	if ! convert -quiet "$displacementfile" +repage $dir/tmpD.mpc; then
 		errMsg "--- FILE $displacementfile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
 	fi
@@ -411,3 +411,4 @@ convert $dir/tmpTP.mpc $dir/tmpL.mpc -compose hardlight -composite -compose over
 
 
 exit 0
+

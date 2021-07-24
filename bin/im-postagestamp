@@ -3,53 +3,53 @@
 # Developed by Fred Weinhaus 2/4/2013 .......... revised 4/28/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: postagestamp [-d diameter] [-s spacing] [-b bordersize] [-B bcolor]
-# [-H hcolor] [-t text] [-f font] [-F fcolor] [-p pointsize] [-g gravity]
+# USAGE: postagestamp [-d diameter] [-s spacing] [-b bordersize] [-B bcolor] 
+# [-H hcolor] [-t text] [-f font] [-F fcolor] [-p pointsize] [-g gravity] 
 # [-o offsets ] [-m mode] [-O opacity] [-L length] [-S softness] infile outfile
 #
 # USAGE: postagestamp [-h or -help]
 #
 # OPTIONS:
 #
-# -d     diameter       diameter of half holes as perforation around the
+# -d     diameter       diameter of half holes as perforation around the 
 #                       border in pixels; integer>=0; default=10
-# -s     spacing        spacing between half holes as percent of diameter;
+# -s     spacing        spacing between half holes as percent of diameter; 
 #                       0<=integer<=100; default=20
 # -b     bordersize     border size; integer>=0; default=15
 # -B     bcolor         border color; any valid IM color is allowed;
 #                       default=white
-# -H     hcolor         hole color for gaps between perforations; any valid
+# -H     hcolor         hole color for gaps between perforations; any valid 
 #                       IM color is allowed; default=none (for transparent)
 # -t     text           text to place onto the image; default=no text
-# -f     font           font name or path to font file; default="Arial"
+# -f     font           font name or path to font file; default="Arial" 
 # -F     fcolor         font color; any valid IM color is allowed; default=white
 # -p     pointsize      font point size; integer>=0; default=36
 # -g     gravity        gravity location for placing text; default="southeast"
 # -o     offsets        offsets for positioning text relative to the gravity
-#                       location; comma separate pair of integers>=0;
+#                       location; comma separate pair of integers>=0; 
 #                       default="10,30"
 # -m     mode           shadow mode; choices are: none, center and bottomright;
 #                       default=none for no shadow
@@ -59,64 +59,64 @@
 #
 ###
 #
-# NAME: POSTAGESTAMP
-#
+# NAME: POSTAGESTAMP 
+# 
 # PURPOSE: To apply a perforated postage stamp like border around an image.
-#
-# DESCRIPTION: POSTAGESTAMP applies a perforated postage stamp like border
-# around an image. The perforation size and border can be adjusted and colored.
+# 
+# DESCRIPTION: POSTAGESTAMP applies a perforated postage stamp like border 
+# around an image. The perforation size and border can be adjusted and colored. 
 # Optionally, a shadow may be added.
-#
-# OPTIONS:
+# 
+# OPTIONS: 
 #
 # -d diameter ... DIAMETER of the half holes as perforation around the border
 # in pixels. Values are integers>=0. The default=10.
-#
-# -s spacing ... SPACING between half hole perforations as percent of the
+# 
+# -s spacing ... SPACING between half hole perforations as percent of the 
 # diameter. Values are 0<=integer<=100. The default=20.
-#
-# -b bordersize ... BORDERSIZE between image and perforations. Values are
+# 
+# -b bordersize ... BORDERSIZE between image and perforations. Values are 
 # integers>=0. The default=15.
-#
+# 
 # -B bcolor ... BCOLOR is the border color. Any valid IM color is allowed.
 # The default=white.
-#
-# -H hcolor ... HCOLOR is the hole color for the gaps between perforations.
+# 
+# -H hcolor ... HCOLOR is the hole color for the gaps between perforations. 
 # Any valid IM color is allowed. The default=none (for transparent).
-#
+# 
 # -t text ... TEXT to place onto the image. The default=no text.
-#
+# 
 # -f font ... FONT name or path to font file. The default="Arial".
-#
+# 
 # -F fcolor ... FCOLOR is the font color. Any valid IM color is allowed. The
 # default=white.
-#
+# 
 # -p pointsize ... POINTSIZE is the font point size. Values are integers>=0.
 # The default=36.
-#
-# -g gravity ... GRAVITY location for placing text. Any valid IM -gravity
+# 
+# -g gravity ... GRAVITY location for placing text. Any valid IM -gravity 
 # setting is allowed. The default="southeast".
-#
-# -o offsets ... OFFSETS for positioning the text relative to the gravity
-# location. Values are a comma separate pair of integers>=0. The
+# 
+# -o offsets ... OFFSETS for positioning the text relative to the gravity 
+# location. Values are a comma separate pair of integers>=0. The  
 # default="10,30".
-#
-# -m mode ... MODE is the shadow mode. The choices are: none (n), center (c)
+# 
+# -m mode ... MODE is the shadow mode. The choices are: none (n), center (c) 
 # and bottomright (b). The default=none for no shadow.
-#
+# 
 # -O opacity ... OPACITY is the shadow opacity. Values are 0<=integers<=100.
 # The default=75.
-#
-# -L length ... LENGTH is the shadow length (displacement). Values are
+# 
+# -L length ... LENGTH is the shadow length (displacement). Values are 
 # integers>=0. The default=3.
-#
-# -S softness ... SOFTNESS is the shadow softness (blurring amount). Values
+# 
+# -S softness ... SOFTNESS is the shadow softness (blurring amount). Values 
 # are integers>=0. The default=2.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -130,7 +130,7 @@ text=""					# text
 font="Arial"			# text font
 fcolor="white"			# text font color
 pointsize="36"			# text pointsize; integer>=0
-gravity="southeast"		# text gravity
+gravity="southeast"		# text gravity 
 offsets="10,30"			# text offset from gravity; integer pair>=0
 mode="none"				# shadow mode: none, center or bottomright
 opacity=75				# shadow opacity;  0<=integer<=100
@@ -144,13 +144,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -198,7 +198,7 @@ else
 					   ;;
 				-d)    # get diameter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIAMETER SPECIFICATION ---"
 					   checkMinus "$1"
 					   diameter=`expr "$1" : '\([0-9]*\)'`
@@ -206,7 +206,7 @@ else
 					   ;;
 				-s)    # get spacing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SPACING SPECIFICATION ---"
 					   checkMinus "$1"
 					   spacing=`expr "$1" : '\([0-9]*\)'`
@@ -217,7 +217,7 @@ else
 					   ;;
 				-b)    # get bordersize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDERSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   bordersize=`expr "$1" : '\([0-9]*\)'`
@@ -225,42 +225,42 @@ else
 					   ;;
 				-B)    # get bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDERCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-H)    # get hcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HOLECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   hcolor="$1"
 					   ;;
 				-t)    # get text
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID TEXT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   text="$1"
 					   ;;
 				-f)    # get font
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   checkMinus "$1"
 					   font="$1"
 					   ;;
 				-F)    # get fcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONTCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   fcolor="$1"
 					   ;;
 				-p)    # get pointsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POINTSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   pointsize=`expr "$1" : '\([0-9]*\)'`
@@ -268,11 +268,11 @@ else
 					   ;;
 				-g)    # gravity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   gravity=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$gravity" in
+					   case "$gravity" in 
 							northwest) ;;
 							north) ;;
 							northeast) ;;
@@ -282,12 +282,12 @@ else
 							southwest) ;;
 							south) ;;
 							southeast) ;;
-							*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---"
+							*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-o)    # get offsets
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSETS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -297,20 +297,20 @@ else
 					   ;;
 				-m)    # mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$mode" in
+					   case "$mode" in 
 							none|n) mode="none" ;;
 							center|c) mode="center" ;;
 							bottomright|b) mode="bottomright" ;;
-							*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+							*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-O)    # get opacity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity=`expr "$1" : '\([0-9]*\)'`
@@ -321,7 +321,7 @@ else
 					   ;;
 				-L)    # get length
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LENGTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   length=`expr "$1" : '\([0-9]*\)'`
@@ -329,7 +329,7 @@ else
 					   ;;
 				-S)    # get softness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SOFTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   softness=`expr "$1" : '\([0-9]*\)'`
@@ -374,7 +374,7 @@ convert -debug exception -quiet "$infile" +repage "$tmpA1" ||
 	echo "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
 
 
-# get image size
+# get image size 
 ww=`convert $infile -format "%w" info:`
 hh=`convert $infile -format "%h" info:`
 
@@ -439,3 +439,7 @@ fi
 
 
 exit 0
+
+
+
+

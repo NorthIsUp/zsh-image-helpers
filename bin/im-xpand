@@ -3,100 +3,100 @@
 # Developed by Fred Weinhaus 9/18/2018 .......... revised 10/9/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: xpand -d dimension [-m mode ] [-p protect] infile outfile
-#
+# 
 # USAGE: xpand [h|-help]
-#
+# 
 # OPTIONS:
-#
-# -d     dimension      dimension for the output image in the stretch direction;
-#                       may be expressed either as integer>0 for the width or the height
-#                       as dictated by the mode or as a colon separated aspect ratio
-#                       (A:B), where the first number (A) is always larger than the
-#                       second number (B) and is applied as per the mode; dimension
+# 
+# -d     dimension      dimension for the output image in the stretch direction; 
+#                       may be expressed either as integer>0 for the width or the height 
+#                       as dictated by the mode or as a colon separated aspect ratio 
+#                       (A:B), where the first number (A) is always larger than the 
+#                       second number (B) and is applied as per the mode; dimension 
 #                       must specify an output larger than the input; Required Argument
 # -m     mode           mode for the stretch direction of the output; horizontal (h)
-#                       or vertical (v); typically used to expand the same direction
+#                       or vertical (v); typically used to expand the same direction  
 #                       as the input aspect; default=horizontal
-# -p     protect        protect range of the image as specified by a hyphen separate
-#                       increasing pair of integer coordinates within the bounds of
-#                       the input image; default is no protect region and the expansion
-#                       will be relative to the of the image center.
-#
-#
+# -p     protect        protect range of the image as specified by a hyphen separate 
+#                       increasing pair of integer coordinates within the bounds of  
+#                       the input image; default is no protect region and the expansion 
+#                       will be relative to the of the image center. 
+#                       
+# 
 ###
-#
-# NAME: XPAND
-#
+# 
+# NAME: XPAND 
+# 
 # PURPOSE: To apply a non-uniform outward stretch of the image in one direction.
-#
+# 
 # DESCRIPTION: XPAND applies a non-uniform outward stretch of the image in one direction.
-# This elastic expansion increases as one progresses further from the center towards
+# This elastic expansion increases as one progresses further from the center towards 
 # the edges of the image or further from a protect region that may be specified
-# optionally. The scale of the protect region will be preserved in the output image.
-# This process is in effect a dynamic aspect ratio enlargement that preserves the
-# scale of some region of the input image. It is similar to that of the GoPro camera's
-# SuperView. One popular use is to dynamically stretch a 4:3 aspect ratio image to 9:6
-# aspect ratio. Note that the larger the change in aspect ratio, the more the image
-# will be distorted away from the center or protect region. So this script is usually
+# optionally. The scale of the protect region will be preserved in the output image. 
+# This process is in effect a dynamic aspect ratio enlargement that preserves the  
+# scale of some region of the input image. It is similar to that of the GoPro camera's 
+# SuperView. One popular use is to dynamically stretch a 4:3 aspect ratio image to 9:6 
+# aspect ratio. Note that the larger the change in aspect ratio, the more the image 
+# will be distorted away from the center or protect region. So this script is usually 
 # used for small aspect ratio changes.
-#
-# ARGUMENTS:
-#
-# -d dimension ... DIMENSION for the output image in the stretch direction. This may
-# be expressed either as integer>0 for the output width or the height as dictated by
-# the mode (see below) or as a colon separated pair of integers as an aspect ratio (A:B),
+# 
+# ARGUMENTS: 
+# 
+# -d dimension ... DIMENSION for the output image in the stretch direction. This may  
+# be expressed either as integer>0 for the output width or the height as dictated by 
+# the mode (see below) or as a colon separated pair of integers as an aspect ratio (A:B), 
 # where the first number (A) is always larger than the second number (B) and is applied
-# as per the mode. The dimension must specify an output no smaller than the input.
+# as per the mode. The dimension must specify an output no smaller than the input. 
 # Required Argument.
 #
 # -m mode ... MODE for the stretch direction of the output. Choices are: horizontal (h)
-# or vertical (v). Typically, the script is used to expand in the same direction as the
+# or vertical (v). Typically, the script is used to expand in the same direction as the 
 # aspect of the input. The default=horizontal.
-#
-# -p protect ... PROTECT range of the image where the scale will not be changed.
-# This is specified by a hyphen separate pair of increasing integer coordinates that
-# fall within the bounds of the input image. The coordinates are both in the same
-# direction of the image as specified by the mode. The first coordinate must be
-# smaller than the second coordinate in the protect range. The default is no protect
-# region and the expansion will be relative to the of the image center.
-#
+# 
+# -p protect ... PROTECT range of the image where the scale will not be changed. 
+# This is specified by a hyphen separate pair of increasing integer coordinates that 
+# fall within the bounds of the input image. The coordinates are both in the same 
+# direction of the image as specified by the mode. The first coordinate must be 
+# smaller than the second coordinate in the protect range. The default is no protect 
+# region and the expansion will be relative to the of the image center. 
+# 
 # NOTE: This script may be a bit slow due to the use of -fx.
-#
+# 
 # References:
 # http://www.semifluid.com/2014/03/16/gopro-superview-like-adaptive-aspect-ratio/
 # https://www.iamgopro.com/gopro-features/
 # https://www.goproforums.com/14-video-editing-software/8730-non-linear-stretch-plugin.html
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 dimension=""
@@ -111,13 +111,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -165,18 +165,18 @@ else
 					   ;;
 				-d)    # get dimension
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimension="$1"
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$mode" in
+					   case "$mode" in 
 					   		horizontal|h) mode=horizontal ;;
 					   		vertical|v) mode=vertical;;
 					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"  ;;
@@ -184,7 +184,7 @@ else
 					   ;;
 				-p)    # get  protect
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PROTECT SPECIFICATION ---"
 					   checkMinus "$1"
 					   protect=`expr "$1" : '\([0-9]*[:][0-9]*\)'`
@@ -236,7 +236,7 @@ if [ "$colon_test" != "" ]; then
 else
 	dimension=`expr "$1" : '\([0-9]*\)'`
 	[ "$dimension" = "" ] && errMsg "--- INVALID INTEGER DIMENSION SPECIFIED ---"
-fi
+fi	
 
 # get input dimension
 WxH=`convert -ping $tmpI -format "%wx%h" info:`
@@ -258,7 +258,7 @@ if [ "$mode" = "horizontal" ]; then
 	dimension=`convert xc: -format "%[fx:round($wi*$num/$den)]" info:`
 	test=`convert xc: -format "%[fx:$dimension>$wi?1:0]" info:`
 	[ $test -eq 0 ]	&& 	echo "--- OUTPUT WIDTH MUST BE LARGER THAN INPUT WIDTH  ---"
-
+		
 	if [ "$protect" = "" ]; then
 		woc=`convert xc: -format "%[fx:($dimension-1)/2]" info:`
 		convert -size ${dimension}x${hi} xc: $tmpI \
@@ -320,7 +320,7 @@ if [ "$mode" = "horizontal" ]; then
 				\( -size ${wo3}x$hi xc: mpr:img[$crop3] \
 					-fx "v.p{ ( i + pow(i,2)*(v.w-u.w)/pow(u.w,2) ) ),j}" \) \
 				+append "$outfile"
-
+			
 		fi
 	fi
 
@@ -392,11 +392,11 @@ elif [ "$mode" = "vertical" ]; then
 				\( -size ${wi}x$ho3 xc: mpr:img[$crop3] \
 					-fx "v.p{ ( i,j + pow(j,2)*(v.h-u.h)/pow(u.h,2) ) )}" \) \
 				-append "$outfile"
-
+			
 		fi
 	fi
 fi
 
 
-
+	
 exit 0

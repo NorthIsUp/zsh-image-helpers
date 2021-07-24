@@ -3,141 +3,141 @@
 # Developed by Fred Weinhaus 4/1/2017 .......... revised 5/4/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: contour [-t trim] [-T tolerance] [-d dilate] [-e erode][-p pad] [-i icolor]
-# [-o ocolor] [-s shadow] [-r ramping] [-h highlight] [-m method] [-f fuzzval]
+# USAGE: contour [-t trim] [-T tolerance] [-d dilate] [-e erode][-p pad] [-i icolor] 
+# [-o ocolor] [-s shadow] [-r ramping] [-h highlight] [-m method] [-f fuzzval] 
 # [-c coords] [-a area] [-v view] infile [maskfile] outfile
-#
+# 
 # USAGE: contour [-help]
 #
 # OPTIONS:
 #
 # -t     trim          preprocess trim to image content bounding box;
 #                      yes or no; default=yes
-# -T     tolerance     preprocessing trim tolerance percent (fuzz value);
+# -T     tolerance     preprocessing trim tolerance percent (fuzz value); 
 #                      0<=integer<=100; default=2
 # -d     dilate        contour dilate distance in pixels; integer>=0; default=20
 # -e     erode         contour erode distance in pixels; integer>=0; default=0
-# -p     pad           image pad after trimming; integer>=0; default is twice
+# -p     pad           image pad after trimming; integer>=0; default is twice 
 #                      the contour distance to allow room for the shadow
-# -i     icolor        input image existing background color, which should be
-#                      nearly a constant opaque color; used only if the input
-#                      image is opaque and no mask image is provided;
-#                      default=white
-# -o     ocolor        output image desired background color; any IM allowed
+# -i     icolor        input image existing background color, which should be 
+#                      nearly a constant opaque color; used only if the input   
+#                      image is opaque and no mask image is provided; 
+#                      default=white 
+# -o     ocolor        output image desired background color; any IM allowed 
 #                      opaque color;  default=white
-# -s     shadow        shadow brightness in percent; 0<=integer<=100;
+# -s     shadow        shadow brightness in percent; 0<=integer<=100; 
 #                      default=30
-# -r     ramping       shadow ramping amount (blur sigma value); integer>=0;
+# -r     ramping       shadow ramping amount (blur sigma value); integer>=0; 
 #                      default=10
 # -h     highlight     show black highlight edge; on or off; default=on
-# -m     method        method of generating transparency when the input image
-#                      has no alpha channel and there is no mask; choices are:
-#                      floodfill and recolor; floodfill will not leave holes
-#                      in the result; recolor may leave holes in the result, if
-#                      there are content gaps larger than the contour distance
+# -m     method        method of generating transparency when the input image 
+#                      has no alpha channel and there is no mask; choices are: 
+#                      floodfill and recolor; floodfill will not leave holes 
+#                      in the result; recolor may leave holes in the result, if 
+#                      there are content gaps larger than the contour distance 
 #                      and these are desired; default=floodfill
-# -f     fuzzval       fuzz value for the floodfill; 0<=integer<=100;
+# -f     fuzzval       fuzz value for the floodfill; 0<=integer<=100; 
 #                      default=2
-# -c     coords        coordinates to start the floodfill; comma separate pair
-#                      of x,y values; default=0,0 (upper left corner of the
+# -c     coords        coordinates to start the floodfill; comma separate pair 
+#                      of x,y values; default=0,0 (upper left corner of the 
 #                      input image)
-# -a     area          area of gaps to fill with connected-components; either
+# -a     area          area of gaps to fill with connected-components; either 
 #                      integer pixels>=0 or integer percents>=0; default=1%
 # -v     view          view connected-components information; yes or no; default=no
 #
 ###
 #
-# NAME: CONTOUR
-#
+# NAME: CONTOUR 
+# 
 # PURPOSE: To apply a contour outline to the image content.
-#
-# DESCRIPTION: CONTOUR applies a contour outline to the image content.
-# This is generate via a mask image. The mask image may come from the alpha
-# channel of the input image, from a mask image or by a transparent floodfill
-# or transparent recoloring operation. The background color may be selected
+# 
+# DESCRIPTION: CONTOUR applies a contour outline to the image content. 
+# This is generate via a mask image. The mask image may come from the alpha 
+# channel of the input image, from a mask image or by a transparent floodfill 
+# or transparent recoloring operation. The background color may be selected 
 # along with the shadowing and highlight edge around the contour.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -t trim ... TRIM is the preprocess trim to image content bounding box.
+# -t trim ... TRIM is the preprocess trim to image content bounding box. 
 # Choices are: yes (y) or no (n). The default=yes.
-#
-# -T tolerance ... TOLERANCE is the preprocessing trim tolerance percent
+# 
+# -T tolerance ... TOLERANCE is the preprocessing trim tolerance percent 
 # (i.e., fuzz value). Values are 0<=integer<=100. The default=2.
-#
-# -d dilate ... DILATE distance is the contour dilate distance in pixels. Values are
-# integer>=0. The default=20. The actual distance will be the difference between the
+# 
+# -d dilate ... DILATE distance is the contour dilate distance in pixels. Values are 
+# integer>=0. The default=20. The actual distance will be the difference between the 
 # dilate distance and the erode distance. Larger values for dilate help fill gaps.
-#
-# -e erode ... ERODE distance is the contour erode distance in pixels. Values are
-# integer>=0. The default=0. The actual distance will be the difference between the
+# 
+# -e erode ... ERODE distance is the contour erode distance in pixels. Values are 
+# integer>=0. The default=0. The actual distance will be the difference between the 
 # dilate distance and the erode distance.
-#
-# -p pad ... PAD is the image pad amount after trimming. Value are  integer>=0.
+# 
+# -p pad ... PAD is the image pad amount after trimming. Value are  integer>=0. 
 # The default is twice the contour distance to allow room for the shadow.
-#
-# -i icolor ... ICOLOR is the input image existing background color, which
-# should be nearly a constant opaque color. This option is used only if the
-# input image is opaque and no mask image is provided. The default=white.
-#
-# -o ocolor ... OCOLOR is the output image desired background color. Any IM
+# 
+# -i icolor ... ICOLOR is the input image existing background color, which 
+# should be nearly a constant opaque color. This option is used only if the    
+# input image is opaque and no mask image is provided. The default=white. 
+# 
+# -o ocolor ... OCOLOR is the output image desired background color. Any IM  
 # opaque color is allowed. The default=white.
-#
-# -s shadow ... SHADOW brightness in percent. Values are 0<=integer<=100. The
+# 
+# -s shadow ... SHADOW brightness in percent. Values are 0<=integer<=100. The 
 # default=30.
-#
-# -r ramping ... RAMPING is the shadow ramping amount (blur sigma value).
+# 
+# -r ramping ... RAMPING is the shadow ramping amount (blur sigma value). 
 # Values are integer>=0. The default=10.
-#
-# -h highlight ... HIGHLIGHT is a flag to show a black highlight edge around
+# 
+# -h highlight ... HIGHLIGHT is a flag to show a black highlight edge around  
 # the contour. Values are on or off. The default=on.
-#
+# 
 # -m method ... METHOD of generating transparency when the input image has no
-# alpha channel and there is no mask. Choices are:  floodfill (f) and
-# recolor (r). A choice of floodfill will not leave holes in the result. A
-# choice of recolor may leave holes in the result, if there are content gaps
+# alpha channel and there is no mask. Choices are:  floodfill (f) and 
+# recolor (r). A choice of floodfill will not leave holes in the result. A 
+# choice of recolor may leave holes in the result, if there are content gaps 
 # larger than the contour distance and these are desired. The default=floodfill.
-#
-# -f fuzzval ... FUZZVAL is the fuzz value for the floodfill. Value are
+# 
+# -f fuzzval ... FUZZVAL is the fuzz value for the floodfill. Value are 
 # 0<=integer<=100. The default=2.
-#
-# -c coords ... COORDS are the coordinates to start the floodfill. They must be
-# a comma separate pair of x,y values. The default=0,0 (upper left corner of
+# 
+# -c coords ... COORDS are the coordinates to start the floodfill. They must be 
+# a comma separate pair of x,y values. The default=0,0 (upper left corner of  
 # the input image).
-#
-# -a area ... AREA of gaps to fill with connected-components. Values are
+# 
+# -a area ... AREA of gaps to fill with connected-components. Values are 
 # integer pixels counts>=0 or integer percents>=0. The default=1%.
-#
-# -v view ... VIEW connected-components information. Choices are: yes or no.
+# 
+# -v view ... VIEW connected-components information. Choices are: yes or no. 
 # The default=no.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -164,13 +164,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -218,7 +218,7 @@ else
 					   ;;
 				-t)    # get trim
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TRIM SPECIFICATION ---"
 					   checkMinus "$1"
 					   trim="$1"
@@ -230,7 +230,7 @@ else
 					   ;;
 				-T)    # get tolerance
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TOLERANCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   tolerance=`expr "$1" : '\([0-9]*\)'`
@@ -240,7 +240,7 @@ else
 					   ;;
 				-d)    # get dilate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DILATE SPECIFICATION ---"
 					   checkMinus "$1"
 					   dilate=`expr "$1" : '\([0-9]*\)'`
@@ -248,7 +248,7 @@ else
 					   ;;
 				-e)    # get erode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ERODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   erode=`expr "$1" : '\([0-9]*\)'`
@@ -256,7 +256,7 @@ else
 					   ;;
 				-p)    # get pad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PAD SPECIFICATION ---"
 					   checkMinus "$1"
 					   pad=`expr "$1" : '\([0-9]*\)'`
@@ -264,21 +264,21 @@ else
 					   ;;
 				-i)    # get icolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ICOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   icolor="$1"
 					   ;;
 				-o)    # get ocolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ocolor="$1"
 					   ;;
 				-s)    # get shadow
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHADOW SPECIFICATION ---"
 					   checkMinus "$1"
 					   shadow=`expr "$1" : '\([0-9]*\)'`
@@ -288,7 +288,7 @@ else
 					   ;;
 				-r)    # get ramping
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RAMPING SPECIFICATION ---"
 					   checkMinus "$1"
 					   ramping=`expr "$1" : '\([0-9]*\)'`
@@ -296,7 +296,7 @@ else
 					   ;;
 				-h)    # get highlight
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HIGHLIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   highlight="$1"
@@ -308,7 +308,7 @@ else
 					   ;;
 				-m)    # get method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method="$1"
@@ -320,7 +320,7 @@ else
 					   ;;
 				-f)    # get fuzzval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   fuzzval=`expr "$1" : '\([0-9]*\)'`
@@ -330,7 +330,7 @@ else
 					   ;;
 				-c)    # get coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | sed 's/ *//g' | tr "," " " | wc -w`
@@ -340,7 +340,7 @@ else
 					   ;;
 				-a)    # get area
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AREA SPECIFICATION ---"
 					   checkMinus "$1"
 					   area=`expr "$1" : '\([0-9]*%*\)'`
@@ -348,7 +348,7 @@ else
 					   ;;
 				-v)    # get view
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIEW SPECIFICATION ---"
 					   checkMinus "$1"
 					   VIEW="$1"
@@ -522,7 +522,7 @@ if [ "$alpha_channel" = "no" -a "$maskfile" = "" -a "$method" = "floodfill" ]; t
 		mpr:msk2 -reverse -compose over -composite \
 		$highlighting \
 		"$outfile"
-
+		
 elif [ "$alpha_channel" = "no" -a "$maskfile" = "" -a "$method" = "recolor" ]; then
 	# recolor using -transparent
 	convert \

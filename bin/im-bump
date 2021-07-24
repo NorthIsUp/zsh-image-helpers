@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 1/22/2009 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: bump [-t type] [-a amplitude] [-r radius] [-c center] [-m] [-b bgcolor] infile outfile
@@ -31,61 +31,61 @@
 #
 # OPTIONS:
 #
-# -t      type               type of bump shaping; choices are:
+# -t      type               type of bump shaping; choices are: 
 #                            1=sinusoid, 2=triangle; 3=circular; default=1
-# -a      amplitude          amplitude or elevation of the bump; float;
-#                            positive raises the bump; negative lowers
+# -a      amplitude          amplitude or elevation of the bump; float; 
+#                            positive raises the bump; negative lowers 
 #                            the depression; default=10
-# -r      radius             radius from center point determines the extent of the bump;
+# -r      radius             radius from center point determines the extent of the bump; 
 #                            integer>=0; default is half the minimum image dimension
-# -c      center             center point for the bump; center=cx,cy;
+# -c      center             center point for the bump; center=cx,cy; 
 #                            integer>=0; default is center of image
 # -m                         mask the outside of the radius with background color
 # -b      bgcolor            background color for the masked area outside the radius
 #
 ###
 #
-# NAME: BUMP
-#
+# NAME: BUMP 
+# 
 # PURPOSE: To apply a hemispherical-like bump distortion to an image.
-#
-# DESCRIPTION: BUMP applies a hemispherical-like bump distortion to an image.
-# The user can control the amplitude or height of the bump, the radius of
-# the bump, the center point of the bump and the type of displacement profile
-# used to control the shape of the bump. This is a simpler approximation of
-# my bubblewarp script that is much faster due to the use of -distort
+# 
+# DESCRIPTION: BUMP applies a hemispherical-like bump distortion to an image. 
+# The user can control the amplitude or height of the bump, the radius of 
+# the bump, the center point of the bump and the type of displacement profile 
+# used to control the shape of the bump. This is a simpler approximation of 
+# my bubblewarp script that is much faster due to the use of -distort 
 # polar/depolar and a displacement map.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -t type ... TYPE of displacement profile used to control the shape of the bump.
+# -t type ... TYPE of displacement profile used to control the shape of the bump. 
 # Choices are: 1=sinusoid, 2=triangle; 3=circular; default=1
-#
-# -a amplitude ... AMPLITUDE or elevation of the bump. Values are floats.
-# Postive values raise the bump and negative values lower the elevation.
+# 
+# -a amplitude ... AMPLITUDE or elevation of the bump. Values are floats. 
+# Postive values raise the bump and negative values lower the elevation. 
 # A value of zero produces essentially no change. The default=10.
-#
+# 
 # -r radius ... RADIUS is the radial distance from the center point which
-# determines the extent of the bump. Values are integers>=0. The default is
+# determines the extent of the bump. Values are integers>=0. The default is 
 # half the minimum dimension of the image.
-#
-# -c center ... CENTER=cx,cy are the comma separated coordinates in the image
-# determining the center of the bump. Values are integers>=0. The default
+# 
+# -c center ... CENTER=cx,cy are the comma separated coordinates in the image 
+# determining the center of the bump. Values are integers>=0. The default 
 # is the center of the image.
-#
-# -m ... Enables a mask around the bump that is set to the desired background
+# 
+# -m ... Enables a mask around the bump that is set to the desired background 
 # color. This gives the result a spherical or bubble effect.
-#
-# -b bgcolor ... BGOLOR is the color of the masked area outside the bump.
+# 
+# -b bgcolor ... BGOLOR is the color of the masked area outside the bump. 
 # Any valid IM color is allowed. See http://imagemagick.org/script/color.php
 # The default=black.
-#
+# 
 # NOTE: Requires IM 6.4.2-8 or higher due to the use of -distort polar/depolar.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -104,13 +104,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -158,7 +158,7 @@ else
 					   ;;
 				-t)    # get type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`expr "$1" : '\([0-9]*\)'`
@@ -167,7 +167,7 @@ else
 					   ;;
 				-a)    # get amp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID AMPLITUDE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   amp=`expr "$1" : '\([-.0-9]*\)'`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-r)    # get rad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   rad=`expr "$1" : '\([0-9]*\)'`
@@ -183,7 +183,7 @@ else
 					   ;;
 				-c)    # get center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -199,7 +199,7 @@ else
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -241,9 +241,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmp1 $tmp2; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear

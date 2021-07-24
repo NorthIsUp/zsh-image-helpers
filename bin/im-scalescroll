@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 7/20/2018 .......... 7/20/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: scalescroll [-f frames] [-d delay] [-D direction] infile outfile
@@ -31,38 +31,38 @@
 #
 # OPTIONS:
 #
-# -f     frames       number of frames to generate in the animation; integer>0;
+# -f     frames       number of frames to generate in the animation; integer>0; 
 #                     default=25
-# -d     delay        animation delay between frames; integer>0; default=20
+# -d     delay        animation delay between frames; integer>0; default=20 
 # -D     direction    direction of the scrolling; choices are: left, right, up, down;
 #                     default=right
 #
 ###
 #
-# NAME: SCALESCROLL
-#
+# NAME: SCALESCROLL 
+# 
 # PURPOSE: Creates a scaled scrolling animation.
-#
-# DESCRIPTION: SCALESCROLL creates scaled scrolling animation. The scaling increase
-# from one side and decreases from the other side. The scrolling can be either to the
+# 
+# DESCRIPTION: SCALESCROLL creates scaled scrolling animation. The scaling increase 
+# from one side and decreases from the other side. The scrolling can be either to the 
 # right, left, up or down directions.
-#
-#
-# OPTIONS:
-#
-# -f frames ... FRAMES are the number of frames to generate in the animation. Value
+# 
+# 
+# OPTIONS: 
+# 
+# -f frames ... FRAMES are the number of frames to generate in the animation. Value 
 # are integers>0. The default=25.
-#
-# -d delay ... DELAY is animation delay between frames in ticks. Values are integers>0.
+# 
+# -d delay ... DELAY is animation delay between frames in ticks. Values are integers>0. 
 # The default=20.
-#
-# -D direction ... DIRECTION of the scrolling; choices are: left (l), right (r),
+# 
+# -D direction ... DIRECTION of the scrolling; choices are: left (l), right (r), 
 # up (u), down (d). The default=right
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -78,13 +78,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -132,7 +132,7 @@ else
 					   ;;
 				-f)    # get frames
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FRAMES SPECIFICATION ---"
 					   checkMinus "$1"
 					   frames=`expr "$1" : '\([0-9]*\)'`
@@ -142,7 +142,7 @@ else
 					   ;;
 				-d)    # get delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay=`expr "$1" : '\([0-9]*\)'`
@@ -152,7 +152,7 @@ else
 					   ;;
 			   	-D)    # direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   direction=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -272,3 +272,7 @@ elif [ "$direction" = "up" ]; then
 fi
 
 exit 0
+
+
+
+

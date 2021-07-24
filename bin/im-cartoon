@@ -3,35 +3,35 @@
 # Developed by Fred Weinhaus 3/6/2013 .......... revised 2/19/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: cartoon [-p pattern] [-n numlevels] [-m method] [-e edgeamount]
+# USAGE: cartoon [-p pattern] [-n numlevels] [-m method] [-e edgeamount] 
 # [-b brightness] [-s saturation] infile outfile
 # USAGE: cartoon [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -p      pattern           segmentation pattern (shape); 0<=integer<=100;
 #                           default=70
 # -n      numlevels         number of desired segmentation levels; integer>=2;
@@ -40,45 +40,45 @@
 # -e      edgeamount        amount of edges; float>=0; default=4
 # -b      brightness        brightness of cartoon; integer>=0; default=100
 # -s      saturation        saturation of cartoon; integer>=0; default=100
-#
+# 
 ###
-#
-# NAME: CARTOON
-#
+# 
+# NAME: CARTOON 
+# 
 # PURPOSE: To create a cartoon-like appearance to an image.
-#
-# DESCRIPTION: CARTOON creates a cartoon-like appearance to an image. The
-# image is smoothed and then multiplied by a grayscale version of the image
-# with the desired number of levels to produce the segmented appearance.
-# The pattern parameter changes the shape of the segmentation for the given
-# number of levels. Edges are then superimposed onto the image.
-#
-#
-# ARGUMENTS:
-#
-# -p pattern ... PATTERN is the pattern or shape of the segmentation. Values
+# 
+# DESCRIPTION: CARTOON creates a cartoon-like appearance to an image. The 
+# image is smoothed and then multiplied by a grayscale version of the image 
+# with the desired number of levels to produce the segmented appearance.  
+# The pattern parameter changes the shape of the segmentation for the given 
+# number of levels. Edges are then superimposed onto the image. 
+# 
+# 
+# ARGUMENTS: 
+# 
+# -p pattern ... PATTERN is the pattern or shape of the segmentation. Values 
 # are between 0 and 100. The default=70.
-#
-# -n numlevels ... NUMLEVELS is the desired number of segmentation levels.
+# 
+# -n numlevels ... NUMLEVELS is the desired number of segmentation levels.  
 # Values are integers>=2. The default=6.
-#
-# -m method ... edge METHOD. Choices are 1, 2, 3 or 4. The default=1.
-#
-# -e edgeamount ... EDGEAMOUNT is the amount of edges to overlay on the
+# 
+# -m method ... edge METHOD. Choices are 1, 2, 3 or 4. The default=1. 
+# 
+# -e edgeamount ... EDGEAMOUNT is the amount of edges to overlay on the 
 # cartoon. Values are floats>=0. The default=4.
-#
+# 
 # -b brightness ... BRIGHTNESS of the cartoon. Values are integer>=0. The
 # default=100 (no change).
-#
+# 
 # -s saturation ... SATURATION of the cartoon. Values are integer>=0. The
 # default=150.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 pattern=70			# segmentation pattern; 0<=integer<=100
@@ -100,13 +100,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -154,7 +154,7 @@ else
 					   ;;
 				-p)    # get pattern
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PATTERN SPECIFICATION ---"
 					   checkMinus "$1"
 					   pattern=`expr "$1" : '\([0-9]*\)'`
@@ -165,7 +165,7 @@ else
 					   ;;
 				-n)    # get  numlevels
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMLEVELS SPECIFICATION ---"
 					   checkMinus "$1"
 					   numlevels=`expr "$1" : '\([0-9]*\)'`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-m)    # get  method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method=`expr "$1" : '\([0-9]*\)'`
@@ -186,7 +186,7 @@ else
 					   ;;
 				-e)    # get  edgeamount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EDGEAMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   edgeamount=`expr "$1" : '\([.0-9]*\)'`
@@ -194,7 +194,7 @@ else
 					   ;;
 				-b)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   brightness=`expr "$1" : '\([0-9]*\)'`
@@ -202,7 +202,7 @@ else
 					   ;;
 				-s)    # get saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   saturation=`expr "$1" : '\([0-9]*\)'`
@@ -245,9 +245,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmpA2 $tmpB2; exit 1" 1 2 3 15
 im_version=`convert -list configure | \
 sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -344,4 +344,4 @@ elif [ $method -eq 4 ]; then
 fi
 
 
-exit 0
+exit 0	

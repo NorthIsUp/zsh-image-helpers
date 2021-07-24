@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/27/2010 .......... 12/11/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: cone [-s size] [-r radii] [-c center] [-a apex]  [-e ecolors] [-t tcolors] [-b bcolor] [-m mode] [infile] outfile
@@ -31,78 +31,78 @@
 #
 # OPTIONS:
 #
-# -s      size         size of background image to create if no input image
+# -s      size         size of background image to create if no input image 
 #                      is provided; The size=WIDTHxHEIGHT; Default=300x300
-# -r      radii        x,y radii for the ellipse; comma separated list of
-#                      positive integers; The default="50,50" (circle of
+# -r      radii        x,y radii for the ellipse; comma separated list of 
+#                      positive integers; The default="50,50" (circle of 
 #                      radius=50).
-# -c      center       center coordinates for the ellipse part of the cone;
-#                      comma separate list of non-negative integers;
+# -c      center       center coordinates for the ellipse part of the cone; 
+#                      comma separate list of non-negative integers; 
 #                      center="xc,yc"; default="150,100".
 # -a      apex         apex coordinates for the triangle tip of the cone;
-#                      comma separate list of non-negative integers;
+#                      comma separate list of non-negative integers; 
 #                      center="x,y"; default="150,250".
-# -e      ecolors      comma separate list of ellipse fill and stroke colors
+# -e      ecolors      comma separate list of ellipse fill and stroke colors 
 #                      and strokewidth; default="white,black,1";
-# -t      tcolors      comma separate list of triangle fill and stroke colors
+# -t      tcolors      comma separate list of triangle fill and stroke colors 
 #                      and strokewidth; default="tan,black,1".
 # -b      bcolor       background color for image if no input image is provided;
 #                      default="lightblue".
-# -m      mode         mode of drawing order; choices are 1 or 2. A value of 1
-#                      draws the triangle over the ellipse; A value of 2 draws
+# -m      mode         mode of drawing order; choices are 1 or 2. A value of 1 
+#                      draws the triangle over the ellipse; A value of 2 draws 
 #                      the ellipse over the triangle; default=1.
 #
 # If infile is provided, then size and bcolor will be ignored.
-#
+# 
 ###
 #
-# NAME: CONE
-#
+# NAME: CONE 
+# 
 # PURPOSE: To draw a cone-shaped object on an image.
-#
-# DESCRIPTION: CONE draws a cone-shaped object on an image. The cone is
-# composed of two parts an ellipse (or circle) and a triangle. One can
+# 
+# DESCRIPTION: CONE draws a cone-shaped object on an image. The cone is 
+# composed of two parts an ellipse (or circle) and a triangle. One can 
 # specify different colors for each along with stroke colors and strokewidths.
-#
-#
-# OPTIONS:
-#
+# 
+# 
+# OPTIONS: 
+# 
 # -s size ... SIZE of background image to create if no input image is provided.
-# The size=WIDTHxHEIGHT; If only one value is provided, the second will be set
+# The size=WIDTHxHEIGHT; If only one value is provided, the second will be set 
 # equal to the first. Default="300x300".
 #
-# -r radii ... RADII are the x,y radii for the ellipse. Radii are specified as
-# a comma separated list of two positive integers. If only one value is
-# provided, the second will be set equal to the first. The default="50,50"
+# -r radii ... RADII are the x,y radii for the ellipse. Radii are specified as 
+# a comma separated list of two positive integers. If only one value is 
+# provided, the second will be set equal to the first. The default="50,50" 
 # (i.e., circle of radius=50).
-#
-# -c center ... CENTER coordinates for the ellipse part of the cone. Center is
-# a comma separate list of two non-negative integers. If only one value is
+# 
+# -c center ... CENTER coordinates for the ellipse part of the cone. Center is 
+# a comma separate list of two non-negative integers. If only one value is 
 # provided, the second will be set equal to the first. The default="150,100".
-#
-# -a apex ... APEX coordinates for the triangle tip of the cone. Apex is a
-# comma separate list of two non-negative integers. If only one value is
+# 
+# -a apex ... APEX coordinates for the triangle tip of the cone. Apex is a 
+# comma separate list of two non-negative integers. If only one value is 
 # provided, the second will be set equal to the first. The default="150,250".
-#
-# -e ecolors ... ECOLORS is a comma separate list of thre values, namely, the
-# ellipse fill and stroke colors and strokewidth. All 3 values must be provided.
+# 
+# -e ecolors ... ECOLORS is a comma separate list of thre values, namely, the 
+# ellipse fill and stroke colors and strokewidth. All 3 values must be provided. 
 # The default="white,black,1";
-#
-# -t tcolors ... TCOLORS is a comma separate list of thre values, namely, the
-# triangle fill and stroke colors and strokewidth. All 3 values must be provided.
+# 
+# -t tcolors ... TCOLORS is a comma separate list of thre values, namely, the 
+# triangle fill and stroke colors and strokewidth. All 3 values must be provided. 
 # The default="tan,black,1";
-#
-# -b bcolor ... BCOLOR is the background color for image if no input image is
+# 
+# -b bcolor ... BCOLOR is the background color for image if no input image is 
 # provided. The default="lightblue".
-#
-# -m mode ... MODE of drawing order. The choices are 1 or 2. A value of 1
-# draws the triangle over the ellipse. A value of 2 draws the ellipse over
+# 
+# -m mode ... MODE of drawing order. The choices are 1 or 2. A value of 1 
+# draws the triangle over the ellipse. A value of 2 draws the ellipse over 
 # the triangle. The default=1.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -123,13 +123,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -177,7 +177,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([x0-9]*\)'`
@@ -185,7 +185,7 @@ else
  					   ;;
 				-r)    # get radii
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADII SPECIFICATION ---"
 					   checkMinus "$1"
 					   radii=`expr "$1" : '\([,0-9]*\)'`
@@ -193,7 +193,7 @@ else
 					   ;;
 				-c)    # get center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   center=`expr "$1" : '\([,0-9]*\)'`
@@ -201,7 +201,7 @@ else
 					   ;;
 				-a)    # get apex
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID APEX SPECIFICATION ---"
 					   checkMinus "$1"
 					   apex=`expr "$1" : '\([,0-9]*\)'`
@@ -209,7 +209,7 @@ else
 					   ;;
 				-e)    # get ecolors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ECOLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   ecolors=`expr "$1" : '\([,a-zA-Z0-9]*\)'`
@@ -217,7 +217,7 @@ else
 					   ;;
 				-t)    # get tcolors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TCOLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   tcolors=`expr "$1" : '\([,a-zA-Z0-9]*\)'`
@@ -225,14 +225,14 @@ else
 					   ;;
 				-b)    # get bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
@@ -375,3 +375,6 @@ elif [ $mode -eq 2 ]; then
 fi
 
 exit 0
+
+
+

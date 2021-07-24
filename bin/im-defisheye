@@ -1,74 +1,74 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 4/14/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: defisheye [-i ifov] [-o ofov] [-t type] [-f format] [-c xc,yc] [-r radius] [-a angle] infile outfile
 # USAGE: defisheye -d [-c xc,yc] [-r radius] [-s strokecolor] infile outfile
 # USAGE: defisheye [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -i      ifov           input (fisheye) image field of view in degrees;
 #                        float; 0<ifov<=180; default=180
 # -o      ofov           output (perspective) image field of view in degrees;
 #                        float; 0<ifov<180; default=120
-# -t      type           type of fisheye lens; linear, equalarea,
+# -t      type           type of fisheye lens; linear, equalarea, 
 #                        orthographic, stereographic; default=linear
 # -f      format         format of fisheye lens image; circular or fullframe;
 #                        default=circular
-# -c      xc,yc          coordinates of the center of the fisheye image area,
-#                        which will also become the center of the perspective
+# -c      xc,yc          coordinates of the center of the fisheye image area, 
+#                        which will also become the center of the perspective 
 #                        view; float; default=center of fisheye image
 # -r      radius         radius of fisheye area in the input image; float;
 #                        radius>0; default=min(width,height)/2
 # -a      angle          angle of rotation (clockwise) for the perspective image;
 #                        float; 0<=angle<360; default=0
-# -d                     draw circle on the input fisheye image of specified radius,
+# -d                     draw circle on the input fisheye image of specified radius, 
 #                        center and color=scolor, which will then become the output
-# -s      scolor         scolor is the stroke color for a circle that will be
+# -s      scolor         scolor is the stroke color for a circle that will be 
 #                        drawn on the input fisheye image; default=white
-#
+# 
 ###
-#
-# NAME: DEFISHEYE
-#
+# 
+# NAME: DEFISHEYE 
+# 
 # PURPOSE: To correct for fisheye distortion in an image.
-#
-# DESCRIPTION: DEFISHEYE is designed to transform a fisheye image into
+# 
+# DESCRIPTION: DEFISHEYE is designed to transform a fisheye image into 
 # a normal perspective view looking towards the center of the fisheye image.
-#
-#
-# ARGUMENTS:
-#
-# -i ifov ... IFOV is the input fisheye image field of view in degrees. A
-# value of 180 will correspond to a hemispherical fisheye image within the
-# circular area. Values are floats in the range 0<ifov<=180. The default is
+# 
+# 
+# ARGUMENTS: 
+# 
+# -i ifov ... IFOV is the input fisheye image field of view in degrees. A 
+# value of 180 will correspond to a hemispherical fisheye image within the 
+# circular area. Values are floats in the range 0<ifov<=180. The default is 
 # 180 degrees for a full hemisphere.
-#
+# 
 # -o ofov ... OFOV is the output perspective image field of view in
 # degrees. Values are floats in the range 0<ofov<180. The default is to
 # use 120 degrees both vertically and horizontally for a circular fisheye
@@ -88,52 +88,52 @@
 # 3Drotate or rotate3D script will then correct for this perspective
 # distortion. Perspective distortion will be more pronounced with larger
 # values for ofov.
-#
-# -t type ... TYPE is the type of fisheye lens. The choices are: linear
-# (equidistant), equalarea (equisolid), orthographic and stereographic.
+# 
+# -t type ... TYPE is the type of fisheye lens. The choices are: linear 
+# (equidistant), equalarea (equisolid), orthographic and stereographic. 
 # The default is linear.
-#
-# -f format ... FORMAT is the format of the fisheye lens image. The choices are:
-# circular (image fills a circle that spans the minimum of the width or height)
-# or fullframe (image spans a circle that spans the diagonal dimension). The
+# 
+# -f format ... FORMAT is the format of the fisheye lens image. The choices are: 
+# circular (image fills a circle that spans the minimum of the width or height) 
+# or fullframe (image spans a circle that spans the diagonal dimension). The 
 # default is circular.
-#
-# -c xc,yc ... XC,YC are the pixel coordinates in the input fisheye
-# image that correspond to the (circular fisheye area) center. The pixel at
+# 
+# -c xc,yc ... XC,YC are the pixel coordinates in the input fisheye  
+# image that correspond to the (circular fisheye area) center. The pixel at 
 # this coordinate will then become the center of the perspective image. The
-# default values are the center of the input fisheye image. Values
-# are non-negative floats. You can use the -d option to validate your
+# default values are the center of the input fisheye image. Values  
+# are non-negative floats. You can use the -d option to validate your 
 # choice of center and radius for the fisheye image. See more below.
-#
-# -r radius ... RADIUS is the radius of the fisheye circular area in the
-# input image. Values are floats greater than zero. The default is half the
+# 
+# -r radius ... RADIUS is the radius of the fisheye circular area in the 
+# input image. Values are floats greater than zero. The default is half the 
 # minimum value between the input image width and height.
-#
-# -a angle ... ANGLE is the clockwise positive rotation angle for the output
-# perspective image relative to the orientation of the input fisheye image.
+# 
+# -a angle ... ANGLE is the clockwise positive rotation angle for the output 
+# perspective image relative to the orientation of the input fisheye image.  
 # Values are non-negative floats in range 0<=angle<360. The default is 0.
-#
-# -d ... Use of this argument produces an ouput image that is simply the input
-# image with a circle drawn on it to show where the expected fisheye image
-# area is located. You can specify a radius and center point if you want to
-# adjust the transformation to use the precise center and radius that matches
-# the area delimited by the circle. Radius and center default as described
+# 
+# -d ... Use of this argument produces an ouput image that is simply the input 
+# image with a circle drawn on it to show where the expected fisheye image 
+# area is located. You can specify a radius and center point if you want to 
+# adjust the transformation to use the precise center and radius that matches 
+# the area delimited by the circle. Radius and center default as described 
 # above.
-#
-# -s scolor ... SCOLOR is the stroke color to use to draw the circle when the
+# 
+# -s scolor ... SCOLOR is the stroke color to use to draw the circle when the 
 # -d argument is used. The default is white.
-#
-# See the following references for definitions and mathematical details of each
-# type of fisheye lens:
+# 
+# See the following references for definitions and mathematical details of each 
+# type of fisheye lens: 
 # http://en.wikipedia.org/wiki/Fisheye_lens
 # http://www.bobatkins.com/photography/technical/field_of_view.html
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 ifov=180					# fisheye field of view (aperture) in degrees
@@ -154,13 +154,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -208,7 +208,7 @@ else
 					   ;;
 				-i)    # get ifov
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID IFOV SPECIFICATION ---"
 					   checkMinus "$1"
 					   ifov=`expr "$1" : '\([.0-9]*\)'`
@@ -219,7 +219,7 @@ else
 					   ;;
 				-o)    # get ofov
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFOV SPECIFICATION ---"
 					   checkMinus "$1"
 					   ofov=`expr "$1" : '\([.0-9]*\)'`
@@ -230,7 +230,7 @@ else
 					   ;;
 				-t)    # get  type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type="$1"
@@ -238,7 +238,7 @@ else
 					   ;;
 				-f)    # get  format
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   format="$1"
@@ -246,7 +246,7 @@ else
 					   ;;
 				-c)    # get coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -259,7 +259,7 @@ else
 					   ;;
 				-r)    # get rad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   rad=`expr "$1" : '\([.0-9]*\)'`
@@ -269,7 +269,7 @@ else
 					   ;;
 				-a)    # get ang
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   ang=`expr "$1" : '\([.0-9]*\)'`
@@ -280,7 +280,7 @@ else
 					   ;;
 				-s)    # get  scolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STROKE COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   sc="$1"
@@ -322,7 +322,7 @@ if convert -quiet "$infile" +repage "$tmpA"
 	then
 	width=`identify -format %w $tmpA`
 	height=`identify -format %h $tmpA`
-
+	
 	# compute dimension depending upon format
 	if [ "$format" = "circular" ]
 		then
@@ -337,7 +337,7 @@ if convert -quiet "$infile" +repage "$tmpA"
 	# compute half-widths
 	w2=`convert xc: -format "%[fx:($width-1)/2]" info:`
 	h2=`convert xc: -format "%[fx:($height-1)/2]" info:`
-
+	
 	# compute center of image
 	if [ "$xc" = "" ]
 		then
@@ -361,7 +361,7 @@ if convert -quiet "$infile" +repage "$tmpA"
 	# r/f=tan(phi); f=r/tan(phi); f= (N/2)/tan((fov/2)*(pi/180)) = N/(2*tan(fov*pi/360))
 	ofoc=`convert xc: -format "%[fx:$dim/(2*tan($ofov*pi/360))]" info:`
 	ofocinv=`convert xc: -format "%[fx:1/$ofoc]" info:`
-
+	
 	# compute sin(ang) and cos(ang)
 	[ "$ang" != "0" -a "$ang" != "0.0" ] && cosang=`convert xc: -format "%[fx:cos($ang*pi/180)]" info:`
 	[ "$ang" != "0" -a "$ang" != "0.0" ] && sinang=`convert xc: -format "%[fx:sin($ang*pi/180)]" info:`
@@ -394,7 +394,7 @@ im_version=`convert -list configure | \
 xd="xd=i-$xcd;"
 yd="yd=j-$ycd;"
 if [ "$im_version" -ge "06030600" ]
-	then
+	then 
 	rd="rd=hypot(xd,yd);"
 else
 	rd="rd=sqrt(xd^2+yd^2);"

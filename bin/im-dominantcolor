@@ -1,97 +1,97 @@
 #!/bin/bash
 #
 # Developed by Fred Weinhaus 8/3/2016 .......... revised 9/9/2018
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: dominantcolor [-m mode] [-n numcolors] [-e excludecolor]
+# USAGE: dominantcolor [-m mode] [-n numcolors] [-e excludecolor] 
 # [-f fuzzval] [-p print] [-s swatches] infile
 # USAGE: dominantcolor [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -m     mode             mode of processing; options are: 1=unrestricted
-#                         colors, 2=exclude black, 3=exclude white, 4=exclude
-#                         any color, 5=only high saturation colors, 6=only
+# 
+# -m     mode             mode of processing; options are: 1=unrestricted  
+#                         colors, 2=exclude black, 3=exclude white, 4=exclude 
+#                         any color, 5=only high saturation colors, 6=only   
 #                         high saturation and brightness colors; default=1
 # -n     numcolors        number of colors to consider during color reduction;
 #                         integer>1; default=6
 # -e     excludecolor     exclude color to be ignored in getting dominant
-#                         color; any valid opaque IM color; default=black
-# -f     fuzzval          fuzz value for modes 2-6; smaller values select
-#                         colors closer to the mode desired, but may lead
-#                         to less than the selected numcolors; 0<=integer<=100;
+#                         color; any valid opaque IM color; default=black 
+# -f     fuzzval          fuzz value for modes 2-6; smaller values select 
+#                         colors closer to the mode desired, but may lead 
+#                         to less than the selected numcolors; 0<=integer<=100; 
 #                         default=50
-# -p     print            print options: all (hexcolors and counts for all
-#                         numcolors) or dominant (only the hexcolor for the
+# -p     print            print options: all (hexcolors and counts for all 
+#                         numcolors) or dominant (only the hexcolor for the 
 #                         dominant color; default=dominant
-# -s     swatches         view or save swatches for option -p print; view or save;
+# -s     swatches         view or save swatches for option -p print; view or save; 
 #                         default is no swatches
-#
+# 
 ###
-#
-# NAME: DOMINANTCOLOR
-#
+# 
+# NAME: DOMINANTCOLOR 
+# 
 # PURPOSE: To find the dominant color in an image.
-#
-# DESCRIPTION: Finds the dominant color or selected number of colors in an
-# image. Modifiers can be used to restrict colors in the image. The alpha
+# 
+# DESCRIPTION: Finds the dominant color or selected number of colors in an 
+# image. Modifiers can be used to restrict colors in the image. The alpha 
 # channel will be disabled for this script.
-#
-#
-# ARGUMENTS:
-#
-# -m mode ... MODE of processing. The options are: 1=unrestricted colors,
-# 2=exclude black, 3=exclude white, 4=exclude any color, 5=only high
-# saturation colors, 6=only high saturation and brightness colors. The
+# 
+# 
+# ARGUMENTS: 
+# 
+# -m mode ... MODE of processing. The options are: 1=unrestricted colors, 
+# 2=exclude black, 3=exclude white, 4=exclude any color, 5=only high 
+# saturation colors, 6=only high saturation and brightness colors. The 
 # default=1.
-#
-# -n numcolors ... NUMCOLORS is the number of colors to consider during
+# 
+# -n numcolors ... NUMCOLORS is the number of colors to consider during 
 # color reduction. Values are integers>1. The default=6.
-#
-# -e excludecolor ... EXCLUDECOLOR is an exclude color to be ignored in
-# getting the dominant color. Any valid opaque IM color. The default=black for
+# 
+# -e excludecolor ... EXCLUDECOLOR is an exclude color to be ignored in 
+# getting the dominant color. Any valid opaque IM color. The default=black for 
 # -m 4; otherwise, not used.
-#
-# -f fuzzval ... FUZZVAL is the fuzz value for modes 2-6. Smaller values
-# select colors closer to the mode desired, but may lead to less than the
+# 
+# -f fuzzval ... FUZZVAL is the fuzz value for modes 2-6. Smaller values  
+# select colors closer to the mode desired, but may lead to less than the 
 # selected numcolors. Values are 0<=integers<=100; The default=50.
-#
-# -p print ... PRINT options: all (hexcolors and counts for all numcolors) or
+# 
+# -p print ... PRINT options: all (hexcolors and counts for all numcolors) or 
 # dominant (only the hexcolor for the dominant color. The default=dominant.
-#
-# -s swatches ... view or save SWATCHES for option -p print. Choices are: view (v)
-# or save (s). The default is no swatches. If save, then the output will be named
-# with either _dominantcolor or _swatches appended to the input name as a gif image.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# -s swatches ... view or save SWATCHES for option -p print. Choices are: view (v) 
+# or save (s). The default is no swatches. If save, then the output will be named 
+# with either _dominantcolor or _swatches appended to the input name as a gif image. 
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 mode=1				# mode=1,2,3,4,5,6
@@ -108,13 +108,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -162,7 +162,7 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`expr "$1" : '\([0-9]*\)'`
@@ -173,7 +173,7 @@ else
 					   ;;
 				-n)    # get  numcolors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMCOLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   numcolors=`expr "$1" : '\([0-9]*\)'`
@@ -184,14 +184,14 @@ else
 					   ;;
 				-e)    # get excludecolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXCLUDECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   excludecolor="$1"
 					   ;;
 				-f)    # get fuzzval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   fuzzval=`expr "$1" : '\([0-9]*\)'`
@@ -202,26 +202,26 @@ else
 					   ;;
 				-p)    # print
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PRINT SPECIFICATION ---"
 					   checkMinus "$1"
 					   print=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$print" in
+					   case "$print" in 
 							all|a) print="all" ;;
 							dominant|d) print="dominant" ;;
-							*) errMsg "--- PRINT=$print IS AN INVALID VALUE ---"
+							*) errMsg "--- PRINT=$print IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-s)    # swatches
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SWATCHES SPECIFICATION ---"
 					   checkMinus "$1"
 					   swatches=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$swatches" in
+					   case "$swatches" in 
 							view|v) swatches="view" ;;
 							save|s) swatches="save" ;;
-							*) errMsg "--- SWATCHES=$swatches IS AN INVALID VALUE ---"
+							*) errMsg "--- SWATCHES=$swatches IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				 -)    # STDIN and end of arguments

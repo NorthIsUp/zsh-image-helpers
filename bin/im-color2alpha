@@ -1,92 +1,92 @@
 #!/bin/bash
 #
 # Developed by Fred Weinhaus 10/18/2014 .......... revised 4/25/2015
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: color2alpha [-ca alphacolor] [-cr replacecolor] [-a] [-g gain]
+# USAGE: color2alpha [-ca alphacolor] [-cr replacecolor] [-a] [-g gain] 
 # infile outfile
 # USAGE: color2alpha [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -ca     alphacolor       color to to become transparent in the alpha channel;
+# 
+# -ca     alphacolor       color to to become transparent in the alpha channel; 
 #						   any valid opaque IM color; default=red
-# -cr     replacecolor     color to use to replace alphacolor in the output;
-#						   any valid IM color; default does no color
-#                          replacement in the output and the alpha channel
+# -cr     replacecolor     color to use to replace alphacolor in the output; 
+#						   any valid IM color; default does no color 
+#                          replacement in the output and the alpha channel 
 #       				   is attached to the input.
 # -a                       output only the alpha channel.
-# -g      gain             gain control for transiton between black and white
+# -g      gain             gain control for transiton between black and white  
 #                          in the alpha channel; float>0; default=1;
 #                          values larger than 1 will show more transparency;
 #                          values smaller than 1 will show less transparency;
-#
+# 
 ###
-#
-# NAME: COLOR2ALPHA
-#
-# PURPOSE: To create a ramped alpha channel from the input according to the
+# 
+# NAME: COLOR2ALPHA 
+# 
+# PURPOSE: To create a ramped alpha channel from the input according to the 
 # specified color.
-#
+# 
 # DESCRIPTION: COLOR2ALPHA creates a ramped alpha channel from the input image
-# according to the specified color. The output can be either the alpha mask
+# according to the specified color. The output can be either the alpha mask 
 # alone or made as an alpha channel on the input image. If a second replacement
 # color is provided, then the output will use the alpha channel to replace the
 # specified colors and those near it with the replacement color. This is
 # useful to change one color to another with anti-aliasing, especially when
 # converting background color under colorized text or vice-versa.
-#
-#
-# ARGUMENTS:
-#
-# -ca alphacolor ... ALPHACOLOR is the color that is to become transparent in
+# 
+# 
+# ARGUMENTS: 
+# 
+# -ca alphacolor ... ALPHACOLOR is the color that is to become transparent in 
 # the alpha channel. Any valid opaque IM color is allowed. The default=red.
 #
-# -cr replacecolor ... REPLACECOLOR is the color to use to replace the
-# alphacolor in the output. Any valid IM color is allowed. The default does
-# no color replacement in the output and the alpha channel is attached to
+# -cr replacecolor ... REPLACECOLOR is the color to use to replace the 
+# alphacolor in the output. Any valid IM color is allowed. The default does 
+# no color replacement in the output and the alpha channel is attached to 
 # the input.
 #
 # -a ... output only the ALPHA channel.
 #
-# -g gain ... GAIN control for the transition between black and white in
-# the alpha channel. Values are floats>0. The default=1. Values larger than 1
-# will show more transparency and a shorter transition. Value smaller than 1
+# -g gain ... GAIN control for the transition between black and white in 
+# the alpha channel. Values are floats>0. The default=1. Values larger than 1 
+# will show more transparency and a shorter transition. Value smaller than 1 
 # will show less transparency and a longer transition.
 #
 # REFERENCE: http://www.gimp.org/tutorials/Changing_Background_Color_1/
 #
 # REQUIREMENTS: IM 6.6.0.4 in order to support -evaluate-sequence max
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 color1="red"		# alphacolor
@@ -104,13 +104,13 @@ tmpdir="."
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -158,14 +158,14 @@ else
 					   ;;
 			   -ca)    # get color1 (alphacolor)
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR1 SPECIFICATION ---"
 					   checkMinus "$1"
 					   color1="$1"
 					   ;;
 			   -cr)    # get color2 (replacecolor)
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR2 SPECIFICATION ---"
 					   checkMinus "$1"
 					   color2="$1"
@@ -175,7 +175,7 @@ else
 					   ;;
 				-g)    # get gain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   gain=`expr "$1" : '\([.0-9]*\)'`
@@ -223,7 +223,7 @@ trap "rm -rf $dir; exit 1" ERR
 if ! convert -quiet "$infile" -alpha off $dir/tmp1.mpc; then
 	echo "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAG ZERO SIZE ---"
 	exit 1
-fi
+fi	
 
 
 # generate alpha image
@@ -247,3 +247,5 @@ elif [ "$color2" != "" ]; then
 fi
 
 exit 0
+
+

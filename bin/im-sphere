@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 3/7/2010 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: sphere [-d diameter] [-c color] [-b bgcolor] [-t theta] [-p phi] [-l lambertian] [-s specular] [-e exponent] [infile] outfile
@@ -33,14 +33,14 @@
 #
 # -d      diameter           desired diameter of sphere; integer>0; default=128;
 #                            determines the width and height of the output image
-# -c      color              desired sphere color;
+# -c      color              desired sphere color; 
 #                            Any valid IM color is allowed; default=red
-# -b      bgcolor            background color outside sphere;
+# -b      bgcolor            background color outside sphere; 
 #                            Any valid IM color is allowed; default=black
 # -t      theta              white light azimuth angle measure counter clockwise
 #                            around the sphere from the positive x axis;
 #                            0<=float<=360; default=135 (lighting from the northwest)
-# -p      phi                white light altitude angle measured downward from
+# -p      phi                white light altitude angle measured downward from 
 #                            zenith (i.e. from out of center of sphere toward viewer);
 #                            0<=float<=180; 0 is light source right over the center
 #                            of the sphere; default=50
@@ -50,70 +50,70 @@
 #                            default=0.6
 # -e      exponent           specular illumination exponent; float>0; default=70
 #
-# If infile is provided, then it will be used in place of the color. The
-# infile must be square and the diameter will obtained from the dimensions
+# If infile is provided, then it will be used in place of the color. The 
+# infile must be square and the diameter will obtained from the dimensions 
 # of the image.
-#
+# 
 ###
 #
-# NAME: SPHERE
-#
-# PURPOSE: To create a colored sphere with a combination of diffuse and
+# NAME: SPHERE 
+# 
+# PURPOSE: To create a colored sphere with a combination of diffuse and 
 # specular illumination.
-#
-# DESCRIPTION: SPHERE creates a colored sphere with a combination of diffuse
-# and specular illumination. Lighting is from a white light source. The
-# diffuse term is computed from the Lambertian shading model. The specular
+# 
+# DESCRIPTION: SPHERE creates a colored sphere with a combination of diffuse  
+# and specular illumination. Lighting is from a white light source. The 
+# diffuse term is computed from the Lambertian shading model. The specular 
 # term is computed from the Blinn-Phong approximation.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -d diameter ... DIAMETER of the sphere. Also controls the width and height
+# -d diameter ... DIAMETER of the sphere. Also controls the width and height 
 # of the output image. Values are integers>0. The default=128
-#
+# 
 # -c color ... COLOR is the desired color for the sphere. The default=red.
-# Any valid IM color is allowed.
+# Any valid IM color is allowed. 
 # See http://imagemagick.org/script/color.php
-#
-# -b bgcolor ... BGCOLOR is the background color around the outside of the
-# sphere. The default=black. Any valid IM color is allowed.
+# 
+# -b bgcolor ... BGCOLOR is the background color around the outside of the 
+# sphere. The default=black. Any valid IM color is allowed. 
 # See http://imagemagick.org/script/color.php
-#
-# -t theta ... THETA is the white light azimuth angle measured counter
-# clockwise from the positive x axis. Values are floats between 0 and 360
+# 
+# -t theta ... THETA is the white light azimuth angle measured counter 
+# clockwise from the positive x axis. Values are floats between 0 and 360 
 # degrees. The default=135, which means the light is coming from the northwest.
-#
+# 
 # -p phi ... PHI is the white light altitude angle measure downward from zenith
-# (vertical) towards horizontal. Values are floats between 0 and 180 degrees.
+# (vertical) towards horizontal. Values are floats between 0 and 180 degrees. 
 # A value of zero means the light is from above the sphere. The default=50.
-#
-# -l lambertian ... LAMBERTIAN is the amplitude of the diffuse lighting. Values
+# 
+# -l lambertian ... LAMBERTIAN is the amplitude of the diffuse lighting. Values 
 # are in the range 0<=float<=1. The default=0.9
-#
-# -s specular ... SPECULAR is the amplitude of the reflective lighting. Values
-# are in the range 0<=float<=1. The default=0.6. A value of zero means not
+# 
+# -s specular ... SPECULAR is the amplitude of the reflective lighting. Values 
+# are in the range 0<=float<=1. The default=0.6. A value of zero means not 
 # to compute the specular component.
-#
-# -e exponent ... EXPONENT is the specular exponent, which controls the area
-# of the reflective effect. Larger values means smaller areas. Values are
+# 
+# -e exponent ... EXPONENT is the specular exponent, which controls the area 
+# of the reflective effect. Larger values means smaller areas. Values are 
 # floats>0. The default=70.
-#
+# 
 # NOTE: If infile is provided, then it will be used in place of the color.
-# The infile must be square and the diameter will obtained from the dimensions
+# The infile must be square and the diameter will obtained from the dimensions 
 # of the image.
-#
+# 
 # REQUIRMENTS: IM 6.5.4-3 or higher due to the use of -compose mathematics.
-#
+# 
 # THEORY: See the following:
 # http://en.wikipedia.org/wiki/Lambertian_reflectance
 # http://en.wikipedia.org/wiki/Blinn–Phong_shading_model
-#
+# 
 # NOTE: This script may be a little slow due to the use in part of -fx.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -136,13 +136,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -190,7 +190,7 @@ else
 					   ;;
 				-d)    # get diameter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIAMETER SPECIFICATION ---"
 					   checkMinus "$1"
 					   diameter=`expr "$1" : '\([0-9]*\)'`
@@ -200,21 +200,21 @@ else
 					   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-t)    # get theta
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THETA SPECIFICATION ---"
 					   checkMinus "$1"
 					   theta=`expr "$1" : '\([.0-9]*\)'`
@@ -225,7 +225,7 @@ else
 					   ;;
 				-p)    # get phi
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PHI SPECIFICATION ---"
 					   checkMinus "$1"
 					   phi=`expr "$1" : '\([.0-9]*\)'`
@@ -236,7 +236,7 @@ else
 					   ;;
 				-l)    # get ampd
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LAMBERTIAN SPECIFICATION ---"
 					   checkMinus "$1"
 					   ampd=`expr "$1" : '\([.0-9]*\)'`
@@ -247,7 +247,7 @@ else
 					   ;;
 				-s)    # get amps
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SPECULAR SPECIFICATION ---"
 					   checkMinus "$1"
 					   amps=`expr "$1" : '\([.0-9]*\)'`
@@ -258,7 +258,7 @@ else
 					   ;;
 				-e)    # get exponent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXPONENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   exp=`expr "$1" : '\([.0-9]*\)'`
@@ -324,7 +324,7 @@ fi
 # normalize gradient = (xi + yj + zk)/r
 # where z= sqrt(r^2 - x^2 - y^2)
 
-# normalized gradient = (xi + yj + sqrt(r^2 - x^2 - y^2)k)/r,
+# normalized gradient = (xi + yj + sqrt(r^2 - x^2 - y^2)k)/r, 
 # where i,j,k are unit vectors along x,y,z directions.
 
 # move origin to center of sphere

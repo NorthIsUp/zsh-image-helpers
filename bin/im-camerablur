@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 8/22/2009 .......... revised 9/12/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: camerablur [-t type] [-a amount] [-r rotation] infile outfile
@@ -31,20 +31,20 @@
 #
 # OPTIONS:
 #
-# -t     type          type of blur; choices are: motion (or m) or
+# -t     type          type of blur; choices are: motion (or m) or 
 #                      defocus (or d); default=defocus
-# -a     amount        amount of blur; either length of motion blur or
+# -a     amount        amount of blur; either length of motion blur or 
 #                      diameter of defocus; float>0; default=10
-# -r     rotation      rotation angle clockwise from horizontal for the
+# -r     rotation      rotation angle clockwise from horizontal for the 
 #                      motion blur; floats; -180<=rotation<=180; default=0
-#
+# 
 ###
 #
-# NAME: CAMERABLUR
-#
-# PURPOSE: To blur an image in the frequency domain using an ideal blurring
+# NAME: CAMERABLUR 
+# 
+# PURPOSE: To blur an image in the frequency domain using an ideal blurring 
 # filter for either motion blur or lens defocus.
-#
+# 
 # DESCRIPTION: CAMERABLUR blurs an image in the frequency domain using an
 # ideal frequency domain blurring filter for either motion blur or lens
 # defocus. The motion blur filter in the frequency domain is just an a rotated
@@ -58,32 +58,32 @@
 # the filter will be removed automatically before processing. If the image has
 # an alpha channel it will not be processed, but simply copied from the input
 # to the output.
-#
-# OPTIONS:
-#
-# -t type ... TYPE of blur. The choices are: motion (or m) and defocus (or d).
+# 
+# OPTIONS: 
+# 
+# -t type ... TYPE of blur. The choices are: motion (or m) and defocus (or d).  
 # The default=defocus.
-#
-# -a amount ... AMOUNT of blur. This is either the length of the motion blur or
+# 
+# -a amount ... AMOUNT of blur. This is either the length of the motion blur or 
 # the diameter of the lens defocus. Values are float>0. The default=10.
-#
-# -r rotation ... ROTATION angle in degrees specified clockwise from horizontal
+# 
+# -r rotation ... ROTATION angle in degrees specified clockwise from horizontal 
 # for the motion blur. Values are floats with -180<=rotation<=180. The default=0.
-#
-# REQUIREMENTS: IM version 6.5.4-7 or higher, but compiled with HDRI enabled
-# in any quantum level of Q8, Q16 or Q32. Also requires the FFTW delegate
+# 
+# REQUIREMENTS: IM version 6.5.4-7 or higher, but compiled with HDRI enabled 
+# in any quantum level of Q8, Q16 or Q32. Also requires the FFTW delegate 
 # library.
-#
-# LIMITATIONS: This script works well only with even, square images. Otherwise,
-# the FFT will pad them with black to conform. However, there will be excessive
-# ringing due to the color discontinuity associated with the padding. This
-# even, square limitation is a ramification of the current IM implementation
+# 
+# LIMITATIONS: This script works well only with even, square images. Otherwise,   
+# the FFT will pad them with black to conform. However, there will be excessive 
+# ringing due to the color discontinuity associated with the padding. This 
+# even, square limitation is a ramification of the current IM implementation 
 # that needs addressing at some future time. It is not a limitation of FFTW.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -99,13 +99,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -153,19 +153,19 @@ else
 					   ;;
 				-t)    # get type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$type" in
+					   case "$type" in 
 					   		motion|m) type="motion" ;;
 					   		defocus|d) type="defocus" ;;
-					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---"
+					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([.0-9]*\)'`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-r)    # get rotation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID ROTATION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   rotation=`expr "$1" : '\([-.0-9]*\)'`
@@ -232,7 +232,7 @@ im_version=`convert -list configure | \
 
 # test for hdri enabled
 if [ "$im_version" -ge "07000000" ]; then
-	hdri_on=`convert -version | grep "HDRI"`
+	hdri_on=`convert -version | grep "HDRI"`	
 else
 	hdri_on=`convert -list configure | grep "enable-hdri"`
 fi
@@ -310,9 +310,9 @@ diam is diameter of lens defocus in spatial domain
 '
 
 # compute spatial frequency units and other params and create filter
-if [ "$type" = "motion" ]; then
+if [ "$type" = "motion" ]; then 
 
-	# compute spatial frequency units times pi*length=pi*amount,
+	# compute spatial frequency units times pi*length=pi*amount, 
 	# where spatial frequency units fx=1/w, fy=1/h
 	# note f=1/dimension and w=pi*f=pi/dimension
 	fxd=`convert xc: -format "%[fx:$amount*pi/$w1]" info:`
@@ -331,7 +331,7 @@ if [ "$type" = "motion" ]; then
 		convert -size 1x${h1} xc: \
 			-fx "zz=$fyd*(j-$cy)*$sinang; zz?sin(zz)/(zz):1" \
 			-scale ${w1}x${h1}\! $tmpF1
-
+	
 	else
 : '
 		# old method
@@ -340,10 +340,10 @@ if [ "$type" = "motion" ]; then
 			$tmpF1
 '
 		# fast method
-		# note -compose divide has zero divide value of 0 and for sinc
+		# note -compose divide has zero divide value of 0 and for sinc 
 		# we need it to be 1. so we do -linear-stretch to force maxvalue=1
 		# and -fill white -opaque black to make zero divide value=1
-		# also since sinusoid already has built in 2*pi in frequency,
+		# also since sinusoid already has built in 2*pi in frequency,  
 		# we must divide xfact=yfact by that amount to compensate in freq
 		h2=$(($h1+1))
 		xfact=`convert xc: -format "%[fx:$cosang*$w1/2]" info:`
@@ -359,7 +359,7 @@ if [ "$type" = "motion" ]; then
 		-delete 0-3 -linear-stretch 0x1 -fill white -opaque black \
 		$tmpF1
 	fi
-
+	
 elif [ "$type" = "defocus" ]; then
 
 	if [ "$im_version" -lt "06060005" ]; then
@@ -368,7 +368,7 @@ elif [ "$type" = "defocus" ]; then
 		a0=0.5; a1=-.56249985; a2=.21093573; a3=-.03954289; a4=.00443319; a5=-.00031781; a6=.00001109
 		uu="(zz/3)"
 		jinc1="($a0+$a1*pow($uu,2)+$a2*pow($uu,4)+$a3*pow($uu,6)+$a4*pow($uu,8)+$a5*pow($uu,10)+$a6*pow($uu,12))"
-
+	
 		b0=.79788456; b1=.00000156; b2=.01659667; b3=.00017105; b4=-.00249511; b5=.00113653; b6=-.00020033
 		c0=-2.35619; c1=.12499612; c2=-.00005650; c3=-.00637879; c4=.00074348; c5=.00079824; c6=-.00029166
 		iuu="(3/zz)"
@@ -376,8 +376,8 @@ elif [ "$type" = "defocus" ]; then
 		ww="(zz+$c0+$c1*$iuu+$c2*pow($iuu,2)+$c3*pow($iuu,3)+$c4*pow($iuu,4)+$c5*pow($iuu,5)+$c6*pow($iuu,6))"
 		jinc2="$vv*cos($ww)/(zz*sqrt(zz))"
 
-		# compute spatial frequency units times pi times diameter,
-		# where diameter = amount
+		# compute spatial frequency units times pi times diameter, 
+		# where diameter = amount 
 		# and where spatial frequency units fx=1/w, fy=1/h
 		# and jinc(x)=j1(x)/(x)
 		fxd=`convert xc: -format "%[fx:$amount*pi/$w1]" info:`
@@ -391,22 +391,22 @@ elif [ "$type" = "defocus" ]; then
 
 	else
 		# use -fx jinc function
-		# compute spatial frequency units times pi times diameter,
+		# compute spatial frequency units times pi times diameter, 
 		# where diameter = amount
 		# and where spatial frequency units fx=1/w, fy=1/h
-		# and -fx jinc(x)=2*j1(pi*x)/(pi*x),
+		# and -fx jinc(x)=2*j1(pi*x)/(pi*x), 
 		# so leave out pi in fxd and fyd
-		# and -fx jinc(x) already normalized to max value of 1,
+		# and -fx jinc(x) already normalized to max value of 1, 
 		# so leave out factor of 2
 		fxd=`convert xc: -format "%[fx:$amount/$w1]" info:`
 		fyd=`convert xc: -format "%[fx:$amount/$h1]" info:`
-
+		
 		convert \
 		\( -size ${w1}x1 xc: -fx "$fxd*(i-$cx))" -scale ${w1}x${h1}! -evaluate pow 2 \) \
 		\( -size 1x${h1} xc: -fx "$fyd*(j-$cy))" -scale ${w1}x${h1}! -evaluate pow 2 \) \
 		-define compose:clamp=false -compose plus -composite -evaluate pow 0.5 -fx "jinc(u)" \
 		$tmpF1
-
+				
 	fi
 
 fi
@@ -421,9 +421,9 @@ lval=100
 convert $tmpF1 -set colorspace RGB -linear-stretch 1x1 -evaluate log $lval ${inname}_ideal${type}${amount}_r${rr}_filt_log$lval.png
 fi
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -460,3 +460,6 @@ convert \( $tmpI1 -alpha off $setcspace +fft \) \( $tmpF1 $setcspace \) \
 		$addalpha $setcspace2 "$outfile"
 
 exit 0
+
+
+

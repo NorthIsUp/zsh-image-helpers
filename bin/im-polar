@@ -3,101 +3,101 @@
 # Developed by Fred Weinhaus 7/30/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: polar [-m mode] [-c xc,yc] [-r rmn,rmx] [-a amn,amx] [-v vpmode] [-b bgcolor] infile outfile
 # USAGE: polar [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -m      mode           rect2polar or polar2rect; default=rect2polar
-# -c      xc,yc          coordinates of the transformation center;
+# -c      xc,yc          coordinates of the transformation center; 
 #                        default is image center
 # -r      rmn,rmx        min and max radius; default=0,(half image diagonal);
-#                        non-negative floats; rmx can be w, h, d or m for
+#                        non-negative floats; rmx can be w, h, d or m for 
 #                        width/2, height/2, diagonal/2 or min(width,height)/2 of image
 # -a      amn,amx        min and max angle; default=-180,180;
 #                        floats between -180 and 180
-# -v      vpmode         virtual-pixel mode to use to fill area of output image
+# -v      vpmode         virtual-pixel mode to use to fill area of output image 
 #                        that are outside the input image; default=edge
 # -b      bgcolor        background color for virtual-pixel=background
 #                        any valid IM color is allowed. The default=black
-#
+# 
 ###
-#
-# NAME: POLAR
-#
-# PURPOSE: To apply either a rectangular (Cartesian) to polar transformation
+# 
+# NAME: POLAR 
+# 
+# PURPOSE: To apply either a rectangular (Cartesian) to polar transformation 
 # or a polar to rectangular (Cartesian) transformation on an image.
-#
-# DESCRIPTION: POLAR applies either a rectangular (Cartesian) to polar transformation
-# or a polar to rectangular (Cartesian) transformation on an image. The user
+# 
+# DESCRIPTION: POLAR applies either a rectangular (Cartesian) to polar transformation 
+# or a polar to rectangular (Cartesian) transformation on an image. The user 
 # has control of the range of radius, angle and center in the transformation.
-#
-#
-# ARGUMENTS:
-#
-# -m mode ... MODE is the transformation mode, which can be either rect2polar
-# (rectangular to polar) or polar2rect (polar to rectangular). The former, rect2polar,
-# treats the input as a normal rectangular image with columns representing X
-# and rows representing Y and treats the output as having columns representing angle
-# and rows representing radius. The latter, polar2rect, treats the input as having
-# columns representing angle and rows representing radius and treats the output as
-# having columns representing X and rows representing Y. Note that in a polar image,
-# nominally the left column is angle=amn=-180, the middle column is angle=0 and the
-# right column is angle=amx=180. Similarly, the top row is radius=rmn=0 and the
+# 
+# 
+# ARGUMENTS: 
+# 
+# -m mode ... MODE is the transformation mode, which can be either rect2polar 
+# (rectangular to polar) or polar2rect (polar to rectangular). The former, rect2polar,  
+# treats the input as a normal rectangular image with columns representing X 
+# and rows representing Y and treats the output as having columns representing angle 
+# and rows representing radius. The latter, polar2rect, treats the input as having 
+# columns representing angle and rows representing radius and treats the output as 
+# having columns representing X and rows representing Y. Note that in a polar image, 
+# nominally the left column is angle=amn=-180, the middle column is angle=0 and the 
+# right column is angle=amx=180. Similarly, the top row is radius=rmn=0 and the 
 # bottom row is radius=rmx=(half image diagonal).
-#
-# -c xc,yc ... XC,YC are the pixel coordinates for the transformation center.
+# 
+# -c xc,yc ... XC,YC are the pixel coordinates for the transformation center. 
 # The default is the image center.
-#
-# -r rmn,rmx ... RMN,RMX are the min and max radii. By default, rmn=0 and
-# rmx=(half image diagonal). This provides a transformation that includes
-# the whole image. However, for the rect2polar mode, this will cause the
-# output image to contain areas that are outside the input image. They will
-# be filled as determined by the virtual pixel setting. Values are non-negative
-# floats. Values are generally non-negative floats, but four other choices
-# are allowed: w, h, d and m, where w=width/2, h=height/2, d=diagonal/2 and
+# 
+# -r rmn,rmx ... RMN,RMX are the min and max radii. By default, rmn=0 and 
+# rmx=(half image diagonal). This provides a transformation that includes 
+# the whole image. However, for the rect2polar mode, this will cause the 
+# output image to contain areas that are outside the input image. They will 
+# be filled as determined by the virtual pixel setting. Values are non-negative 
+# floats. Values are generally non-negative floats, but four other choices 
+# are allowed: w, h, d and m, where w=width/2, h=height/2, d=diagonal/2 and 
 # m=min(width,height)/2.
-#
-# -a amn,amx ... AMN,AMX are the min and max angles. By default, amn=-180 and
+# 
+# -a amn,amx ... AMN,AMX are the min and max angles. By default, amn=-180 and 
 # amx=180. Values for amn and amx are floats between -180 and 180.
-#
-# -v vpmode ... VPMODE is the virtual-pixel mode. Any valid IM virtual-pixel
+# 
+# -v vpmode ... VPMODE is the virtual-pixel mode. Any valid IM virtual-pixel 
 # setting is allowed. The default is edge.
-#
-# -b bgcolor ... BGCOLOR is the background color to use with vpmode=background.
+# 
+# -b bgcolor ... BGCOLOR is the background color to use with vpmode=background. 
 # Any valid IM color may be used. The default is black.
-#
+# 
 # Note that this script may be slow due to the use of -fx.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 mode="rect2polar"
@@ -117,13 +117,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -171,7 +171,7 @@ else
 					   ;;
 				-m)    # get  mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
@@ -179,7 +179,7 @@ else
 					   ;;
 				-c)    # get coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -192,7 +192,7 @@ else
 					   ;;
 				-a)    # get amn,amx angles
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   test=`echo "$1" | tr "," " " | wc -w`
 					   [ $test -eq 1 -o $test -gt 2 ] && errMsg "--- INCORRECT NUMBER OF ANGLES SUPPLIED ---"
@@ -211,7 +211,7 @@ else
 					  ;;
 				-r)    # get rmn,rmx radii
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -225,14 +225,14 @@ else
 					   ;;
 				-v)    # get  vpmode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIRTUAL-PIXEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   vpmode="$1"
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -307,7 +307,7 @@ if [ "$bgcolor" = "none" ]; then
 else
 	channel=""
 fi
-
+	
 # set up equations and do processing
 
 # rect2polar
@@ -321,7 +321,7 @@ fi
 
 # polar2rect
 if [ "$mode" = "polar2rect" ]; then
-if [ "$im_version" -ge "06030600" ]; then
+if [ "$im_version" -ge "06030600" ]; then 
 	rr="rr=hypot((i-$xc),(j-$yc));"
 else
 	rr="rr=sqrt((i-$xc)*(i-$xc) + (j-$yc)*(j-$yc));"

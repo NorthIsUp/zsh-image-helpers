@@ -1,81 +1,81 @@
 #!/bin/bash
 #
 # Developed by Fred Weinhaus 4/5/2010 .......... revised 4/25/2015
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: dog [-s smallfilt] [-l largefilt] [-m mode] [-t thresh] [-b brighten] infile outfile
 # USAGE: dog [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -s      smallfilt         size of small gaussian filter; float>0; default=1
 # -l      largefilt         size of large gaussian filter; float>0; default=2
-# -m      mode              mode of subtraction; choices are 1 (larger-smaller)
+# -m      mode              mode of subtraction; choices are 1 (larger-smaller) 
 #                           and 2 (smaller - larger); default=1
 # -t      thresh            edge tresholding value; 0<=integer<=100; The default
 #                           is no thresholding; a value=0 is all edges thresholded
-# -b      brighten          edge brightening factor; float>=1; default=1 is
+# -b      brighten          edge brightening factor; float>=1; default=1 is 
 #                           no brightening
-#
+# 
 ###
-#
-# NAME: DOG
-#
+# 
+# NAME: DOG 
+# 
 # PURPOSE: To create an edge extracted image using the difference of two
 # gaussian blurs.
-#
+# 
 # DESCRIPTION: DOG creates an edge extracted image using the difference of two
 # gaussian blurs of different sizes.
-#
-#
-# ARGUMENTS:
-#
-# -s smallfilt ... SMALLFILT is the size of the smaller gaussian blur filter.
+# 
+# 
+# ARGUMENTS: 
+# 
+# -s smallfilt ... SMALLFILT is the size of the smaller gaussian blur filter. 
 # Values are floats>0. The default=1
-#
-# -l largefilt ... LARGEFILT is the size of the larger gaussian blur filter.
+# 
+# -l largefilt ... LARGEFILT is the size of the larger gaussian blur filter. 
 # Values are floats>0. The default=1
-#
-# -m mode ... MODE determines the order of the subtraction. Choices are:
+# 
+# -m mode ... MODE determines the order of the subtraction. Choices are: 
 # 1 for (larger - smaller) or 2 for (smaller - larger). The default=1.
-#
-# -t thresh ... THRESH is the optional thresholding applied to the edge image
-# to make the edges binary white on a black background. Values are
-# 0<=integer<=100. The default indicates no thresholding. A value of 0 means
-# threshold to get all edges.
-#
-# -b brighten ... BRIGHTEN is the brightening factor for the edges. Values
+# 
+# -t thresh ... THRESH is the optional thresholding applied to the edge image 
+# to make the edges binary white on a black background. Values are 
+# 0<=integer<=100. The default indicates no thresholding. A value of 0 means 
+# threshold to get all edges. 
+# 
+# -b brighten ... BRIGHTEN is the brightening factor for the edges. Values 
 # are floats>=1. The default=1 indicates no brightening.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 smallfilt=1			#size of small gaussian blur filter
@@ -91,13 +91,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -145,7 +145,7 @@ else
 					   ;;
 				-s)    # get  smallfilt
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMALLFILT SPECIFICATION ---"
 					   checkMinus "$1"
 					   smallfilt=`expr "$1" : '\([.0-9]*\)'`
@@ -155,7 +155,7 @@ else
 					   ;;
 				-l)    # get  largefilt
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LARGEFILT SPECIFICATION ---"
 					   checkMinus "$1"
 					   largefilt=`expr "$1" : '\([.0-9]*\)'`
@@ -165,7 +165,7 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`expr "$1" : '\([0-9]*\)'`
@@ -174,7 +174,7 @@ else
 					   ;;
 				-t)    # get thresh
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THRESH SPECIFICATION ---"
 					   checkMinus "$1"
 					   thresh=`expr "$1" : '\([0-9]*\)'`
@@ -185,7 +185,7 @@ else
 					   ;;
 				-b)    # get  brighten
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTEN SPECIFICATION ---"
 					   checkMinus "$1"
 					   brighten=`expr "$1" : '\([.0-9]*\)'`
@@ -233,9 +233,9 @@ trap "rm -f $tmpA1 $tmpB1; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -297,3 +297,6 @@ convert $tmpA1 \
 	\( -clone 0 -blur 0x$smallfilt \) \
 	-delete 0 $swapmode -compose minus -composite \
 	$stretch $bright $thresholding "$outfile"
+
+
+

@@ -3,36 +3,36 @@
 # Developed by Fred Weinhaus 6/5/2017 .......... revised 6/5/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: shapecluster [-t thickness] [-d darkness] [-r rolloff] [-e extent] [-b border]
+# USAGE: shapecluster [-t thickness] [-d darkness] [-r rolloff] [-e extent] [-b border] 
 # [-c color] [infile] [outfile]
-#
+# 
 # USAGE: shapecluster [h|-help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -t     thickness      thickness of the region separation; integer>0; default=10
 # -d     darkeness      darkeness of the shadows; 0<=integer<=100; default=60
 # -r     rolloff        rolloff of the shadow darkness; integer>=0; default=2
@@ -41,43 +41,43 @@
 # -c     color          border color; default=white
 #
 ###
-#
-# NAME: SHAPECLUSTER
-#
+# 
+# NAME: SHAPECLUSTER 
+# 
 # PURPOSE: To create a division of the image into 5 separated rectangular regions.
-#
-# DESCRIPTION: SHAPECLUSTER creates a division of the image into 5 separated
+# 
+# DESCRIPTION: SHAPECLUSTER creates a division of the image into 5 separated 
 # rectangular regions. Each region is separated with a shadowed background.
-#
-#
-# ARGUMENTS:
-#
-# -t thickness ... THICKNESS of the region separation. Values are integers>0.
+# 
+# 
+# ARGUMENTS: 
+# 
+# -t thickness ... THICKNESS of the region separation. Values are integers>0. 
 # The default=10.
-#
+# 
 # -d darkeness ... DARKNESS of the shadows. Values are 0<=integer<=100. The default=60.
-#
-# -r rolloff ... ROLLOFF (fading) of the shadow darkness. Values are integers>=0.
+# 
+# -r rolloff ... ROLLOFF (fading) of the shadow darkness. Values are integers>=0. 
 # The default=3.
-#
+# 
 # -e extent ... EXTENT (distance) of the shadow. Values are integers>=0. The default=5.
-#
-# -b border ... BORDER in pixels to add around the outside of the output image.
+# 
+# -b border ... BORDER in pixels to add around the outside of the output image. 
 # Value are integer>=0. The default=5.
-#
+# 
 # -c color ... border and background color. Any valid opaque IM color is allowed.
 # The default=white.
-#
-#
-# Reference:
+# 
+# 
+# Reference: 
 # http://www.photoshopessentials.com/photo-effects/shape-cluster-photo-display-with-photoshop-cc/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 thickness=10		# thickness of lines
@@ -94,13 +94,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -148,7 +148,7 @@ else
 					   ;;
 				-t)    # get thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -158,14 +158,14 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-d)    # get darkness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DARKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   darkness=`expr "$1" : '\([0-9]*\)'`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-r)    # get rolloff
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROLLOFF SPECIFICATION ---"
 					   checkMinus "$1"
 					   rolloff=`expr "$1" : '\([0-9]*\)'`
@@ -183,7 +183,7 @@ else
 					   ;;
 				-e)    # get extent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXTENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   extent=`expr "$1" : '\([0-9]*\)'`
@@ -191,7 +191,7 @@ else
 					   ;;
 				-b)    # get border
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDER SPECIFICATION ---"
 					   checkMinus "$1"
 					   border=`expr "$1" : '\([0-9]*\)'`
@@ -265,5 +265,8 @@ convert \( $tmpA1 \( -size ${ww}x${hh} xc:white \
 	-bordercolor $color -border $border \
 	"$outfile"
 
-
+	
 exit 0
+
+
+

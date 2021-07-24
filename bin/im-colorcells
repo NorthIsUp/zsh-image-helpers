@@ -3,88 +3,88 @@
 # Developed by Fred Weinhaus 5/18/2017 .......... 8/12/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: colorcells [-n numcells ] [-c cellsize] [-p percent] [-s seeds] [-t thickness]
-# [-d diameters] infile outfile
+# USAGE: colorcells [-n numcells ] [-c cellsize] [-p percent] [-s seeds] [-t thickness] 
+# [-d diameters] infile outfile 
 # USAGE: colorcells [-h|help]
 #
 # OPTIONS:
 #
-# -n     numcells      number of cells in width and height; comma separated pair of
+# -n     numcells      number of cells in width and height; comma separated pair of 
 #                      integers; default="8x8"; used if no cellsize provided
-# -c     cellsize      dimensions of cells; WxH; "x" separated pair of integers;
+# -c     cellsize      dimensions of cells; WxH; "x" separated pair of integers; 
 #                      default is to use numcells; takes precedent over numcells
 # -p     percent       percent coverage of colored cells; 0<=integer<=100; default=50
 # -s     seeds         random seeds; comma separate pair of integers; default="200,300"
-# -t     thickness     thickness of white grid lines; integer>0; default=0 (no grid);
+# -t     thickness     thickness of white grid lines; integer>0; default=0 (no grid); 
 #                      odd values will be rounded up to even values
-# -d     diameters     diameters of elliptical mask expressed as percent of width and
+# -d     diameters     diameters of elliptical mask expressed as percent of width and 
 #                      height of image; comma separate pair of integers; default="70,70"
-#
+# 
 ###
-#
-# NAME: COLORCELLS
-#
+# 
+# NAME: COLORCELLS 
+# 
 # PURPOSE: Randomly modifies the color of rectangular cells of an image.
-#
-# DESCRIPTION: COLORCELLS randomly modifies the color of rectangular cells of an image.
-# The cells may be masked by an ellipse so that the outside of the affected cells are
+# 
+# DESCRIPTION: COLORCELLS randomly modifies the color of rectangular cells of an image. 
+# The cells may be masked by an ellipse so that the outside of the affected cells are 
 # white. Only some percentage of the cells will be modified in color.
-#
-#
-# OPTIONS:
-#
-# -n numcells ... NUMCELLS is the number of cells in width and height. Values are comma
-# separated pair of positive integers. The default="8x8". This option is used if no
+# 
+# 
+# OPTIONS: 
+# 
+# -n numcells ... NUMCELLS is the number of cells in width and height. Values are comma 
+# separated pair of positive integers. The default="8x8". This option is used if no 
 # cellsize are provided.
-#
-# -c cellsize ... CELLSIZE is the dimensions of the cells expressed as an "x" separated
-# pair of positive integers (WxH). The default is to use numcells. This option takes
+# 
+# -c cellsize ... CELLSIZE is the dimensions of the cells expressed as an "x" separated 
+# pair of positive integers (WxH). The default is to use numcells. This option takes  
 # precedent over numcells.
-#
+# 
 # -p percent ... PERCENT coverage of colored cells. Values are 0<=integer<=100. The \
 # default=50.
-#
-# -s seeds ... random number SEEDS. Values are a comma separate pair of positive integers.
+# 
+# -s seeds ... random number SEEDS. Values are a comma separate pair of positive integers. 
 # The default="200,300".
-#
-# -t thickness ... THICKNESS of white grid lines. Values are integer>=0. The default=0
+# 
+# -t thickness ... THICKNESS of white grid lines. Values are integer>=0. The default=0 
 # (no grid). Odd values will be rounded up to even values.
-#
-# -d diameters ... DIAMETERS of an elliptical mask expressed as a percent of the width
-# and height of the image. Values are a comma separate pair of integers. The
+# 
+# -d diameters ... DIAMETERS of an elliptical mask expressed as a percent of the width  
+# and height of the image. Values are a comma separate pair of integers. The 
 # default="70,70". If the value is 0 (0,0), then no mask will be used.
-#
+# 
 # NOTE: The script will be slower the more cells that are created.
-#
+# 
 # REFERENCE: http://www.photoshopessentials.com/photo-effects/color-grid-photo-display-effect/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -102,13 +102,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -156,7 +156,7 @@ else
 					   ;;
 				-s)    # get seeds
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SEEDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   seeds=`expr "$1" : '\([0-9]*,*[0-9]*\)'`
@@ -164,7 +164,7 @@ else
 					   ;;
 				-n)    # get numcells
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMCELLS SPECIFICATION ---"
 					   checkMinus "$1"
 					   numcells=`expr "$1" : '\([0-9]*,*[0-9]*\)'`
@@ -172,7 +172,7 @@ else
 					   ;;
 				-c)    # get cellsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CELLSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   cellsize=`expr "$1" : '\([0-9]*x*[0-9]*\)'`
@@ -180,7 +180,7 @@ else
 					   ;;
 				-p)    # get percent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PERCENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   percent=`expr "$1" : '\([0-9]*\)'`
@@ -190,7 +190,7 @@ else
 					   ;;
 				-t)    # get thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -198,7 +198,7 @@ else
 					   ;;
 				-d)    # get diameters
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIAMETERS SPECIFICATION ---"
 					   checkMinus "$1"
 					   diameters=`expr "$1" : '\([0-9]*,*[0-9]*\)'`
@@ -338,3 +338,9 @@ else
 fi
 
 exit 0
+
+
+
+
+
+

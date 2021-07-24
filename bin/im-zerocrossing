@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 3/24/2014 .......... revised  10/12/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: zerocrossing [-e edge ] [-l laplace] [-a amplifiy] [-s size] [-g] infile outfile
@@ -31,48 +31,48 @@
 #
 # OPTIONS:
 #
-# -e     edge        edge type; choices are sobel (s) or morphologic (m);
+# -e     edge        edge type; choices are sobel (s) or morphologic (m); 
 #                    default=sobel
 # -l     laplace     laplacian type; choices are: 0, 2 and 5; default=0
-# -a     amplify     zero crossing percent amplification; integer>=0;
+# -a     amplify     zero crossing percent amplification; integer>=0; 
 #                    default=100 (no amplification)
-# -s     size        2x morphologic disk size; values are integer>=2;
+# -s     size        2x morphologic disk size; values are integer>=2; 
 #                    default=4 (values will be divided by 2 later)
 # -g                 convert image to grayscale before getting edges
-#
+# 
 ###
 #
-# NAME: ZEROCROSSING
-#
+# NAME: ZEROCROSSING 
+# 
 # PURPOSE: To apply a zero crossing edge detector to image.
-#
-# DESCRIPTION: ZEROCROSSING applies a zero crossing edge detector to image
-# in order to thin the edges. The user may select either sobel or morphologic
-# for the basic type of edge detection as well as the type of laplacian used
+# 
+# DESCRIPTION: ZEROCROSSING applies a zero crossing edge detector to image 
+# in order to thin the edges. The user may select either sobel or morphologic 
+# for the basic type of edge detection as well as the type of laplacian used 
 # for detecting the zero crossings.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -e edge ... EDGE type. The choices are sobel (s) or morphologic (m). The
+# -e edge ... EDGE type. The choices are sobel (s) or morphologic (m). The 
 # default=sobel.
 #
 # -l laplace ... LAPLACIAN type. The choices are: 0, 2 and 5. The default=0.
-#
-# -a amplify ... AMPLIFICATION is the zero crossing percent amplification.
+# 
+# -a amplify ... AMPLIFICATION is the zero crossing percent amplification. 
 # Values are integer>=0. The default=100 (no amplification).
-#
-# -s size ... SIZE is twice the morphologic disk size. Values are integer>=2.
+# 
+# -s size ... SIZE is twice the morphologic disk size. Values are integer>=2.  
 # The default=4 (values will be divided by 2 later).
 #
 # -g ... converts the input image to GRAYSCALE before extracting edges.
-#
-# REQUIREMENTS: IM 6.5.9.3 is required for the use of -morphology edges. IM
+# 
+# REQUIREMENTS: IM 6.5.9.3 is required for the use of -morphology edges. IM 
 # 6.6.1.8 is required for the use of sobel edges.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -90,13 +90,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -144,11 +144,11 @@ else
 					   ;;
 				-e)    # get  edge
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EDGE SPECIFICATION ---"
 					   checkMinus "$1"
 					   edge=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$edge" in
+					   case "$edge" in 
 					   		sobel|s) edge="sobel" ;;
 					   		morphologic|m) edge="morphologic" ;;
 					   		*) errMsg "--- EDGE=$edge IS AN INVALID VALUE ---" ;;
@@ -156,7 +156,7 @@ else
 					   ;;
 				-l)    # get  laplace
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LAPLACE SPECIFICATION ---"
 					   checkMinus "$1"
 					   laplace=`expr "$1" : '\([025]\)'`
@@ -164,7 +164,7 @@ else
 					   ;;
 				-a)    # get amplify
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMPLIFY SPECIFICATION ---"
 					   checkMinus "$1"
 					   amplify=`expr "$1" : '\([0-9]*\)'`
@@ -172,7 +172,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*\)'`

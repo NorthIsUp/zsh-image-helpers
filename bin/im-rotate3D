@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 8/18/2007 .......... revised 2/23/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # define usage function
@@ -208,20 +208,20 @@ imagesize
 ns=$width
 nl=$height
 #
-# We are going to treat the picture as if it was painted on a wall oriented along
-# the X-Z plane with its center at the origin and with the focal point along -Y
+# We are going to treat the picture as if it was painted on a wall oriented along 
+# the X-Z plane with its center at the origin and with the focal point along -Y 
 # at a distance of the focal length away from the wall.
 # Then we are going to rotate the wall according to the orientation angles
 #
-# For a 35 mm camera whose film format is 36mm wide and 24mm tall, when the focal length
-# is equal to the diagonal, the field of view is 53.13 degrees and this is
+# For a 35 mm camera whose film format is 36mm wide and 24mm tall, when the focal length 
+# is equal to the diagonal, the field of view is 53.13 degrees and this is 
 # considered a normal view equivalent to the human eye.
 # See http://www.panoramafactory.com/equiv35/equiv35.html
 # Max limit on dfov is 180 degrees (pef=3.19) where get single line like looking at picture on edge.
 # Above this limit the picture becomes like the angles get reversed.
 # Min limit on dfov seems to be slightly greater than zero degrees.
 # Practical limits on dfov depend upon orientation angles.
-# For tilt=45, this is about 2.5 dfov (pef=2.5). Above this, some parts of the picture
+# For tilt=45, this is about 2.5 dfov (pef=2.5). Above this, some parts of the picture 
 # that are cut off at the bottom, get wrapped and stretched in the 'sky'.
 #
 pi=`echo "scale=10; 4*a(1)" | bc -l`
@@ -334,7 +334,7 @@ done
 dels=`echo "scale=10; $smax - $smin + 1" | bc`
 dell=`echo "scale=10; $lmax - $lmin + 1" | bc`
 if [ `echo "$dels > $dell" | bc` -eq 1 ]
-	then
+	then 
 	del=$dels
 	offsets=0
 	offsetl=`echo "scale=10; ($nl - ($dell * $ns / $dels)) / 2" | bc`

@@ -1,133 +1,133 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus and Dirk Lemstra 10/2/2015 .... revised 8/12/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: autotrim [-m mode] [-f fuzzval] [-c coords] [-C color] [-l left]
+# USAGE: autotrim [-m mode] [-f fuzzval] [-c coords] [-C color] [-l left] 
 # [-r right ] [-t top ] [-b bottom ] [-p preview] infile outfile
 # USAGE: autotrim [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -m              mode           mode of trim; options are outer (o) or
+# 
+# -m              mode           mode of trim; options are outer (o) or 
 #                                inner (i); default=outer
 # -f              fuzzval        fuzz value for determining border color;
-#                                expressed as (float) percent 0 to 100;
+#                                expressed as (float) percent 0 to 100; 
 #                                default=0 (uniform color)
-# -c              coords         pixel coordinate to extract color; may be
+# -c              coords         pixel coordinate to extract color; may be 
 #                                expressed as gravity value (NorthWest, etc)
 #                                or as "x,y" value; default is NorthWest=(0,0)
-# -C              color          border color; any valid IM color is allowed,
+# -C              color          border color; any valid IM color is allowed, 
 #                                default is to use coords to get color
 # -l              left           pixel shift of left edge; +/- is right/left
-#                                default=0 (no change)
+#                                default=0 (no change) 
 # -r              right          pixel shift of right edge; +/- is right/left
-#                                default=0 (no change)
+#                                default=0 (no change) 
 # -t              top            pixel shift of top edge; +/- is down/up
-#                                default=0 (no change)
+#                                default=0 (no change) 
 # -b              bottom         pixel shift of bottom edge; +/- is down/up
-#                                default=0 (no change)
-# -p              preview        preview displays a red box on input image;
-#                                choices are: viewonly (vo), view (v),
+#                                default=0 (no change) 
+# -p              preview        preview displays a red box on input image; 
+#                                choices are: viewonly (vo), view (v), 
 #                                saveonly (so), save (s) or off (o); default=off
 # -h or -help                    get help
-#
+# 
 ###
-#
-# NAME: AUTOTRIM
-#
-# PURPOSE: Automatically trims the outside of an image or crops the inside of
-# a rotated image.
-#
-# DESCRIPTION: AUTOTRIM automatically trims a (nearly) uniform color border
-# around an image. If the image is rotated, one can trim to the bounding box
-# around the image area or alternately trim to the maximum central area that
-# contains no border pixels. The excess border does not have to completely
-# surround the image. It may be only on one side. However, one must identify
-# a coordinate within the border area for the algorithm to extract the base
-# border color and also specify a fuzz value when the border color is not
-# uniform. For simple border trimming of a normally oriented image or the
-# bounding box of a rotated image, you may err somewhat towards larger than
-# optimal fuzz values. For images that contain rotated picture data, when you
-# want to trim to the central area, you should choose the smallest fuzz value
-# that is appropriate. If the result is off a little, you may use the
-# left/right/top/bottom arguments to adjust the automatically determined
-# trim region.
-#
-#
-# Arguments:
-#
-# -h or -help    ---  displays help information.
-#
-# -m mode ... MODE of trim. The options are either outer (o) or inner (i).
+# 
+# NAME: AUTOTRIM 
+#  
+# PURPOSE: Automatically trims the outside of an image or crops the inside of 
+# a rotated image. 
+# 
+# DESCRIPTION: AUTOTRIM automatically trims a (nearly) uniform color border 
+# around an image. If the image is rotated, one can trim to the bounding box 
+# around the image area or alternately trim to the maximum central area that 
+# contains no border pixels. The excess border does not have to completely 
+# surround the image. It may be only on one side. However, one must identify 
+# a coordinate within the border area for the algorithm to extract the base 
+# border color and also specify a fuzz value when the border color is not 
+# uniform. For simple border trimming of a normally oriented image or the 
+# bounding box of a rotated image, you may err somewhat towards larger than 
+# optimal fuzz values. For images that contain rotated picture data, when you 
+# want to trim to the central area, you should choose the smallest fuzz value 
+# that is appropriate. If the result is off a little, you may use the 
+# left/right/top/bottom arguments to adjust the automatically determined 
+# trim region. 
+# 
+# 
+# Arguments: 
+# 
+# -h or -help    ---  displays help information. 
+# 
+# -m mode ... MODE of trim. The options are either outer (o) or inner (i). 
 # The default=outer.
-#
-# -f fuzzval ... FUZZVAL is the fuzz amount specified as a percent 0 to 100
-# (without the % sign). The default is zero which indicates that border is a
+# 
+# -f fuzzval ... FUZZVAL is the fuzz amount specified as a percent 0 to 100 
+# (without the % sign). The default is zero which indicates that border is a 
 # uniform color. Larger values are needed when the border is not a uniform color.
-#
-# -c coords ... COORDS is any location within the border area for the
-# algorithm to find the base border color. It may be specified in terms of
-# gravity parameters (NorthWest, North, NorthEast, East, SouthEast, South,
-# SouthWest or West) or as a pixel coordinate "x,y". The default is the
+# 
+# -c coords ... COORDS is any location within the border area for the 
+# algorithm to find the base border color. It may be specified in terms of 
+# gravity parameters (NorthWest, North, NorthEast, East, SouthEast, South, 
+# SouthWest or West) or as a pixel coordinate "x,y". The default is the 
 # upper left corner = NorthWest = "0,0".
-#
+# 
 # -C color ... COLOR of border or background. Any valid IM color is allowed.
 # The default is to use coords to get color.
 #
-# -l left ... LEFT is the number of extra pixels to shift the trim of the left
+# -l left ... LEFT is the number of extra pixels to shift the trim of the left 
 # edge of the image. The trim is shifted right/left for +/- integer values.
 # The default=0.
-#
-# -r right ... RIGHT is the number of extra pixels to shift the trim of the right
+# 
+# -r right ... RIGHT is the number of extra pixels to shift the trim of the right 
 # edge of the image. The trim is shifted right/left for +/- integer values.
 # The default=0.
-#
-# -t top ... TOP is the number of extra pixels to shift the trim of the top
+# 
+# -t top ... TOP is the number of extra pixels to shift the trim of the top 
 # edge of the image. The trim is shifted down/up for +/- integer values.
 # The default=0.
-#
-# -b bottom ... BOTTOM is the number of extra pixels to shift the trim of the
+# 
+# -b bottom ... BOTTOM is the number of extra pixels to shift the trim of the 
 # bottom edge of the image. The trim is shifted down/up for +/- integer values.
 # The default=0.
 #
-# -p preview ... PREVIEW displays a red box on the input image. The choices
-# are: viewonly (vo), view (v), saveonly (so), save (s) or off (o). The
-# default=off. If viewonly or saveonly is selected, then no cropped output
-# image will be generated. The preview image, if saved, will be named from
+# -p preview ... PREVIEW displays a red box on the input image. The choices  
+# are: viewonly (vo), view (v), saveonly (so), save (s) or off (o). The 
+# default=off. If viewonly or saveonly is selected, then no cropped output 
+# image will be generated. The preview image, if saved, will be named from 
 # the infile as inname_preview.suffix
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 # set default values;
-mode="outer"			# trim region
+mode="outer"			# trim region 
 fuzzval=0				# fuzz threshold
 coords="NorthWest"		# coordinates to get color
 color=""				# color of background/border
@@ -145,13 +145,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -196,7 +196,7 @@ else
 				   ;;
 			-m)    # mode
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID MODE SPECIFICATION ---"
 				   checkMinus "$1"
 				   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -208,7 +208,7 @@ else
 				   ;;
 			-f)    # fuzzval
 				   shift  # to get the next parameter - fuzzval
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 				   checkMinus "$1"
 				   fuzzval=`expr "$1" : '\([.0-9]*\)'`
@@ -218,7 +218,7 @@ else
 				   ;;
 			-c)    # coords
 				   shift  # to get the next parameter - coords
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 				   checkMinus "$1"
 				   coords=$1
@@ -250,7 +250,7 @@ else
 				   ;;
 			-p)    # preview
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID PREVIEW SPECIFICATION ---"
 				   checkMinus "$1"
 				   preview=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -323,7 +323,7 @@ dimensions()
 	}
 
 # get all points of any line (given by its endpoint pairs) that passes through the red/black image as array of points
-# extract all magenta points (blend of red and blue) and get the first and last magenta coordinates
+# extract all magenta points (blend of red and blue) and get the first and last magenta coordinates 
 getIntersection()
 	{
 	p1=$1
@@ -372,7 +372,7 @@ getParms()
 	# note: make width and height 2 px smaller and offset 1 px larger to remove all traces of background color
 	# note: need abs and min, since for angles near 90, some reverse and would give negative widths
 	ww=`convert xc: -format "%[fx:abs(($br_x-$tl_x)-1)]" info:`
-	hh=`convert xc: -format "%[fx:abs(($br_y-$tl_y)-1)]" info:`
+	hh=`convert xc: -format "%[fx:abs(($br_y-$tl_y)-1)]" info:`	
 	# convert xoff,yoff to center region in image
 	xoff=`convert xc: -format "%[fx:ceil(($rwidth-$ww)/2)]" info:`
 	yoff=`convert xc: -format "%[fx:ceil(($rheight-$hh)/2)]" info:`
@@ -390,7 +390,7 @@ rheight=$height
 
 # get color
 if [ "$color" = "" ]; then
-	coords=`echo "$coords" | tr "[:upper:]" "[:lower:]"`
+	coords=`echo "$coords" | tr "[:upper:]" "[:lower:]"` 
 	case "$coords" in
 		northwest)	coords="0,0" ;;
 		north)	coords="$midwidth,0" ;;
@@ -426,7 +426,7 @@ if [ "$mode" = "outer" ]; then
 	xoff=`echo $trimbox | cut -d\  -f3`
 	yoff=`echo $trimbox | cut -d\  -f4`
 	area=$((ww*hh))
-
+	
 elif [ "$mode" = "inner" ]; then
 	# do floodfill to extract binary image of data and make red on black background
 	convert $tmpA1 -bordercolor "$color" -border 1x1 \
@@ -436,11 +436,11 @@ elif [ "$mode" = "inner" ]; then
 
 	# do processing
 	#
-	# Could have used mathematical approach of
+	# Could have used mathematical approach of 
 	# http://stackoverflow.com/questions/16702966/rotate-image-and-crop-out-black-borders/16778797#16778797
 	# http://jwilson.coe.uga.edu/emt668/emat6680.folders/brooks/6690stuff/righttriangle/rightday3.html
 	# but it does not work well at angles less than 2 deg and especially at 0.5 deg
-	#
+	# 
 	# So use graphical method of Dirk Lemstra:
 	# find intersections of each diagonal with binary image
 	# find pairs of horizontal and vertical intersections at each of the 4 diagonal intersections

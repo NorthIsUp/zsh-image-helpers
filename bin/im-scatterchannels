@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 12/14/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 #
@@ -31,72 +31,72 @@
 # USAGE: scatterchannels [-h or -help]
 #
 # OPTIONS:
-#
+# 
 # -c      channels       channel pair to process; RG, GB, BR; default=all 3 pairs
-# -f      format         output format when channels=default (all); format=1 or 3 images;
-#                        default=1; output name(s) will be created from the infile
+# -f      format         output format when channels=default (all); format=1 or 3 images; 
+#                        default=1; output name(s) will be created from the infile 
 #                        and the channels. The output image will be GIF format
 # -s      scale          subsampling scale size for input images in both dimensions;
 #                        default=50 (pixels)
-# -l                     label each axis with a color stripe of the relevant color
+# -l                     label each axis with a color stripe of the relevant color 
 #                        when channels is not default (all) or format=3
-# -t                     transpose the resulting scatter diagram
-# -m                     mirror the resulting scatter diagram vertically
+# -t                     transpose the resulting scatter diagram 
+# -m                     mirror the resulting scatter diagram vertically 
 #
 ###
 #
-# NAME: SCATTERCHANNELS
-#
-# PURPOSE: To generate a scatter diagram between channels of an image.
-#
-# DESCRIPTION: SCATTERCHANNELS generates a scatter diagram between channels of
-# an images. The 8-bit graylevel values at each corresponding pixel in the two
-# channels are used as the x and y coordinates to plot white points on a
-# 256x256 black background image. By default all 3 pairs of channels will
-# be processed: red vs green, green vs blue and blue vs red. The process is
-# slow and is proportional to the size of the input image. Therefore the image
-# will be scaled down to the desired size in order to keep the processing to a
-# reasonable time, but have an adequate uniform sampling of the data. The
-# resulting graph image may be mirrored vertically so that the x,y origin
+# NAME: SCATTERCHANNELS 
+# 
+# PURPOSE: To generate a scatter diagram between channels of an image. 
+# 
+# DESCRIPTION: SCATTERCHANNELS generates a scatter diagram between channels of 
+# an images. The 8-bit graylevel values at each corresponding pixel in the two 
+# channels are used as the x and y coordinates to plot white points on a 
+# 256x256 black background image. By default all 3 pairs of channels will 
+# be processed: red vs green, green vs blue and blue vs red. The process is 
+# slow and is proportional to the size of the input image. Therefore the image 
+# will be scaled down to the desired size in order to keep the processing to a 
+# reasonable time, but have an adequate uniform sampling of the data. The 
+# resulting graph image may be mirrored vertically so that the x,y origin 
 # is at the bottom left, if desired, rather than the default top left.
-#
-#
-# OPTIONS:
-#
-# -c channels ... CHANNELS are the pair(s) of channels to be made into a
-# a scatter diagram. The choices are: red-green or RG, green-blue or GB,
-# blue-red or BR. The default is all 3 pairs in one image. If the image is
-# CMYK, then RG is equivalent to CM, GB is equivalent to MY and BR is
-# equivalent to YC. By default the first color will be along the x axis
+# 
+# 
+# OPTIONS: 
+# 
+# -c channels ... CHANNELS are the pair(s) of channels to be made into a 
+# a scatter diagram. The choices are: red-green or RG, green-blue or GB, 
+# blue-red or BR. The default is all 3 pairs in one image. If the image is 
+# CMYK, then RG is equivalent to CM, GB is equivalent to MY and BR is 
+# equivalent to YC. By default the first color will be along the x axis 
 # and the second color along the y axis.
-#
-# -f format ... OUTPUT FORMAT when channels=default (all).  The format can
-# be either 1 or 3 images. The default is 1. Output name(s) will be created
+# 
+# -f format ... OUTPUT FORMAT when channels=default (all).  The format can 
+# be either 1 or 3 images. The default is 1. Output name(s) will be created 
 # from the infile and the channels. The output image will be GIF format.
-#
-# -s scale ... SCALE is the resulting subsampled scale size of the input
-# image. The image will be scaled to the desired size in pixels maximum on
-# each side, if the image is larger than this size. The default is 50. Thus
-# for a square image equal to or larger than 50, 50x50=2500 points will be
+# 
+# -s scale ... SCALE is the resulting subsampled scale size of the input 
+# image. The image will be scaled to the desired size in pixels maximum on  
+# each side, if the image is larger than this size. The default is 50. Thus  
+# for a square image equal to or larger than 50, 50x50=2500 points will be 
 # plotted.
-#
-# -l ... Indicates to label each axis with a color stripe of the relevant
+# 
+# -l ... Indicates to label each axis with a color stripe of the relevant 
 # color when channels is not default (all) or when format=3. In other words,
 # when separate channel-to-channel scatter images are created.
-#
-# -t ... Indicates to transpose the resulting scatter diagram, interchanging
+# 
+# -t ... Indicates to transpose the resulting scatter diagram, interchanging 
 # the x and y axes (colors/channels).
 #
-# -m ... Indicates to mirror the resulting scatter diagram vertically,
+# -m ... Indicates to mirror the resulting scatter diagram vertically, 
 # so that the x,y origin is at the bottom left rather than the top left.
 #
-# NOTE: This process is slow and takes about 2 minutes to generate with the
+# NOTE: This process is slow and takes about 2 minutes to generate with the 
 # default sample size of 50 on my Mac Mini 1.4 GHz G4.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 # set default values
@@ -114,13 +114,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -175,12 +175,12 @@ else
 					   ;;
 		 		-c)    # channels
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CHANNELS SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test mode values
 					   channels=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$channels" in
+					   case "$channels" in 
 					   		red-green) channels=rg ;;
 					   		rg) channels=rg ;;
 					   		green-blue) channels=gb ;;
@@ -188,12 +188,12 @@ else
 					   		blue-red) channels=br ;;
 					   		br) channels=br ;;
 					   		all) channels=all ;;
-					   		*) errMsg "--- CHANNELS=$channels IS AN INVALID VALUE ---"
+					   		*) errMsg "--- CHANNELS=$channels IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-f)    # number of output images
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   format=`expr "$1" : '\([0-9]*\)'`
@@ -201,7 +201,7 @@ else
 					   ;;
 				-s)    # scale size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SCALE SPECIFICATION ---"
 					   checkMinus "$1"
 					   scale=`expr "$1" : '\([0-9]*\)'`
@@ -249,9 +249,9 @@ trap "rm -f $tmpA1 $tmpA2 $tmpRed $tmpGreen $tmpBlue; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -316,17 +316,17 @@ for color in $colorlist; do
 		color2="Red"
 		color2a="Red"
 	fi
-
+		
 	xArray=(`convert  $tmpA1 -depth 8 $setcspace -channel $color1 -separate txt:- |\
 	tail -n +2 |\
 	tr -cs '0-9\n'  ' ' |\
 	cut -d' ' -f3`)
-
+		
 	yArray=(`convert  $tmpA1 -depth 8 $setcspace -channel $color2 -separate txt:- |\
 	tail -n +2 |\
 	tr -cs '0-9\n'  ' ' |\
 	cut -d' ' -f3`)
-
+		
 	# Generate a MVG file for IM to draw all components
 	( echo "viewbox 0 0 256 256   fill black  rectangle 0,0 256 256"
 	echo "fill white"

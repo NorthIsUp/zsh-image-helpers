@@ -3,91 +3,91 @@
 # Developed by Fred Weinhaus 4/20/2017 .......... revised 4/20/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: painteffect [-g gammaval] [-b blur] [-p paintval] [-e edgegain]
+# USAGE: painteffect [-g gammaval] [-b blur] [-p paintval] [-e edgegain] 
 # [-t texturize] [-r reseed] [-s soften] [-m mix] infile outfile
 # USAGE: painteffect [-h or -help]
 #
 # OPTIONS:
 #
-# -g     gammaval      preprocessing gamma adjustment to the midtone
+# -g     gammaval      preprocessing gamma adjustment to the midtone 
 #                      brightness; float>=0; default=1 (no change)
-# -b     blur          selective blur (sigma) amount to lessen detail;
+# -b     blur          selective blur (sigma) amount to lessen detail;  
 #                      float>=0; default=2
 # -p     paintval      oil paint effect amount; integer>=0; default=0
 # -e     edgegain      edge effect gain; float>=0; default=8
-# -t     texturize     apply random textures to the image; yes or no;
+# -t     texturize     apply random textures to the image; yes or no; 
 #                      default=yes
-# -r     reseed        random texture seeds for two types of texture;
+# -r     reseed        random texture seeds for two types of texture; 
 #                      comma separate integer>0 pair; default is random seeds
 # -s     soften        texture softening; float>0; default=2
-# -m     mix           mix/blend two types of texture; 0<=integer<=100;
+# -m     mix           mix/blend two types of texture; 0<=integer<=100; 
 #                      default=80
-#
+# 
 ###
 #
-# NAME: PAINTEFFECT
-#
+# NAME: PAINTEFFECT 
+# 
 # PURPOSE: To apply a paint type effect to an image.
-#
-# DESCRIPTION: PAINTEFFECT applies a paint type effect to an image. An oil
-# paint like effect is optional. A texturizing effect is optional. An edge
+# 
+# DESCRIPTION: PAINTEFFECT applies a paint type effect to an image. An oil 
+# paint like effect is optional. A texturizing effect is optional. An edge 
 # effect is optional.
-#
-# OPTIONS:
-#
-# -g gammaval ... GAMMAVAL is a preprocessing gamma adjustment to the midtone
-# brightness. Best results occur when the image is not overly white. Values
+# 
+# OPTIONS: 
+# 
+# -g gammaval ... GAMMAVAL is a preprocessing gamma adjustment to the midtone 
+# brightness. Best results occur when the image is not overly white. Values 
 # are floats>=0. The default=1 (no change).
-#
-# -b blur ... BLUR is the selective blur (sigma) amount to lessen detail.
+# 
+# -b blur ... BLUR is the selective blur (sigma) amount to lessen detail. 
 # Larger values smooth out image detail. Values are floats>=0. The default=2.
-#
-# -p paintval ... PAINTVAL controls the amount of a paint effect. Value are
+# 
+# -p paintval ... PAINTVAL controls the amount of a paint effect. Value are 
 # integers>=0. The default=0.
-#
-# -e edgegain ... EDGEGAIN is edge effect gain amount. Values are float>=0.
+# 
+# -e edgegain ... EDGEGAIN is edge effect gain amount. Values are float>=0. 
 # The default=8.
-#
+# 
 # -t texturize ... TEXTURIZE is a flag to apply random textures to the image.
 # Choices are: yes (y) or no (n). The default=yes.
-#
-# -r reseed ... RESEED is a pair of random texture seeds for two types of
-# texture. Values are comma separate non-negative integer pairs. The default
+# 
+# -r reseed ... RESEED is a pair of random texture seeds for two types of 
+# texture. Values are comma separate non-negative integer pairs. The default  
 # is completely random seed values.
-#
-# -s soften ... SOFTEN controls the texture softening/smoothing. Values are
+# 
+# -s soften ... SOFTEN controls the texture softening/smoothing. Values are 
 # floats>=0. The default=2.
-#
-# -m mix ... MIX is the percent mix/blend of the two types of texture. Values
+# 
+# -m mix ... MIX is the percent mix/blend of the two types of texture. Values  
 # are 0<=integers<=100. The default=80.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -109,13 +109,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -163,7 +163,7 @@ else
 					   ;;
 				-g)    # get gammaval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAMMAVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   gammaval=`expr "$1" : '\([.0-9]*\)'`
@@ -171,7 +171,7 @@ else
 					   ;;
 				-b)    # get blur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   blur=`expr "$1" : '\([.0-9]*\)'`
@@ -179,7 +179,7 @@ else
 					   ;;
 				-p)    # get paintval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PAINTVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   paintval=`expr "$1" : '\([0-9]*\)'`
@@ -187,7 +187,7 @@ else
 					   ;;
 				-e)    # get edgegain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EDGEGAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   edgegain=`expr "$1" : '\([.0-9]*\)'`
@@ -195,19 +195,19 @@ else
 					   ;;
 				-t)    # get  texturize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEXTURIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   texturize=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$texturize" in
+					   case "$texturize" in 
 					   		yes|y) texturize="ues" ;;
 					   		no|n) texturize="no" ;;
-					   		*) errMsg "--- TEXTURIZE=$texturize IS AN INVALID VALUE ---"
+					   		*) errMsg "--- TEXTURIZE=$texturize IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-r)    # get reseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   reseed=`expr "$1" : '\([0-9]*,[0-9]*\)'`
@@ -215,7 +215,7 @@ else
 					   ;;
 				-s)    # get soften
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SOFTEN SPECIFICATION ---"
 					   checkMinus "$1"
 					   soften=`expr "$1" : '\([.0-9]*\)'`
@@ -223,7 +223,7 @@ else
 					   ;;
 				-m)    # get mix
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIX SPECIFICATION ---"
 					   checkMinus "$1"
 					   mix=`expr "$1" : '\([0-9]*\)'`

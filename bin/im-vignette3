@@ -3,30 +3,30 @@
 # Developed by Fred Weinhaus 1/20/2012 .......... 6/2/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: vignette3 [-d diameter] [-x xycenter] [-c] [-o outramp] [-i inramp]
+# USAGE: vignette3 [-d diameter] [-x xycenter] [-c] [-o outramp] [-i inramp] 
 # [-g gamma] [-v vcolor] [-b bright] [-s sat] infile outfile
 #
 # USAGE: vignette3 [-help|-h]
@@ -38,72 +38,72 @@
 #                      integer>0; default=70
 # -x     xycenter      x,y center of vignette; comma separate pair; integers>=0;
 #                      default is center of image
-# -c     circle        constrain shape to circle rather than ellipse for
+# -c     circle        constrain shape to circle rather than ellipse for 
 #                      non-square image; default is no constraint
-# -o     outramp       vignette outer ramp extent; -100<=integer<=100;
-#                      larger values lengthen the ramp and shorter values
-#                      shorten the ramp; default is linear ramp to most
+# -o     outramp       vignette outer ramp extent; -100<=integer<=100; 
+#                      larger values lengthen the ramp and shorter values 
+#                      shorten the ramp; default is linear ramp to most 
 #                      distant image point.
 # -i     inramp        vignette inner ramp extent in pixels; integer>=0;
 #                      the default=0
-# -g     gammma        gamma adjustment of shape of ramps; gamma>=0; values less
-#                      than 1 lengthen the ramps and values larger than 1
+# -g     gammma        gamma adjustment of shape of ramps; gamma>=0; values less 
+#                      than 1 lengthen the ramps and values larger than 1 
 #                      shorten the ramp; default=1
-# -v     vcolor        vignette color; any opaque IM color allowed or "none"
+# -v     vcolor        vignette color; any opaque IM color allowed or "none" 
 #                      for a transparency vignette; default=black
-# -b     bright        brightness change of image under the vignette;
+# -b     bright        brightness change of image under the vignette; 
 #                      -100<=integer<=100; default=0 (no change)
-# -s     sat           saturation change of image under the vignette;
+# -s     sat           saturation change of image under the vignette; 
 #                      -100<=integer<=100; default=0 (no change)
-#
+#  
 ###
 #
-# NAME: VIGNETTE3
-#
+# NAME: VIGNETTE3 
+# 
 # PURPOSE: Applies a vignette effect to a picture.
-#
-# DESCRIPTION: VIGNETTE3 applies a vignette effect to a picture. The vignette
+# 
+# DESCRIPTION: VIGNETTE3 applies a vignette effect to a picture. The vignette 
 # center may be moved.
-#
-#
-# OPTIONS:
-#
-# -d diameter ... DIAMETER controls the vignette region boundary. It is
-# expressed as a percentage of the input image width,height. Values are
+# 
+# 
+# OPTIONS: 
+# 
+# -d diameter ... DIAMETER controls the vignette region boundary. It is 
+# expressed as a percentage of the input image width,height. Values are 
 # integers>0. The default=70
-#
-# -x xycenter ... XYCENTER specify the x,y center of the vignette effect.
-# Values are a comma separate pair of integers>=0. The default is center of
+# 
+# -x xycenter ... XYCENTER specify the x,y center of the vignette effect. 
+# Values are a comma separate pair of integers>=0. The default is center of 
 # image.
-#
-# -c circle ... CIRCLE indicates to constrain the shape to a circle rather than
+# 
+# -c circle ... CIRCLE indicates to constrain the shape to a circle rather than 
 # an ellipse for non-square image. The default=no constraint
-#
-# -o outramp ... OUTRAMP is the vignette linear outer ramp extent. Values are
-# -100<=integer<=100. Larger values lengthen the ramp and shorter values
-# shorten the ramp. The default is a linear ramp tapering to zero at the most
+# 
+# -o outramp ... OUTRAMP is the vignette linear outer ramp extent. Values are 
+# -100<=integer<=100. Larger values lengthen the ramp and shorter values 
+# shorten the ramp. The default is a linear ramp tapering to zero at the most 
 # distant image point.
-#
-# -i inramp ... INRAMP is the vignette inner ramp extent in pixels. Value are
+# 
+# -i inramp ... INRAMP is the vignette inner ramp extent in pixels. Value are 
 # 0<=integer<=100. The default=0.
-#
-# -g gammma ... GAMMA adjusts the shape (and length) of the ramps. Values are
-# floats>=0. Values less than 1 lengthen the ramps and values larger than 1
+# 
+# -g gammma ... GAMMA adjusts the shape (and length) of the ramps. Values are 
+# floats>=0. Values less than 1 lengthen the ramps and values larger than 1 
 # shorten the the ramp. The default=1.
-#
-# -v vcolor ... VCOLOR is the vignette color. Any opaque IM color is allowed
+# 
+# -v vcolor ... VCOLOR is the vignette color. Any opaque IM color is allowed 
 # or "none" for a transparency vignette effect, The default=black.
-#
-# -b bright ... BRIGHT is the brightness change of the image under the vignette.
+# 
+# -b bright ... BRIGHT is the brightness change of the image under the vignette. 
+# Values are -100<=integer<=100. The default=0 (no change).
+# 
+# -s sat ... SAT is the saturation change of the image under the vignette.  
 # Values are -100<=integer<=100. The default=0 (no change).
 #
-# -s sat ... SAT is the saturation change of the image under the vignette.
-# Values are -100<=integer<=100. The default=0 (no change).
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -125,13 +125,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -179,7 +179,7 @@ else
 					   ;;
 				-d)    # get diameter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIAMETER SPECIFICATION ---"
 					   checkMinus "$1"
 					   diameter=`expr "$1" : '\([0-9]*\)'`
@@ -187,7 +187,7 @@ else
 					   ;;
 				-x)    # get xycenter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID XYCENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   xycenter=`expr "$1" : '\([0-9]*,[0-9]*\)'`
@@ -195,7 +195,7 @@ else
 					   ;;
 				-o)    # get outramp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OUTRAMP SPECIFICATION ---"
 					   #checkMinus "$1"
 					   outramp=`expr "$1" : '\([-0-9]*\)'`
@@ -206,7 +206,7 @@ else
 					   ;;
 				-i)    # get inramp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INRAMP SPECIFICATION ---"
 					   #checkMinus "$1"
 					   inramp=`expr "$1" : '\([0-9]*\)'`
@@ -214,7 +214,7 @@ else
 					   ;;
 				-g)    # get gamma
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAMMA SPECIFICATION ---"
 					   checkMinus "$1"
 					   gamma=`expr "$1" : '\([.0-9]*\)'`
@@ -222,14 +222,14 @@ else
 					   ;;
 				-v)    # get vcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   vcolor="$1"
 					   ;;
 				-b)    # get bright
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   bright=`expr "$1" : '\([-0-9]*\)'`
@@ -240,7 +240,7 @@ else
 					   ;;
 				-s)    # get sat
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SAT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   sat=`expr "$1" : '\([-0-9]*\)'`
@@ -288,9 +288,9 @@ trap "rm -f $tmpA1 $tmpB1; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -363,7 +363,7 @@ fi
 # set up outer ramp leveling
 rampval=`convert xc: -format "%[fx:100-abs($outramp)]" info:`
 test=`convert xc: -format "%[fx:sign($outramp)<0?0:1]" info:`
-if [ $test -eq 0 ]; then
+if [ $test -eq 0 ]; then 
 	leveling="-level 0x$rampval%"
 else
 	leveling="+level 0x$rampval%"
@@ -373,7 +373,7 @@ fi
 
 
 
-if [ "$vcolor" = "none" -o "$vcolor" = "transparent" ]; then
+if [ "$vcolor" = "none" -o "$vcolor" = "transparent" ]; then 
 	convert $tmpA1 \
 		\( -clone 0 -modulate ${bright},${sat},100 \) \
 		\( -clone 0 -fill white -colorize 100% -fill black \
@@ -400,3 +400,4 @@ else
 fi
 
 exit 0
+

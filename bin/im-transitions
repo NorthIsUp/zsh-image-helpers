@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/29/2008 .......... revised 5/3/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: transitions [-m mode] [-f frames] [-d delay] [-p pause] [-r] [-e] infile1 infile2 maskfile [outfile]
@@ -37,56 +37,56 @@
 # -p      pause          pause delay for two undistorted input images;
 #                        pause>0; default=50
 # -r                     reverse the animation sequence and append it to the end
-# -e                     exponentiate maskfile to make the animation
+# -e                     exponentiate maskfile to make the animation 
 #                        start more gradually. Mostly useful for mode=dissolve
-#
+# 
 # The two input files and mask file must be the same size.
-#
+# 
 # The output file must be of type that supports multi-frames, such as gif.
-#
-# If no output file is specified, the animation will be displayed automatically
+# 
+# If no output file is specified, the animation will be displayed automatically 
 # but not saved to a file
 #
 ###
 #
-# NAME: TRANSITIONS
-#
+# NAME: TRANSITIONS 
+# 
 # PURPOSE: To apply an animated transition between two images.
-#
+# 
 # DESCRIPTION: TRANSITIONS applies an animated transition between two images
-# using a mask image to control the transition. The first image will show
-# where the mask is black and the second image will show where the mask is
-# white. The mask will be made gradually more an more white as each frame
-# is composited. NOTE that this is not a true warping morph. It is simply
+# using a mask image to control the transition. The first image will show 
+# where the mask is black and the second image will show where the mask is 
+# white. The mask will be made gradually more an more white as each frame 
+# is composited. NOTE that this is not a true warping morph. It is simply 
 # an animated masked composite.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -m mode ... MODE of transition. Values are wipe or dissolve. The default is wipe.
-# Note that dissolve is generally only useful for very gradual graylevel changes
+# Note that dissolve is generally only useful for very gradual graylevel changes 
 # in the mask image, such as a linear or radial gradient.
 #
-# -f frames ... FRAMES is the total number of frames in the animation (including
-# infile1 and infile2 as the start and end frames. Values are integers > 1. The
+# -f frames ... FRAMES is the total number of frames in the animation (including 
+# infile1 and infile2 as the start and end frames. Values are integers > 1. The 
 # default is 20.
 #
 # -d delay ... DELAY between frames. Values are integers>0. The default=20
 #
-# -p pause ... PAUSE is the delay to use for the first and last frame of the
+# -p pause ... PAUSE is the delay to use for the first and last frame of the 
 # animation, i.e. the delay for each of the input images. The default=50
-#
-# -r ... If supplied, then reverse the animation sequence, remove the first and
-# last frames of the reversed sequence and append these reversed frames to
+# 
+# -r ... If supplied, then reverse the animation sequence, remove the first and 
+# last frames of the reversed sequence and append these reversed frames to  
 # the end of the animation.
-#
-# -e ... If supplied, then the maskfile will be exponentiated to make the
-# animation start more gradually. This is useful for most dissolve mode
+# 
+# -e ... If supplied, then the maskfile will be exponentiated to make the 
+# animation start more gradually. This is useful for most dissolve mode 
 # transitions.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -106,13 +106,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -160,7 +160,7 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter - mode
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
@@ -168,7 +168,7 @@ else
 					   ;;
 				-f)    # get frames
 					   shift  # to get the next parameter - frames
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FRAMES SPECIFICATION ---"
 					   checkMinus "$1"
 					   frames=`expr "$1" : '\([0-9]*\)'`
@@ -178,7 +178,7 @@ else
 					   ;;
 				-d)    # get delay
 					   shift  # to get the next parameter - delay
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay=`expr "$1" : '\([0-9]*\)'`
@@ -188,7 +188,7 @@ else
 					   ;;
 				-p)    # get pause
 					   shift  # to get the next parameter - pause
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PAUSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   pause=`expr "$1" : '\([0-9]*\)'`
@@ -246,9 +246,9 @@ trap "rm -f $tmpA $tmpB $tmpC $tmpD $tmpE $tmpF $tmp0; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear

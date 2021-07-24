@@ -3,37 +3,37 @@
 # Developed by Fred Weinhaus 7/29/2010 .......... revised 9/12/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: bevel [-w width] [-a azimuth] [-e elevation] [-d depth] [-f form] [-i innermode] [-o outermode] [-s soften] [-t taper] [-b bcolor] [-c colormode] infile outfile
 # USAGE: bevel [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -w      width             width of border in pixels; same in both dimensions;
+# 
+# -w      width             width of border in pixels; same in both dimensions; 
 #                           integer>0; default=5
-# -a      azimuth           azimuth angle for light source; 0<=integer<=360;
+# -a      azimuth           azimuth angle for light source; 0<=integer<=360; 
 #                           counterclockwise from positive x axis (East);
 #                           default=135 (NorthWest)
 # -e      elevation         elevation angle for light source; 0<=integer<=90;
@@ -41,83 +41,83 @@
 # -d      depth             depth of effect; integer>=0; default=100
 # -f      form              form of effect; choices are: inner, outer or emboss;
 #                           default=inner
-# -i      innermode         mode for form=inner or emboss; choices are:
+# -i      innermode         mode for form=inner or emboss; choices are: 
 #                           hard or smooth; default=hard
-# -o      outermode         mode for form=outer or emboss; choices are:
+# -o      outermode         mode for form=outer or emboss; choices are: 
 #                           raised or lowered; default=raised
 # -s      soften            softening or smoothing effect; integer>=0; default=0
 # -t      taper             taper amount for form=outer or emboss; integer>=0;
-#                           nominally 0 to 3; default=2 for mode=raised;
+#                           nominally 0 to 3; default=2 for mode=raised; 
 #                           default=0 for mode=lowered
 # -b      bcolor            color for outer bevel or outer bevel part of emboss;
-#                           Any valid opaque IM color is allowed; default=gray
+#                           Any valid opaque IM color is allowed; default=gray 
 #                           color
-# -c      colormode         colorization mode when bcolor is assigned; choices
+# -c      colormode         colorization mode when bcolor is assigned; choices 
 #                           are: dark or light; default=dark
-#
+# 
 ###
-#
-# NAME: BEVEL
-#
+# 
+# NAME: BEVEL 
+# 
 # PURPOSE: To apply an inner bevel or outer bevel or emboss effect to an image.
-#
-# DESCRIPTION: BEVEL applies an inner bevel or outer bevel or emboss effect to
+# 
+# DESCRIPTION: BEVEL applies an inner bevel or outer bevel or emboss effect to 
 # an image, especially one that has an alpha channel.
-#
-#
-# ARGUMENTS:
-#
-# -w width ... WIDTH is the dimensions of bevel/emboss effect. The same
-# value is used in both dimensions. Values are integers greater than 0. The
+# 
+# 
+# ARGUMENTS: 
+# 
+# -w width ... WIDTH is the dimensions of bevel/emboss effect. The same 
+# value is used in both dimensions. Values are integers greater than 0. The 
 # default=5.
-#
-# -a azimuth ... AZIMUTH is the angle in degrees in the x-y plane measured
-# counterclockwise from EAST to the light source. Values are integers in the
+# 
+# -a azimuth ... AZIMUTH is the angle in degrees in the x-y plane measured 
+# counterclockwise from EAST to the light source. Values are integers in the 
 # range 0<=azimuth<=360. The default=135 (NorthWest).
-#
-# -e elevation ... ELEVATION is the angle in degrees upwards from the x-y plane
-# to the light source. Values are integers in the range 0<=elevation<=90.
+# 
+# -e elevation ... ELEVATION is the angle in degrees upwards from the x-y plane 
+# to the light source. Values are integers in the range 0<=elevation<=90. 
 # The default=30.
-#
-# -d depth ... DEPTH controls the depth effect. It basically adjust the contrast
-# of the shading in the effect. Values are integers>=0. Larger values increase
-# the depth/contrast and smaller values decrease the depth/contrast. The
+# 
+# -d depth ... DEPTH controls the depth effect. It basically adjust the contrast 
+# of the shading in the effect. Values are integers>=0. Larger values increase 
+# the depth/contrast and smaller values decrease the depth/contrast. The 
 # default=100.
-#
+# 
 # -f form ... FORM of the effect. The choices are: inner, outer or emboss. The
 # default=inner.
-#
-# -i innermode ... INNERMODE is the mode for form=inner or emboss. The choices
+# 
+# -i innermode ... INNERMODE is the mode for form=inner or emboss. The choices 
 # are: hard or smooth. The default=hard.
-#
-# -o outermode ... OUTERMODE is the mode for form=outer or emboss. The choices
+# 
+# -o outermode ... OUTERMODE is the mode for form=outer or emboss. The choices 
 # are: raised or lowered. The default=raised.
-#
-# -s soften ... SOFTEN is the amount of softening or smoothing in the effect.
-# Values are integer>=0. Nominal values are 0 to about 10. The default=0
+# 
+# -s soften ... SOFTEN is the amount of softening or smoothing in the effect. 
+# Values are integer>=0. Nominal values are 0 to about 10. The default=0 
 # (no softening).
-#
+# 
 # -t taper ... TAPER is the rate of tapering for form=outer or emboss. Values
-# are integesr>=0. Nominally, taper is about 0 to 3. Smaller taper means the
-# effect rolls off or tapers faster and is more downward curved. Larger values
-# means the taper rolls off more slowly and flatly. The default=2 for
+# are integesr>=0. Nominally, taper is about 0 to 3. Smaller taper means the 
+# effect rolls off or tapers faster and is more downward curved. Larger values 
+# means the taper rolls off more slowly and flatly. The default=2 for 
 # mode=raised and the default=0 for mode=lowered.
-#
-# -b bcolor ... BCOLOR is the color to apply to the outer bevel or outer bevel
-# part of emboss. Any valid opaque IM color is allowed. The default=gray
-#
-# -c colormode ... COLORMODE is the colorization mode to use when bcolor is
+# 
+# -b bcolor ... BCOLOR is the color to apply to the outer bevel or outer bevel 
+# part of emboss. Any valid opaque IM color is allowed. The default=gray 
+# 
+# -c colormode ... COLORMODE is the colorization mode to use when bcolor is 
 # assigned. The choices are: dark or light. The default=dark.
-#
-# NOTE: When the image has no alpha channel or a fully opaque alpha channel,
+# 
+# NOTE: When the image has no alpha channel or a fully opaque alpha channel, 
 # then it is recommended that one use my bevelborder script, as it is much faster.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 form="inner"				# inner; outer; emboss
@@ -140,13 +140,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -194,7 +194,7 @@ else
 					   ;;
 				-w)    # get width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width=`expr "$1" : '\([0-9]*\)'`
@@ -204,7 +204,7 @@ else
 					   ;;
 				-a)    # get azimuth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AZUMUTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   azimuth=`expr "$1" : '\([0-9]*\)'`
@@ -215,7 +215,7 @@ else
 					   ;;
 				-e)    # get elevation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ELEVATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   elevation=`expr "$1" : '\([0-9]*\)'`
@@ -226,7 +226,7 @@ else
 					   ;;
 				-d)    # get  depth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DEPTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   depth=`expr "$1" : '\([0-9]*\)'`
@@ -270,7 +270,7 @@ else
 					   ;;
 				-s)    # get soften
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SOFTEN SPECIFICATION ---"
 					   checkMinus "$1"
 					   soften=`expr "$1" : '\([0-9]*\)'`
@@ -278,7 +278,7 @@ else
 					   ;;
 				-t)    # get taper
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TAPER SPECIFICATION ---"
 					   checkMinus "$1"
 					   taper=`expr "$1" : '\([0-9]*\)'`
@@ -286,7 +286,7 @@ else
 					   ;;
 				-b)    # get bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
@@ -350,9 +350,9 @@ opaque_alpha="no"
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -540,7 +540,7 @@ elif [ "$form" = "emboss" ]; then
 		\( $tmpA3 -alpha off \) +swap $setcspace -compose hardlight -composite \
 		$tmpA2 -alpha off -compose copy_opacity -composite \
 		"$outfile"
-
+		
 fi
 
 exit 0

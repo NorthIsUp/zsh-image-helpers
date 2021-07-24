@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 1/19/2009 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: ripples [-t type ] [-a amplitude] [-w width] [-o offset] [-r rmin] [-c center] [-p power ] [-s shadeval] infile outfile
@@ -31,64 +31,64 @@
 #
 # OPTIONS:
 #
-# -t      type               type of circular ripple effect; displace (or d), modulate (or m)
+# -t      type               type of circular ripple effect; displace (or d), modulate (or m) 
 #                            blend (or b); default=displace
 # -a      amplitude          amplitude or height of displace ripple; integer>=0; default=20
 # -w      width              width of single ripple; integer>0; default=25
 # -o      offset             offset or extra spacing between ripples; integer>=0; default=0
 # -r      rmin               minimum distance from center to first ripple; integer>=0; default=25
 # -c      center             center point for circular ripples; center=cx,cy; integer>=0
-# -p      power              power or exponent controlling tapering of ripples; float>=0;
+# -p      power              power or exponent controlling tapering of ripples; float>=0; 
 #                            power=1 is linear taper; default=0 or no taper
-# -s      shadeval			 shading effect; shadeval=AzimuthxElevation angles;
+# -s      shadeval			 shading effect; shadeval=AzimuthxElevation angles; 
 #                            integers; 0<=azimuth<=360; 0<=elevation<=90; default is no shading;
 #
 ###
 #
-# NAME: RIPPLES
-#
+# NAME: RIPPLES 
+# 
 # PURPOSE: To apply various circular ripple effects to an image.
-#
+# 
 # DESCRIPTION: RIPPLES applies various circular ripple effects to an image.
-# The effects are displacement which produces water-like ripples, modulation
+# The effects are displacement which produces water-like ripples, modulation 
 # and blend. The latter are more suited for creating wavy patterns.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -t type ... TYPE of circular ripple/wave effect. Choices are: displace or (d),
-# modulate (or m) and blend (or b). The displace option produces water-like ripples.
-# The modulate and blend options are better at producing wavy patterns. The
+# -t type ... TYPE of circular ripple/wave effect. Choices are: displace or (d), 
+# modulate (or m) and blend (or b). The displace option produces water-like ripples. 
+# The modulate and blend options are better at producing wavy patterns. The 
 # default is displace.
-#
+# 
 # -a amplitude ... AMPLITUDE or height of ripple. Values are integers>=0.
-# The default=20. Types of modulate and blend are not sensitive to this
+# The default=20. Types of modulate and blend are not sensitive to this 
 # parameter.
 #
-# -w width ... WIDTH is the width or wavelength of a single ripple. Values are
+# -w width ... WIDTH is the width or wavelength of a single ripple. Values are 
 # integers>0. The default=25.
 #
-# -r rmin ... RMIN is the spacing from the center to the first ripple.
+# -r rmin ... RMIN is the spacing from the center to the first ripple. 
 # Values are integers>=0. The default=25.
-#
-# -c center ... CENTER=cx,cy are the comma separated coordinates in the image
-# from where the circular ripples eminate. Values are integers>=0. The default
+# 
+# -c center ... CENTER=cx,cy are the comma separated coordinates in the image 
+# from where the circular ripples eminate. Values are integers>=0. The default 
 # is the center of the image.
-#
-# -p power ... POWER is the exponent that controls the tapering of the ripples/waves.
-# Values are floats>=0. Power=0 is no taper. Power=1 is linear taper. The
+# 
+# -p power ... POWER is the exponent that controls the tapering of the ripples/waves. 
+# Values are floats>=0. Power=0 is no taper. Power=1 is linear taper. The 
 # default=1
-#
+# 
 # -s shadeval ... SHADEVAL=AZIMUTHxELEVATION are the optional x separated
-# shading angles of azimulth (around) and elevation (up) for the lighting effect.
-# Values are integers, 0<=azimuth<=360 degree and 0<=elevation<=90 degrees.
+# shading angles of azimulth (around) and elevation (up) for the lighting effect. 
+# Values are integers, 0<=azimuth<=360 degree and 0<=elevation<=90 degrees. 
 # See -shade for more details.
-#
+# 
 # NOTE: Requires IM 6.4.2-8 or higher due to the use of -distort polar/depolar.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -109,13 +109,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -163,20 +163,20 @@ else
 					   ;;
 				-t)	   # get type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$type" in
+					   case "$type" in 
 					   		displace|d) type="displace";;
 					   		modulate|m) type="modulate";;
 					   		blend|b) type="blend";;
-					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---"
+					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---" 
 					   	esac
-					   ;;
+					   ;;					   
 				-a)    # get amplitude
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMPLITUDE SPECIFICATION ---"
 					   checkMinus "$1"
 					   amplitude=`expr "$1" : '\([0-9]*\)'`
@@ -186,7 +186,7 @@ else
 					   ;;
 				-w)    # get width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width=`expr "$1" : '\([0-9]*\)'`
@@ -196,7 +196,7 @@ else
 					   ;;
 				-o)    # get offset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSET SPECIFICATION ---"
 					   checkMinus "$1"
 					   offset=`expr "$1" : '\([0-9]*\)'`
@@ -204,7 +204,7 @@ else
 					   ;;
 				-r)    # get rmin
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RMIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   rmin=`expr "$1" : '\([0-9]*\)'`
@@ -212,7 +212,7 @@ else
 					   ;;
 				-p)    # get power
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POWER SPECIFICATION ---"
 					   checkMinus "$1"
 					   power=`expr "$1" : '\([.0-9]*\)'`
@@ -220,7 +220,7 @@ else
 					   ;;
 				-c)    # get center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -233,7 +233,7 @@ else
 					   ;;
 				-s)    # get shadeval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHADEVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "x" " " | wc -w`
@@ -246,7 +246,7 @@ else
 		   			   azimuthtest=`echo "$azimuth < 0 || $azimuth > 360" | bc`
 					   [ $azimuthtest -eq 1 ] && errMsg "--- AZIMUTH=$azimuth MUST BE AN INTEGER BETWEEN 0 AND 360 ---"
 		   			   elevationtest=`echo "$elevation < 0 || $elevation > 90" | bc`
-					   [ $elevationtest -eq 1 ] && errMsg "--- ELEVATION=$elevation MUST BE AN INTEGER BETWEEN 0 AND 90 ---"
+					   [ $elevationtest -eq 1 ] && errMsg "--- ELEVATION=$elevation MUST BE AN INTEGER BETWEEN 0 AND 90 ---"	   			   
 					   ;;
 				 -)    # STDIN and end of arguments
 					   break
@@ -284,9 +284,9 @@ trap "rm -f $tmpA1 $tmpA2 $tmp1; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear

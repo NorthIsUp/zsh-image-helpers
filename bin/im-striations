@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 1/20/2009 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: striations [-t type] [-r radius] [-c center] [-k column] infile outfile
@@ -33,45 +33,45 @@
 #
 # -t      type               type of striations; choices are radial (or r)
 #                            or circular (c); default=radial
-# -r      radius             radius from center point where striations begin;
+# -r      radius             radius from center point where striations begin; 
 #                            integer>=0; default is half the minimum image dimension
-# -c      center             center point for striation effect; center=cx,cy;
+# -c      center             center point for striation effect; center=cx,cy; 
 #                            integer>=0; default is center of image
 # -k      column             column to use for circular striations; integers;
 #                            0<=column<width
 #
 ###
 #
-# NAME: STRIATIONS
-#
+# NAME: STRIATIONS 
+# 
 # PURPOSE: To apply radial or circular striations to image.
-#
-# DESCRIPTION: STRIATIONS applies radial or circular striations to image
+# 
+# DESCRIPTION: STRIATIONS applies radial or circular striations to image 
 # starting at a user specified center point and radius.
-#
-# OPTIONS:
+# 
+# OPTIONS: 
 #
 # -t type ... TYPE of striations. Choices are radial (or r) or circular (or c).
 # The default is radial.
-#
-# -r radius ... RADIUS is the radial distance from the center point at
-# which the striations begin. Values are integers>=0. The default is
+# 
+# -r radius ... RADIUS is the radial distance from the center point at 
+# which the striations begin. Values are integers>=0. The default is 
 # half the minimum dimension of the image.
-#
-# -c center ... CENTER=cx,cy are the comma separated coordinates in the image
-# from where the radial striations eminate. Values are integers>=0. The default
+# 
+# -c center ... CENTER=cx,cy are the comma separated coordinates in the image 
+# from where the radial striations eminate. Values are integers>=0. The default 
 # is the center of the image.
-#
-# -k column ... COLUMN of the polar image to use for generating the circular
+# 
+# -k column ... COLUMN of the polar image to use for generating the circular 
 # striations. Values are integers, such that 0<=column<width of the image.
 # The default=0.
-#
+# 
 # NOTE: Requires IM 6.4.2-8 or higher due to the use of -distort polar/depolar.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -88,13 +88,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -142,19 +142,19 @@ else
 					   ;;
 				-t)	   # get type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$type" in
+					   case "$type" in 
 					   		radial|r) type="radial" ;;
 					   		circular|c) type="circular" ;;
 					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---" ;;
 					   	esac
-					   ;;
+					   ;;					   
 				-r)    # get rad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   rad=`expr "$1" : '\([0-9]*\)'`
@@ -162,7 +162,7 @@ else
 					   ;;
 				-c)    # get center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-k)    # get column
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLUMN SPECIFICATION ---"
 					   checkMinus "$1"
 					   column=`expr "$1" : '\([0-9]*\)'`

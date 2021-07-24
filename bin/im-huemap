@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/2/2010 .......... 9/12/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: huemap [-h hues] [-t tolers] [-r] infile outfile
@@ -32,47 +32,47 @@
 # OPTIONS:
 #
 # -h      hues         hues=srchue,dsthue; source and destination hue values;
-#                      comma separated list; 0<=integer<=360; default=240,120
+#                      comma separated list; 0<=integer<=360; default=240,120 
 #                      maps blue to green
 # -t      tolers       tolers=stoler,dtoler; source and destination range of
-#                      hues on each side of hue values; 0<=integer<=360;
+#                      hues on each side of hue values; 0<=integer<=360; 
 #                      default=10,10
-# -r                   reverse direction of range of destination hues
+# -r                   reverse direction of range of destination hues 
 #
 ###
 #
-# NAME: HUEMAP
-#
+# NAME: HUEMAP 
+# 
 # PURPOSE: To transform the hues in an image from one range to another.
-#
-# DESCRIPTION: HUEMAP transform the hues in an image from one range to another.
-# One hue can be mapped to another single hue. One range of hues can be mapped
+# 
+# DESCRIPTION: HUEMAP transform the hues in an image from one range to another. 
+# One hue can be mapped to another single hue. One range of hues can be mapped 
 # to a single hue. Or one range of hues can be mapped to another range of hues.
 # This is similar to GIMP's Rotate Hues.
-#
-#
-# OPTIONS:
-#
-# -h hues ... HUES=SRCHUE,DSTHUE. These are source and destination hue values
-# in the range of 0<=integer<=360. The source hue (range) will be replaced by
-# the detination hue (range), depending upon the tolers values below. The
+# 
+# 
+# OPTIONS: 
+# 
+# -h hues ... HUES=SRCHUE,DSTHUE. These are source and destination hue values 
+# in the range of 0<=integer<=360. The source hue (range) will be replaced by 
+# the detination hue (range), depending upon the tolers values below. The 
 # default=240,120 maps blue to green.
 #
-# -t tolers ... TOLERS=STOLER,DTOLER. These are the source and destination
-# ranges on each side of the specified hues that determine the range of hues
+# -t tolers ... TOLERS=STOLER,DTOLER. These are the source and destination 
+# ranges on each side of the specified hues that determine the range of hues 
 # to be mapped. Values are in the range of 0<=integer<=360. The default=10,10.
-#
+# 
 # -r ... REVERSE the direction of the range of destination hues.
-#
+# 
 # REQUIREMENT: IM version 6.3.5-7 or higher due to the use of -clut.
 #
-# NOTE: If the image has an alpha channel, it will be copied unchanged to
+# NOTE: If the image has an alpha channel, it will be copied unchanged to 
 # the output image.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -88,13 +88,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -142,7 +142,7 @@ else
 					   ;;
 				-h)    # get hues
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HUES SPECIFICATION ---"
 					   checkMinus "$1"
 					   hues=`expr "$1" : '\([,0-9]*\)'`
@@ -150,7 +150,7 @@ else
  					   ;;
 				-t)    # get tolers
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TOLERANCES SPECIFICATION ---"
 					   checkMinus "$1"
 					   tolers=`expr "$1" : '\([,0-9]*\)'`
@@ -234,7 +234,7 @@ convert -size 1x360 gradient: -rotate 90 $tmpG1
 
 # modify gradient as lut to apply to hue channel
 
-# create gradient section of length=2*toler+1 and value=dst1 to dst2 scaled to percent
+# create gradient section of length=2*toler+1 and value=dst1 to dst2 scaled to percent 
 # insert into beginning of transparent row
 # due to bug, make it red, then change to dst later
 dst1=`convert xc: -format "%[fx:($dsthue-$dtoler)]" info:`
@@ -317,7 +317,7 @@ convert $tmpH1 -colorspace HSL \
 	-colorspace $cspace $tmpI1
 
 
-# add alpha channel back if needed
+# add alpha channel back if needed	
 if [ "$is_alpha" = "True" ]; then
 	convert $tmpI1 $tmpA1 -alpha off -compose copy_opacity -composite "$outfile"
 else
@@ -325,3 +325,4 @@ else
 fi
 
 exit 0
+

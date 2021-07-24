@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 8/28/2012 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: softfocus [-m mix] [-b bluramt1] [-B bluramt2] [-o opacity1] [-O opacity2] [-c coords] [-r radius] infile outfile
@@ -31,8 +31,8 @@
 #
 # OPTIONS:
 #
-# -m     mix           mix percent between compose softlight and compose over
-#                      approaches; mix=0 is softlight, mix=100 is over;
+# -m     mix           mix percent between compose softlight and compose over 
+#                      approaches; mix=0 is softlight, mix=100 is over; 
 #                      0<=integer<=100; default=50 (equal blend of the two)
 # -b     bluramt1      blur amount when using the compose softlight method;
 #                      float>=0;default=4
@@ -41,59 +41,59 @@
 # -o     opacity1      opacity amount when using the compose softlight method;
 #                      0<=integer<=100; default=50
 # -O     opacity2      opacity amount when using the compose over method;
-#                      0<=integer<=100; default=50
-# -c     coords        x,y center coordinates for the no blur region when
-#                      using compose over approach; integers>=0;
+#                      0<=integer<=100; default=50                  
+# -c     coords        x,y center coordinates for the no blur region when 
+#                      using compose over approach; integers>=0; 
 #                      default=image center
-# -r     radius        percent of minimum distance between coords and edges of
-#                      image for the no blur center region when method is over;
+# -r     radius        percent of minimum distance between coords and edges of 
+#                      image for the no blur center region when method is over; 
 #                      0<=integer<=100; default=25
 #
 ###
 #
-# NAME: SOFTFOCUS
-#
+# NAME: SOFTFOCUS 
+# 
 # PURPOSE: To apply a softfocus effect to an image.
-#
-# DESCRIPTION: SOFTFOCUS appliesa softfocus effect to an image. This will be
-# a blend of two methods. One used -compose softlight and the other uses
-# -compose over. The latter applies a ramped blur and allows a center region
+# 
+# DESCRIPTION: SOFTFOCUS appliesa softfocus effect to an image. This will be 
+# a blend of two methods. One used -compose softlight and the other uses 
+# -compose over. The latter applies a ramped blur and allows a center region 
 # with no blur.
-#
-# OPTIONS:
-#
-# -m mix ... MIX is the mix percent between compose softlight and compose over
-# methods. Mix=0 is -compose softlight and mix=100 is -compose over. Values are
+# 
+# OPTIONS: 
+# 
+# -m mix ... MIX is the mix percent between compose softlight and compose over 
+# methods. Mix=0 is -compose softlight and mix=100 is -compose over. Values are 
 # integers between 0 and 100. The default=50 (equal blend of the two methods).
-#
-# -b  bluramt1 ... BLURAMT1 is the blur amount when using the compose softlight
+# 
+# -b  bluramt1 ... BLURAMT1 is the blur amount when using the compose softlight 
 # method. Values are floats>=0. The default=4.
-#
-# -B  bluramt2 ... BLURAMT2 is the blur amount when using the compose over
-# method. Values are floats>=0. The default is automatically computed from the
+# 
+# -B  bluramt2 ... BLURAMT2 is the blur amount when using the compose over 
+# method. Values are floats>=0. The default is automatically computed from the 
 # image size.
-#
-# -o opacity1 ... OPACITY1 is the opacity amount when using the compose
+# 
+# -o opacity1 ... OPACITY1 is the opacity amount when using the compose 
 # softlight method. Values are integers between 0 and 100. The default=50.
-#
-# -O opacity2 ... OPACITY2 is the opacity amount when using the compose
+# 
+# -O opacity2 ... OPACITY2 is the opacity amount when using the compose 
 # over method. Values are integers between 0 and 100. The default=50.
-#
-# -c coords ... COORDS are the x,y center coordinates for the no blur region
-# when using the compose over method. Values are integers>=0. The default is
+# 
+# -c coords ... COORDS are the x,y center coordinates for the no blur region 
+# when using the compose over method. Values are integers>=0. The default is 
 # the image center.
-#
-# -r radius ... RADIUS is the percent of the minimum distance between the
-# specified coords and the edges of image. This radius computes the size of
-# the no blur center region when the method is over. Values are integers
-# between 0 and 100. The default=25. When no coords are specified the ramped
-# blur will have an elliptical shape if the image is not square; otherwise,
+# 
+# -r radius ... RADIUS is the percent of the minimum distance between the 
+# specified coords and the edges of image. This radius computes the size of 
+# the no blur center region when the method is over. Values are integers 
+# between 0 and 100. The default=25. When no coords are specified the ramped 
+# blur will have an elliptical shape if the image is not square; otherwise, 
 # it will be a circle. It will always be a circle, if coords are specified.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -103,7 +103,7 @@ bluramt1=4			# blur amount for softlight method
 bluramt2=""			# blur amount for over method
 opacity1=50			# opacity for softlight
 opacity2=50			# opacity for over method
-coords=""			# center coords for no blur region
+coords=""			# center coords for no blur region	
 radius=25			# percent of image size for no blur center region for method over
 
 # set directory for temporary files
@@ -113,13 +113,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -167,7 +167,7 @@ else
 					   ;;
 				-m)    # get mix
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIX SPECIFICATION ---"
 					   checkMinus "$1"
 					   mix=`expr "$1" : '\([0-9]*\)'`
@@ -178,7 +178,7 @@ else
 					   ;;
 				-b)    # get bluramt1
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLURAMT1 SPECIFICATION ---"
 					   checkMinus "$1"
 					   bluramt1=`expr "$1" : '\(.[0-9]*\)'`
@@ -186,7 +186,7 @@ else
 					   ;;
 				-B)    # get bluramt2
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLURAMT2 SPECIFICATION ---"
 					   checkMinus "$1"
 					   bluramt2=`expr "$1" : '\(.[0-9]*\)'`
@@ -194,7 +194,7 @@ else
 					   ;;
 				-o)    # get opacity1
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY1 SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity1=`expr "$1" : '\([0-9]*\)'`
@@ -205,7 +205,7 @@ else
 					   ;;
 				-O)    # get opacity2
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY2 SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity2=`expr "$1" : '\([0-9]*\)'`
@@ -216,7 +216,7 @@ else
 					   ;;
 				-c)    # get coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -227,7 +227,7 @@ else
 					   ;;
 				-r)    # get radius
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   radius=`expr "$1" : '\([0-9]*\)'`
@@ -288,20 +288,20 @@ if [ "$coords" != "" ]; then
 	dleft=$xc
 	dright=`convert xc: -format "%[fx:$ww-$xc]" info:`
 	dbottom=`convert xc: -format "%[fx:$hh-$yc]" info:`
-	dtop=$yc
+	dtop=$yc 
 	dbot=`convert xc: -format "%[fx:$hh-$yc]" info:`
 	min=`convert xc: -format "%[fx:hypot( min($dleft,$dright), min($dtop,$dbottom) )]" info:`
 	min2=`convert xc: -format "%[fx:2*$min]" info:`
 	xoff=`convert xc: -format "%[fx:$xc-$min]" info:`
 	yoff=`convert xc: -format "%[fx:$yc-$min]" info:`
-
+	
 fi
 #echo "xc=$xc; yc=$yc; dleft=$dleft; dright=$dright; dbottom=$dbottom; dtop=$dtop; min=$min; xoff=$xoff; yoff=$yoff;"
 
 # set blur amount for over method
 if [ "$bluramt2" = "" ]; then
 	bluramt2=`convert xc: -format "%[fx:max(1.5,1.5*($max/250))]" info:`
-fi
+fi	
 #echo "bluramt2=$bluramt2"
 
 

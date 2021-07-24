@@ -3,80 +3,80 @@
 # Developed by Fred Weinhaus 5/14/2013 .......... revised 2/2/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: multigradient [-w width] [-h height] [-s stops] [-t type]
+# USAGE: multigradient [-w width] [-h height] [-s stops] [-t type] 
 # [-d direction] [-c center] [-r radii] outfile
 #
 # USAGE: multigradient [-help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -w     width         width of desired output image; default=256
 # -h     height        height of desired output image; default=256
-# -s     stops         stops; space separate list of pairs of color and
-#                      percent location along the gradient enclosed in double
+# -s     stops         stops; space separate list of pairs of color and 
+#                      percent location along the gradient enclosed in double 
 #                      quotes; default="white black"
 # -t     type          type of gradient; choices are linear, circle or ellipse;
 #                      default=linear
-# -d     direction     direction of gradient; angle or sides or corners;
-#                      default=to-bottom for linear and closest-side for circle
-#                      or ellipse; angles are measured in degrees clockwise
+# -d     direction     direction of gradient; angle or sides or corners; 
+#                      default=to-bottom for linear and closest-side for circle 
+#                      or ellipse; angles are measured in degrees clockwise 
 #                      from the zeroangle direction; -360<=angle<=360
-# -c     center        x and y center coordinates for ellipse or circle;
-#                      pair of comma separated floats>=0;
+# -c     center        x and y center coordinates for ellipse or circle; 
+#                      pair of comma separated floats>=0; 
 #                      default=(width-2)/2,(height-1)/2
-# -r     radii         x and y radii for ellipse or circle;
-#                      pair of comma separated floats>=0;
-#                      default is determined by distance from center to
+# -r     radii         x and y radii for ellipse or circle; 
+#                      pair of comma separated floats>=0; 
+#                      default is determined by distance from center to 
 #                      closest-side
-# -z     zeroangle     zero angle direction for type=linear; choices are:
+# -z     zeroangle     zero angle direction for type=linear; choices are: 
 #                      to-top or to-right; default=to-top
-#
+# 
 ###
-#
-# NAME: MULTIGRADIENT
-#
-# PURPOSE: To create either a linear or radial gradient image with two or more
+# 
+# NAME: MULTIGRADIENT 
+# 
+# PURPOSE: To create either a linear or radial gradient image with two or more 
 # stops to specify colors and locations along the gradient direction.
-#
-# DESCRIPTION: RADIALGRADIENT creates either a linear or radial gradient image
-# with two or more stops to specify colors and locations along the gradient
-# direction. Linear gradients may be oriented at any rotation angle or towards
-# any side or corner. A radial gradient may be either an ellipse or constrained
-# to a circle. Directions include: closest-side, furthest-side, closest-corner,
-# or furthest corner. Colors may contain partial transparency and allow any
-# valid IM color specification, including color names, rgb values or hex values.
+# 
+# DESCRIPTION: RADIALGRADIENT creates either a linear or radial gradient image 
+# with two or more stops to specify colors and locations along the gradient 
+# direction. Linear gradients may be oriented at any rotation angle or towards 
+# any side or corner. A radial gradient may be either an ellipse or constrained 
+# to a circle. Directions include: closest-side, furthest-side, closest-corner, 
+# or furthest corner. Colors may contain partial transparency and allow any 
+# valid IM color specification, including color names, rgb values or hex values. 
 # This script attempts to simulate many of the features of CSS style gradients.
-#
-#
-# ARGUMENTS:
-#
+# 
+# 
+# ARGUMENTS: 
+# 
 # -w width ... WIDTH of desired output image. The default=256.
-#
+# 
 # -h height ... HEIGHT of desired output image. The default=256.
-#
+# 
 # -s stops ... STOPS are a space separate list of pairs of colors and percent
 # locations along the gradient enclosed in double quotes. The colors may be color
 # names, hex colors, rgb colors or a mix. The first and last percent location may
@@ -84,39 +84,39 @@
 # must be zero if specified. The last percentage may be less than 100 if
 # specified. In this case, then last color will be use to fill out the gradient.
 # The default="white black" or "white 0 black 100".
-#
-# -t type ... TYPE of gradient. The choices are: linear, circle or ellipse.
+# 
+# -t type ... TYPE of gradient. The choices are: linear, circle or ellipse. 
 # The default=linear.
-#
+# 
 # -d  direction ... DIRECTION of gradient. For type=linear, direction may
 # be either an angle in degrees measured clockwise from the zeroangle in the
 # range of -360 to 360 or alternately, direction may be any one of the
 # following: to-top, to-right, to-bottom, to-left, to-topright,
-# to-bottomright, to-bottomleft or to-topleft for linear. For type=ellipse or
-# circle, direction may be one of the following: closest-side, furthest-side,
-# closest-corner, furthest-corner. For type=linear, the default is to-bottom
+# to-bottomright, to-bottomleft or to-topleft for linear. For type=ellipse or 
+# circle, direction may be one of the following: closest-side, furthest-side, 
+# closest-corner, furthest-corner. For type=linear, the default is to-bottom  
 # for zeroangle=to-top and the default is to-right for zeroangle=to-right. For
 # ellipse or circle the default=closest-side.
-#
-# -c center ... x and y CENTER coordinates for ellipse or circle expressed as
-# a comma separate pair of non-negative floats. The
+# 
+# -c center ... x and y CENTER coordinates for ellipse or circle expressed as 
+# a comma separate pair of non-negative floats. The 
 # default=(width-2)/2,(height-1)/2.
-#
-# -r radii ... x and y RADII for ellipse or circle expressed as a comma
-# separate pair of non-negative floats. The default is determined by distance
+# 
+# -r radii ... x and y RADII for ellipse or circle expressed as a comma 
+# separate pair of non-negative floats. The default is determined by distance 
 # from the gradient center to the closest-side.
-#
-# -z zeroangle ... ZEROANGLE is direction where angle=0 for type=linear. The
+# 
+# -z zeroangle ... ZEROANGLE is direction where angle=0 for type=linear. The 
 # choices are: to-top or to-right. The default=to-top
-#
+# 
 # REFERENCE: http://dev.w3.org/csswg/css-images-3/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 width=256
@@ -128,7 +128,7 @@ center=""					# ellipse or circle only
 radii=""					# ellipse or circle only
 zeroangle="to-top"			# linear coordinate system zero angle; to-right or to-top
 
-# fixed
+# fixed 
 length=65000
 length=1000
 
@@ -139,13 +139,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -193,7 +193,7 @@ else
 					   ;;
 				-w)    # get  width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width=`expr "$1" : '\([0-9]*\)'`
@@ -203,7 +203,7 @@ else
 					   ;;
 				-h)    # get  height
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HEIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   height=`expr "$1" : '\([0-9]*\)'`
@@ -213,34 +213,34 @@ else
 					   ;;
 				-s)    # get  stops
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STOPS SPECIFICATION ---"
 					   checkMinus "$1"
 					   stops="$1"
 					   ;;
 				-t)    # type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$type" in
+					   case "$type" in 
 							linear|l) type="linear" ;;
 							circle|c) type="circle" ;;
 							ellipse|e) type="ellipse" ;;
-							*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---"
+							*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-d)    # get  direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   direction=`echo "$1" | tr "[:upper:]" "[:lower:]"`
 					   ;;
 				-c)    # get  center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   center=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
@@ -248,7 +248,7 @@ else
 					   ;;
 				-r)    # get  radii
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADII SPECIFICATION ---"
 					   checkMinus "$1"
 					   radii=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
@@ -256,14 +256,14 @@ else
 					   ;;
 				-z)    # zeroangle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ZEROANGLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   zeroangle=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$zeroangle" in
+					   case "$zeroangle" in 
 							to-top) ;;
 							to-right) ;;
-							*) errMsg "--- ZEROANGLE=$type IS AN INVALID VALUE ---"
+							*) errMsg "--- ZEROANGLE=$type IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				 -)    # STDIN and end of arguments
@@ -340,7 +340,7 @@ function radialGradient
 	rx=$3
 	ry=$4
 #	echo "cx=$cx; cy=$cy; rx=$rx; ry=$ry"
-
+	
 	# slow pure fx approach
 	# convert -size ${width}x1 xc: \
 	#	-fx "xx=(i-$cx)/$rx; yy=(j-$cy)/$ry; hypot(xx,yy)" $tmpA1
@@ -354,7 +354,7 @@ function radialGradient
 		-compose plus -composite -evaluate pow 0.5 $tmpA1
 	}
 
-
+	
 function distSides
 	{
 	rleft=$cx
@@ -413,8 +413,8 @@ if [ "$type" = "linear" ]; then
 #		echo "dir=$direction; dtest=$dtest; angletest=$angletest"
 
 	else
-		# direction is not an angle
-		case "$direction" in
+		# direction is not an angle	
+		case "$direction" in 
 		to-top) ;;
 		to-right) ;;
 		to-bottom) ;;
@@ -423,16 +423,16 @@ if [ "$type" = "linear" ]; then
 		to-bottomright) ;;
 		to-bottomleft) ;;
 		to-topleft) ;;
-		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE FOR TYPE=LINEAR ---"
+		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE FOR TYPE=LINEAR ---" 
 		esac
 	fi
 else
-	case "$direction" in
+	case "$direction" in 
 		closest-side) ;;
 		furthest-side) ;;
 		closest-corner) ;;
 		furthest-corner) ;;
-		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE FOR TYPE=ELLIPSE OR TYPE=CIRCLE ---"
+		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE FOR TYPE=ELLIPSE OR TYPE=CIRCLE ---" 
 	esac
 fi
 
@@ -466,7 +466,7 @@ if [ "$type" = "linear" ]; then
 
 elif [ "$type" = "circle" ]; then
 	# create radial grayscale gradient from black to white different directions
-
+	
 	# get center
 	if [ "$center" = "" ]; then
 		cx=`convert xc: -format "%[fx:($width-1)/2]" info:`
@@ -475,7 +475,7 @@ elif [ "$type" = "circle" ]; then
 		cx=`echo "$center" | cut -d, -f1`
 		cy=`echo "$center" | cut -d, -f2`
 	fi
-
+	
 	if [ "$radii" != "" ]; then
 		rx=`echo "$radii" | cut -d, -f1`
 		ry=$rx
@@ -501,10 +501,10 @@ elif [ "$type" = "circle" ]; then
 		ry=$rx
 		radialGradient "$cx" "$cy" "$rx" "$ry"
 	fi
-
+	
 elif [ "$type" = "ellipse" ]; then
 	# create radial grayscale gradient from black to white different directions
-
+	
 	# get center
 	if [ "$center" = "" ]; then
 		cx=`convert xc: -format "%[fx:($width-1)/2]" info:`
@@ -513,7 +513,7 @@ elif [ "$type" = "ellipse" ]; then
 		cx=`echo "$center" | cut -d, -f1`
 		cy=`echo "$center" | cut -d, -f2`
 	fi
-
+	
 	if [ "$radii" != "" ]; then
 		rx=`echo "$radii" | cut -d, -f1`
 		ry=`echo "$radii" | cut -d, -f2`
@@ -573,7 +573,7 @@ if [ "$(echo "$last" | grep -E '^[0-9][0-9]*\.?[0-9]*$')" = "" ]; then
 		num=2
 		numm1=1
 #		echo "$numm1"
-	else
+	else	
 		#remove first and last entries from stops and then get color and percent arrays
 		pos=1
 		len=$((num-2))
@@ -600,7 +600,7 @@ if [ "$(echo "$last" | grep -E '^[0-9][0-9]*\.?[0-9]*$')" = "" ]; then
 		numm1=$((num-1))
 #		echo "$numm1"
 	fi
-
+	
 else
 	# not numeric - process stops for firstcolor 0 secondcolor second percent ... lastcolor 100 format
 	colorArr=($(for ((i=0; i<num; i=i+2)) do echo ${stopsArr[$i]}; done))

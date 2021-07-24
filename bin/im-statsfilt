@@ -1,38 +1,38 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 9/16/2007 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: statsfilt [-s statistic] [-p power] infile outfile
 # USAGE: statsfilt [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -s        statistic      id number for the statistical filter to compute; default=1
-#                          statistic=1:  simple average (arithmetic mean) of neighborhood
+#                          statistic=1:  simple average (arithmetic mean) of neighborhood 
 #                                        pixels
 #                          statistic=2:  minimum value of neighborhood pixels
 #                          statistic=3:  maximum value of neighborhood pixels
@@ -49,124 +49,124 @@
 #                                        pixels, excluding the center
 #                          statistic=12: inverse distance weighted average of neighborhood
 #                                        pixels, excluding the center
-#                          statistic=13: minimum or maximum whichever value is closest
-#                                        to center
-#                          statistic=14: average (arithmetic mean) without the center pixel
-# -p         power         exponent value to use with statistic 9 and 10;
+#                          statistic=13: minimum or maximum whichever value is closest 
+#                                        to center 
+#                          statistic=14: average (arithmetic mean) without the center pixel 
+# -p         power         exponent value to use with statistic 9 and 10; 
 #                          exponent=integer; default=2
 # -h         get help
 # -help      get help
-#
+# 
 ###
-#
-# NAME: STATSFILT
-#
-# PURPOSE: To compute various localized (neighborhood) statistical filters on an image.
-#
-# DESCRIPTION: STATSFILT is a collection of localized (neighborhood) statistical
-# filters most of which are used for noise reduction in an image. Note that most
+# 
+# NAME: STATSFILT 
+# 
+# PURPOSE: To compute various localized (neighborhood) statistical filters on an image. 
+# 
+# DESCRIPTION: STATSFILT is a collection of localized (neighborhood) statistical 
+# filters most of which are used for noise reduction in an image. Note that most 
 # noise reduction filters trade noise reduction for some degree of blurring.
-#
-# Arguments:
-#
-# -h or -help    ---  displays help information.
-#
+# 
+# Arguments: 
+# 
+# -h or -help    ---  displays help information. 
+# 
 # -s     statistic   statistic is a numerical id for the type of
-# statistic to be calculated.
-#
-# A value of 1 replaces each input pixel with the simple average
-# (or arithmetic mean) of all the pixels in the 3x3 neighborhood about
+# statistic to be calculated. 
+# 
+# A value of 1 replaces each input pixel with the simple average 
+# (or arithmetic mean) of all the pixels in the 3x3 neighborhood about 
 # that input pixel.
-#
+# 
 # A value of 2 replaces the input pixel with the minimum value found in
 # the neighborhood.
-#
+# 
 # A value of 3 replaces the input pixel with the maximum value found in
 # the neighborhood.
-#
+# 
 # A value of 4 replace the input pixel with average of the minimum and
 # maximum values in the neighborhood.
-#
+# 
 # A value of 5 replaces the input pixel with simple average of all the
-# pixels in the neighborhood, except the minimum and maximum values.
+# pixels in the neighborhood, except the minimum and maximum values. 
 # Thus it is throwing out the two extreme outliers.
-#
+# 
 # A value of 6 replaces the input pixel with the standard deviation of
 # all the pixels in the neighborhood. This is more of an edge operator
 # that a noise reduction operator.
-#
+# 
 # A value of 7 replaces the input pixel with geometric mean of all the
 # pixels in the neighborhood. The geometric mean is computed by taking
 # the ln of each neigborhood pixel value, averaging these values and
-# then taking the exp of the result. The geometric mean is used
-# especially for noise reduction when dealing with one-sided noise
+# then taking the exp of the result. The geometric mean is used 
+# especially for noise reduction when dealing with one-sided noise 
 # that is all bright spikes (but not well at all dark spikes).
-#
+# 
 # A value of 8 replaces the input pixel with the harmonic mean of all
 # the pixels in the neighborhood. The harmonic mean is computed by
 # taking the inverse of each pixel value, averaging these results and
-# then taking the inverse of the result. The harmonic mean is used
-# especially for noise reduction when dealing with one-sided noise
+# then taking the inverse of the result. The harmonic mean is used 
+# especially for noise reduction when dealing with one-sided noise 
 # that is all bright spikes (but not well at all dark spikes).
-#
+# 
 # A value of 9 replaces the input pixel with the Lp mean of all the
 # pixels in the neighborhood. The Lp mean is computed by raising each
 # pixel value in the neighborhood to some power, averaging these results
 # and then raising the result to the equivalent inverse power (i.e. the
 # negative value of the power). A choice of p=0 is not allowed.
-# Typically p is a low valued integer, i.e. 2 or -2. Note that p=1 is
-# equivalent to the simple average (arithmetic mean) and p=-1 is
-# equivalent to the harmonic mean. The Lp mean is used especially for
-# noise reduction when dealing with one-sided noise that is either all
-# bright spikes or all dark spikes. For all bright spikes, use negative
+# Typically p is a low valued integer, i.e. 2 or -2. Note that p=1 is 
+# equivalent to the simple average (arithmetic mean) and p=-1 is 
+# equivalent to the harmonic mean. The Lp mean is used especially for 
+# noise reduction when dealing with one-sided noise that is either all 
+# bright spikes or all dark spikes. For all bright spikes, use negative 
 # p values and for all dark spikes, use positive p values.
-#
-# A value of 10 replaces the input pixel with the contraharmonic mean
+# 
+# A value of 10 replaces the input pixel with the contraharmonic mean 
 # of all the pixels in the neighborhood. The contraharmonic mean is
 # computed by taking the average of all the pixels in the neighborhood
 # raised to the power p+1 and dividing that by the average of all the
 # pixels in the neighborhood raised to the power p. The power p can be
-# any integer. A choice of p=-1 is not allowed. Note that p=0 is
-# equivalent to the simple average (arithmetic mean). The contraharmonic
-# mean is used especially for noise reduction when dealing with one-sided
-# noise that is either all bright spikes or all dark spikes. For all bright
-# spikes, use negative p values and for all dark spikes, use positive p
+# any integer. A choice of p=-1 is not allowed. Note that p=0 is 
+# equivalent to the simple average (arithmetic mean). The contraharmonic 
+# mean is used especially for noise reduction when dealing with one-sided 
+# noise that is either all bright spikes or all dark spikes. For all bright 
+# spikes, use negative p values and for all dark spikes, use positive p 
 # values.
-#
-# A value of 11 replaces each pixel in the input image with a linear
+# 
+# A value of 11 replaces each pixel in the input image with a linear 
 # distance weighted average of all pixels in the neighborhood, except the
-# original center pixel. Weighting is measured as one minus the absolute
+# original center pixel. Weighting is measured as one minus the absolute 
 # difference between the graylevel of each neighbor and the center pixel.
-# Thus pixels with smaller differences (i.e. values closer to that of the
+# Thus pixels with smaller differences (i.e. values closer to that of the 
 # the center pixel) are weighted higher.
-#
-# A value of 12 replaces each pixel in the input image with an inverse
+# 
+# A value of 12 replaces each pixel in the input image with an inverse 
 # distance weighted average of all pixels in the neighborhood, except the
-# original center pixel. Weighting is measured as inverse of the absolute
+# original center pixel. Weighting is measured as inverse of the absolute 
 # difference between the graylevel of each neighbor and the center pixel.
-# Thus pixels with smaller differences (i.e. values closer to that of the
+# Thus pixels with smaller differences (i.e. values closer to that of the 
 # the center pixel) are weighted higher.
-#
-# A value of 13 replaces each pixel in the input image with either the
-# minimum or maximum value of all pixels in the neighborhood, whichever
-# is closest in value to the given (center) pixel. This produces a
+# 
+# A value of 13 replaces each pixel in the input image with either the 
+# minimum or maximum value of all pixels in the neighborhood, whichever 
+# is closest in value to the given (center) pixel. This produces a 
 # sharpening effect on the image.
-#
-# A value of 14 replaces each pixel in the input image with the average
+# 
+# A value of 14 replaces each pixel in the input image with the average 
 # of all the pixels in the neighborhood, but the center pixel.
 #
 # All of these statistical filters are computed within a 3x3
 # neighborhood only. As it is, some of the latter statistics take a very
 # long time to compute since this script is based upon the use of fx.
-#
-# -p     power        exponent value to use to raise the pixel value to the
-#                     given power.
+# 
+# -p     power        exponent value to use to raise the pixel value to the 
+#                     given power. 
 # The values may be positive or negative integers. The default is 2
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -181,13 +181,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -232,7 +232,7 @@ else
 				   ;;
 			-s)    # statistic
 				   shift  # to get the next parameter - statistic
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID STATISTIC SPECIFICATION ---"
 				   checkMinus "$1"
 				   statistic=`expr "$1" : '\([0-9]*\)'`
@@ -340,7 +340,7 @@ shiftimages()
 # get im version
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
-
+	
 # process images
 case "$statistic" in
 	1)	# arithmetic mean
@@ -374,13 +374,13 @@ case "$statistic" in
 		done
 		convert $tmpA "$outfile"
 		;;
-	4)	# average of min and max
+	4)	# average of min and max		
 		# create 8 shifted images
 		shiftimages $tmpA
 
 		# save input for dual use below
 		convert $tmpA $tmp0
-
+		
 		# do min
 		# for each shifted image create successive min
 		while [ $j -lt 9 ]
@@ -390,10 +390,10 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		convert $tmpA $tmpMin
-
+		
 		# initialize input again
 		convert $tmp0 $tmpA
-
+		
 		# do max
 		# recreate 8 shifted images from composite from first step above
 		shiftimages $tmpA
@@ -407,9 +407,9 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		convert $tmpA $tmpMax
-
+		
 		# do average
-		if [ "$im_version" -ge "06060904" ]; then
+		if [ "$im_version" -ge "06060904" ]; then 
 			convert $tmpMin $tmpMax -evaluate-sequence mean "$outfile"
 		else
 			convert $tmpMin $tmpMax -average "$outfile"
@@ -421,7 +421,7 @@ case "$statistic" in
 
 		# save input for dual use below
 		convert $tmpA $tmp0
-
+		
 		# do min
 		# for each shifted image create successive min
 		j=1
@@ -432,10 +432,10 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		convert $tmpA $tmpMin
-
+		
 		# initialize input again
 		convert $tmp0 $tmpA
-
+		
 		# do max
 		# recreate shifted images from composite from step above
 		shiftimages $tmpA
@@ -449,7 +449,7 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		convert $tmpA $tmpMax
-
+		
 		# do average
 		# this does not work but should?
 #		convert $tmp0 $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 -average $tmp0
@@ -460,7 +460,7 @@ case "$statistic" in
 		else
 			ff=`convert xc: -format "%[fx:1/7]" info:`
 			convert $tmp0 $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 $tmpMin $tmpMax -evaluate multiply $ff -poly "1,1 1,1 1,1 1,1 1,1 1,1 1,1 1,1 1,1 -1,1 -1,1" "$outfile"
-		fi
+		fi		
 		;;
 	6)	# standard deviation
 		# -gamma 2 is equivalent to sqrt
@@ -507,7 +507,7 @@ case "$statistic" in
 		[ $ptestA -eq 1 -a $ptestB -eq 1 ] && errMsg "--- POWER=$p MUST BE AN INTEGER LESS THAN -1 AND GREATER THAN 0 ---"
 		p1=`echo "scale=0; $p + 1" | bc`
 		# to avoid problems with (positive noise and) p=neg i.e. 1/(0^p)=infinity; simply negate the image and use p=pos
-		# note that it is still possible to have u/v=0 if v=0; if this happens then use:
+		# note that it is still possible to have u/v=0 if v=0; if this happens then use: 
 		# incr=`echo "scale=10; 1 / 255" | bc` and
 		# xx=(u-$incr)>=0?u:$incr; in fx
 		if [ $p -lt 0 ]
@@ -549,7 +549,7 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		# average the weighted images and the weights
-		if [ "$im_version" -ge "06060904" ]; then
+		if [ "$im_version" -ge "06060904" ]; then 
 			convert $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 -evaluate-sequence mean $tmpA
 			convert $tmpw1 $tmpw2 $tmpw3 $tmpw4 $tmpw5 $tmpw6 $tmpw7 $tmpw8 -evaluate-sequence mean $tmp0
 		else
@@ -572,16 +572,16 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		# create sum of weighted images and sum of weights then divide
-		summ="((u[0]*u[8])+(u[1]*u[9])+(u[2]*u[10])+(u[3]*u[11])+(u[4]*u[12])+(u[5]*u[13])+(u[6]*u[14])+(u[7]*u[15]))"
+		summ="((u[0]*u[8])+(u[1]*u[9])+(u[2]*u[10])+(u[3]*u[11])+(u[4]*u[12])+(u[5]*u[13])+(u[6]*u[14])+(u[7]*u[15]))"		
 		wtSum="(u[8]+u[9]+u[10]+u[11]+u[12]+u[13]+u[14]+u[15])"
 		convert $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 \
 			$tmpw1 $tmpw2 $tmpw3 $tmpw4 $tmpw5 $tmpw6 $tmpw7 $tmpw8 \
 			-fx "$wts u=($summ/$wtSum)" "$outfile"
 		;;
-   12)  # inverse distance weighted average
+   12)  # inverse distance weighted average		
 		# create 8 shifted images
 		shiftimages $tmpA
-
+				
 		: '
 		# this does not work so well
 		# create distance images
@@ -597,13 +597,13 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		# average the weighted images
-		if [ "$im_version" -ge "06060904" ]; then
+		if [ "$im_version" -ge "06060904" ]; then 
 			convert $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 -evaluate-sequence mean $tmpA
 		else
 			convert $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 -average $tmpA
 		fi
 		# average the weight images
-		if [ "$im_version" -ge "06060904" ]; then
+		if [ "$im_version" -ge "06060904" ]; then 
 			convert $tmpw1 $tmpw2 $tmpw3 $tmpw4 $tmpw5 $tmpw6 $tmpw7 $tmpw8 -evaluate-sequence mean $tmp0
 		else
 			convert $tmpw1 $tmpw2 $tmpw3 $tmpw4 $tmpw5 $tmpw6 $tmpw7 $tmpw8 -average $tmp0
@@ -611,7 +611,7 @@ case "$statistic" in
 		# divide averages
 		convert $tmpA $tmp0 -fx "u/v" "$outfile"
 		'
-
+		
 		# this works fine but is slower than above
 		# create distance images
 		j=1
@@ -625,7 +625,7 @@ case "$statistic" in
 		done
 		# note this is faster than separating out the individual inverse wts and multiplying
 		# create sum of inverse weighted images and sum of inverse weights then divide
-		summ="((u[0]/u[8])+(u[1]/u[9])+(u[2]/u[10])+(u[3]/u[11])+(u[4]/u[12])+(u[5]/u[13])+(u[6]/u[14])+(u[7]/u[15]))"
+		summ="((u[0]/u[8])+(u[1]/u[9])+(u[2]/u[10])+(u[3]/u[11])+(u[4]/u[12])+(u[5]/u[13])+(u[6]/u[14])+(u[7]/u[15]))"		
 		wtSum="((1/u[8])+(1/u[9])+(1/u[10])+(1/u[11])+(1/u[12])+(1/u[13])+(1/u[14])+(1/u[15]))"
 		convert $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 \
 			$tmpw1 $tmpw2 $tmpw3 $tmpw4 $tmpw5 $tmpw6 $tmpw7 $tmpw8 \
@@ -637,7 +637,7 @@ case "$statistic" in
 
 		# save input for dual use below
 		convert $tmpA $tmp0
-
+		
 		# do min
 		# for each shifted image create successive min
 		j=1
@@ -648,10 +648,10 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		convert $tmpA $tmpMin
-
+		
 		# initialize input again
 		convert $tmp0 $tmpA
-
+		
 		# do max
 		# recreate shifted images from composite from step above
 		shiftimages $tmpA
@@ -665,7 +665,7 @@ case "$statistic" in
 			j=`expr $j + 1`
 		done
 		convert $tmpA $tmpMax
-
+		
 		# get result
 		convert $tmp0 $tmpMin $tmpMax -fx "(abs(u[1]-u[0])<abs(u[2]-u[0]))?u[1]:u[2]" "$outfile"
 		;;
@@ -674,7 +674,7 @@ case "$statistic" in
 		shiftimages $tmpA
 
 		# average 8 shifted images
-		if [ "$im_version" -ge "06060904" ]; then
+		if [ "$im_version" -ge "06060904" ]; then 
 			convert $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 -evaluate-sequence mean "$outfile"
 		else
 			convert $tmp1 $tmp2 $tmp3 $tmp4 $tmp5 $tmp6 $tmp7 $tmp8 -average "$outfile"

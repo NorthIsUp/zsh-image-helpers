@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 2/18/2008 .......... revised 10/12/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: aspect widthxheight [-m mode] [-c color] [-g gravity] [-f filter] infile outfile
@@ -33,47 +33,47 @@
 #
 # widthxheight           desired size (width x height); value in pixels
 # -m      mode           crop or pad; default is crop
-# -c      color          background color if pad; any IM color specification
+# -c      color          background color if pad; any IM color specification 
 #                        or none or trans for transparent; default is black
-# -g      gravity        gravity location for cropped area; North, East, South
+# -g      gravity        gravity location for cropped area; North, East, South 
 #                        West or Center; default is Center
 # -f      filter         resize filter; any valid IM filter; default is Lanczos
 #
 ###
 #
 # NAME: ASPECT
-#
-# PURPOSE: To resize an image to a specific size allowing either cropping or padding
+# 
+# PURPOSE: To resize an image to a specific size allowing either cropping or padding 
 # to deal with the aspect ratio change.
+# 
+# DESCRIPTION: ASPECT resizes an image to a specific size allowing cropping 
+# or padding with a constant background color or transparent background. In either 
+# case, the aspect ratio of the image will be compared to the aspect ratio of the 
+# desired size and cropped or padded to fill one or the other dimension accordingly. 
+# 
+# 
+# OPTIONS: 
+# 
 #
-# DESCRIPTION: ASPECT resizes an image to a specific size allowing cropping
-# or padding with a constant background color or transparent background. In either
-# case, the aspect ratio of the image will be compared to the aspect ratio of the
-# desired size and cropped or padded to fill one or the other dimension accordingly.
-#
-#
-# OPTIONS:
-#
-#
-# widthxheight ... WIDTHxHEIGHT specifies the desired output size. WIDTH and HEIGHT
+# widthxheight ... WIDTHxHEIGHT specifies the desired output size. WIDTH and HEIGHT 
 # values must be specified as integer pixels.
 #
-# -m mode ... MODE specifies to either crop or pad the image when resizing it to
+# -m mode ... MODE specifies to either crop or pad the image when resizing it to 
 # the desired size. The default is crop.
 #
-# -c color ... COLOR specifies the background color to use when mode=pad. Any
-# valid IM color specification may be used. To make the background transparent,
+# -c color ... COLOR specifies the background color to use when mode=pad. Any 
+# valid IM color specification may be used. To make the background transparent, 
 # set the color either to none or trans. The default is black.
-#
-# -g gravity ... GRAVITY is the region of the image to use when mode=crop.
+# 
+# -g gravity ... GRAVITY is the region of the image to use when mode=crop. 
 # Values may be North, East, South, West or Center. The default is Center.
 #
 # -f filter ... FILTER is any valid IM resize filter. The default is Lanczos.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -92,13 +92,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -151,7 +151,7 @@ else
 					   ;;
 		 		-m)    # mode
 					   shift  # to get the next parameter - mode
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test mode values
@@ -160,14 +160,14 @@ else
 					   ;;
 		 		-c)    # region
 					   shift  # to get the next parameter - color
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 		 		-g)    # gravity
 					   shift  # to get the next parameter - gravity
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
@@ -176,7 +176,7 @@ else
 					   ;;
 				-f)    # get filter
 					   shift  # to get the next parameter - filter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FILTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   filter="$1"
@@ -186,7 +186,7 @@ else
   				 	   ;;
 				-*)    # any other - argument
 					   errMsg "--- UNKNOWN OPTION ---"
-					   ;;
+					   ;;					   
 		     	 *)    # end of arguments
 					   break
 					   ;;

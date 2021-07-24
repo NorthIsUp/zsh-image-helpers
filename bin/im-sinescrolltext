@@ -3,119 +3,119 @@
 # Developed by Fred Weinhaus 7/31/2018 .......... 7/31/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: sinescrolltext -t "text" [-w width ] [-f font] [-c color] [-b bgcolor ]
-# [-a amplitude ] [-r repeats] [-p phase] [-F frames] [-d delay] [-D direction]
+# USAGE: sinescrolltext -t "text" [-w width ] [-f font] [-c color] [-b bgcolor ] 
+# [-a amplitude ] [-r repeats] [-p phase] [-F frames] [-d delay] [-D direction]  
 # [-m mode ] [-R range] [infile] outfile
 # USAGE: sinescrolltext [-h or -help]
 #
 # OPTIONS:
 #
 # -t     text          text string to be used to create the animation; required argument
-# -w     width         width of text in pixels; integer>0; default=500; height will
+# -w     width         width of text in pixels; integer>0; default=500; height will 
 #                      be determined from the text height and the amplitude
-# -f     font          font to use for the text; font name or path to font file;
+# -f     font          font to use for the text; font name or path to font file; 
 #                      default=arial
 # -c     color         color of text; any valid IM color is allowed; default=black
-# -b     bgcolor       background color for the animation frames; any valid IM color
+# -b     bgcolor       background color for the animation frames; any valid IM color 
 #                      is allowed; default=white
-# -a     amplitude     amplitude of the text sine wave as a multiplier of the text
+# -a     amplitude     amplitude of the text sine wave as a multiplier of the text 
 #                      height; float>=0; default=1
 # -r     repeats       number of repeats of the sine waveform to span the image width;
 #                      float>0; default=1; (typically in half or integer values)
 # -p     phase         phase of the sinusoidal wave; choices are 0 and 90; default=0
-# -F     frames        number of frames to generate in the animation; integer>0;
+# -F     frames        number of frames to generate in the animation; integer>0; 
 #                      default=25
-# -d     delay         animation delay between frames; integer>0; default=30
+# -d     delay         animation delay between frames; integer>0; default=30 
 # -D     direction     direction of the scrolling; choices are: left or right;
 #                      default=left
-# -m     mode          mode for the type of sine wave; choices are: constant (amplitude)
+# -m     mode          mode for the type of sine wave; choices are: constant (amplitude) 
 #                      and tapered (to zero amplitude); default=constant
-# -R     range         range of the sine taper as percent of width of the image;
-#                      1<=integer<=100; default=100 (tapered over the full width);
-#                      nominal value is 75
+# -R     range         range of the sine taper as percent of width of the image; 
+#                      1<=integer<=100; default=100 (tapered over the full width); 
+#                      nominal value is 75 
 #
 # infile is optional and will be tiled (or cropped) to replace the background color
-#
+# 
 ###
 #
 # NAME: SINESCROLLTEXT
-#
+# 
 # PURPOSE: Creates a sinusoidal curved scrolling text banner animation.
-#
-# DESCRIPTION: SINESCROLLTEXT creates sinusoidal curved scrolling text banner animation.
-# The scrolling can be either to the right or left. The amplitude of the sine wave
+# 
+# DESCRIPTION: SINESCROLLTEXT creates sinusoidal curved scrolling text banner animation.  
+# The scrolling can be either to the right or left. The amplitude of the sine wave  
 # can be either constant or tapered to zero.
-#
-#
-# OPTIONS:
-#
+# 
+# 
+# OPTIONS: 
+# 
 # -t text ... TEXT string to be used to create the animation. This is a required argument
-#
-# -w width ... WIDTH of text in pixels. Values are integers>0. The default=500. The
+# 
+# -w width ... WIDTH of text in pixels. Values are integers>0. The default=500. The 
 # image height will be determined from the text height and the amplitude.
-#
-# -f font ... FONT to use for the text. Either the font name or path to font file may
+# 
+# -f font ... FONT to use for the text. Either the font name or path to font file may 
 # be used. The default=arial.
-#
+# 
 # -c color ... COLOR of the text. Any valid IM color is allowed. The default=black.
-#
-# -b bgcolor ... BGCOLOR is the background color for the animation frames. Any valid
+# 
+# -b bgcolor ... BGCOLOR is the background color for the animation frames. Any valid 
 # IM color is allowed. The default=white.
-#
-# -a amplitude ... AMPLITUDE (height up or down) of the text sine wave as a multiplier
+# 
+# -a amplitude ... AMPLITUDE (height up or down) of the text sine wave as a multiplier 
 # of the text height. Values are floats>=0. The default=1.
-#
-# -r repeats ... REPEATS are the number of repeats of the sine waveform cycle to span the
-# image width. Values are floats>0. The default=1. (typically, in half or integer
+# 
+# -r repeats ... REPEATS are the number of repeats of the sine waveform cycle to span the 
+# image width. Values are floats>0. The default=1. (typically, in half or integer 
 # values).
-#
+# 
 # -p phase ... PHASE of the sinusoidal wave. The choices are 0 and 180. The default=0.
 #
-# -F frames ... FRAMES is the number of frames to generate in the animation. Values are
+# -F frames ... FRAMES is the number of frames to generate in the animation. Values are 
 # integers>0. The default=25.
-#
-# -d delay ... DELAY is the animation delay between frames. Values are integers>0. The
+# 
+# -d delay ... DELAY is the animation delay between frames. Values are integers>0. The 
 # default=30.
-#
+#  
 # -D direction ... DIRECTION of the scrolling. Choices are: left (l) or right (r).
 # The default=left.
-#
-# -m mode ... MODE for the type of sine wave amplitude. The choices are: constant (c)
+# 
+# -m mode ... MODE for the type of sine wave amplitude. The choices are: constant (c) 
 #  and tapered (t) to zero amplitude. The default=constant.
-#
-# -R range ... RANGE of the sine taper to zero amplitude as percent of width of the
-# image. Values are 1<=integer<=100. The default=100 (tapered over the full width).
-# A nominal value is 75.
-#
+# 
+# -R range ... RANGE of the sine taper to zero amplitude as percent of width of the 
+# image. Values are 1<=integer<=100. The default=100 (tapered over the full width). 
+# A nominal value is 75. 
+# 
 # infile is optional and will be tiled (or cropped) to replace the background color.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -141,13 +141,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -195,21 +195,21 @@ else
 					   ;;
 		   		-t)	   # get text
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEXT SPECIFICATION ---"
 					   #checkMinus "$1"
 			   		   text="$1"
 			   		   ;;
 				-f)    # get font
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   checkMinus "$1"
 					   font="$1"
 		   			   ;;
 				-w)    # get width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width=`expr "$1" : '\([0-9]*\)'`
@@ -219,21 +219,21 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-a)    # get amplitude
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMPLITUDE SPECIFICATION ---"
 					   checkMinus "$1"
 					   amplitude=`expr "$1" : '\([.0-9]*\)'`
@@ -241,7 +241,7 @@ else
 					   ;;
 				-r)    # get repeats
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REPEATS SPECIFICATION ---"
 					   checkMinus "$1"
 					   repeats=`expr "$1" : '\([.0-9]*\)'`
@@ -251,7 +251,7 @@ else
 					   ;;
 			   	-p)    # phase
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PHASE SPECIFICATION ---"
 					   checkMinus "$1"
 					   phase=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -263,7 +263,7 @@ else
 					   ;;
 				-F)    # get frames
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FRAMES SPECIFICATION ---"
 					   checkMinus "$1"
 					   frames=`expr "$1" : '\([0-9]*\)'`
@@ -273,7 +273,7 @@ else
 					   ;;
 				-d)    # get delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay=`expr "$1" : '\([0-9]*\)'`
@@ -283,7 +283,7 @@ else
 					   ;;
 			   	-D)    # direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   direction=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -295,7 +295,7 @@ else
 					   ;;
 			   	-m)    # mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -307,7 +307,7 @@ else
 					   ;;
 				-R)    # get range
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RANGE SPECIFICATION ---"
 					   checkMinus "$1"
 					   range=`expr "$1" : '\([0-9]*\)'`
@@ -424,9 +424,13 @@ for ((k=0; k<frames; k++)); do
 roll=`convert xc: -format "%[fx:$k*round($ww2/$frames)]" info:`
 convert \( $tmp1A -roll ${sgn}${roll}+0 \) $tmp2A -background "$bgcolor" -virtual-pixel background \
 -define compose:args=0,$displace -compose displace -composite -compose over \
--gravity $gravity1 -crop ${wd}x${ht}+0+0 +repage $tileproc miff:-
+-gravity $gravity1 -crop ${wd}x${ht}+0+0 +repage $tileproc miff:- 
 done
 ) | convert -delay $delay - -loop 0 "$outfile"
 
 
 exit 0
+
+
+
+

@@ -3,115 +3,115 @@
 # Developed by Fred Weinhaus 12/16/2015 .......... revised 12/16/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: modulatecolor2 [-c color] [-b brightness] [-s saturation] [-u units]
-# [-h hue] [-m mode] [-t tolerance ] [-r ramping] [-C colorspace]
+# USAGE: modulatecolor2 [-c color] [-b brightness] [-s saturation] [-u units] 
+# [-h hue] [-m mode] [-t tolerance ] [-r ramping] [-C colorspace] 
 # infile outfile
 #
 # USAGE: modulatecolor2 [-help]
 #
 # OPTIONS:
 #
-# -c     color          color to modify: red (r), yellow (y), green (g),
+# -c     color          color to modify: red (r), yellow (y), green (g), 
 #                       cyan (c), blue (b), magenta (m); default=red
 # -b     brightness     percent brightness; float>=0; default=100 (no change)
 # -s     saturation     percent saturation; float>=0; default=100 (no change)
-# -u     units          units for hue; percent (p) or degrees (d);
+# -u     units          units for hue; percent (p) or degrees (d); 
 #                       default=degrees
-# -h     hue            hue value; 0<=float<=100 percent or 0<=float<=360
+# -h     hue            hue value; 0<=float<=100 percent or 0<=float<=360 
 #                       degrees; default=0 (red stays red)
-# -m     mode           mode for hue values; choices are: relative (r) or
+# -m     mode           mode for hue values; choices are: relative (r) or 
 #                       absolute (a); default=absolute
-# -t     tolerance      tolerance (fuzz value) on each side of color for range
-#                       of hue change as specified by units; 0<=float<=180
+# -t     tolerance      tolerance (fuzz value) on each side of color for range 
+#                       of hue change as specified by units; 0<=float<=180 
 #                       degrees or 0<=flaot<=50 percent; default=30 degrees.
-# -r     ramping        ramping (tapering) of new hue in the form of a Gaussian
-#                       rolloff; value is the Gaussian sigma in the specified
+# -r     ramping        ramping (tapering) of new hue in the form of a Gaussian 
+#                       rolloff; value is the Gaussian sigma in the specified 
 #                       units; float>=0; default=0 (no ramping)
 # -C     colorspace     colorspace in which to modulate the image; choices are:
 #                       HSL or HCLp; default=HSL
-#
+# 
 ###
 #
-# NAME: MODULATECOLOR2
-#
-# PURPOSE: To change brightness, saturation and/or hue for any primary or
+# NAME: MODULATECOLOR2 
+# 
+# PURPOSE: To change brightness, saturation and/or hue for any primary or 
 # secondary color in an image.
-#
-# DESCRIPTION: MODULATECOLOR2 changes the brightness and/or saturation and/or
-# hue for any primary or secondary color in an image. Hues are arranged in a
-# cyclical order in the range 0 to 100 percent or 0 to 360 degrees. Hue may
-# be changed any amount in those ranges per the units specified. The colors
-# allowed are: red, yellow, green, cyan, blue and magenta. Units for hue may
+# 
+# DESCRIPTION: MODULATECOLOR2 changes the brightness and/or saturation and/or 
+# hue for any primary or secondary color in an image. Hues are arranged in a 
+# cyclical order in the range 0 to 100 percent or 0 to 360 degrees. Hue may 
+# be changed any amount in those ranges per the units specified. The colors  
+# allowed are: red, yellow, green, cyan, blue and magenta. Units for hue may 
 # be either percent or degrees.
-#
-# OPTIONS:
-#
-# -c color ... COLOR to modify. The choices are: red (r), yellow (y),
+# 
+# OPTIONS: 
+# 
+# -c color ... COLOR to modify. The choices are: red (r), yellow (y), 
 # green (g), cyan (c), blue (b) or magenta (m). The default=red.
-#
-# -b brightness ... BRIGHTNESS is the absolute percent brightness. Values are
+# 
+# -b brightness ... BRIGHTNESS is the absolute percent brightness. Values are 
 # floats>=0. The default=100 (no change).
-#
-# -s saturation ... SATURATION is the absolute percent saturation. Values are
+# 
+# -s saturation ... SATURATION is the absolute percent saturation. Values are 
 # floats>=0. The default=100 (no change).
-#
-# -u units ... UNITS for hue. Choices are: percent (p) or degrees (d). The
+# 
+# -u units ... UNITS for hue. Choices are: percent (p) or degrees (d). The 
 # default=degrees.
-#
-# -h hue ... HUE is the absolute hue value to be used to replace the hue of
-# the specified color. Values are 0<=floats<=100 for percent or 0<=floats<=360
-# for degrees. The default=0 (red stays red). Hue change is cyclical in the
-# range from 0 to either 100 percent or 360 degrees. So a hue value of 100
+# 
+# -h hue ... HUE is the absolute hue value to be used to replace the hue of 
+# the specified color. Values are 0<=floats<=100 for percent or 0<=floats<=360 
+# for degrees. The default=0 (red stays red). Hue change is cyclical in the 
+# range from 0 to either 100 percent or 360 degrees. So a hue value of 100 
 # percent or 360 degrees is equivalent to 0 or no change.
-#
-# -m mode ... MODE for hue values. The choices are: relative (r) or
-# absolute (a). Relative means the replacement hue value will be a shift
-# relative to the specified color. Absolute means the hue value will be the
-# exact hue value that will be used to replace the specified color. The
+# 
+# -m mode ... MODE for hue values. The choices are: relative (r) or 
+# absolute (a). Relative means the replacement hue value will be a shift 
+# relative to the specified color. Absolute means the hue value will be the 
+# exact hue value that will be used to replace the specified color. The 
 # default=absolute.
-#
-# -t tolerance ... TOLERANCE (fuzz value) on each side of the specified color
-# for the range of the hue change as specified by the selected units. Values
-# are 0<=float<=180 for degrees or 0<=flaot<=50 for percent. The default=30
+# 
+# -t tolerance ... TOLERANCE (fuzz value) on each side of the specified color 
+# for the range of the hue change as specified by the selected units. Values 
+# are 0<=float<=180 for degrees or 0<=flaot<=50 for percent. The default=30 
 # degrees. Note that tolerance less than about 0.1 degree do not work well.
-#
-# -r ramping ... RAMPING (tapering) of the new hue in the form of a Gaussian
-# rolloff. The value is the Gaussian sigma in the specified units. Values are
+# 
+# -r ramping ... RAMPING (tapering) of the new hue in the form of a Gaussian 
+# rolloff. The value is the Gaussian sigma in the specified units. Values are 
 # floats>=0. The default=0 (no ramping).
-#
-# -C colorspace ... COLORSPACE is the colorspace in which to modulate the
-# image. The choices are: HSL or HCLp.
-#
-# REQUIREMENTS: IM 6.5.3-7 so that -modulate uses HSL and not HSB colorspace.
+# 
+# -C colorspace ... COLORSPACE is the colorspace in which to modulate the 
+# image. The choices are: HSL or HCLp. 
+# 
+# REQUIREMENTS: IM 6.5.3-7 so that -modulate uses HSL and not HSB colorspace. 
 # HCLp modulation is available as of version 6.8.6-7.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -133,13 +133,13 @@ tmpdir="."		# suggestions are tmpdir="." or tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -187,23 +187,23 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$color" in
+					   case "$color" in 
 					   		red|r) color="red";;
 					   		yellow|y) color="yellow";;
 					   		green|g) color="green";;
 					   		cyan|c) color="cyan";;
 					   		blue|b) color="blue";;
 					   		magenta|m) color="magenta";;
-					   		*) errMsg "--- COLOR=$color IS AN INVALID VALUE ---"
+					   		*) errMsg "--- COLOR=$color IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-b)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   brightness=`expr "$1" : '\([.0-9]*\)'`
@@ -211,7 +211,7 @@ else
 					   ;;
 				-s)    # get saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   saturation=`expr "$1" : '\([.0-9]*\)'`
@@ -219,19 +219,19 @@ else
 					   ;;
 				-u)    # get units
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UNITS SPECIFICATION ---"
 					   checkMinus "$1"
 					   units=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$units" in
+					   case "$units" in 
 					   		percent|p) units="percent";;
 					   		degrees|d) units="degrees";;
-					   		*) errMsg "--- UNITS=$units IS AN INVALID VALUE ---"
+					   		*) errMsg "--- UNITS=$units IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-h)    # get hue
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HUE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   hue=`expr "$1" : '\([.0-9]*\)'`
@@ -239,19 +239,19 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$mode" in
+					   case "$mode" in 
 					   		relative|r) mode="relative";;
 					   		absolute|a) mode="absolute";;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-t)    # get tolerance
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TOLERANCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   tolerance=`expr "$1" : '\([.0-9]*\)'`
@@ -259,7 +259,7 @@ else
 					   ;;
 				-r)    # get ramping
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RAMPING SPECIFICATION ---"
 					   checkMinus "$1"
 					   ramping=`expr "$1" : '\([.0-9]*\)'`
@@ -267,14 +267,14 @@ else
 					   ;;
 				-C)    # get colorspace
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORSPACE SPECIFICATION ---"
 					   checkMinus "$1"
 					   colorspace=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$colorspace" in
+					   case "$colorspace" in 
 					   		hsl) ;;
 					   		hclp) ;;
-					   		*) errMsg "--- COLORSPACE=$colorspace IS AN INVALID VALUE ---"
+					   		*) errMsg "--- COLORSPACE=$colorspace IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -453,3 +453,4 @@ convert $dir/tmpI.mpc \
 	-compose over -composite "$outfile"
 
 exit 0
+

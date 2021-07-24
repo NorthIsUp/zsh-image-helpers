@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 7/23/2014 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: polarblur [-r radial ] [-a angular] infile outfile
@@ -37,30 +37,30 @@
 #
 ###
 #
-# NAME: POLARBLUR
-#
+# NAME: POLARBLUR 
+# 
 # PURPOSE: To apply a polar blur to an image.
-#
-# DESCRIPTION: POLARBLUR applies a polar blur to an image. The blur direction
-# may be either or both radial or angular. The processing is a gaussian-like
-# blur performed in the polar domain. A cartesian to polar transform is first
+# 
+# DESCRIPTION: POLARBLUR applies a polar blur to an image. The blur direction 
+# may be either or both radial or angular. The processing is a gaussian-like 
+# blur performed in the polar domain. A cartesian to polar transform is first 
 # applied, then the blur, then a polar to cartesian transform is applied.
-#
-# OPTIONS:
-#
-# -r radial ... RADIAL is the radial blur amount in pixels. Values are
+# 
+# OPTIONS: 
+# 
+# -r radial ... RADIAL is the radial blur amount in pixels. Values are 
 # floats>=0. The default=10. A value of zero means no radial blur.
-#
-# -a angular ... ANGULAR is the angular blur amount in degrees. Values are
+# 
+# -a angular ... ANGULAR is the angular blur amount in degrees. Values are 
 # floats>=0. The default=0. A value of zero means no radial blur.
-#
-# REQUIREMENTS: IM 6.5.9.3 is required due to the use of -morphology
+# 
+# REQUIREMENTS: IM 6.5.9.3 is required due to the use of -morphology 
 # convolve blur.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+#  
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -76,13 +76,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -130,7 +130,7 @@ else
 					   ;;
 				-r)    # get radial
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   radial=`expr "$1" : '\([.0-9]*\)'`
@@ -138,7 +138,7 @@ else
 					   ;;
 				-a)    # get angular
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGULAR SPECIFICATION ---"
 					   checkMinus "$1"
 					   angular=`expr "$1" : '\([.0-9]*\)'`

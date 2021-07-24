@@ -3,90 +3,90 @@
 # Developed by Fred Weinhaus 3/26/2013 .......... revised 12/22/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
-# USAGE: warholeffect [-r rows] [-c cols] [-c1 colors1] ... [-c16 colors16]
+# 
+# USAGE: warholeffect [-r rows] [-c cols] [-c1 colors1] ... [-c16 colors16] 
 # [-i interp] infile outfile
-#
+# 
 # USAGE: warholeffect [-help]
-#
+# 
 # OPTIONS:
-#
-# -r       rows         number of rows of tiles; integer>0; maximum of 16
+# 
+# -r       rows         number of rows of tiles; integer>0; maximum of 16 
 #                       total tiles in rows and columns; default=2
-# -c       cols         number of columns of tiles; integer>0; maximum of 16
+# -c       cols         number of columns of tiles; integer>0; maximum of 16 
 #                       total tiles in rows and columns; default=2
 # -c1      colors1      space delimited set of colors for the first tile;
-#                       Any set of opaque IM colors are allowed; Number of
+#                       Any set of opaque IM colors are allowed; Number of 
 #                       colors must be at least 3; default=3
 # etc up to
 # -c16     colors16     space delimited set of colors for the last tile;
-#                       Any set of opaque IM colors are allowed; Number of
+#                       Any set of opaque IM colors are allowed; Number of 
 #                       colors must be at least 3; default=3
-# -i       interp       interpolation method for colorizing; Any valid IM
-#                       interpolation method allowed; default=nearestneighbor
-#
-#
+# -i       interp       interpolation method for colorizing; Any valid IM 
+#                       interpolation method allowed; default=nearestneighbor 
+#                                 
+# 
 ###
-#
-# NAME: WARHOLEFFECT
-#
+# 
+# NAME: WARHOLEFFECT 
+# 
 # PURPOSE: To create an Andy Warhol style image.
-#
-# DESCRIPTION: WARHOLEFFECT creates an Andy Warhol style colorization image.
-# This image is a montage of images, each colored with different sets of
-# colors from the input image converted to grayscale. The default is a 2x2
+# 
+# DESCRIPTION: WARHOLEFFECT creates an Andy Warhol style colorization image. 
+# This image is a montage of images, each colored with different sets of 
+# colors from the input image converted to grayscale. The default is a 2x2 
 # montage with 3 colors each.
-#
-#
-# ARGUMENTS:
-#
-# -r rows ... number of ROWS of tiles. Values are integers>0. A maximum of 16
+# 
+# 
+# ARGUMENTS: 
+# 
+# -r rows ... number of ROWS of tiles. Values are integers>0. A maximum of 16 
 # total tiles in rows and columns combined. The default=2.
-#
-# -c cols ... number of COLS of tiles. Values are integers>0. A maximum of 16
+# 
+# -c cols ... number of COLS of tiles. Values are integers>0. A maximum of 16 
 # total tiles in rows and columns combined. The default=2
-#
-# -c1 colors1 ... COLORS1 are a space delimited set of colors for the first
-# tile. Any set of opaque IM colors are allowed. The number of colors must be
-# at least 3. If not specified, random colors will be created. The default=3.
+# 
+# -c1 colors1 ... COLORS1 are a space delimited set of colors for the first 
+# tile. Any set of opaque IM colors are allowed. The number of colors must be 
+# at least 3. If not specified, random colors will be created. The default=3. 
 # Note: do not add spaces in rgb(...) color triplets.
 #
-# etc up to
+# etc up to 
 #
-# -c16 colors16 ... COLORS16 are a space delimited set of colors for the last
-# tile. Any set of opaque IM colors are allowed. The number of colors must be
-# at least 3. If not specified, random colors will be created. The default=3.
+# -c16 colors16 ... COLORS16 are a space delimited set of colors for the last  
+# tile. Any set of opaque IM colors are allowed. The number of colors must be 
+# at least 3. If not specified, random colors will be created. The default=3. 
 # Note: do not add spaces in rgb(...) color triplets.
 #
-# -i interp ... INTERP is the interpolation method for colorizing; Any valid
+# -i interp ... INTERP is the interpolation method for colorizing; Any valid 
 # IM interpolation method is allowed. The default=nearestneighbor.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 
 # set directory for temporary files
@@ -121,13 +121,13 @@ colors16=""
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -174,7 +174,7 @@ else
 					   ;;
 				-r)    # get rows
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROWS SPECIFICATION ---"
 					   checkMinus "$1"
 					   rows=`expr "$1" : '\([0-9]*\)'`
@@ -185,7 +185,7 @@ else
 					   ;;
 				-c)    # get cols
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLS SPECIFICATION ---"
 					   checkMinus "$1"
 					   cols=`expr "$1" : '\([0-9]*\)'`
@@ -196,124 +196,124 @@ else
 					   ;;
 				-c1)   # get colors1
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS1 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors1=`expr "$1"`
 					   ;;
 				-c2)   # get colors2
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS2 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors2=`expr "$1"`
 					   ;;
 				-c3)   # get colors3
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS3 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors3=`expr "$1"`
 					   ;;
 				-c4)   # get colors4
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS4 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors4=`expr "$1"`
 					   ;;
 				-c5)   # get colors5
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS5 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors5=`expr "$1"`
 					   ;;
 				-c6)   # get colors6
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS6 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors6=`expr "$1"`
 					   ;;
 				-c7)   # get colors7
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS7 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors7=`expr "$1"`
 					   ;;
 				-c8)   # get colors8
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS8 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors8=`expr "$1"`
 					   ;;
 				-c9)   # get colors9
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS9 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors9=`expr "$1"`
 					   ;;
 				-c10)   # get colors10
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS10 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors10=`expr "$1"`
 					   ;;
 				-c11)   # get colors11
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS11 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors11=`expr "$1"`
 					   ;;
 				-c12)   # get colors12
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS12 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors12=`expr "$1"`
 					   ;;
 				-c13)   # get colors13
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS13 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors13=`expr "$1"`
 					   ;;
 				-c14)   # get colors14
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS14 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors14=`expr "$1"`
 					   ;;
 				-c15)   # get colors15
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS14 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors15=`expr "$1"`
 					   ;;
 				-c16)   # get colors16
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS16 SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors16=`expr "$1"`
 					   ;;
 				-i)    # get  interp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INTERP SPECIFICATION ---"
 					   checkMinus "$1"
 					   interp="$1"
 					   mode=`echo "$mode" | tr "[:upper:]" "[:lower:]"`
-					   case "$mode" in
+					   case "$mode" in 
 							average) ;;
 							average4) ;;
 							average9) ;;
@@ -326,7 +326,7 @@ else
 							nearest) ;;
 							nearestneighbor) ;;
 							spline) ;;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   esac
 					   ;;
 				 -)    # STDIN and end of arguments

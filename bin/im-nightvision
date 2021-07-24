@@ -3,32 +3,32 @@
 # Developed by Fred Weinhaus 2/19/2013 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: nightvision [-b brightness] [-d diameter] [-r rolloff] [-n noise]
+# USAGE: nightvision [-b brightness] [-d diameter] [-r rolloff] [-n noise] 
 # [-s seed] [-B blooming] [-T threshold] infile outfile
-#
+# 
 # USAGE: nightvision [-help]
 #
 # OPTIONS:
@@ -36,56 +36,56 @@
 # -b     brightness     brightness of night view; 0<=integer<=200; default=100
 # -d     diameter       vignette diameter expressed as a percent of the image
 #                       dimensions; 0<=integer<=100; default=60
-# -r     rolloff        vignette ramp rolloff; -100<=integer<=100;
-#                       larger values lengthen the ramp and shorter values
-#                       shorten the ramp; default=0 is linear ramp to most
+# -r     rolloff        vignette ramp rolloff; -100<=integer<=100; 
+#                       larger values lengthen the ramp and shorter values 
+#                       shorten the ramp; default=0 is linear ramp to most 
 #                       distant image point.
 # -n     noise          noise amount; float>=0; default=2
 # -s     seed           seed value for noise; integer>=0; default=100
-# -B     blooming       include blooming effect; choices are yes or no;
+# -B     blooming       include blooming effect; choices are yes or no; 
 #                       default=no
 # -T     threshold      blooming threshold; 0<=float<=100; default=5
 #
 ###
 #
-# NAME: NIGHTVISION
-#
+# NAME: NIGHTVISION 
+# 
 # PURPOSE: To simulate a picture as viewed through night vision goggles.
-#
-# DESCRIPTION: NIGHTVISION simulates a picture as viewed through night vision
-# goggles. The brightness and noise in the view may be adjusted as well as
+# 
+# DESCRIPTION: NIGHTVISION simulates a picture as viewed through night vision 
+# goggles. The brightness and noise in the view may be adjusted as well as 
 # the vignetting and blooming.
-#
-# OPTIONS:
-#
-# -b brightness ... BRIGHTNESS of the night view. Values are integers between
+# 
+# OPTIONS: 
+# 
+# -b brightness ... BRIGHTNESS of the night view. Values are integers between 
 # 0 and 200. The default=100.
-#
-# -d diameter ... DIAMETER of the vignetting. It is a relative size expressed
+# 
+# -d diameter ... DIAMETER of the vignetting. It is a relative size expressed 
 # as a percent of the image dimensions. Values are integers between 0 and 100.
 # The default=60.
-#
+# 
 # -r rolloff ... ROLLOFF of the vignette ramping. Values are integers between
-# 0 and 100. Larger values lengthen the ramp and shorter values shorten the
+# 0 and 100. Larger values lengthen the ramp and shorter values shorten the 
 # ramp. The default=0 is a linear ramp to the most distant image point.
-#
-# -n noise ... NOISE amount added to the image. Values are floats>=0. The
+# 
+# -n noise ... NOISE amount added to the image. Values are floats>=0. The 
 # default=2.
-#
-# -s seed ... SEED value for the random noise. Values are integers>=0. The
+# 
+# -s seed ... SEED value for the random noise. Values are integers>=0. The 
 # default=100.
-#
-# -B blooming ... BLOOMING is a flag to include/exclude a blooming effect at
+# 
+# -B blooming ... BLOOMING is a flag to include/exclude a blooming effect at 
 # very bright locations. The choices are yes or no. The default=no.
-#
-# -T threshold ... THRESHOLD locates some pixels that are the brightest for
-# for use with the blooming effect. Value are floats between 0 and 100.
+# 
+# -T threshold ... THRESHOLD locates some pixels that are the brightest for 
+# for use with the blooming effect. Value are floats between 0 and 100. 
 # The default=5.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -105,13 +105,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -159,7 +159,7 @@ else
 					   ;;
 				-b)    # get brightness
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   brightness=`expr "$1" : '\([0-9]*\)'`
@@ -170,7 +170,7 @@ else
 					   ;;
 				-d)    # get diameter
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIAMETER SPECIFICATION ---"
 					   checkMinus "$1"
 					   diameter=`expr "$1" : '\([0-9]*\)'`
@@ -181,7 +181,7 @@ else
 					   ;;
 				-r)    # get rolloff
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROLLOFF SPECIFICATION ---"
 					   #checkMinus "$1"
 					   rolloff=`expr "$1" : '\([-0-9]*\)'`
@@ -192,7 +192,7 @@ else
 					   ;;
 				-n)    # get noise
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NOISE SPECIFICATION ---"
 					   checkMinus "$1"
 					   noise=`expr "$1" : '\([.0-9]*\)'`
@@ -200,7 +200,7 @@ else
 					   ;;
 				-s)    # get seed
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   seed=`expr "$1" : '\([0-9]*\)'`
@@ -208,7 +208,7 @@ else
 					   ;;
 				-B)    # get blooming
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLOOMING SPECIFICATION ---"
 					   checkMinus "$1"
 					   blooming="$1"
@@ -216,7 +216,7 @@ else
 					   ;;
 				-T)    # get threshold
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THRESHOLD SPECIFICATION ---"
 					   checkMinus "$1"
 					   threshold=`expr "$1" : '\([.0-9]*\)'`
@@ -263,9 +263,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmpA2 $tmpB2; exit 1" ERR
 im_version=`convert -list configure | \
 sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -311,7 +311,7 @@ args="0,0 $ww2,$hh2 0,360"
 # set up outer ramp leveling
 rampval=`convert xc: -format "%[fx:100-abs($rolloff)]" info:`
 test=`convert xc: -format "%[fx:sign($rolloff)<0?0:1]" info:`
-if [ $test -eq 0 ]; then
+if [ $test -eq 0 ]; then 
 	leveling="-level 0x$rampval%"
 else
 	leveling="+level 0x$rampval%"
@@ -351,9 +351,11 @@ if [ "$blooming" = "yes" ]; then
 			-contrast-stretch 0,${threshold}% \
 			-fill black +opaque white -blur 0x2 \) \
 		-delete 0 -compose over -composite "$outfile"
-else
+else	
 	convert $tmpA2 "$outfile"
 fi
-
+	
 
 exit 0
+
+	

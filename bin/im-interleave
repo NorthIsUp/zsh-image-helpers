@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 3/13/2010 .......... 2/17/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: interleave [-t type] [-a alpha] [-c colorize] infile1 ... infileN outfile
@@ -39,40 +39,40 @@
 ###
 #
 # NAME: INTERLEAVE
-#
-# PURPOSE: To interleave the channels of a single image or each image of a
+# 
+# PURPOSE: To interleave the channels of a single image or each image of a 
 # set of multiple images.
-#
-# DESCRIPTION: INTERLEAVE interleaves the channels of a single image or
-# each image of a set of multiple images. If a single input image is provided,
-# then each channel will be separated and interleaved either row-by-row or
-# column-by-column. The channels may be recolorized optionally. Images with
-# colorspace RGB or CMYK (with or without alpha channel) are supported. If
-# more than one image is proveded, then each image will be interleaved in
+# 
+# DESCRIPTION: INTERLEAVE interleaves the channels of a single image or 
+# each image of a set of multiple images. If a single input image is provided, 
+# then each channel will be separated and interleaved either row-by-row or 
+# column-by-column. The channels may be recolorized optionally. Images with 
+# colorspace RGB or CMYK (with or without alpha channel) are supported. If 
+# more than one image is proveded, then each image will be interleaved in 
 # succession either row-by-row or column-by-column.
+# 
+# 
+# OPTIONS: 
+# 
 #
-#
-# OPTIONS:
-#
-#
-# -t type ... TYPE is the type of interleave to use. The choices are either:
-# row (or line or bil) or col (or pixel or bip). BIL and BIP mean band
+# -t type ... TYPE is the type of interleave to use. The choices are either: 
+# row (or line or bil) or col (or pixel or bip). BIL and BIP mean band 
 # interleaved by line or band interleaved by pixel. The default=row
 #
-# -a alpha ... ALPHA is a flag to include the alpha channel or not. The
+# -a alpha ... ALPHA is a flag to include the alpha channel or not. The 
 # choices are: yes or no. The default=no
-#
-# -c colorize ... COLORIZE is a flag to re-color the channels. It is valid
-# only when one input image is provided. The choices are: yes or no. The
+# 
+# -c colorize ... COLORIZE is a flag to re-color the channels. It is valid 
+# only when one input image is provided. The choices are: yes or no. The 
 # default=no.
-#
-# WARNING: It is not recommended to use JPG for output as the JPG compression
+# 
+# WARNING: It is not recommended to use JPG for output as the JPG compression 
 # will badly distort the output when colorized.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -90,13 +90,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -144,42 +144,42 @@ else
 					   ;;
 		 		-t)    # type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test mode values
 					   type="$1"
 					   type=`echo "$type" | tr "[:upper:]" "[:lower:]"`
-					   case "$type" in
+					   case "$type" in 
 					   		row|line|bil) type="row" ;;
 					   		col|pixel|bip) type="col" ;;
-					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---"
+					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 		 		-a)    # alpha
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ALPHA FLAG SPECIFICATION ---"
 					   checkMinus "$1"
 					   alpha="$1"
 					   alpha=`echo "$alpha" | tr "[:upper:]" "[:lower:]"`
-					   [ "$alpha" != "yes" -a "$alpha" != "no" ] && errMsg "--- ALPHA=$alpha IS AN INVALID VALUE ---"
+					   [ "$alpha" != "yes" -a "$alpha" != "no" ] && errMsg "--- ALPHA=$alpha IS AN INVALID VALUE ---" 
 					   ;;
 		 		-c)    # colorize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORIZE FLAG SPECIFICATION ---"
 					   checkMinus "$1"
 					   colorize="$1"
 					   colorize=`echo "$colorize" | tr "[:upper:]" "[:lower:]"`
-					   [ "$colorize" != "yes" -a "$colorize" != "no" ] && errMsg "--- COLORIZE=$colorize IS AN INVALID VALUE ---"
+					   [ "$colorize" != "yes" -a "$colorize" != "no" ] && errMsg "--- COLORIZE=$colorize IS AN INVALID VALUE ---" 
 					   ;;
 				 -)    # STDIN, end of arguments
   				 	   break
   				 	   ;;
 				-*)    # any other - argument
 					   errMsg "--- UNKNOWN OPTION ---"
-					   ;;
+					   ;;					   
 		     	 *)    # end of arguments
 					   break
 					   ;;
@@ -213,9 +213,9 @@ trap "rm -rf $dir; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -249,7 +249,7 @@ if [ $numfiles -eq 1 ]; then
 	hh=`convert $dir/tmp1.mpc -ping -format "%h" info:`
 	# remove leading s from srgb after IM 6.7.6.6
 	channels=`convert $dir/tmp1.mpc -ping -format "%[channels]" info: | sed 's/s//g'`
-	numchannels=`echo "$channels" | wc -m`
+	numchannels=`echo "$channels" | wc -m`	
 	numchannels=$(($numchannels-1))
 	isAlpha=`convert $dir/tmp1.mpc -ping -format "%A" info:`
 	isRGB=`echo "$channels" | grep -c "rgb"`
@@ -266,12 +266,12 @@ if [ $numfiles -eq 1 ]; then
 		transparency=""
 	fi
 #	echo "transparency=$transparency; numchannels=$numchannels;"
-
+	
 	# setup expanded width and height and scale
 	www=`convert xc: -format "%[fx:$numchannels*$ww]" info:`
 	hhh=`convert xc: -format "%[fx:$numchannels*$hh]" info:`
 	scale=`convert xc: -format "%[fx:$numchannels*100]" info:`
-
+	
 	#set up colorize
 	if [ "$colorize" = "yes" ]; then
 		if [ $isRGB -eq 1 -a "$isAlpha" = "False" ]; then
@@ -314,15 +314,15 @@ if [ $numfiles -eq 1 ]; then
 		for ((i=2;i<=$numchannels;i++)); do
 			squares="$squares xc:black"
 		done
+		
 
-
-	# process image
+	# process image	
 	if [ "$type" = "row" ]; then
 		convert -size 1x1 $squares -append -write mpr:stripes \
 			+delete -size ${ww}x${hhh}! tile:mpr:stripes $dir/tmpM.mpc
 		convert $dir/tmp1.mpc $transparency -scale 100x${scale}% $setcspace -separate \
 			+channel $dir/tmpI_%d.mpc
-
+ 
 		convert -size ${ww}x${hhh}! xc:none $dir/tmp0.mpc
 		for ((i=0;i<$numchannels;i++)); do
 			eval colorize=\$colorize$i
@@ -367,7 +367,7 @@ elif [ $numfiles -gt 1 ]; then
 	www=`convert xc: -format "%[fx:$numfiles*$ww]" info:`
 	hhh=`convert xc: -format "%[fx:$numfiles*$hh]" info:`
 	scale=`convert xc: -format "%[fx:$numfiles*100]" info:`
-
+	
 	#set up white/black stripes for number of files
 		squares="xc:white"
 		for ((i=2;i<=$numfiles;i++)); do

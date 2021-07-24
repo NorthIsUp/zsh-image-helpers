@@ -3,92 +3,92 @@
 # Developed by Fred Weinhaus 11/21/2008 .......... revised 3/1/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: bilinearwarp [-f format] [-v vpmode] [-b bgcolor] "x1,y1 x2,y2 x3,y3 x4,y4" infile outfile
 # USAGE: bilinearwarp [-h or -help]
 #
 # OPTIONS:
-#
+# 
 # "x1,y1 x2,y2 ..."         four and only four control point x,y coordinates;
-#                           these are where the corners of input image are
-#                           desired in the output image; must be ordered clockwise
-#                           starting with the point corresponding to the upper
+#                           these are where the corners of input image are 
+#                           desired in the output image; must be ordered clockwise 
+#                           starting with the point corresponding to the upper 
 #                           left corner of input image; floats>=0;
 #                           list must be specified just prior to infile
-# -f     format             format for output size; B or box (for bounding box)
+# -f     format             format for output size; B or box (for bounding box) 
 #                           or I or input (for same as input); default=box
 # -v     vpmode             any valid IM virtual-pixel mode; default=black
-# -b     bgcolor            background color when virtual-pixel is set to
+# -b     bgcolor            background color when virtual-pixel is set to 
 #                           background; Any valid IM color; default=black
-#
+#                         
 ###
 #
 # NAME: BILINEARWARP
 #
 # PURPOSE: To generate a proper four-point bilinear warp of the input image.
 #
-# DESCRIPTION: BILINEARWARP generate a proper four-point bilinear warp of the
-# input image using the corners of the input image and the specified
-# corresponding coordinates where it is desire that those corner points be
-# located in the output image. The input coordinates are not specified as
-# they will be found from the image dimensions. The four output x,y coordinates
-# must be specified in clockwise order starting with the corresponding point to
+# DESCRIPTION: BILINEARWARP generate a proper four-point bilinear warp of the 
+# input image using the corners of the input image and the specified 
+# corresponding coordinates where it is desire that those corner points be  
+# located in the output image. The input coordinates are not specified as 
+# they will be found from the image dimensions. The four output x,y coordinates  
+# must be specified in clockwise order starting with the corresponding point to 
 # the upper left corner of the input image.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # "x1,y1 x2,y2 x3,y3 x4,y4" ... LIST of x,y coordinates in the output image
-# that correspond to where the corners of the input image are desired to be
-# located. The input coordinates are not specified as they will be found from
-# the image dimensions. The four output x,y coordinates must be specified in
-# clockwise order starting with the corresponding point to the upper left
+# that correspond to where the corners of the input image are desired to be 
+# located. The input coordinates are not specified as they will be found from 
+# the image dimensions. The four output x,y coordinates must be specified in 
+# clockwise order starting with the corresponding point to the upper left 
 # corner of the input image. Values may be floats>=0.
-#
-# -f format ... FORMAT for output size. The choices are to make the output the
-# same size as the input (value=I or input) or to make the output the size of
-# the bounding box around the set of specified output control point coordinates
+# 
+# -f format ... FORMAT for output size. The choices are to make the output the  
+# same size as the input (value=I or input) or to make the output the size of 
+# the bounding box around the set of specified output control point coordinates 
 # (value=B or box). The default is B (bounding box).
-#
-# -v  vpmode ... VPMODE is any valid IM virtual-pixel method.
+# 
+# -v  vpmode ... VPMODE is any valid IM virtual-pixel method. 
 # The default is black.
-#
-# -b bgcolor... BGCOLOR is the fill color for the background area outside
-# of the warped image when the virtual-pixel method is specified as background.
-# Any valid IM color may be used. Values should be enclosed in quotes if not
+# 
+# -b bgcolor... BGCOLOR is the fill color for the background area outside 
+# of the warped image when the virtual-pixel method is specified as background. 
+# Any valid IM color may be used. Values should be enclosed in quotes if not 
 # color names. See http://imagemagick.org/script/color.php
-#
+# 
 # <a href="BilinearImageWarping2.pdf" target="_blank">Mathematical Background</a>
-#
+# 
 # NOTE: This script may be slow due to the use of -fx.
-#
-# CAVEAT: No guarantee that this script will work on all platforms, nor that
-# trapping of inconsistent parameters is complete and foolproof. Use At Your
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, nor that 
+# trapping of inconsistent parameters is complete and foolproof. Use At Your 
 # Own Risk.
-#
+# 
 ######
-#
+# 
 
 # set default value
 format="box"  		#box or input
@@ -102,13 +102,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -163,7 +163,7 @@ else
 					   exit 0  ;;
 				-f)    # get  format
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 						case "$1" in
@@ -178,14 +178,14 @@ else
 					   ;;
 				-v)    # get  vpmode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIRTUAL-PIXEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   vpmode="$1"
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -197,7 +197,7 @@ else
 					   errMsg "--- UNKNOWN OPTION ---"
 					   ;;
 				*)     # end of arguments
-					   break
+					   break 
 					   ;;
 			esac
 			shift   # next option
@@ -313,7 +313,7 @@ if [ "$format" = "box" ]; then
 	miny=`convert xc: -format "%[fx:min($y3,min($y2,min($y1,min($y0,1000000))))]" info:`
 	ww=`convert xc: -format "%[fx:floor($maxx-$minx)+1]" info:`
 	hh=`convert xc: -format "%[fx:floor($maxy-$miny)+1]" info:`
-
+		
 	# compute output coords relative to bounding box
 	x0=`convert xc: -format "%[fx:$x0-$minx]" info:`
 	y0=`convert xc: -format "%[fx:$y0-$miny]" info:`
@@ -322,7 +322,7 @@ if [ "$format" = "box" ]; then
 	x2=`convert xc: -format "%[fx:$x2-$minx]" info:`
 	y2=`convert xc: -format "%[fx:$y2-$miny]" info:`
 	x3=`convert xc: -format "%[fx:$x3-$minx]" info:`
-	y3=`convert xc: -format "%[fx:$y3-$miny]" info:`
+	y3=`convert xc: -format "%[fx:$y3-$miny]" info:`	
 fi
 
 # compute coefficients
@@ -410,3 +410,5 @@ elif [ "$format" = "input" ]; then
 	-fx "bb=$B1+($b3*i)-($a3*j); cc=$C1+($b1*i)-($a1*j); rt=(bb*bb)-(4*$A*cc); il=(-bb+sqrt(rt))/(2*$A); is=(i-$a0-($a2*il))/($a1+($a3*il)); rt<0?$skycolor:u.p{is,il}" "$outfile"
 fi
 exit 0
+
+

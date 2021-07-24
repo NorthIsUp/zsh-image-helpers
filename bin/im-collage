@@ -1,127 +1,127 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 6/12/2016 .......... revised 6/12/2016
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
-#
-# USAGE: collage [-d dimensions] [-b bgcolor] [-m mode] [-n newseed]
-# [-p pattern] [-s scale] [-g geometry] [-f format] [-r radius] [-t taper]
+# 
+# USAGE: collage [-d dimensions] [-b bgcolor] [-m mode] [-n newseed] 
+# [-p pattern] [-s scale] [-g geometry] [-f format] [-r radius] [-t taper] 
 # infile [overlayfile] outfile
 # USAGE: collage [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -d     dimensions     WidthxHeight of output; if only one, then output will
-#                       be square; if none, then output will be the size of
+# 
+# -d     dimensions     WidthxHeight of output; if only one, then output will 
+#                       be square; if none, then output will be the size of 
 #                       the input; integers>0; default is size of input
-# -b     bgcolor        background color; any valid opaque IM color is allowed;
+# -b     bgcolor        background color; any valid opaque IM color is allowed; 
 #                       default is black
-# -m     mode           mode is either all (18 variants) or half (9 variants)
+# -m     mode           mode is either all (18 variants) or half (9 variants) 
 #                       of the input image in the collage; default is all
-# -n     newseed        seed value for the randomization of the variants;
+# -n     newseed        seed value for the randomization of the variants; 
 #                       integer>0; default causes every output to be different;
-#                       use of any other value will cause the output to be
-#                       repeatable
-# -p     pattern        pattern for the optional overlay image; choices are:
-#                       1, 2, 3 or 4; 1 is one copy in the middle or over the
-#                       whole image based upon the scale value; 2 is a variant
-#                       in the southeast and northwest corners; 3 is a variant
-#                       in the southwest and northeast corners; 4 is a variant
+#                       use of any other value will cause the output to be 
+#                       repeatable  
+# -p     pattern        pattern for the optional overlay image; choices are: 
+#                       1, 2, 3 or 4; 1 is one copy in the middle or over the 
+#                       whole image based upon the scale value; 2 is a variant 
+#                       in the southeast and northwest corners; 3 is a variant 
+#                       in the southwest and northeast corners; 4 is a variant 
 #                       in all 4 corners of the output; default=1
-# -s     scale          scale factor of the overlay image variants as a
-#                       percent of the output image dimensions;
+# -s     scale          scale factor of the overlay image variants as a 
+#                       percent of the output image dimensions;  
 #                       0<integer<=100; default=50
-# -g     geometry		geometry offset in pixels for both x and y for
+# -g     geometry		geometry offset in pixels for both x and y for 
 #                       overlay image variants; integer; default=0
-# -f     format         preprocessing format for the overlay image; choices
-#                       are: none, flip, flop, rot90, rot180, rot270;
+# -f     format         preprocessing format for the overlay image; choices 
+#                       are: none, flip, flop, rot90, rot180, rot270; 
 #                       default=none
-# -r     radius         radius of the vignette as a percent of half the image
+# -r     radius         radius of the vignette as a percent of half the image 
 #                       input image dimensions: 0<integer<=100; default=50
 # -t     taper          taper rate of the vignette expressed as a sigma value;
 #                       integer>0; default=10
-#
+# 
 ###
-#
-# NAME: COLLAGE
-#
+# 
+# NAME: COLLAGE 
+# 
 # PURPOSE: Creates a multi-variant collage of the input image.
-#
-# DESCRIPTION: Creates a multi-variant collage of the input image. Choices are
-# either 18 variants in the collage or 8 variants in the collage. Variants are
-# randomized in position, orientation and scale. An optional overlay image may
-# be added with 4 choices of number and positions of the variants added atop
+# 
+# DESCRIPTION: Creates a multi-variant collage of the input image. Choices are 
+# either 18 variants in the collage or 8 variants in the collage. Variants are 
+# randomized in position, orientation and scale. An optional overlay image may 
+# be added with 4 choices of number and positions of the variants added atop 
 # of the collaged input image.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -d dimensions ... DIMENSIONS are the WidthxHeight of output. If only one
-# value is specified, then the output will be a square. If neither are
-# provided, then the output will be the size of input. Values are integers>0.
+# -d dimensions ... DIMENSIONS are the WidthxHeight of output. If only one  
+# value is specified, then the output will be a square. If neither are 
+# provided, then the output will be the size of input. Values are integers>0. 
 # The default is the size of input.
-#
-# -b bgcolor ... BGCOLOR is the background color for the output image. Any
+# 
+# -b bgcolor ... BGCOLOR is the background color for the output image. Any 
 # valid opaque IM color is allowed. The default is black.
-#
-# -m mode ... MODE is either all (a) or half (h); all uses 18 variants of the
-# input image in the collage. Half uses only 9 variants of the input image
+# 
+# -m mode ... MODE is either all (a) or half (h); all uses 18 variants of the 
+# input image in the collage. Half uses only 9 variants of the input image 
 # in the collage. The default is all.
-#
-# -n newseed ... NEWSEED is the seed value for the randomization of the
-# variants. Values are integers>0. The default causes every output to be
-# different. Use of any other value will cause the output to be repeatable.
-#
-# -p pattern ... PATTERN for the optional overlay image. The choices are:
-# 1, 2, 3 or 4. 1 is one copy in the middle or over the whole output based
-# upon the scale value. 2 is a variant in the southeast and northwest corners.
-# 3 is a variant in the southwest and northeast corners. 4 is a variant in
+# 
+# -n newseed ... NEWSEED is the seed value for the randomization of the 
+# variants. Values are integers>0. The default causes every output to be 
+# different. Use of any other value will cause the output to be repeatable. 
+#   
+# -p pattern ... PATTERN for the optional overlay image. The choices are: 
+# 1, 2, 3 or 4. 1 is one copy in the middle or over the whole output based 
+# upon the scale value. 2 is a variant in the southeast and northwest corners. 
+# 3 is a variant in the southwest and northeast corners. 4 is a variant in 
 # all 4 corners of the output. The default=1.
-#
-# -s scale ... SCALE is the scale factor for the overlay image variants
-# expressed a as a percent of the output image dimensions. Values are
+# 
+# -s scale ... SCALE is the scale factor for the overlay image variants 
+# expressed a as a percent of the output image dimensions. Values are   
 # 0<integer<=100. The default=50.
-#
-# -g geometry ... GEOMETRY offset in pixels for both x and y for the overlay
+# 
+# -g geometry ... GEOMETRY offset in pixels for both x and y for the overlay 
 # image variants. Values are integers. The default=0.
-#
-# -f format ... FORMAT is the preprocessing format for the overlay image. The
+# 
+# -f format ... FORMAT is the preprocessing format for the overlay image. The 
 # choices are: none, flip, flop, rot90, rot180, rot270. The default=none.
-#
-# -r radius ... RADIUS of the vignette expressed as a percent of half of the
+# 
+# -r radius ... RADIUS of the vignette expressed as a percent of half of the 
 # input image dimensions. Values are 0<integer<=100. The default=50.
-#
-# -t taper ... TAPER rate of the vignette expressed as a (blur) sigma value.
+# 
+# -t taper ... TAPER rate of the vignette expressed as a (blur) sigma value. 
 # Values are integers>0. The default=10.
-#
-# NOTE: The optional overlay image should be a mostly transparent image so
+# 
+# NOTE: The optional overlay image should be a mostly transparent image so 
 # that it does not cover too much of the collage.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -129,7 +129,7 @@
 dimensions=""		# WxH of output; if only one, then will be square; if none, then will be size of input
 bgcolor="black"		# background color
 newseed=""			# random seed
-mode="all"			# all (18) or half (9) image pattern
+mode="all"			# all (18) or half (9) image pattern 
 pattern=1			# overlay pattern: 1, 2, 3 or 4
 radius=50			# vignette radiusius as percent of half image dimensions: 0<integer<=100
 taper=10			# vignette taper sigma value integer>0
@@ -142,13 +142,13 @@ format="none"       # overlay image preprocessing: none, flip, flop, rot90, rot1
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -197,21 +197,21 @@ else
 					   ;;
 				-d)    # get dimensions
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSIONS SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimensions=`expr "$1" : '\([0-9]*[x]*[0-9]*\)'`
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-n)    # get newseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NEWSEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   newseed=`expr "$1" : '\([0-9]*\)'`
@@ -221,7 +221,7 @@ else
 					   ;;
 			   	-m)    # mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -233,7 +233,7 @@ else
 					   ;;
 				-p)    # get pattern
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PATTERN SPECIFICATION ---"
 					   checkMinus "$1"
 					   pattern=`expr "$1" : '\([0-9]*\)'`
@@ -244,7 +244,7 @@ else
 					   ;;
 				-r)    # get radius
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   radius=`expr "$1" : '\([0-9]*\)'`
@@ -255,7 +255,7 @@ else
 					   ;;
 				-t)    # get taper
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TAPER SPECIFICATION ---"
 					   checkMinus "$1"
 					   taper=`expr "$1" : '\([0-9]*\)'`
@@ -265,7 +265,7 @@ else
 					   ;;
 				-s)    # get scale
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SCALE SPECIFICATION ---"
 					   checkMinus "$1"
 					   scale=`expr "$1" : '\([0-9]*\)'`
@@ -276,7 +276,7 @@ else
 					   ;;
 				-g)    # get geometry
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GEOMETRY SPECIFICATION ---"
 					   #checkMinus "$1"
 					   geometry=`expr "$1" : '\([-0-9]*\)'`
@@ -284,7 +284,7 @@ else
 					   ;;
 			   	-f)    # format
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   format=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -411,7 +411,7 @@ for ((i=0; i<num; i++)); do
 	else
 		newseed=$((newseed+i))
 		randomVals "$newseed"
-	fi
+	fi		
 	x_Arr[$i]=$xx
 	y_Arr[$i]=$yy
 	s_Arr[$i]=$scale
@@ -436,7 +436,7 @@ elif [ "$format" = "rot180" ]; then
 elif [ "$format" = "rot270" ]; then
 	formatting="-rotate 270"
 fi
-
+ 
 # set up for overlay image
 if [ "$overlayfile" = "" ]; then
 	overlay_setup=""
@@ -447,7 +447,7 @@ if [ "$overlayfile" = "" ]; then
 	composite1=""
 	composite2=""
 	composite3=""
-	composite4=""
+	composite4=""	
 elif [ $pattern -eq 1 ]; then
 	overlay_setup="$overlayfile -resize ${osize}x${osize} $formatting \
 		-alpha on -channel alpha -evaluate multiply 0.8 +channel \
@@ -459,7 +459,7 @@ elif [ $pattern -eq 1 ]; then
 	overlay3=""
 	composite3=""
 	overlay4=""
-	composite4=""
+	composite4=""	
 elif [ $pattern -eq 2 ]; then
 	overlay_setup="$overlayfile -resize ${osize}x${osize} $formatting \
 		-alpha on -channel alpha -evaluate multiply 0.8 +channel \
@@ -471,7 +471,7 @@ elif [ $pattern -eq 2 ]; then
 	overlay3=""
 	composite3=""
 	overlay4=""
-	composite4=""
+	composite4=""	
 elif [ $pattern -eq 3 ]; then
 	overlay_setup="$overlayfile -resize ${osize}x${osize} $formatting \
 		-alpha on -channel alpha -evaluate multiply 0.8 +channel \
@@ -543,7 +543,7 @@ if [ "$mode" = "all" ]; then
 	oy16=`echo "scale=0; (${y_Arr[16]}-$f2*$hh)/1" | bc`
 	ox17=`echo "scale=0; (${x_Arr[17]})/1" | bc`
 	oy17=`echo "scale=0; (${y_Arr[17]})/1" | bc`
-
+	
 	# process image
 	eval 'convert -respect-parentheses -size ${ww}x${hh} xc:"$bgcolor" \
 	\( "$infile" -alpha set -background none -vignette 0x${taper}+${radius}+${radius} $resizing -write mpr:img +delete \) \

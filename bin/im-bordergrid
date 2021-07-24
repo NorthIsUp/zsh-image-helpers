@@ -3,99 +3,99 @@
 # Developed by Fred Weinhaus 1/6/2009 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: bordergrid [-s size] [-t thickness] [-o offset] [-d dimension] [-a angle] [-c colors] [-b blur] infile outfile
 # USAGE: bordergrid [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -s      size              size of border; integer>0; default=5
 # -t      thickness         thickness of image grid lines; integer>0;
 #                           default=10
-# -o      offset            offset between image grid lines (thickness of
+# -o      offset            offset between image grid lines (thickness of 
 #                           background grid lines); integer>0
 #                           default=3
 # -d      dimension         dimension of grid; dimension=1 or 2 for 1D or 2D
 #                           default=1
 # -a      angle             angle of rotation of grid lines; -180<=float<=180;
 #                           default=45
-# -c      colors            one or two comma delimited colors;
-#                           if one color, then it will be the background color
-#                           alternating with the image;
-#                           if two colors, then the first will be the background
-#                           color and the second color will be the foreground
+# -c      colors            one or two comma delimited colors; 
+#                           if one color, then it will be the background color 
+#                           alternating with the image; 
+#                           if two colors, then the first will be the background  
+#                           color and the second color will be the foreground  
 #                           color replacing the image.
 # -b      blur              blur of grid lines; float>=0; default=0
-#
+# 
 ###
-#
-# NAME: BORDERGRID
-#
+# 
+# NAME: BORDERGRID 
+# 
 # PURPOSE: To create various grid effects in the border of an image.
-#
-# DESCRIPTION: BORDERGRID creates various grid effects in the border of an
-# image. The grid alternates betweens lines of image and lines of background
-# if only one color is provide. It can also alternates between two colors.
-# The grid can be either 1D or 2D and the grid thickness and spacing can be
+# 
+# DESCRIPTION: BORDERGRID creates various grid effects in the border of an 
+# image. The grid alternates betweens lines of image and lines of background 
+# if only one color is provide. It can also alternates between two colors. 
+# The grid can be either 1D or 2D and the grid thickness and spacing can be 
 # specified.
-#
-#
-# ARGUMENTS:
-#
-# -s size ... SIZE is the size or dimension of the border region. It will
-# be the same size all around the image. Values are integer greater than 0.
+# 
+# 
+# ARGUMENTS: 
+# 
+# -s size ... SIZE is the size or dimension of the border region. It will 
+# be the same size all around the image. Values are integer greater than 0. 
 # The default is 10.
-#
-# -t thickness ... THICKNESS is the thickness of the image grid lines. Values
+# 
+# -t thickness ... THICKNESS is the thickness of the image grid lines. Values 
 # are integers greater than 0. The default=3.
-#
-# -o offset ... OFFSET is the offset or spacing between the image grid lines.
-# This is equivalent to the thickness of the background grid lines. Values
+# 
+# -o offset ... OFFSET is the offset or spacing between the image grid lines. 
+# This is equivalent to the thickness of the background grid lines. Values 
 # are integers greater than 0. The default=3.
-#
-# -d dimension ... DIMENSION determines if the grid lines will be 1D or 2D.
+# 
+# -d dimension ... DIMENSION determines if the grid lines will be 1D or 2D. 
 # Values are either 1 or 2. The default is 1.
-#
-# -a angle ... ANGLE is the angle of rotation of the grid lines (from horizontal
+# 
+# -a angle ... ANGLE is the angle of rotation of the grid lines (from horizontal 
 # for dimension=1). Values are floats between -180 and 180. The default=45.
-#
-# -c colors ... COLORS one or two comma delimted colors. If only one color is
-# profided, then it will be the background color alternating with the image.
-# If two colors are provided, then the first will be the background color
-# and the second color will be the foreground color replacing the image.
+# 
+# -c colors ... COLORS one or two comma delimted colors. If only one color is 
+# profided, then it will be the background color alternating with the image. 
+# If two colors are provided, then the first will be the background color 
+# and the second color will be the foreground color replacing the image. 
 # The default is white.
-#
-# -b blur ... BLUR is the amount of blurring of the grid lines. Values are
+# 
+# -b blur ... BLUR is the amount of blurring of the grid lines. Values are 
 # floats greater or equal to 0. The default=0 (no blurring).
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 size=10					# size of border (integer)
@@ -114,13 +114,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -168,7 +168,7 @@ else
 					   ;;
 				-s)    # get  size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*\)'`
@@ -178,7 +178,7 @@ else
 					   ;;
 				-t)    # get  thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -188,7 +188,7 @@ else
 					   ;;
 				-o)    # get  offset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSET SPECIFICATION ---"
 					   checkMinus "$1"
 					   offset=`expr "$1" : '\([0-9]*\)'`
@@ -198,7 +198,7 @@ else
 					   ;;
 				-d)    # get dimension
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimension="$1"
@@ -206,7 +206,7 @@ else
 					   ;;
 				-a)    # get angle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   # errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   # checkMinus "$1"
 					   angle=`expr "$1" : '\([-.0-9]*\)'`
@@ -217,7 +217,7 @@ else
 					   ;;
 				-c)    # get colors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors="$1,"
@@ -226,7 +226,7 @@ else
 					   ;;
 				-b)    # get  blur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   blur=`expr "$1" : '\([.0-9]*\)'`
@@ -293,7 +293,7 @@ if [ "$blur" = "0" -o "$blur" = "0.0" ]; then
 else
 	smooth="-blur 0x${blur}"
 fi
-
+	
 
 # setup grid colors
 if [ "$fgcolor" = "" ];then

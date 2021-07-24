@@ -3,78 +3,78 @@
 # Developed by Fred Weinhaus 9/23/2012 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: radialgradient WidthxHeight [-d diameters] [-c center] [-C colors] outfile
 # USAGE: radialgradient [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 #         WidthxHeight      width and height of desired output image
-# -d      diameters         x and y diameters of radial gradient;
-#                           pair of comma separated floats>=0;
+# -d      diameters         x and y diameters of radial gradient; 
+#                           pair of comma separated floats>=0; 
 #                           default=Width,Height
-# -c      center            x and y center coordinates for radial gradient;
-#                           pair of comma separated floats>=0;
+# -c      center            x and y center coordinates for radial gradient; 
+#                           pair of comma separated floats>=0; 
 #                           default=Width/2,Height/2
 # -C      colors            inner and outer colors for radial gradient;
-#                           hyphen separate pair of IM colors;
-#                           default="black-white"; be sure to enclose them
+#                           hyphen separate pair of IM colors; 
+#                           default="black-white"; be sure to enclose them 
 #                           in quotes.
-#
+# 
 ###
-#
-# NAME: RADIALGRADIENT
-#
+# 
+# NAME: RADIALGRADIENT 
+# 
 # PURPOSE: To create a radial gradient image.
-#
-# DESCRIPTION: RADIALGRADIENT create a radial gradient image. The user can
-# specify the x and y diameters and the x and y center coordinates. Nominally,
-# the center will be black and increase in brightness to white at the radii
+# 
+# DESCRIPTION: RADIALGRADIENT create a radial gradient image. The user can 
+# specify the x and y diameters and the x and y center coordinates. Nominally, 
+# the center will be black and increase in brightness to white at the radii 
 # (half diameters) from the center.
-#
-#
-# ARGUMENTS:
-#
+# 
+# 
+# ARGUMENTS: 
+# 
 # WidthxHeight ... WIDTHxHEIGHT is the desired sized of the output image.
-#
-# -d diameters ... DIAMETERS are the x and y diameters for the radial gradient.
+# 
+# -d diameters ... DIAMETERS are the x and y diameters for the radial gradient. 
 # Values are floats>=0. The default=Width,Height.
-#
-# -c center ... CENTER is the x and y center coordinates for the radial gradient.
+# 
+# -c center ... CENTER is the x and y center coordinates for the radial gradient. 
 # Values are floats>=0. The default=Width/2,Height/2.
-#
-# -C colors ... COLORS are the inner and outer limit colors of the radial
-# gradient. They are specified as a hyphen separate pair of valid IM colors.
+# 
+# -C colors ... COLORS are the inner and outer limit colors of the radial 
+# gradient. They are specified as a hyphen separate pair of valid IM colors. 
 # The default="black-white". Be sure to enclose them in quotes.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 #size=""				#WxH
@@ -89,13 +89,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -143,7 +143,7 @@ else
 					   ;;
 				-d)    # get  diameters
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIAMETERS SPECIFICATION ---"
 					   checkMinus "$1"
 					   diameters=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
@@ -151,7 +151,7 @@ else
 					   ;;
 				-c)    # get  center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   center=`expr "$1" : '\([.0-9]*,[.0-9]*\)'`
@@ -159,7 +159,7 @@ else
 					   ;;
 				-C)    # get  colors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -229,8 +229,8 @@ if [ "$colors" != "black-white" ]; then
 	colors=`echo "$colors" | tr "-" ","`
 	color1=`echo "$colors" | cut -d, -f 1`
 	color2=`echo "$colors" | cut -d, -f 2`
-	is_opaque1=`convert xc:"$color1" -format "%[fx:u.a]" info:`
-	is_opaque2=`convert xc:"$color2" -format "%[fx:u.a]" info:`
+	is_opaque1=`convert xc:"$color1" -format "%[fx:u.a]" info:` 
+	is_opaque2=`convert xc:"$color2" -format "%[fx:u.a]" info:` 
 	if [ $is_opaque1 -eq 1 -a $is_opaque2 -eq 1 ]; then
 		#fully opaque colors
 		convert $tmpA1 +level-colors "$colors" "$outfile"
@@ -239,7 +239,7 @@ if [ "$colors" != "black-white" ]; then
 		convert $tmpA1 \( -clone 0 -negate \) \( -clone 0 +level-colors $colors \) \
 			-delete 0 +swap -alpha off -compose copy_opacity -composite \
 			$outfile
-	fi
+	fi		
 else
 	convert $tmpA1 "$outfile"
 fi

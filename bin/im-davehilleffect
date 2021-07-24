@@ -3,72 +3,72 @@
 # Developed by Fred Weinhaus 6/23/2013 .......... revised 4/29/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: davehilleffect [-b brightness] [-c contrast] [-g gain ] infile outfile
 # USAGE: davehilleffect [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -b     brightness     brightness factor; float>=0; default=1 no change
-# -c     contrast       contrast; float; nominally -10 to 10; default=0
+# -c     contrast       contrast; float; nominally -10 to 10; default=0 
 # -g     gain           effect gain; 0<=integer<=100; default=40
-#
+# 
 ###
-#
-# NAME: DAVEHILLEFFECT
-#
+# 
+# NAME: DAVEHILLEFFECT 
+# 
 # PURPOSE: To apply a DaveHill-like effect to an image.
-#
+# 
 # DESCRIPTION: DAVEHILLEFFECT applies a DaveHill-like effect to an image.
-#
-#
-# ARGUMENTS:
-#
-# -b brightness ... BRIGHTNESS is a brightness factor. Values are floats>=0.
+# 
+# 
+# ARGUMENTS: 
+# 
+# -b brightness ... BRIGHTNESS is a brightness factor. Values are floats>=0. 
 # The default=1 or no change. Increase brightness is larger than 1.
 # Decrease brightness is less than 1.
-#
-# -c contrast ... CONTRAST is a sigmoidal contrast. Values are floats nominally
-# in the range of -10 to 10. Positive values increase contrast and negative
+# 
+# -c contrast ... CONTRAST is a sigmoidal contrast. Values are floats nominally 
+# in the range of -10 to 10. Positive values increase contrast and negative 
 # values decrease contrast. The default=0 (no change).
-#
+# 
 # -g gain ... GAIN is the effect gain. Values are integers between 0 and 100.
 # The default=40
-#
+# 
 # References:
 # http://www.diyphotography.net/creating-that-dave-hill-look
 # http://logosdesign.blogspot.com/2008/07/dave-hill-effect-photography-tutorial.html
 #
 # REQUIREMENTS: IM 6.6.1.9 due to the use of -morphology DoG
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 brightness=1		# float>=0; 1=no change; >1 is brighter; <1 is darker
@@ -82,13 +82,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -136,7 +136,7 @@ else
 					   ;;
 				-b)    # get  brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   brightness=`expr "$1" : '\([.0-9]*\)'`
@@ -144,7 +144,7 @@ else
 					   ;;
 				-c)    # get  contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-.0-9]*\)'`
@@ -152,7 +152,7 @@ else
 					   ;;
 				-g)    # get  gain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   gain=`expr "$1" : '\([0-9]*\)'`
@@ -203,14 +203,14 @@ im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
 # set up brightness
-if [ "$brightness" = "1" ]; then
+if [ "$brightness" = "1" ]; then 
 	brightening=""
 else
 	brightening="-evaluate multiply $brightness"
 fi
 
 # set up contrast
-if [ "$contrast" = "0" ]; then
+if [ "$contrast" = "0" ]; then 
 	contrasting=""
 else
 	test1=`convert xc: -format "%[fx:sign($contrast)]" info:`
@@ -248,3 +248,4 @@ convert $tmpA1 $brightening $contrasting \
 	-compose colorize -composite "$outfile"
 
 exit 0
+

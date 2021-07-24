@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 9/17/2011 .......... 6/2/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: vignette [-i inner] [-o outer] [-f feather] [-c color] [-a amount] infile outfile
@@ -39,42 +39,42 @@
 #                    default=0
 # -c     color       vignette color; any IM opaque color; default=black
 # -a     amount      vignette amount; 0<=integer<=0; default=100
-#
+#  
 #
 ###
 #
-# NAME: VIGNETTE
-#
+# NAME: VIGNETTE 
+# 
 # PURPOSE: Applies a vignette effect to a picture.
-#
-# DESCRIPTION: VIGNETTE applies a vignette effect to a picture. The
-# inner and outer radii of the vignette can be controlled as well as
-# the vignette color and amount. For non-square images the vignette
+# 
+# DESCRIPTION: VIGNETTE applies a vignette effect to a picture. The 
+# inner and outer radii of the vignette can be controlled as well as 
+# the vignette color and amount. For non-square images the vignette 
 # effect will be elliptical to reach the corners.
-#
-#
-# OPTIONS:
-#
-# -i inner ... INNER vignette radius as percent of image dimension. The
+# 
+# 
+# OPTIONS: 
+# 
+# -i inner ... INNER vignette radius as percent of image dimension. The 
 # default=0 means the vignette starts near the image center.
-#
-# -o outer ... OUTER vignette radius as percent of image dimension. The
+# 
+# -o outer ... OUTER vignette radius as percent of image dimension. The 
 # default=150, which is about the image corners.
-#
-# -f feather ... FEATHER is the amount of feathering or smoothing of the
+# 
+# -f feather ... FEATHER is the amount of feathering or smoothing of the 
 # transition around the inner radius. Values are floats>0. The default=0
-#
-# -c color ... COLOR is the color of vignette. Any valid opaque IM color
+# 
+# -c color ... COLOR is the color of vignette. Any valid opaque IM color 
 # is allowed. The default=black.
-#
-# -a amount ... AMOUNT is the overal coloring amount. Values are integers in
-# the range 0 to 100. A value of zero means no vignette. The default=100
-# means full vignette color.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# -a amount ... AMOUNT is the overal coloring amount. Values are integers in 
+# the range 0 to 100. A value of zero means no vignette. The default=100 
+# means full vignette color. 
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -83,7 +83,7 @@ inner=50		# inner radius of vignette where not darkened as percent of image dime
 outer=150		# outer radius of vignette where darkest
 color="black"	# vignette color
 amount=100		# vignette amount
-feather=0       # feathering amount for inner radius;
+feather=0       # feathering amount for inner radius; 
 
 # set directory for temporary files
 dir="."    # suggestions are dir="." or dir="/tmp"
@@ -92,13 +92,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -146,7 +146,7 @@ else
 					   ;;
 				-i)    # get inner
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INNER SPECIFICATION ---"
 					   checkMinus "$1"
 					   inner=`expr "$1" : '\([0-9]*\)'`
@@ -154,7 +154,7 @@ else
 					   ;;
 				-o)    # get outer
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OUTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   outer=`expr "$1" : '\([0-9]*\)'`
@@ -162,7 +162,7 @@ else
 					   ;;
 				-f)    # get feather
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FEATHER SPECIFICATION ---"
 					   checkMinus "$1"
 					   feather=`expr "$1" : '\([0-9]*\)'`
@@ -170,14 +170,14 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color=`echo "$1"`
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([0-9]*\)'`
@@ -222,9 +222,9 @@ trap "rm -f $tmpA1 $tmpB1; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear

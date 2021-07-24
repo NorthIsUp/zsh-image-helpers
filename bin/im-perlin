@@ -3,125 +3,125 @@
 # Developed by Fred Weinhaus 9/31/2009 .......... revised 8/29/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: perlin widthxheight [-s startlevel] [-e endlevel] [-b base] [-a attenuation] [-n noise] [-r reseed] [-f filter] [-m mode] outfile
 # USAGE: perlin [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 #         widthxHeight         width and height of desired output image
 # -s      startlevel           starting octave level; integer>0; default=1
-# -e      endlevel             ending octave level; integer>0; default is
+# -e      endlevel             ending octave level; integer>0; default is 
 #                              as high as practical
 # -b      base                 octave base; integer>1; default=2
-# -a      attenuation          attenuation factor; float>=0; default=0
-#                              indicates attenuate linearly; other values
-#                              indicates use an exponential attenuation with
-#                              the value as the base; attenuation=2 is the
+# -a      attenuation          attenuation factor; float>=0; default=0 
+#                              indicates attenuate linearly; other values 
+#                              indicates use an exponential attenuation with 
+#                              the value as the base; attenuation=2 is the 
 #                              other nominal value
-# -n      noise                noise type; any valid IM noise type;
+# -n      noise                noise type; any valid IM noise type; 
 #                              default=random
-# -r      reseed               seed value for random number generator; integer>=0;
+# -r      reseed               seed value for random number generator; integer>=0; 
 #                              default indicates to use a random seed value
 #                              each iteration and each time the script is run
-# -f      filter               noise smoothing interpolation filter;
+# -f      filter               noise smoothing interpolation filter; 
 #                              any valid IM filter; default=lanczos
-# -m      mode                 output image color mode; gray or color;
+# -m      mode                 output image color mode; gray or color; 
 #                              default=gray
-#
+# 
 ###
-#
-# NAME: PERLIN
-#
+# 
+# NAME: PERLIN 
+# 
 # PURPOSE: To create an image composed of Perlin type noise.
-#
-# DESCRIPTION: PERLIN creates an image composed of Perlin type noise. Perlin
-# noise is an addition of random noise images at successively higher octaves
+# 
+# DESCRIPTION: PERLIN creates an image composed of Perlin type noise. Perlin 
+# noise is an addition of random noise images at successively higher octaves  
 # in frequency and more attenuated amplitudes.
-#
-#
-# ARGUMENTS:
-#
+# 
+# 
+# ARGUMENTS: 
+# 
 # widthxheight ... WIDTHxHEIGHT is the desired sized of the output image.
-#
-# -s startlevel ... STARTLEVEL is the starting octave level. It defines the
-# lowest frequency of the random pattern (added to zero frequency midgray)
-# where the frequency is the base raised to the octave level. Values are
+# 
+# -s startlevel ... STARTLEVEL is the starting octave level. It defines the 
+# lowest frequency of the random pattern (added to zero frequency midgray) 
+# where the frequency is the base raised to the octave level. Values are 
 # integers>0. The default=1.
-#
-# -e endlevel ... ENDLEVEL is the ending octave level. It defines the
-# highest frequency of the random pattern where the frequency is the base
-# raised to the octave level. Values are integers>0. The default is to stop
-# when the amplitude is smaller than the IM smallest number, quantumscale,
-# for your IM Q level compilation. Practically, one might want to stop at
-# octave level around 6 or 7 depending upon output size. If the endlevel
+# 
+# -e endlevel ... ENDLEVEL is the ending octave level. It defines the 
+# highest frequency of the random pattern where the frequency is the base 
+# raised to the octave level. Values are integers>0. The default is to stop 
+# when the amplitude is smaller than the IM smallest number, quantumscale, 
+# for your IM Q level compilation. Practically, one might want to stop at 
+# octave level around 6 or 7 depending upon output size. If the endlevel 
 # is too high, then the resulting noise pattern may be too fine-grained.
-#
-# -b base ... BASE is the base number for the octave frequencies. Frequencies
-# are defined as base raised to the power of the octave level. Values are
-# integers>1. The default=2 (frequencies increment as octaves that are powers
+# 
+# -b base ... BASE is the base number for the octave frequencies. Frequencies 
+# are defined as base raised to the power of the octave level. Values are 
+# integers>1. The default=2 (frequencies increment as octaves that are powers 
 # of 2). Typical values are small numbers.
-#
-# -a attenuation ... ATTENUATION is a value used to compute how the amplitude
-# for each octave is attenuated (or amplified) as a function of increasing
-# noise frequency. It is the inverse of what is typically called the
-# "persistence" in some of the literature. Values are floats>0. For the default
-# value of zero, the amplitude will be attenuated by successively larger
-# integers incremented for each successive octave. When the attenuation value
-# is larger than zero, the amplitude will be attenuated by the attenuation
-# value raised to the same integer. Thus for values greater than 1, higher
-# frequencies will be attenuation. But for values less than 1, higher
-# frequencies will be amplified. Each frequency will carry the same weight,
-# when the attenuation=1. A value of 2 is often used and produces a smoother
+# 
+# -a attenuation ... ATTENUATION is a value used to compute how the amplitude 
+# for each octave is attenuated (or amplified) as a function of increasing 
+# noise frequency. It is the inverse of what is typically called the 
+# "persistence" in some of the literature. Values are floats>0. For the default 
+# value of zero, the amplitude will be attenuated by successively larger 
+# integers incremented for each successive octave. When the attenuation value 
+# is larger than zero, the amplitude will be attenuated by the attenuation 
+# value raised to the same integer. Thus for values greater than 1, higher 
+# frequencies will be attenuation. But for values less than 1, higher 
+# frequencies will be amplified. Each frequency will carry the same weight, 
+# when the attenuation=1. A value of 2 is often used and produces a smoother 
 # result than the default of 0.
-#
-# -n noise ... NOISE is the type of noise to use. Any valid IM noise is
+# 
+# -n noise ... NOISE is the type of noise to use. Any valid IM noise is 
 # permitted. The default=random.
-#
-# -f filter ... FILTER is the smoothing or interpolation filter used to
-# generate the lower frequency patterns. Any valid IM filter is permitted.
+# 
+# -f filter ... FILTER is the smoothing or interpolation filter used to 
+# generate the lower frequency patterns. Any valid IM filter is permitted. 
 # The default=lanczos.
-#
-# -r reseed ... RESEED is the seed value to use in the random number
-# generator. This permits the resulting image to be repeated. Values are
-# integers>=0; The default is to change the seed value randomly each time
-# the script is run and for each octave. When a seed value is provided, it
+# 
+# -r reseed ... RESEED is the seed value to use in the random number 
+# generator. This permits the resulting image to be repeated. Values are 
+# integers>=0; The default is to change the seed value randomly each time 
+# the script is run and for each octave. When a seed value is provided, it 
 # will be used for all octaves.
-#
+# 
 # REQUIREMENTS: IM 6.5.5.-1 or higher due to the use of -auto-level.
-#
+# 
 # For references, see
 # http://en.wikipedia.org/wiki/Perlin_noise
 # http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 base=2					#integer>1; typically 2 to 4; frequency=base^(octave level)
@@ -140,13 +140,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -194,7 +194,7 @@ else
 					   ;;
 				-s)    # get  startlevel
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STARTLEVEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   startlevel=`expr "$1" : '\([0-9]*\)'`
@@ -204,7 +204,7 @@ else
 					   ;;
 				-e)    # get  endlevel
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ENDLEVEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   endlevel=`expr "$1" : '\([0-9]*\)'`
@@ -214,7 +214,7 @@ else
 					   ;;
 				-b)    # get  base
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BASE SPECIFICATION ---"
 					   checkMinus "$1"
 					   base=`expr "$1" : '\([0-9]*\)'`
@@ -224,7 +224,7 @@ else
 					   ;;
 				-a)    # get attenuation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ATTENUATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   attenuation=`expr "$1" : '\([.0-9]*\)'`
@@ -232,21 +232,21 @@ else
 					   ;;
 				-n)    # get  noise
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NOISE SPECIFICATION ---"
 					   checkMinus "$1"
 					   noise="$1"
 					   ;;
 				-f)    # get  filter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FILTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   filter="$1"
 					   ;;
 				-r)    # get  reseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   reseed=`expr "$1" : '\([0-9]*\)'`
@@ -254,19 +254,19 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$mode" in
+					   case "$mode" in 
 					   		gray|g) mode="gray" ;;
 					   		color|c) mode="color" ;;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 	 [0-9]*x[0-9]*)    # get  width x height
 					   size="$1"
-					   numdim=`echo "$size" | tr "x" " " | wc -w`
+					   numdim=`echo "$size" | tr "x" " " | wc -w` 
 					   [ $numdim -ne 2 ] && errMsg "--- TWO DIMENSIONS MUST BE PROVIDED ---"
 					   width=`echo "$size" | cut -dx -f1`
 					   height=`echo "$size" | cut -dx -f2`
@@ -302,9 +302,9 @@ trap "rm -f $tmpA1 $tmpA2; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -376,7 +376,7 @@ until [ $dim -gt $maxwh ]; do
 	else
 		amp=`convert xc: -format "%[fx:1/($atten^($j-1))]" info:`
 	fi
-	amp2=`convert xc: -format "%[fx:-0.5*$amp]" info:`
+	amp2=`convert xc: -format "%[fx:-0.5*$amp]" info:`		
 	echo "Processing Octave Level: $i and Amplitude=$amp"
 	# need gray(50%) so that noise other than random will work on gray background
 	# need $setcspace so that color works for noise other than random
@@ -397,3 +397,5 @@ convert $tmpA1 -gravity center -crop ${width}x${height}+0+0 +repage \
 	$setcolor -auto-level "$outfile"
 
 exit 0
+
+

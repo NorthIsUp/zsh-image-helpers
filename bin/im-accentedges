@@ -3,30 +3,30 @@
 # Developed by Fred Weinhaus 12/11/2012 .......... revised 10/9/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: accentedges [-w width] [-s strength] [-p polarity] [-b blur]
+# USAGE: accentedges [-w width] [-s strength] [-p polarity] [-b blur] 
 # [-c cmethod] infile outfile
 #
 # USAGE: accentedges [-help]
@@ -35,44 +35,44 @@
 #
 # -w     width        width of edges; integer>0; default=1
 # -s     strength     strenght of edges; integer>=0; default=20
-# -p     polarity     polarity of edges; choices are: white or black;
+# -p     polarity     polarity of edges; choices are: white or black; 
 #                     default=black
 # -b     blur         blurring (smoothing) of edges; float>=0; default=0.5
-# -c     cmethod      compose method for blending edges with image; choices
+# -c     cmethod      compose method for blending edges with image; choices 
 #                     are: over or overlay; default=over
 #
 ###
 #
-# NAME: ACCENTEDGES
-#
+# NAME: ACCENTEDGES 
+# 
 # PURPOSE: To apply accented edges to an image.
-#
-# DESCRIPTION: ACCENTEDGES applies accented edges to an image. The edges may
-# be either black or white. The compose method may be either over or overlay
-# for slightly different effects. This script attempts to duplicate some of the
+# 
+# DESCRIPTION: ACCENTEDGES applies accented edges to an image. The edges may 
+# be either black or white. The compose method may be either over or overlay 
+# for slightly different effects. This script attempts to duplicate some of the 
 # features of Photoshop's Accented Edges.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -w width ... WIDTH of the edges. Values are integers>0. The default=1.
-#
+# 
 # -s strength ... STRENGTH of the edges. Values are integers>=0. The default=20.
-#
-# -p polarity ... POLARITY of the edges. The choices are: white or black. The
+# 
+# -p polarity ... POLARITY of the edges. The choices are: white or black. The  
 # default=black.
-#
-# -b blur ... BLUR is the blurring (smoothing) of the edges. Values are
+# 
+# -b blur ... BLUR is the blurring (smoothing) of the edges. Values are 
 # floats>=0. The default=0.5.
-#
-# -c cmethod ... CMETHOD is the compose method for blending the edges with
+# 
+# -c cmethod ... CMETHOD is the compose method for blending the edges with 
 # the image. The choices are: over or overlay. The default=over.
 #
 # REQUIREMENTS: IM 6.5.9.3 is required due to the use of -morphology edgeout.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+#  
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -80,7 +80,7 @@
 width=1				# edge width
 strength=20			# edge strength
 polarity="black" 	# edge polarity
-blur=0.5			# edge blur
+blur=0.5			# edge blur	
 cmethod="over"		# compose method: over or overlay
 
 # set directory for temporary files
@@ -90,13 +90,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -144,7 +144,7 @@ else
 					   ;;
 				-w)    # get width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width=`expr "$1" : '\([0-9]*\)'`
@@ -154,7 +154,7 @@ else
 					   ;;
 				-s)    # get strength
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STRENGTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   strength=`expr "$1" : '\([0-9]*\)'`
@@ -162,21 +162,21 @@ else
 					   ;;
 		 		-p)    # polarity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POLARITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   polarity="$1"
 					   polarity=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$polarity" in
+					   case "$polarity" in 
 					   		black) ;;
 					   		white) ;;
-					   		*) errMsg "--- POLARITY=$polarity IS AN INVALID VALUE ---"
+					   		*) errMsg "--- POLARITY=$polarity IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-b)    # get blur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   blur=`expr "$1" : '\([.0-9]*\)'`
@@ -184,16 +184,16 @@ else
 					   ;;
 		 		-c)    # cmethod
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CMETHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   cmethod="$1"
 					   cmethod=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$cmethod" in
+					   case "$cmethod" in 
 					   		over) ;;
 					   		overlay) ;;
-					   		*) errMsg "--- CMETHOD=$cmethod IS AN INVALID VALUE ---"
+					   		*) errMsg "--- CMETHOD=$cmethod IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -233,9 +233,9 @@ trap "rm -f $tmpA1 $tmpA2; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -277,3 +277,5 @@ convert $tmpA1 \
 
 
 exit 0
+
+

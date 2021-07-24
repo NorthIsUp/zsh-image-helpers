@@ -3,30 +3,30 @@
 # Developed by Fred Weinhaus 1/20/2012 .......... 6/2/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: vignette2 [-a amount] [-d dim] [-s shape] [-r round] [-c color]
+# USAGE: vignette2 [-a amount] [-d dim] [-s shape] [-r round] [-c color] 
 #        [-m method] [-i] infile outfile
 #
 # USAGE: vignette2 [-help|-h]
@@ -37,60 +37,60 @@
 # -d     dim        vignette region boundary; relative size compared to the
 #                   input image expressed as width,height in percent or pixels;
 #                   integer>0; if percent, add % symbol; default=90%
-# -s     shape      shape of vignette region boundary; choices are:
-#                   rectangle, roundrectangle, ellipse or circle;
+# -s     shape      shape of vignette region boundary; choices are: 
+#                   rectangle, roundrectangle, ellipse or circle; 
 #                   default=roundrectangle
-# -r     round      amount of rounding for roundrectangle; integer>0;
+# -r     round      amount of rounding for roundrectangle; integer>0; 
 #                   default=2*amount
-# -c     color      vignette color; any opaque IM color allowed or "none"
+# -c     color      vignette color; any opaque IM color allowed or "none" 
 #                   for a transparency vignette; default=black
-# -m     method     vignette color compose method; any IM compose method;
+# -m     method     vignette color compose method; any IM compose method; 
 #                   default=multiply
 # -i                invert the vignette effect from outside to inside
-#
+#  
 #
 ###
 #
-# NAME: VIGNETTE2
-#
+# NAME: VIGNETTE2 
+# 
 # PURPOSE: Applies a vignette effect to a picture.
-#
-# DESCRIPTION: VIGNETTER2 applies a vignette effect to a picture. The vignette
-# shape may be any of the following: rectangle, roundrectangle, ellipse or
+# 
+# DESCRIPTION: VIGNETTER2 applies a vignette effect to a picture. The vignette 
+# shape may be any of the following: rectangle, roundrectangle, ellipse or 
 # circle. This is similar to the way Photoshop does vignetting.
-#
-#
-# OPTIONS:
-#
-# -a amount ... AMOUNT is the vignette amount expressed as a blur sigma value.
+# 
+# 
+# OPTIONS: 
+# 
+# -a amount ... AMOUNT is the vignette amount expressed as a blur sigma value. 
 # Values are integer>=0. The default=25.
-#
+# 
 # -d dim ... DIM are vignette region boundary dimensions relative to the
-# size of the input image expressed as Width,Height in percent or pixels.
-# One or two values may be supplied. If only one, then it will be used for
-# the second dimension if needed. Values are integers>0. If percent, then
-# add % symbol as Width%[,Height%]. Vignette dimensions must not be larger
+# size of the input image expressed as Width,Height in percent or pixels. 
+# One or two values may be supplied. If only one, then it will be used for 
+# the second dimension if needed. Values are integers>0. If percent, then 
+# add % symbol as Width%[,Height%]. Vignette dimensions must not be larger  
 # than the image dimensions or 100%. The default=90%.
-#
-# -s shape ... SHAPE is the shape of the vignette region boundary. The choices
-# are: rectangle (r), roundrectangle (rr), ellipse (e) or circle (c).
+# 
+# -s shape ... SHAPE is the shape of the vignette region boundary. The choices 
+# are: rectangle (r), roundrectangle (rr), ellipse (e) or circle (c). 
 # The default=roundrectangle.
-#
+# 
 # -r round ... ROUND is the amount of rounding for roundrectangle. Values are
 # integers>0. The default=2*amount.
-#
-# -c color ... COLOR is the vignette color. Any opaque IM color is allowed
+# 
+# -c color ... COLOR is the vignette color. Any opaque IM color is allowed 
 # or "none" for a transparency vignette effect, The default=black.
-#
-# -m method ... METHOD is the vignette color compose method. Any IM compose
+# 
+# -m method ... METHOD is the vignette color compose method. Any IM compose 
 # method is allowed. The default=multiply.
-#
+# 
 # -i ... INVERT the vignette effect from outside to inside.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -110,13 +110,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -164,7 +164,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([0-9]*\)'`
@@ -172,7 +172,7 @@ else
 					   ;;
 				-d)    # get dim
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIM SPECIFICATION ---"
 					   checkMinus "$1"
 					   dim=`expr "$1" : '\([%0-9]*,*[%0-9]*\)'`
@@ -180,22 +180,22 @@ else
 					   ;;
 				-s)    # shape
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHAPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   shape="$1"
 					   shape=`echo "$shape" | tr "[:upper:]" "[:lower:]"`
-					   case "$shape" in
+					   case "$shape" in 
 							rectangle|r) shape="rectangle";;
 							roundrectangle|rr) shape="roundrectangle";;
 							ellipse|e) shape="ellipse";;
 							circle|c) shape="circle";;
-							*) errMsg "--- SHAPE=$shape IS AN INVALID VALUE ---"
+							*) errMsg "--- SHAPE=$shape IS AN INVALID VALUE ---" 
 						esac
 					   ;;
 				-r)    # get round
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROUND SPECIFICATION ---"
 					   checkMinus "$1"
 					   round=`expr "$1" : '\([0-9]*\)'`
@@ -205,14 +205,14 @@ else
 					   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-m)    # get method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method="$1"
@@ -256,9 +256,9 @@ trap "rm -f $tmpA1 $tmpB1; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -309,7 +309,7 @@ if [ "$units" = "percent" ]; then
 	# test if vignette dim <= image size
 	[ $dimx -gt 100 ] && echo  "--- VIGNETTE WIDTH MUST NOT BE LARGER THAN IMAGE WIDTH ---"
 	[ $dimy -gt 100 ] && echo  "--- VIGNETTE HEIGHT MUST NOT BE LARGER THAN IMAGE HEIGHT ---"
-
+	
 else
 	ww2=$cx
 	hh2=$cy
@@ -331,13 +331,13 @@ elif [ "$shape" = "circle" ]; then
 fi
 #echo "shape=$shape args=$args"
 
-if [ "$invert" = "yes" ]; then
+if [ "$invert" = "yes" ]; then 
 	inversion="-negate -virtual-pixel black"
 else
 	inversion="-virtual-pixel white"
 fi
 
-if [ "$color" = "none" -o "$color" = "transparent" ]; then
+if [ "$color" = "none" -o "$color" = "transparent" ]; then 
 	convert $tmpA1 \
 		\( -clone 0 -fill white -colorize 100% -fill black \
 			-draw "translate $cx,$cy $shape $args" -negate -blur 0x$amount \) \

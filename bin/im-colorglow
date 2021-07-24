@@ -3,89 +3,89 @@
 # Developed by Fred Weinhaus 2/13/2013 .......... revised 4/30/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: colorglow -c coords [-a strength] [-s extent] [-f fuzzval]
+# USAGE: colorglow -c coords [-a strength] [-s extent] [-f fuzzval] 
 # [-l lightness] [h hue] infile outfile
-#
+# 
 # USAGE: colorglow [-help]
-#
+# 
 # OPTIONS:
-#
-# -c     coords       coordinates for locating glow region; comma separate
+# 
+# -c     coords       coordinates for locating glow region; comma separate 
 #                     pair of integers within the image
 # -s     strength     strength (intensity) of glow; float>=0; default=100
 # -e     extent       extent of glow; float>=0; default=5
 # -f     fuzzval      fuzzval for locating glow region; 0<=float<=100;
 #                     default=20
-# -l     lightness    percent change in lightness of glow color;
+# -l     lightness    percent change in lightness of glow color; 
 #                     float>=0; default=0
-# -h     hue          percent change in hue of glow color;
+# -h     hue          percent change in hue of glow color; 
 #                     -100<=float<=100; default=0
-#
+# 
 ###
-#
-# NAME: COLORGLOW
-#
+# 
+# NAME: COLORGLOW 
+# 
 # PURPOSE: To apply color glow effect to an image.
-#
-# DESCRIPTION: COLORGLOW applies color glow effect to an image. The user must
-# supply a set of x,y coordinates within the image to located a contiguous
-# region of color with some fuzz value tolerance. The color will be extracted
+# 
+# DESCRIPTION: COLORGLOW applies color glow effect to an image. The user must 
+# supply a set of x,y coordinates within the image to located a contiguous 
+# region of color with some fuzz value tolerance. The color will be extracted 
 # from those coordinates automatically.
-#
-#
-# ARGUMENTS:
-#
-# -c coords ... COORDS is the set of x,y coordinates to locate a contiguous
+# 
+# 
+# ARGUMENTS: 
+# 
+# -c coords ... COORDS is the set of x,y coordinates to locate a contiguous 
 # region of color where the glow will be applied.
-#
-# -s strength ... strength (intensity) of glow effect. Values are floats greater
+# 
+# -s strength ... strength (intensity) of glow effect. Values are floats greater 
 # or equal to 0. The default=100.
-#
-# -e extent ... extent is the extenting extent of the glow. Values are
+# 
+# -e extent ... extent is the extenting extent of the glow. Values are 
 # floats greater or equal to 0.  The default=5.
-#
-# -f fuzzval ... FUZZVAL for extracting the contiguous region of color. Values
+# 
+# -f fuzzval ... FUZZVAL for extracting the contiguous region of color. Values 
 # are floats between 0 and 100. The default=20.
-#
-# -l lightness ... LIGHTNESS is the percent change in lightness of the glow
+# 
+# -l lightness ... LIGHTNESS is the percent change in lightness of the glow 
 # color. Values are floats greater or equal to 0. The default=0.
-#
-# -h hue ... HUE is the percent change in hue of the glow
+# 
+# -h hue ... HUE is the percent change in hue of the glow 
 # color. Values are floats between -100 and 100. The default=0.
-#
-# NOTE: Results may vary with versions of IM prior to 6.7.7.8 due to color
-# space changes. One can get close by varying the arguments, typically
+# 
+# NOTE: Results may vary with versions of IM prior to 6.7.7.8 due to color 
+# space changes. One can get close by varying the arguments, typically 
 # raising the strength to 150 and increasing extent by 1 or 2.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 coords=""			# coords for locating color
@@ -103,13 +103,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -121,7 +121,7 @@ getMinMax()
 	img="$1"
 	# statistics computed as percent (of dynamic range) values
 	if [ "$im_version" -ge "06030901" ]
-		then
+		then 
 		min=`convert $img -format "%[min]" info:`
 		max=`convert $img -format "%[max]" info:`
 		min=`convert xc: -format "%[fx:100*$min/quantumrange]" info:`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-c)    # get coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   coords=`expr "$1" : '\([0-9]*,[0-9]*\)'`
@@ -183,7 +183,7 @@ else
 					   ;;
 				-s)    # get strength
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STRENGTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   strength=`expr "$1" : '\([.0-9]*\)'`
@@ -191,7 +191,7 @@ else
 					   ;;
 				-e)    # get extent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXTENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   extent=`expr "$1" : '\([.0-9]*\)'`
@@ -199,7 +199,7 @@ else
 					   ;;
 				-f)    # get fuzzval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   fuzzval=`expr "$1" : '\([.0-9]*\)'`
@@ -210,7 +210,7 @@ else
 					   ;;
 				-l)    # get lightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   lightness=`expr "$1" : '\([.0-9]*\)'`
@@ -218,7 +218,7 @@ else
 					   ;;
 				-h)    # get hue
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HUE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   hue=`expr "$1" : '\([-.0-9]*\)'`
@@ -275,9 +275,9 @@ im_version=`convert -list configure | \
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -354,3 +354,4 @@ convert $tmpA1 \
 
 
 exit 0
+

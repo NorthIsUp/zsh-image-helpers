@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/29/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: isodatathresh [-g graph] infile outfile
@@ -31,19 +31,19 @@
 #
 # OPTIONS:
 #
-# -g	  graph             graph specifies whether to generate a
-#                           histogram graph image displaying the
+# -g	  graph             graph specifies whether to generate a 
+#                           histogram graph image displaying the 
 #                           location and value of the threshold;
-#                           choices are: view or save;
+#                           choices are: view or save; 
 #                           default is no graph
 #
 ###
 #
 # NAME: ISODATATHRESH
-#
-# PURPOSE: To automatically thresholds an image to binary (b/w) format
+# 
+# PURPOSE: To automatically thresholds an image to binary (b/w) format 
 # using the isodata technique.
-#
+# 
 # DESCRIPTION: ISODATATHRESH automatically thresholds an image to binary
 # (b/w) format. It assume the histogram is bimodal, i.e. is the composite
 # of two bell-shaped distributions representing the foreground and
@@ -51,36 +51,36 @@
 # image, computes the means of the foreground (above threshold data) and
 # background (at and below threshold value), computes a new threshold
 # equal to the average of these two means and repeats until there is no
-# change in threshold between successive iterations. This script is
-# equivalent to the kmeansthresh script, but is implemented using image
-# masking rather than from the histogram of the image. It is faster
-# than the kmeansthresh script for smaller images. The timing transition
+# change in threshold between successive iterations. This script is 
+# equivalent to the kmeansthresh script, but is implemented using image 
+# masking rather than from the histogram of the image. It is faster 
+# than the kmeansthresh script for smaller images. The timing transition 
 # occurs for images somewhere between 1000-2000 pixels on a side.
-#
-# OPTIONS:
-#
-# -g graph ... GRAPH specifies whether to generate a graph (image) of
-# the histogram, displaying the location and value of the threshold.
-# The choices are: view, save and none. If graph=view is selected, the
-# graph will be created and displayed automatically, but not saved.
-# If graph=save is selected, then the graph will be created and saved
-# to a file using the infile name, with "_histog_isodata.gif" appended,
-# but the graph will not be displayed automatically. If -g option is
+# 
+# OPTIONS: 
+# 
+# -g graph ... GRAPH specifies whether to generate a graph (image) of 
+# the histogram, displaying the location and value of the threshold. 
+# The choices are: view, save and none. If graph=view is selected, the 
+# graph will be created and displayed automatically, but not saved. 
+# If graph=save is selected, then the graph will be created and saved 
+# to a file using the infile name, with "_histog_isodata.gif" appended,  
+# but the graph will not be displayed automatically. If -g option is 
 # not specified, then no graph will be created.
-#
-# NOTE: It is highly recommended that the output not be specified
-# as a JPG image as that will cause compression and potentially a
-# non-binary (i.e. a graylevel) result. GIF is the recommended
+# 
+# NOTE: It is highly recommended that the output not be specified 
+# as a JPG image as that will cause compression and potentially a 
+# non-binary (i.e. a graylevel) result. GIF is the recommended 
 # output format.
-#
+# 
 # REFERENCES: see the following:
 # http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Segmenta.html
 # http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MORSE/threshold.pdf
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -94,13 +94,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -148,7 +148,7 @@ else
 					   ;;
 				-g)    # get  graph
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAPH SPECIFICATION ---"
 					   checkMinus "$1"
 					   graph="$1"
@@ -198,9 +198,9 @@ trap "rm -f $tmpA1 $tmpA2 $tmpM1 $tmpM2 $tmpL1 $tmpL2 $tmpH1 $tmpH2 $histfile; e
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -224,7 +224,7 @@ if convert -quiet "$infile" $setcspace -colorspace Gray +repage "$tmpA1"
 	: ' do nothing '
 else
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAG ZERO SIZE ---"
-fi
+fi	
 
 # get im version
 im_version=`convert -list configure | \
@@ -234,7 +234,7 @@ getMinMax()
 	{
 	img="$1"
 	if [ "$im_version" -ge "06030901" ]
-		then
+		then 
 		min=`convert $img -format "%[min]" info:`
 		max=`convert $img -format "%[max]" info:`
 		min=`convert xc: -format "%[fx:100*$min/quantumrange]" info:`
@@ -253,7 +253,7 @@ getMean()
 	{
 	img="$1"
 	if [ "$im_version" -ge "06030901" ]
-		then
+		then 
 		mean=`convert $img -format "%[mean]" info:`
 		mean=`convert xc: -format "%[fx:100*$mean/quantumrange]" info:`
 	else
@@ -283,7 +283,7 @@ k=1
 # get average of hmean and lmean as newmean
 # repeat until difference between oldmean and newmean is <= diffstop
 #
-# Note: low and high (below threshold and above threshold) means
+# Note: low and high (below threshold and above threshold) means 
 # are extracted by masking and not by histogram counting.
 # Thus they need to be corrected for mixture of black pixels.
 # So, mean from masks (Mmeasured) and actual low/high means, Mtrue, are related
@@ -341,3 +341,6 @@ if [ "$graph" = "view" ]; then
 fi
 
 exit 0
+
+
+

@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/27/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: kaleidoscope [-s sides] [-c xc,yc] [-i irot] [-o orot] [-v vp] infile outfile
@@ -36,41 +36,41 @@
 #                         integers>=0; default=image center
 # -i      irot            input rotation; integer; 0<=irot<=360; default=0
 # -o      orot            output rotation; integer; 0<=orot<=360; default=0
-# -v      vp              virtual-pixel method;
+# -v      vp              virtual-pixel method; 
 #                         any non-background method
 #
 ###
 #
-# NAME: KALEIDOSCOPE
-#
+# NAME: KALEIDOSCOPE 
+# 
 # PURPOSE: To apply a kaleidoscope effect to an image.
-#
-# DESCRIPTION: KALEIDOSCOPE applies a kaleidoscope effect to an image.
-#
-# OPTIONS:
-#
-# -s sides ... SIDES is the number of kaleidoscope sides. Values are
+# 
+# DESCRIPTION: KALEIDOSCOPE applies a kaleidoscope effect to an image. 
+# 
+# OPTIONS: 
+# 
+# -s sides ... SIDES is the number of kaleidoscope sides. Values are 
 # integers greater than 1. The default=3
 #
-# -c xc,yc ...  XC,YC are the center coordinates for the kaleidoscope
+# -c xc,yc ...  XC,YC are the center coordinates for the kaleidoscope 
 # effect in the image. Values are integers. The default is the image center.
 #
-# -i irot ... IROT is the input rotation of the image. Values are integers
+# -i irot ... IROT is the input rotation of the image. Values are integers 
 # between 0 and 360 degrees. The default is 0.
 #
-# -o orot ... OROT is the output rotation of the image. Values are integers
+# -o orot ... OROT is the output rotation of the image. Values are integers 
 # between 0 and 360 degrees. The default is 0.
 #
-# -v vp ... VP is the virtual-pixel method. Any non-background method.
+# -v vp ... VP is the virtual-pixel method. Any non-background method. 
 # Recommended values are either mirror or edge. The default is edge.
-#
-# NOTE: The script is very slow due to the use of a complicated formula
+# 
+# NOTE: The script is very slow due to the use of a complicated formula 
 # evaluated using -fx.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -89,13 +89,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -143,7 +143,7 @@ else
 					   ;;
 				-s)    # get sides
 					   shift  # to get the next parameter - soft
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIDES SPECIFICATION ---"
 					   checkMinus "$1"
 					   sides=`expr "$1" : '\([0-9]*\)'`
@@ -153,7 +153,7 @@ else
 					   ;;
 				-c)    # get coords
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -164,7 +164,7 @@ else
 					   ;;
 				-i)    # get irot
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID IROT SPECIFICATION ---"
 					   checkMinus "$1"
 					   irot=`expr "$1" : '\([0-9]*\)'`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-o)    # get orot
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OROT SPECIFICATION ---"
 					   checkMinus "$1"
 					   orot=`expr "$1" : '\([0-9]*\)'`
@@ -186,12 +186,12 @@ else
 					   ;;
 				-v)    # get  virtual-pixel method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIRTUAL-PIXEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   vp="$1"
 					   vp=`echo "$vp" | tr "[:upper:]" "[:lower:]"`
-					   case "$vp" in
+					   case "$vp" in 
 					   		black) ;;
 					   		dither) ;;
 					   		edge) ;;
@@ -201,7 +201,7 @@ else
 					   		tile) ;;
 					   		transparent) ;;
 					   		white) ;;
-					   		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---"
+					   		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments

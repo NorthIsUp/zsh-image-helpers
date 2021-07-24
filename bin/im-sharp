@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/05/2007 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: sharp [-m method] [-f factor] infile outfile
@@ -34,50 +34,50 @@
 #
 # -m              method         method=0 is edge extract; method=1 is sharpen
 #                                default=1
-# -f              factor         sharpening/edge extraction gain factor;
-#                                factor>=0; float; default=2
+# -f              factor         sharpening/edge extraction gain factor; 
+#                                factor>=0; float; default=2                              
 # -st                            get image statistics
 # -h or -help                    get help
 #
 ###
 #
-# NAME: SHARP
-#
-# PURPOSE: To sharpen an image or extract edges adaptively.
-#
-# DESCRIPTION: SHARP is an adaptive technique to either sharpen an image
-# or extract edges. It applies an adaptive gain factor based upon the image's
-# local standard deviation to a high pass filtered version of the image and adds
+# NAME: SHARP 
+# 
+# PURPOSE: To sharpen an image or extract edges adaptively. 
+# 
+# DESCRIPTION: SHARP is an adaptive technique to either sharpen an image 
+# or extract edges. It applies an adaptive gain factor based upon the image's 
+# local standard deviation to a high pass filtered version of the image and adds 
 # that to a low pass filtered version of the image.
 #
-# The adaptive formula R = method*M + G*H. Here R is the resulting image.
-# M is the low pass filtered image which is the local mean image generated
-# by applying a 3x3 average convolution to the input image, I. H = (I - M)
-# is the high pass filtered image. G is the gain image, which is computed as
-# G = (factor*std)/(S + (factor*std/mg)). Here std is the image's global
-# standard deviation, mg is a maximum gain constant and S is the image's
+# The adaptive formula R = method*M + G*H. Here R is the resulting image. 
+# M is the low pass filtered image which is the local mean image generated  
+# by applying a 3x3 average convolution to the input image, I. H = (I - M)  
+# is the high pass filtered image. G is the gain image, which is computed as 
+# G = (factor*std)/(S + (factor*std/mg)). Here std is the image's global  
+# standard deviation, mg is a maximum gain constant and S is the image's  
 # local standard deviation in the 3x3 neighborhood.
+# 
+# Arguments: 
 #
-# Arguments:
-#
-# -h or -help    ---  displays help information.
-#
-# -m method method is either 0 or 1. A value of 0 for method indicates edge
+# -h or -help    ---  displays help information. 
+# 
+# -m method method is either 0 or 1. A value of 0 for method indicates edge 
 # extraction and value of 1 for method indicates sharpening. The default=1.
-#
-# -f factor factor is the sharpening/edge extraction gain factor. It is a multiplier
-# to the image's actual standard deviation. The value for factor must be greater than
-# or equal to 0. A value of about 0.5 leaves the image nearly unchanged. A smaller
-# value blurs the image or extract more edges. A larger value sharpens the image
-# or extracts fewer edges. This transition value is not exact and is likely
-# image statistics dependent as the result is a mix of the low pass filtered
-# image (not the original image) and the adaptive high pass filtered image.
+# 
+# -f factor factor is the sharpening/edge extraction gain factor. It is a multiplier 
+# to the image's actual standard deviation. The value for factor must be greater than 
+# or equal to 0. A value of about 0.5 leaves the image nearly unchanged. A smaller   
+# value blurs the image or extract more edges. A larger value sharpens the image 
+# or extracts fewer edges. This transition value is not exact and is likely 
+# image statistics dependent as the result is a mix of the low pass filtered 
+# image (not the original image) and the adaptive high pass filtered image. 
 # Factor is floating point number. The default=2.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 # set default value for method and factor and maxgain
@@ -94,13 +94,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -149,7 +149,7 @@ else
 				   ;;
 			-m)    # method
 				   shift  # to get the next parameter - method
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 				   checkMinus "$1"
 				   method="$1"
@@ -157,7 +157,7 @@ else
 				   ;;
 			-f)    # factor
 				   shift  # to get the next parameter - factor
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID FACTOR SPECIFICATION ---"
 				   checkMinus "$1"
 				   factor=`expr "$1" : '\([.0-9]*\)'`
@@ -252,9 +252,9 @@ else
 		errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
 	fi
 fi
-
+	
 # get image stats
-imagestats $tmpA
+imagestats $tmpA	
 
 # get mean
 convert $tmpA -define convolve:scale=1 -convolve "$ave" $tmpM
@@ -264,7 +264,7 @@ convert $tmpA -define convolve:scale=1 -convolve "$ave" $tmpM
 convert \( $tmpA $tmpA -compose multiply -composite -define convolve:scale=1 -convolve "$ave" \) \
 	\( $tmpM $tmpM -compose multiply -composite \) +swap \
 	-compose minus -composite -evaluate pow 0.5 $tmpS
-
+	
 # compute gain and final image
 [ `echo "scale=6; $factor < .001" | bc` -eq 1 ] && factor=.001
 dstd=`echo "scale=5; $factor * $std / 100" | bc`

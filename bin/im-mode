@@ -3,72 +3,72 @@
 # Developed by Fred Weinhaus 3/24/2014 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: mode [-p processing] [-d depth] infile
 # USAGE: mode [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -p     processing        processing of images; choices are: gray (convert
-#                          to grayscale first), global (append all channels
-#                          into one grayscale image), all (process each
-#                          channel separately) and color (find an rgb triplet);
+# 
+# -p     processing        processing of images; choices are: gray (convert 
+#                          to grayscale first), global (append all channels 
+#                          into one grayscale image), all (process each 
+#                          channel separately) and color (find an rgb triplet); 
 #                          default=color
 # -d     depth             preprocessing depth; 1<=integer<=8; default=8
-#
+# 
 ###
-#
-# NAME: MODE
-#
+# 
+# NAME: MODE 
+# 
 # PURPOSE: To compute the mode value of an image.
-#
-# DESCRIPTION: MODE computes the mode value of an image. The mode is the most
-# frequent color or graylevel in the image. In other words, it is that color
-# or graylevel that has the largest count in the histogram. The user may choose
-# either to process the image to grayscale, to append all the channels into one
+# 
+# DESCRIPTION: MODE computes the mode value of an image. The mode is the most 
+# frequent color or graylevel in the image. In other words, it is that color 
+# or graylevel that has the largest count in the histogram. The user may choose 
+# either to process the image to grayscale, to append all the channels into one 
 # grayscale image, process each channel separately, or process for a color.
 #
-# Arguments:
-#
-# -p processing ... PROCESSING of the images. The choices are: gray (convert
-# to grayscale first), global (append all channels into one grayscale image),
-# all (process each channel separately) and color (find an rgb triplet).
+# Arguments: 
+# 
+# -p processing ... PROCESSING of the images. The choices are: gray (convert 
+# to grayscale first), global (append all channels into one grayscale image), 
+# all (process each channel separately) and color (find an rgb triplet). 
 # The default=color
-#
-# -d depth DEPTH is the preprocessing image depth. Values are integers
+# 
+# -d depth DEPTH is the preprocessing image depth. Values are integers 
 # between 1 and 8, inclusive. The default=8.
 #
-# NOTE: This script will process only the first frame/page of a multiframe or
+# NOTE: This script will process only the first frame/page of a multiframe or 
 # multipage image.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 processing="color"			# gray, global, all (each channel separately), color
@@ -82,13 +82,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -136,7 +136,7 @@ else
 				   ;;
 			-p)    # get processing
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID PROCESSING SPECIFICATION ---"
 				   checkMinus "$1"
 				   processing=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -148,9 +148,9 @@ else
 						*) errMsg "--- PROCESSING=$processing IS NOT A VALID CHOICE ---" ;;
 				   esac
 				   ;;
-			-d)    # get depth
+			-d)    # get depth 
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID DEPTH SPECIFICATION ---"
 				   checkMinus "$1"
 				   depth=`expr "$1" : '\([1-8]\)'`
@@ -224,7 +224,7 @@ histdata=`convert $tmpA1 -depth 8 -format "%c" histogram:info:`
 if [ "$processing" = "color" ]; then
 	mode=`echo "$histdata" | sort -k 1 -r | head -n 1 | sed -n 's/^.*:.*[ ]\(.*\)$/\1/p'`
 	echo "$processing: $mode"
-
+		
 elif [ "$colormode" = "Gray" ]; then
 	mode=`echo "$histdata" | sort -k 1 -r | head -n 1 | tr -cs "[0-9]" " " | sed 's/^ *//' | cut -d\  -f2`
 	echo "$processing: $mode"
@@ -249,3 +249,5 @@ elif [ "$colormode" = "CMYK" ]; then
 fi
 
 exit 0
+
+

@@ -3,155 +3,155 @@
 # Developed by Fred Weinhaus 8/20/2015 .......... revised 11/8/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: embroidery [-n numcolors ] [-p pattern] [-t thickness] [-g graylimit]
-# [-f fuzzval] [-b bgcolor] [-P process] [-a angle] [-r range] [-i intensity] [-e extent]
-# [-B bevel] [-A azimuth] [-E elevation] [-C contrast] [-S spread]
+# USAGE: embroidery [-n numcolors ] [-p pattern] [-t thickness] [-g graylimit] 
+# [-f fuzzval] [-b bgcolor] [-P process] [-a angle] [-r range] [-i intensity] [-e extent] 
+# [-B bevel] [-A azimuth] [-E elevation] [-C contrast] [-S spread] 
 # [-N newseed] [-M mix] [-G gain] infile outfile
-#
+# 
 # USAGE: embroidery [-h or -help]
-#
+# 
 # OPTIONS:
 #
-# -n     numcolors     number of desired or actual colors in image; integer>0;
+# -n     numcolors     number of desired or actual colors in image; integer>0; 
 #                      default=8
-# -p     pattern       weave pattern; choices are either linear (1) or
+# -p     pattern       weave pattern; choices are either linear (1) or 
 #                      crosshatch (2); default=linear
 # -t     thickness     weave thickness; integer>=1; default=2
-# -g     graylimit     limit colors near black and near white to
-#                      gray(graylimit%) and gray(100%-graylimit%);
+# -g     graylimit     limit colors near black and near white to 
+#                      gray(graylimit%) and gray(100%-graylimit%); 
 #                      0<=integer<=100; default=20
-# -f     fuzzval       fuzz value for recoloring near black and near white;
+# -f     fuzzval       fuzz value for recoloring near black and near white; 
 #                      0<=integer<=100; default=5
-# -b     bgcolor       actual background color in image; default is most the
+# -b     bgcolor       actual background color in image; default is most the 
 #                      frequent color
-# -P     process       embroidering processing of background color; choices are:
+# -P     process       embroidering processing of background color; choices are: 
 #                      yes, no, transparent and preserve; default=yes
-# -a     angle         initial pattern angle for background color;
+# -a     angle         initial pattern angle for background color; 
 #                      -360<=integer<=360; default=0
 # -r     range         range of pattern angles; 0<=integer<=360; default=90
-# -i     intensity     shadow intensity; higher is darker; 0 is no shadow;
+# -i     intensity     shadow intensity; higher is darker; 0 is no shadow; 
 #                      0<=integer<=100; default=25
 # -e     extent        shadow extent; integer>=0; 0 is no shadow; default=2
 # -B     bevel         pattern bevel amount; integer>=0; default=4
 # -A     azimuth       bevel azimuth angle; -360<=integer<=360; default=130
 # -E     elevation     bevel elevation angle; 0<=integer<=90; default=30
-# -C     contrast      bevel sigmoidal-contrast amount; float>=0;
-#                      default=0 for IM >= 6.7.9.5; otherwise default=1
+# -C     contrast      bevel sigmoidal-contrast amount; float>=0; 
+#                      default=0 for IM >= 6.7.9.5; otherwise default=1 
 #                      (both cases no added contrast)
 # -S     spread        pattern spread (diffusion); integer>=0; default=1
-# -N     newseed       pattern new seed value; integer>=0;
+# -N     newseed       pattern new seed value; integer>=0; 
 #                      default is random seed value
-# -M     mix           mixing between before and after spread result;
-#                      0<=integer<=100; 100 is all spread; 0 is no spread;
+# -M     mix           mixing between before and after spread result; 
+#                      0<=integer<=100; 100 is all spread; 0 is no spread; 
 #                      default=100
 # -G     gain          gain in pattern contrast; 0<=integer<=100; default=0
-#
+# 
 ###
-#
+# 
 # NAME: EMBROIDERY
-#
+# 
 # PURPOSE: To apply an embroidery effect to each color in an image.
-#
-# DESCRIPTION: EMBROIDERY applies an embroidery effect to each color in an
-# image. The image must have limited number of colors or only the top most
-# frequent colors will be used. Each color will get the same pattern, but at
+# 
+# DESCRIPTION: EMBROIDERY applies an embroidery effect to each color in an 
+# image. The image must have limited number of colors or only the top most 
+# frequent colors will be used. Each color will get the same pattern, but at 
 # different rotation angles.
-#
-# Arguments:
-#
-# -n numcolors ... NUMCOLORS is the number of desired or actual colors in the
+# 
+# Arguments: 
+# 
+# -n numcolors ... NUMCOLORS is the number of desired or actual colors in the 
 # image. Values are integers>0. The default=8.
-#
-# -p pattern ... PATTERN is the weave pattern. The choices are either
+# 
+# -p pattern ... PATTERN is the weave pattern. The choices are either 
 # linear (1) or crosshatch (2). The default=linear.
-#
-# -t thickness ... THICKNESS is the weave thickness. Values are integers>=1.
+# 
+# -t thickness ... THICKNESS is the weave thickness. Values are integers>=1. 
 # The default=2.
-#
-# -g graylimit ... GRAYLIMIT limits (converts) the colors near black and
-# near white to gray(graylimit%) and gray(100%-graylimit%). Values are
+# 
+# -g graylimit ... GRAYLIMIT limits (converts) the colors near black and 
+# near white to gray(graylimit%) and gray(100%-graylimit%). Values are  
 # 0<=integers<=100. The default=20.
-#
-# -f fuzzval ... FUZZVAL is the fuzz value used for recoloring near black and
+# 
+# -f fuzzval ... FUZZVAL is the fuzz value used for recoloring near black and 
 # near white. Values are 0<=integers<=100. The default=5.
-#
-# -b bgcolor ... BGCOLOR is the background color in the image. The default
+# 
+# -b bgcolor ... BGCOLOR is the background color in the image. The default 
 # is most the frequent color.
-#
-# -P process ... PROCESS is the embroidering processing for the background color.
-# The choices are: yes (y), no (n), transparent (t) or preserve (p). If no, the
-# background color will not be emroidered. If transparent, the background color in
-# the output image will be repaced with transparency. If preserve and there is a
-# non-opaque alpha channel, then the alpha channel will be preserved in the output
-# image and process will be reset to yes. If no or transparent options are used, you
+# 
+# -P process ... PROCESS is the embroidering processing for the background color. 
+# The choices are: yes (y), no (n), transparent (t) or preserve (p). If no, the 
+# background color will not be emroidered. If transparent, the background color in 
+# the output image will be repaced with transparency. If preserve and there is a  
+# non-opaque alpha channel, then the alpha channel will be preserved in the output 
+# image and process will be reset to yes. If no or transparent options are used, you 
 # may need to disable the shadow via -extent and/or -intensity. The default=yes
-#
-# -a angle ... ANGLE is the initial pattern angle used for the most frequent
+# 
+# -a angle ... ANGLE is the initial pattern angle used for the most frequent  
 # color. Values are -360<=integers<=360. The default=0 (horizontal)
-#
-# -r range ... RANGE is the range of pattern angles over all the colors.
+# 
+# -r range ... RANGE is the range of pattern angles over all the colors. 
 # Values are 0<=integers<=360. The default=90 (deg).
-#
-# -i intensity ... INTENSITY is the shadow intensity. Higher is darker.
+# 
+# -i intensity ... INTENSITY is the shadow intensity. Higher is darker. 
 # 0 is no shadow. Values are 0<=integers<=100. The default=25.
-#
-# -e extent ... EXTENT is the shadow extent in pixels. Values are integers>=0.
+# 
+# -e extent ... EXTENT is the shadow extent in pixels. Values are integers>=0. 
 # 0 is no shadow. The default=2.
-#
-# -B bevel ... BEVEL is the pattern bevel amount. Values are integers>=0.
+# 
+# -B bevel ... BEVEL is the pattern bevel amount. Values are integers>=0. 
 # The default=4.
-#
-# -A azimuth ... AZIMUTH is the bevel azimuth angle. Values are
+# 
+# -A azimuth ... AZIMUTH is the bevel azimuth angle. Values are 
 # -360<=integers<=360. The default=130.
-#
-# -E elevation ... ELEVATION is the bevel elevation angle. Values are
+# 
+# -E elevation ... ELEVATION is the bevel elevation angle. Values are 
 # 0<=integers<=90. The default=30.
-#
+# 
 # -C contrast ... CONTRAST is the bevel sigmoidal-contrast amount. Values are
 # floats>=0. The default=0 for IM >= 6.7.9.5; otherwise default=1 (no added contrast)
-#
-# -S spread ... SPREAD is the pattern spread (diffusion). Values are
+# 
+# -S spread ... SPREAD is the pattern spread (diffusion). Values are 
 # integers>=0 for IM >= 6.7.9.5; otherwise default=1. (no change)
-#
-# -N newseed ... NEWSEED is the pattern (new) seed value. Values are
+# 
+# -N newseed ... NEWSEED is the pattern (new) seed value. Values are 
 # integers>=0. The default is a random seed value.
-#
-# -M mix ... MIX is the mixing of the before and after spread result. Values
+# 
+# -M mix ... MIX is the mixing of the before and after spread result. Values 
 # are 0<=integers<=100. 100 is all spread. 0 is no spread. The default=100
-#
+# 
 # -G gain ... GAIN in pattern contrast. Values are 0<=integers<=100. The default=0.
-#
-# NOTE: The input image should be completely opaque. If not and if a background color
-# is explicitly specified, then any transparency will be flattened against the
+# 
+# NOTE: The input image should be completely opaque. If not and if a background color  
+# is explicitly specified, then any transparency will be flattened against the  
 # background color to remove it. Otherwise, the alpha channel will be disabled.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -185,13 +185,13 @@ dir="$tmpdir/EMBROIDERY.$$"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -236,7 +236,7 @@ else
 				   ;;
 			-n)    # get numcolors
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID NUMCOLORS SPECIFICATION ---"
 				   checkMinus "$1"
 				   numcolors=`expr "$1" : '\([0-9]*\)'`
@@ -246,11 +246,11 @@ else
 				   ;;
 			-p)    # get  pattern
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID PATTERN SPECIFICATION ---"
 				   checkMinus "$1"
 				   pattern=`echo "$1" | tr '[A-Z]' '[a-z]'`
-				   case "$pattern" in
+				   case "$pattern" in 
 						linear|1) pattern="linear" ;;
 						crosshatch|2) pattern="crosshatch" ;;
 						*) errMsg "--- PATTERN=$pattern IS AN INVALID VALUE ---"  ;;
@@ -258,7 +258,7 @@ else
 				   ;;
 			-t)    # get thickness
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 				   checkMinus "$1"
 				   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -268,7 +268,7 @@ else
 				   ;;
 			-g)    # get graylimit
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID GRAYLIMIT SPECIFICATION ---"
 				   checkMinus "$1"
 				   graylimit=`expr "$1" : '\([0-9]*\)'`
@@ -279,7 +279,7 @@ else
 				   ;;
 			-f)    # get fuzzval
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 				   checkMinus "$1"
 				   fuzzval=`expr "$1" : '\([0-9]*\)'`
@@ -290,18 +290,18 @@ else
 				   ;;
 			-b)    # get bgcolor
 				   shift  # to get the next parameter - color
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 				   checkMinus "$1"
 				   bgcolor="$1"
 				   ;;
 			-P)    # get  process
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID PROCESS SPECIFICATION ---"
 				   checkMinus "$1"
 				   process=`echo "$1" | tr '[A-Z]' '[a-z]'`
-				   case "$process" in
+				   case "$process" in 
 						yes|y) process="yes" ;;
 						no|n) process="no" ;;
 						transparent|t) process="transparent" ;;
@@ -311,7 +311,7 @@ else
 				   ;;
 			-a)    # get angle
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   #errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 				   #checkMinus "$1"
 				   angle=`expr "$1" : '\([-0-9]*\)'`
@@ -322,7 +322,7 @@ else
 				   ;;
 			-r)    # get range
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID RANGE SPECIFICATION ---"
 				   checkMinus "$1"
 				   range=`expr "$1" : '\([0-9]*\)'`
@@ -333,7 +333,7 @@ else
 				   ;;
 			-i)    # get intensity
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID INTENSITY SPECIFICATION ---"
 				   checkMinus "$1"
 				   intensity=`expr "$1" : '\([0-9]*\)'`
@@ -344,7 +344,7 @@ else
 				   ;;
 			-e)    # get extent
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID EXTENT SPECIFICATION ---"
 				   checkMinus "$1"
 				   extent=`expr "$1" : '\([0-9]*\)'`
@@ -352,7 +352,7 @@ else
 				   ;;
 			-B)    # get bevel
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BEVEL SPECIFICATION ---"
 				   checkMinus "$1"
 				   bevel=`expr "$1" : '\([0-9]*\)'`
@@ -360,7 +360,7 @@ else
 				   ;;
 			-A)    # get azimuth
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   #errorMsg="--- INVALID AZIMUTH SPECIFICATION ---"
 				   #checkMinus "$1"
 				   azimuth=`expr "$1" : '\([-0-9]*\)'`
@@ -371,7 +371,7 @@ else
 				   ;;
 			-E)    # get elevation
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID ELEVATION SPECIFICATION ---"
 				   checkMinus "$1"
 				   elevation=`expr "$1" : '\([0-9]*\)'`
@@ -382,7 +382,7 @@ else
 				   ;;
 			-C)    # get contrast
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID CONTAST SPECIFICATION ---"
 				   checkMinus "$1"
 				   contrast=`expr "$1" : '\([.0-9]*\)'`
@@ -390,7 +390,7 @@ else
 				   ;;
 			-S)    # get spread
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SPREAD SPECIFICATION ---"
 				   checkMinus "$1"
 				   spread=`expr "$1" : '\([0-9]*\)'`
@@ -398,7 +398,7 @@ else
 				   ;;
 			-N)    # get newseed
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID NEWSEED SPECIFICATION ---"
 				   checkMinus "$1"
 				   newseed=`expr "$1" : '\([0-9]*\)'`
@@ -406,7 +406,7 @@ else
 				   ;;
 			-M)    # get mix
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID MIX SPECIFICATION ---"
 				   checkMinus "$1"
 				   mix=`expr "$1" : '\([0-9]*\)'`
@@ -417,7 +417,7 @@ else
 				   ;;
 			-G)    # get gain
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 				   checkMinus "$1"
 				   gain=`expr "$1" : '\([0-9]*\)'`
@@ -468,7 +468,7 @@ if [ "$process" = "preserve" ]; then
 		process="yes"
 		# set process2 to preserve for us later to put back the alpha channel
 		process2="preserve"
-
+		
 	fi
 
 elif [ "$bgcolor" != "" ]; then

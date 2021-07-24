@@ -3,69 +3,69 @@
 # Developed by Fred Weinhaus 3/24/2008 .......... revised 8/17/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 # USAGE: colorspectrum [-c columns] [-r rows] [-l] infile outfile
 # USAGE: colorspectrum [-h or -help]
 #
 # OPTIONS:
 #
-# -c        columns      width of spectrum; determines the maximum
+# -c        columns      width of spectrum; determines the maximum 
 #                        number of colors; 1<=columns<=255; default=255
 # -r        rows         height of spectrum; rows>=1; default=50
 # -l                     displays a list of colors to the terminal
 #
 ###
 #
-# NAME: COLORSPECTRUM
-#
-# PURPOSE: To generate a spectrum-like image from the colors in an image.
-#
-# DESCRIPTION: PROFILE generates generate a spectrum-like image from the
-# colors in an image. It uses a color reduction algorithm to extract the
-# specified number of colors. Then it sorts the colors according to hue and
-# creates an image of the specified height and width. See
-# http://www.imagemagick.org/script/quantize.php for a description of the
+# NAME: COLORSPECTRUM 
+# 
+# PURPOSE: To generate a spectrum-like image from the colors in an image. 
+# 
+# DESCRIPTION: PROFILE generates generate a spectrum-like image from the 
+# colors in an image. It uses a color reduction algorithm to extract the  
+# specified number of colors. Then it sorts the colors according to hue and 
+# creates an image of the specified height and width. See 
+# http://www.imagemagick.org/script/quantize.php for a description of the 
 # color reduction algorithm.
-#
-#
-# OPTIONS:
-#
-# -c columns ... COLUMNS is the width of the spectrum and also determines the
-# number of colors to try to generate. Allowed values are integers between
-# 1 and 255. Note that it is possible that the color reduction algorithm will
-# produce fewer, but never more colors than desired. If fewer colors are
-# generated, then they will show as black areas on the left side of the
+# 
+# 
+# OPTIONS: 
+# 
+# -c columns ... COLUMNS is the width of the spectrum and also determines the 
+# number of colors to try to generate. Allowed values are integers between 
+# 1 and 255. Note that it is possible that the color reduction algorithm will  
+# produce fewer, but never more colors than desired. If fewer colors are 
+# generated, then they will show as black areas on the left side of the  
 # spectrum. The default is 255.
-#
-# -r rows ... ROWS is the height of the spectrum. Values are integers
+# 
+# -r rows ... ROWS is the height of the spectrum. Values are integers 
 # greater than 0. The default is 100.
-#
+# 
 # -l ... Indicates to print a list of colors to the terminal.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -81,13 +81,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -134,7 +134,7 @@ else
 					   ;;
 				-c)    # get columns=number of colors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLUMNS SPECIFICATION ---"
 					   checkMinus "$1"
 					   columns=`expr "$1" : '\([0-9]*\)'`
@@ -145,7 +145,7 @@ else
 					   ;;
 				-r)    # get rows
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROWS SPECIFICATION ---"
 					   checkMinus "$1"
 					   rows=`expr "$1" : '\([0-9]*\)'`
@@ -214,9 +214,9 @@ if [ "$type" = "Grayscale" ]; then
 	errMsg "--- HSL CONVERSION IS NOT ALLOWED WITH GRAYSCALE IMAGERY ---"
 fi
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -403,7 +403,7 @@ if [ "$list" = "on" ]
 	else
 		errMsg "---	INVALID TXT FORMAT ---"
 	fi
-
+	
 	echo ""
 	echo "List Of Colors - RGB Values 0 to Quantum Max or Percent"
 	echo ""
@@ -415,3 +415,4 @@ fi
 convert $tmp0 -scale ${columns}x${rows}! "$outfile"
 
 exit 0
+

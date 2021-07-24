@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/29/2008 .......... revised 1/18/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: kapurthresh [-g graph] infile outfile
@@ -31,51 +31,51 @@
 #
 # OPTIONS:
 #
-# -g	  graph             graph specifies whether to generate a
-#                           histogram graph image displaying the
+# -g	  graph             graph specifies whether to generate a 
+#                           histogram graph image displaying the 
 #                           location and value of the threshold;
-#                           choices are: view or save;
+#                           choices are: view or save; 
 #                           default is no graph
 #
 ###
 #
 # NAME: KAPURTHRESH
-#
-# PURPOSE: To automatically thresholds an image to binary (b/w) format
+# 
+# PURPOSE: To automatically thresholds an image to binary (b/w) format 
 # using Kapur's entropy technique.
-#
+# 
 # DESCRIPTION: KAPURTHRESH automatically thresholds an image to binary
 # (b/w) format. It assume the histogram is bimodal, i.e. is the composite
-# of two bell-shaped distributions representing the foreground and
-# background classes. The Kapur appoach computes computes one measure of
-# Entropy for each of the foreground (above threshold data) and background
-# (at and below threshold value) classes. The optimal threshold is the one
+# of two bell-shaped distributions representing the foreground and 
+# background classes. The Kapur appoach computes computes one measure of  
+# Entropy for each of the foreground (above threshold data) and background 
+# (at and below threshold value) classes. The optimal threshold is the one  
 # that maximizes the Sum of the Foreground and Background Entropies.
-#
-# OPTIONS:
-#
-# -g graph ... GRAPH specifies whether to generate a graph (image) of
-# the histogram, displaying the location and value of the threshold.
-# The choices are: view, save and none. If graph=view is selected, the
-# graph will be created and displayed automatically, but not saved.
-# If graph=save is selected, then the graph will be created and saved
-# to a file using the infile name, with "_histog_kapur.gif" appended,
-# but the graph will not be displayed automatically. If -g option is
+# 
+# OPTIONS: 
+# 
+# -g graph ... GRAPH specifies whether to generate a graph (image) of 
+# the histogram, displaying the location and value of the threshold. 
+# The choices are: view, save and none. If graph=view is selected, the 
+# graph will be created and displayed automatically, but not saved. 
+# If graph=save is selected, then the graph will be created and saved 
+# to a file using the infile name, with "_histog_kapur.gif" appended,  
+# but the graph will not be displayed automatically. If -g option is 
 # not specified, then no graph will be created.
-#
-# NOTE: It is highly recommended that the output not be specified
-# as a JPG image as that will cause compression and potentially a
-# non-binary (i.e. a graylevel) result. GIF is the recommended
+# 
+# NOTE: It is highly recommended that the output not be specified 
+# as a JPG image as that will cause compression and potentially a 
+# non-binary (i.e. a graylevel) result. GIF is the recommended 
 # output format.
-#
+# 
 # REFERENCES: see the following:
 # http://climate.gsfc.nasa.gov/publications/fulltext/RSEpaper.pdf
 # http://www.istanbul.edu.tr/eng/ee/jeee/main/pages/issues/is62/62008.pdf
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -89,13 +89,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -143,7 +143,7 @@ else
 					   ;;
 				-g)    # get  graph
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAPH SPECIFICATION ---"
 					   checkMinus "$1"
 					   graph="$1"
@@ -186,9 +186,9 @@ trap "rm -f $tmpA1 $tmpA2 $histfile; exit 1" 1 2 3 15
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -214,7 +214,7 @@ if convert -quiet "$infile" $setcspace -colorspace gray +repage "$tmpA1"
 	: ' do nothing '
 else
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAG ZERO SIZE ---"
-fi
+fi	
 
 # get totpix in image
 width=`convert $tmpA1 -format "%w" info:`
@@ -226,48 +226,48 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	valueArr=(`convert $tmpA1 -depth 8 -format "%c" -define histogram:unique-colors=true histogram:info:- \
 	| sed -n 's/[ ]*\([0-9]*\).*gray[(]\([0-9]*\).*$/\1 \2/p' |\
 	awk '
-	# AWK
-	{ vbin[$2] += $2;}
+	# AWK 
+	{ vbin[$2] += $2;} 
 	END { for (i=0;i<256;i++) {print vbin[i]; } } '`)
 #	echo ${valueArr[*]}
 #	echo ${#valueArr[*]}
 	numvals=${#valueArr[*]}
-
+	
 	# get count array from IM histogram
 	countArr=(`convert $tmpA1 -depth 8 -format "%c" -define histogram:unique-colors=true histogram:info:- \
 	| sed -n 's/[ ]*\([0-9]*\).*gray[(]\([0-9]*\).*$/\1 \2/p' |\
 	awk '
-	# AWK
-	{ cbin[$2] += $1; }
+	# AWK 
+	{ cbin[$2] += $1; } 
 	END { for (i=0;i<256;i++) {print cbin[i]; } } '`)
 #	echo ${countArr[*]}
 #	echo ${#countArr[*]}
 	numcounts=${#countArr[*]}
-
+	
 	[ $numvals -ne $numcounts ] && errMsg "--- NUMBER OF COUNTS IS NOT THE SAME AS NUMBER OF VALUES ---"
-
+	
 	# compute normalized count array
 	ncountArr=( $(for ((i=0; i<$numcounts; i++)); do
 	echo "$i ${countArr[$i]}"
 	done |\
 	awk -v totpix="$totpix" -v numcounts="$numcounts" '
-	# AWK
+	# AWK 
 	{ bin[$1] = $2; }
 	END { for (i=0;i<numcounts;i++) {print bin[i]/totpix; } } ') )
 #	echo ${ncountArr[*]}
 #	echo ${#ncountArr[*]}
-
+	
 	# compute elowArr
 	elowArr=( $(for ((i=0; i<$numcounts; i++)); do
 	echo "$i ${ncountArr[$i]}"
 	done |\
 	awk -v numcounts="$numcounts" '
 	# AWK to generate a cumulative histogram 1D image...
-	{ ncbin[$1] = $2; nlow += $2; nlowbin[$1] = nlow; qlow += $2*log($2); qlowbin[$1] = qlow;}
+	{ ncbin[$1] = $2; nlow += $2; nlowbin[$1] = nlow; qlow += $2*log($2); qlowbin[$1] = qlow;} 
 	END { for (i=0;i<numcounts;i++) {if (ncbin[i]!=0) {elowbin[i]=log(nlowbin[i]) - qlowbin[i]/nlowbin[i]} else {elowbin[i]=0}; print elowbin[i] } } ') )
 #	echo ${elowArr[*]}
 #	echo ${#elowArr[*]}
-
+	
 	# compute ehighArr
 	ehighArr=( $(for ((i=0; i<$numcounts; i++)); do
 	j=`expr $numcounts - 1 - $i`
@@ -275,18 +275,18 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	done |\
 	awk -v numcounts="$numcounts" '
 	# AWK to generate a cumulative histogram 1D image...
-	{ ncbin[$1] = $2; nhigh += $2; nhighbin[$1] = nhigh; qhigh += $2*log($2); qhighbin[$1] = qhigh;}
+	{ ncbin[$1] = $2; nhigh += $2; nhighbin[$1] = nhigh; qhigh += $2*log($2); qhighbin[$1] = qhigh;} 
 	END { for (i=0;i<numcounts;i++) {if (ncbin[i]!=0) {ehighbin[i]=log(nhighbin[i]) - qhighbin[i]/nhighbin[i]} else {ehighbin[i]=0}; print ehighbin[i] } } ') )
 #	echo ${ehighArr[*]}
 #	echo ${#ehighArr[*]}
-
+	
 	# compute threshold
 	threshbin=$(for ((i=0; i<$numcounts; i++)); do
 	echo "$i ${elowArr[$i]} ${ehighArr[$i]}"
 	done |\
 	awk -v numcounts="$numcounts" -v teold=0 -v threshbin=0 '
 	# AWK to compute entropy threshold...
-	{ tebin[$1] = ($2 + $3); }
+	{ tebin[$1] = ($2 + $3); } 
 	END { for (i=0;i<numcounts;i++) { if (tebin[i]>teold) {teold=tebin[i]; threshbin=i};  } print threshbin } ')
 #	echo "threshbin=$threshbin"
 	thresh=${valueArr[$threshbin]}
@@ -324,3 +324,6 @@ if [ "$graph" = "view" ]; then
 fi
 
 exit 0
+
+
+

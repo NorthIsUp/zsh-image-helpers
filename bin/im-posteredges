@@ -3,30 +3,30 @@
 # Developed by Fred Weinhaus 12/12/2012 .......... revised 5/29/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: posteredges [-w width ] [-a amount] [-m method] [-n number] [-b blur]
+# USAGE: posteredges [-w width ] [-a amount] [-m method] [-n number] [-b blur] 
 # [-s sat] infile outfile
 #
 # USAGE: posteredges [-help]
@@ -43,39 +43,39 @@
 #
 ###
 #
-# NAME: POSTEREDGES
-#
+# NAME: POSTEREDGES 
+# 
 # PURPOSE: To apply posterized edges to an image.
-#
-# DESCRIPTION: POSTEREDGES applies posterized edges to an image. The width and
-# amount of edges may be varied. Color reduction is optional. This script
+# 
+# DESCRIPTION: POSTEREDGES applies posterized edges to an image. The width and 
+# amount of edges may be varied. Color reduction is optional. This script 
 # attempts to duplicate some of the features of Photoshop's Posterized Edges.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -w width ... WIDTH of the edges. Values are floats>0. The default=3.
-#
-# -a amount ... AMOUNT or strength of the edges. Values are floats>0.
+# 
+# -a amount ... AMOUNT or strength of the edges. Values are floats>0. 
 # The default=5.
-#
+# 
 # -m method ... METHOD of reducing colors. The choices are: posterize (p) or
 # colors (c). The default=posterize
 #
-# -n number ... NUMBER of reduced colors. Values are integers>=2. The default
+# -n number ... NUMBER of reduced colors. Values are integers>=2. The default 
 # is no color reduction.
-#
-# -b blur ... BLUR is the blurring (smoothing) of the result. Values are
+# 
+# -b blur ... BLUR is the blurring (smoothing) of the result. Values are 
 # floats>=0. The default=0.5.
-#
-# -s sat ... SAT is the saturation of the result. Values are integers>=0.
+# 
+# -s sat ... SAT is the saturation of the result. Values are integers>=0. 
 # The default=100 for no change.
-#
+# 
 # REQUIREMENTS: IM 6.5.9.3 is required due to the use of -morphology edgeout.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+#  
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -94,13 +94,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -148,7 +148,7 @@ else
 					   ;;
 				-w)    # get width
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   width=`expr "$1" : '\([0-9]*\)'`
@@ -158,7 +158,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([.0-9]*\)'`
@@ -166,21 +166,21 @@ else
 					   ;;
 		 		-p)    # polarity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POLARITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   polarity="$1"
 					   polarity=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$polarity" in
+					   case "$polarity" in 
 					   		black) ;;
 					   		white) ;;
-					   		*) errMsg "--- POLARITY=$polarity IS AN INVALID VALUE ---"
+					   		*) errMsg "--- POLARITY=$polarity IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-b)    # get blur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   blur=`expr "$1" : '\([.0-9]*\)'`
@@ -188,16 +188,16 @@ else
 					   ;;
 		 		-m)    # method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
 					   method="$1"
 					   method=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$method" in
+					   case "$method" in 
 					   		posterize|p) method="posterize" ;;
 					   		colors|c) method="colors" ;;
-					   		*) errMsg "--- METHOD=$method IS AN INVALID VALUE ---"
+					   		*) errMsg "--- METHOD=$method IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-n)    # get number colors
@@ -247,9 +247,9 @@ trap "rm -f $tmpA1 $tmpA2; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -322,3 +322,5 @@ convert $tmpA1 \
 
 
 exit 0
+
+

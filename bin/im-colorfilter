@@ -3,88 +3,88 @@
 # Developed by Fred Weinhaus 9/22/2012 .......... revised 9/12/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: colorfilter [-m method] [-c color] [-d density] infile [maskfile] outfile
 # USAGE: colorfilter [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -m     method     method of applying color filter; choices are 1 or 2;
 #                   1 is blending; 2 is adding; default=1
-# -c     color      desired filter color; any valid IM opaque color
+# -c     color      desired filter color; any valid IM opaque color 
 #                   value is valid as well as the following special colors:
-#                   warming85, warming81, cooling80, cooling82, sepia,
-#                   underwater, t1000, t1850, t3000, t4100, t5000, t8000,
+#                   warming85, warming81, cooling80, cooling82, sepia, 
+#                   underwater, t1000, t1850, t3000, t4100, t5000, t8000, 
 #                   t13000, t21000, t40000; default=red
-# -d     density    density of filter; 0<=integer<=100; 0 is no change;
-#                   100 is most change; default=25
-#
+# -d     density    density of filter; 0<=integer<=100; 0 is no change; 
+#                   100 is most change; default=25 
+# 
 # Maskfile is any grayscale image the same size as the infile
-#
+#  
 ###
-#
-# NAME: COLORFILTER
-#
+# 
+# NAME: COLORFILTER 
+# 
 # PURPOSE: To apply a photographic color filter to an image.
-#
-# DESCRIPTION: COLORFILTER applies a photographic color filter to an image.
-# Optionally, a grayscale mask file can be provided to limit the region to
+# 
+# DESCRIPTION: COLORFILTER applies a photographic color filter to an image. 
+# Optionally, a grayscale mask file can be provided to limit the region to 
 # be processed. This script simulates the Photoshop Photo Filter function.
-#
-#
-# ARGUMENTS:
-#
+# 
+# 
+# ARGUMENTS: 
+# 
 # -m method ... METHOD of applying color filter. Choices are 1 or 2.
 # 1 is blending and 2 is adding. The default=1.
-#
-# -c color ... COLOR of desired filter. Any valid IM opaque color value is
-# valid as well as the following special colors: warming85, warming81,
-# cooling80, cooling82, sepia, underwater, t1000, t1850, t3000, t4100, t5000,
-# t8000, t13000, t21000, t40000. The t-filters correspond to the blackbody
+# 
+# -c color ... COLOR of desired filter. Any valid IM opaque color value is 
+# valid as well as the following special colors: warming85, warming81, 
+# cooling80, cooling82, sepia, underwater, t1000, t1850, t3000, t4100, t5000, 
+# t8000, t13000, t21000, t40000. The t-filters correspond to the blackbody 
 # radiation color of the given color temperature. The default=red.
-#
-# -d density ... DENSITY of filter. Values are integers between 0 and 100.
-# 0 is no change and 100 is the most change. The default=25
-#
-# Maskfile is any grayscale image the same size as the infile. The filter
+# 
+# -d density ... DENSITY of filter. Values are integers between 0 and 100. 
+# 0 is no change and 100 is the most change. The default=25 
+# 
+# Maskfile is any grayscale image the same size as the infile. The filter 
 # is applied most where the mask is white.
-#
-# REQUIREMENTS: IM 6.7.9.0 or higher due to a change in -compose luminize to
+# 
+# REQUIREMENTS: IM 6.7.9.0 or higher due to a change in -compose luminize to 
 # use the new HCL colorspace rather than the older HSL colorspace.
-#
+# 
 # REFERENCES:
 # http://en.wikipedia.org/wiki/Color_temperature
 # http://www.vendian.org/mncharity/dir3/blackbody/UnstableURLs/bbr_color.html
 # http://web.archive.org/web/20091028192325/http://www.geocities.com/cokinfiltersystem/color_corection.htm
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 method=1			# 1=blend; 2=add
@@ -98,13 +98,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -152,7 +152,7 @@ else
 					   ;;
 				-m)    # get method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method=`expr "$1" : '\([0-9]*\)'`
@@ -161,14 +161,14 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMCOLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-d)    # get density
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DENSITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   density=`expr "$1" : '\([0-9]*\)'`
@@ -236,9 +236,9 @@ fi
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -256,7 +256,7 @@ fi
 
 # test for special colors
 color=`echo "$color" | tr '[A-Z]' '[a-z]'`
-case "$color" in
+case "$color" in 
 	warming85) color="#ec8a00" ;;
 	warming81) color="#ebb113" ;;
 	cooling80) color="#006dff" ;;
@@ -300,7 +300,7 @@ if [ $method -eq 1 ]; then
 
 	# set density to mimic photoshop values
 	density=`convert xc: -format "%[fx:$density/2]" info:`
-
+	
 	if [ "$maskfile" != "" ]; then
 		convert $tmpA1 \
 			\( -clone 0 -colorspace $cspace1 \) \

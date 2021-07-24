@@ -1,56 +1,56 @@
 #!/bin/bash
-#
+# 
 # Modified by Fred Weinhaus 4/2/2009 ............ revised 4/25/2015
 # Enhanced by Anthony Thyssen ................... revised 1/8/2009
 # Developed by Fred Weinhaus 11/5/2007 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: morphology [-m mode] [-t type] [-i iterations] [-r ramp] infile outfile
 # USAGE: morphology [-h or -help]
-#
+# 
 # OPTIONS:
 # -m mode          binary or grayscale morphology; default=binary
-# -t type          dilate, erode, open, close, majority, edgein,
-#                  edgeout, gradient, feather, average, spread, tophat,
+# -t type          dilate, erode, open, close, majority, edgein, 
+#                  edgeout, gradient, feather, average, spread, tophat, 
 #                  bottomhat, thin, prune, thicken; default=close
-# -i iterations    number of iterations to perform; default=1 for
-#                  all but thin, prune and thicken for which the
+# -i iterations    number of iterations to perform; default=1 for 
+#                  all but thin, prune and thicken for which the 
 #                  default is to iterate until convergence.
-# -r ramp          ramp distance; for type=feather, the white areas
-#                  of a binary image will be ramped linearly to
-#                  black from ramp distance inside the white area up
+# -r ramp          ramp distance; for type=feather, the white areas 
+#                  of a binary image will be ramped linearly to 
+#                  black from ramp distance inside the white area up 
 #                  to the black edge; ramp>=0; default=0
-#
+# 
 ###
-#
+# 
 # NAME: MORPHOLOGY
-#
+# 
 # PURPOSE: To perform binary or grayscale morphologic operations on an image,
 # including dilate, erode, open and close.
-#
+# 
 # DESCRIPTION: MORPHOLOGY applies any one of the following morphologic
 # operations to an image: dilate, erode, open or close, and other similar
 # types of operations, depending on the values in a 3x3 neighborhood of each
@@ -61,111 +61,111 @@
 # is set to binary, the script assumes the input image is binary
 # (thresholded to black and white) and applies a much more efficient
 # algorithm.
-#
+# 
 # OPTIONS:
-#
+# 
 # -m mode ... MODE specifies the algorithmic approach to use. The allowed
 # values are binary and grayscale. If mode is set to binary, the script
 # assumes the input image will be binary (thresholded to 0 and max quantum
 # value) and will apply a more efficient algorithm. If mode is set to
 # grayscale, the script will apply a slightly less efficient algorithm that
 # can be used on grayscale or color images. The default is binary.
-#
+# 
 # -t type ... TYPE specifies the morphologic technique to apply to the image.
 # The morphological operators: dilate, erode, open, close, tophat, bottomhat,
 # and gradient can be used in any mode.  For 'binary' mode you can also
-# use edgein, edgeout, majority, feather, thin, prune and thicken.
+# use edgein, edgeout, majority, feather, thin, prune and thicken. 
 # For 'grayscale' mode you can also use average and spread.
-#
+# 
 # The dilate operation returns the maximum value in the neighborhood.
-#
+# 
 # The erode operation returns the minimum value in the neighborhood.
-#
-# The open operation performs a dilate followed by an erode.
-#
-# The close operation performs an erode followed by a dilate.
-#
-# The tophat operation is the result produced from the open operation
+# 
+# The open operation performs a dilate followed by an erode. 
+# 
+# The close operation performs an erode followed by a dilate. 
+# 
+# The tophat operation is the result produced from the open operation  
 # subtracted from the original image.
-#
-# The bottomhat operation is the result produced from the close operation
+# 
+# The bottomhat operation is the result produced from the close operation  
 # subtracted by the original image.
-#
-# The gradient operation is the result produced by subtracting the erode
+# 
+# The gradient operation is the result produced by subtracting the erode  
 # result from the dilate result.
-#
-# The edgein operation return the interior edge at the transition between
+# 
+# The edgein operation return the interior edge at the transition between 
 # white and black. (Binary mode only)
-#
-# The edgeout operation return the exterior edge at the transition between
+# 
+# The edgeout operation return the exterior edge at the transition between 
 # white and black. (Binary mode only)
-#
-# The majority operation just selects the majority from all the neighborhood
-# values.
-#
+# 
+# The majority operation just selects the majority from all the neighborhood 
+# values. 
+# 
 # The thin operation strips the outer layers of the white areas and if
 # iterated until convergence produces a skeleton. (Binary mode only)
-#
-# The prune operation is generally used to remove spurs left from the
-# thinning operation. It is typically used only a specific number of iterations.
-# If iterated until convergence, it will produce a totally black image unless
+# 
+# The prune operation is generally used to remove spurs left from the 
+# thinning operation. It is typically used only a specific number of iterations. 
+# If iterated until convergence, it will produce a totally black image unless 
 # the thinned white area is a closed curve. (Binary mode only)
-#
-# The thicken operation produces a 45 degree convex hull, if continued to
-# convergence. (Binary mode only)
-#
-# The feather operation will linearly ramp from white to black, but just
-# within the white area. Only one iteration is allowed in this case.
+# 
+# The thicken operation produces a 45 degree convex hull, if continued to 
+# convergence. (Binary mode only) 
+# 
+# The feather operation will linearly ramp from white to black, but just 
+# within the white area. Only one iteration is allowed in this case. 
 # (Binary mode only, but produces a grayscale result)
 #
-# The average operation generates a simple average of the neighborhood.
+# The average operation generates a simple average of the neighborhood. 
 # (Grayscale mode only, but works on color images, also)
 #
-# The spread operation does the same thing as average, but assumes the input
+# The spread operation does the same thing as average, but assumes the input 
 # image has an alpha channel and resets pixels with a defined color back to
 # their original color after each iteration.  That is, it spreads the color
 # in an average way out into the transparent areas of the image.
 # (Grayscale mode only, but works on color images, also)
-#
+# 
 # When the input is a binary image, dilate/erode will add/remove white
 # pixels at all transitions from white to black. Similarly, open/close will
 # make interior black areas larger or smaller, but keep the overall outer
 # shape about the same.
-#
+# 
 # When the input image is grayscale or color, dilate/erode and close/open
 # will brighten/darken the color transitions.
-#
+# 
 # -i iterations ... ITERATIONS specifies the number of iterations to apply for
 # the specified technique. Note that for open and close, the iterations are
 # applied successively to the first erode or dilate and then repeated
 # successively for the second dilate or erode. Iteration is ignored for
-# binary mode edgein and edgeout. The default is 1 for all but thin, prune
+# binary mode edgein and edgeout. The default is 1 for all but thin, prune 
 # and thicken, which run until convergence as a default.
-#
-# -r ramp ... RAMP distance for type=feather only. The white areas of a
-# binary image will be linearly ramped to black from ramp distance inside
+# 
+# -r ramp ... RAMP distance for type=feather only. The white areas of a 
+# binary image will be linearly ramped to black from ramp distance inside 
 # the white area up to the black edge. Ramp is a float>=0; The default=0.
-#
-# NOTE: The thin, prune and thicken operations can be slow due to each
+# 
+# NOTE: The thin, prune and thicken operations can be slow due to each 
 # iteration containing 8 complex operations.
-#
-# References:
+# 
+# References: 
 # http://homepages.inf.ed.ac.uk/rbf/HIPR2/morops.htm
 # http://www.naun.org/journals/computers/ijcomputers-11.pdf
 # http://www.ene.unb.br/~juliana/cursos/pimagens/chapter6.pdf
-#
+# 
 # CAVEAT: No guarantee that this script will work on all platforms, nor that
 # trapping of inconsistent parameters is complete and foolproof. Use At Your
 # Own Risk.
-#
+# 
 # ENHANCEMENTS:
 # Anthony Thyssen 1/8/2009: speed and added types=average and spread
 # Fred Weinhaus 4/2/2009: added type=feather
 # Fred Weinhaus 4/14/2009: added type=tophat,bottomhat,thin,prune,thicken
 # Fred Weinhaus 4/16/2009: added type=gradient
-#
+# 
 ######
-#
+# 
 
 # set default values
 mode="binary"  # binary or grayscale
@@ -181,13 +181,13 @@ dir="/tmp"    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage()
+usage() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage_verbose()
+usage_verbose() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -195,7 +195,7 @@ usage_verbose()
 	}
 
 # function to report error messages
-errMsg()
+errMsg() 
 	{
 	echo ""
 	echo $1
@@ -890,13 +890,13 @@ exit 0
 # Structure Elements
 #
 # Thin
-#
+# 
 # see http://homepages.inf.ed.ac.uk/rbf/HIPR2/thin.htm
 # if pattern matches change center pixel to 0
 #
 # struct1
 # 0 0 0
-# x 1 x
+# x 1 x 
 # 1 1 1
 #
 # struct2
@@ -936,13 +936,13 @@ exit 0
 #
 #
 # Prune
-#
+# 
 # see http://homepages.inf.ed.ac.uk/rbf/HIPR2/thin.htm
 # if pattern matches change center pixel to 0
 #
 # struct1
 # 0 0 0
-# 0 1 0
+# 0 1 0 
 # 0 x x
 #
 # struct2
@@ -988,7 +988,7 @@ exit 0
 #
 # struct1
 # 1 1 x
-# 1 0 x
+# 1 0 x 
 # 1 x 0
 #
 # struct2

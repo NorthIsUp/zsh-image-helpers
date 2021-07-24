@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 6/29/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: captcha [-f font] [-p pointsize] [-t textcolor] [-u undercolor] [-b bordercolor] [-m mode] [-a angle] [-r resize] outfile
@@ -34,67 +34,67 @@
 # -f      font					fontname or path-to-font-file; default=TimesNewRoman
 # -p      pointsize				pointsize for font; default=40
 # -t      textcolor			    color of text; any IM color specification; default=black
-# -u      undercolor			background color under text; any IM color specification;
+# -u      undercolor			background color under text; any IM color specification; 
 #                               default=white;
-# -b      bordercolor           color of image border; any IM color specification;
+# -b      bordercolor           color of image border; any IM color specification; 
 #                               default=black;
 # -m      mode                  mode to orient text: skew, rotate, both; default=skew
-# -a      angle                 maximum orientation angle of text used with mode;
+# -a      angle                 maximum orientation angle of text used with mode; 
 #                               default=40 (degrees). Values are integers 0<=angle<=60
 # -r      resize          		output image resize in percent; default=100 (percent) which
 #                               produces an image 300x80 pixels
 #
 ###
 #
-# NAME: CAPTCHA
-#
-# PURPOSE: To create a six-alphanumeric-character image for use as a challenge
+# NAME: CAPTCHA 
+# 
+# PURPOSE: To create a six-alphanumeric-character image for use as a challenge 
 # response test.
-#
-# DESCRIPTION: CAPTCHA creates a six-alphanumeric-character image for use as a challenge
-# response test. It builds a default image of size 300x80 pixels containing 6 alphanumeric
-# characters that are randomly positioned and oriented and overlaid with random curved and
+# 
+# DESCRIPTION: CAPTCHA creates a six-alphanumeric-character image for use as a challenge 
+# response test. It builds a default image of size 300x80 pixels containing 6 alphanumeric 
+# characters that are randomly positioned and oriented and overlaid with random curved and 
 # straight lines segments.
-#
-#
-# ARGUMENTS:
-#
-# -f font ... FONT is the desired font or path-to-font-file for the text. The default
+# 
+# 
+# ARGUMENTS: 
+# 
+# -f font ... FONT is the desired font or path-to-font-file for the text. The default 
 # is TimesNewRoman.
 #
 # -p pointsize ... POINTSIZE is the desired pointsize for the font. The default is 40.
-#
-# -t textcolor ... TEXTCOLOR is the color to apply to the text. Any valid IM
-# text color may be used. The default is black.
+# 
+# -t textcolor ... TEXTCOLOR is the color to apply to the text. Any valid IM 
+# text color may be used. The default is black. 
 # See http://imagemagick.org/script/color.php
-#
-# -u undercolor ... UNDERCOLOR is the background color to apply directly under the text.
+# 
+# -u undercolor ... UNDERCOLOR is the background color to apply directly under the text. 
 # Any valid IM text color may be used. The default is white.
 # See http://imagemagick.org/script/color.php
-#
-# -b bordercolor ... BORDERCOLOR is the color to apply to the image border.
-# Any valid IM text color may be used. The default is black.
+# 
+# -b bordercolor ... BORDERCOLOR is the color to apply to the image border. 
+# Any valid IM text color may be used. The default is black. 
 # See http://imagemagick.org/script/color.php
-#
-# -m mode ... MODE is the mode for randomly orienting the text. The choices are:
+# 
+# -m mode ... MODE is the mode for randomly orienting the text. The choices are: 
 # skew, rotate or both.
-#
-# -a angle ... ANGLE is the maximum angle to use to randomly orient the text.
+# 
+# -a angle ... ANGLE is the maximum angle to use to randomly orient the text. 
 # The default=40 (degrees).
 #
-# -r resize ... RESIZE is the percentage of the default output image size of 300x80
-# to use to generate the output image. The default is 100 (percent). All images are
-# created at a size of 300x80, including a 5 pixel border. If resize is specified,
-# the output image will be resized accordingly by a post-processing step using
+# -r resize ... RESIZE is the percentage of the default output image size of 300x80 
+# to use to generate the output image. The default is 100 (percent). All images are 
+# created at a size of 300x80, including a 5 pixel border. If resize is specified, 
+# the output image will be resized accordingly by a post-processing step using 
 # the IM -resize function.
-#
-# NOTE: Some effects require the use of -fx and thus will be slower than the others.
+# 
+# NOTE: Some effects require the use of -fx and thus will be slower than the others. 
 # These include: the variations on bulge, concave, convex and pinch.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -115,13 +115,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -169,14 +169,14 @@ else
 					   ;;
 				-f)    # get  font
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   checkMinus "$1"
 					   font="$1"
 					   ;;
 				-p)    # get pointsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POINTSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   pointsize=`expr "$1" : '\([0-9]*\)'`
@@ -186,43 +186,43 @@ else
 					   ;;
 				-t)    # get  textcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEXTCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   textcolor="$1"
 					   ;;
 				-u)    # get  undercolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UNDERCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   undercolor="$1"
 					   ;;
 				-b)    # get  bordercolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDERCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bordercolor="$1"
 					   ;;
 				-m)    # get  mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
 					   #convert mode to lowercase
 					   mode=`echo "$mode" | tr "[:upper:]" "[:lower:]"`
-					   case "$mode" in
+					   case "$mode" in 
 					   		skew) ;;
 					   		rotate) ;;
 					   		both) ;;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   esac
 					   ;;
 				-a)    # get angle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   angle=`expr "$1" : '\([0-9]*\)'`
@@ -233,7 +233,7 @@ else
 					   ;;
 				-r)    # get resize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   resize=`expr "$1" : '\([0-9]*\)'`
@@ -266,7 +266,7 @@ tmp0="$dir/captcha_0_$$.miff"
 trap "rm -f $tmp0;" 0
 trap "rm -f $tmp0; exit 1" 1 2 3 15
 trap "rm -f $tmp0; exit 1" ERR
-
+	
 # compute random positions and orientations and characters
 xx1=`convert xc: -format "%[fx: -120 + sign(rand()-0.5)*floor(5*rand()+0.5)]" info:`
 xx2=`convert xc: -format "%[fx: -72 + sign(rand()-0.5)*floor(5*rand()+0.5)]" info:`
@@ -358,7 +358,7 @@ convert -size 290x70 xc:$undercolor -bordercolor $bordercolor -border 5 \
 	-draw "bezier ${bx1},${by1} ${bx2},${by2} ${bx3},${by3} ${bx4},${by4}" \
 	-draw "polyline ${bx4},${by4} ${bx5},${by5} ${bx6},${by6}" \
 	$tmp0
-
+	
 # resize if necessary
 if [ "$resize" != "100" ]; then
 	convert $tmp0 -resize ${resize}% "$outfile"

@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 8/18/2007 .......... revised 1/14/2016
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: curves [-s xscale,yscale] [-c channel] [-g graphmode] "x1,y1 x2,y2 ..." infile outfile
@@ -31,48 +31,48 @@
 # USAGE: curves [-h or -help]
 #
 # OPTIONS:
-#
+# 
 # "x1,y1 x2,y2 ..."         break point values of piece-wise linear transformation
 #                           enclosed in quotes; minimum of one (x,y) break point pair;
 #                           x corresponds to the graylevel in the input image;
 #                           y corresponds to the graylevel in the outut image;
-#                           x,y non-negative floats enclosed in quotes;
+#                           x,y non-negative floats enclosed in quotes;  
 #                           list must be specified just prior to infile
-# -c     channel            channel to process; options are: red, green, blue,
-#                           lightness, brightness, luma and luminosity;
+# -c     channel            channel to process; options are: red, green, blue, 
+#                           lightness, brightness, luma and luminosity; 
 #                           default=all rgb channels
 # -f     point_file         text file containing list of break points;
 #                           one x,y pair per line
 # -s     xscale,yscale      range of values for x,y breakpoint pairs from 0 to xscale,yscale;
 #                           positive integers; default=100,100
 # -g     graphmode          enables the creation of a graph of the transformation
-#                           and optionally the original break point, which is then
-#                           displayed automatically. The choices are: curve (C) or
-#                           points (P), where the latter shows the original user
-#                           specified break points in addition to the curve. The
-#                           default is curve (C). There is a default setting below
-#                           that can be changed to enable this to be save to a file
+#                           and optionally the original break point, which is then 
+#                           displayed automatically. The choices are: curve (C) or 
+#                           points (P), where the latter shows the original user 
+#                           specified break points in addition to the curve. The 
+#                           default is curve (C). There is a default setting below 
+#                           that can be changed to enable this to be save to a file 
 #                           named outfile_graph.gif
-#
+#                         
 ###
 #
 # NAME: CURVES
 #
-# PURPOSE: To generate a smoothly interpolated, curved mapping look up table
+# PURPOSE: To generate a smoothly interpolated, curved mapping look up table 
 # from a set of break point and applies it to an image.
 #
-# DESCRIPTION: CURVES takes the supplied break point pairs and generates a
-# dimensional spline curve that is then used to create a 1-D look up table image.
-# The look up table image is then used to change grayscale values in the channels
-# of the input image. At least one point pair must be supplied either as an argument
-# or in a text file with one pair per line supplied. The x value is the position in the
-# look up table which is associated with the grayscale value of the desired channels of
-# the input image and the y value is the associated grayscale value for the corresponding
-# channels in the resulting output image. A Catmull-Rom spline is used to generate the
+# DESCRIPTION: CURVES takes the supplied break point pairs and generates a  
+# dimensional spline curve that is then used to create a 1-D look up table image. 
+# The look up table image is then used to change grayscale values in the channels 
+# of the input image. At least one point pair must be supplied either as an argument 
+# or in a text file with one pair per line supplied. The x value is the position in the 
+# look up table which is associated with the grayscale value of the desired channels of 
+# the input image and the y value is the associated grayscale value for the corresponding 
+# channels in the resulting output image. A Catmull-Rom spline is used to generate the 
 # the curve and does go through the supplied point pairs.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # "x1,y1 x2,y2" ... List of x,y break-points for the curved
 # transformation. The x,y values are non-negative break-point pairs for
 # the curved transformation. There is a minimum one point pair that must
@@ -85,10 +85,10 @@
 # not 0,0 or the last pair is not xscale,yscale then those points will be
 # added automatically to the list of point pairs. IMPORTANT: the list of
 # break-point pairs must be specified just prior to infile outfile.
-#
-# -f point_file ... point-file is a text file containing the list of break
+# 
+# -f point_file ... point-file is a text file containing the list of break 
 # points, one x,y pair per line.
-#
+# 
 # -s  xscale,yscale ...    xscale,yscale is the range of values for the
 # x,y breakpoint pairs which go from 0 to xscale,yscale; positive
 # integers. The default is 100,100. Larger values for xscale and yscale
@@ -97,27 +97,27 @@
 # image is 101 pixels. For xscale=yscale=255, x and y values are specified
 # # between 0 and 255 and the length of the output image is 256. Equal
 # values for xscale and yscale are not required.
-#
-# -c channel ... CHANNEL to process. Options are: red, green, blue, lightness
-# (L from HSL), brightness (B from HSB), luma (Y from YCbCr) and luminosity
+# 
+# -c channel ... CHANNEL to process. Options are: red, green, blue, lightness 
+# (L from HSL), brightness (B from HSB), luma (Y from YCbCr) and luminosity 
 # (L from Lab). The default=all rgb channels.
 #
-# -g graphmode... enables the creation of a graph of the curved transformation,
-# which is then displayed automatically. The choices are: curve (C) or
-# points (P), where the latter shows the original user specified break points
-# in addition to the curve. The default is no graph if this option is not used.
-# There is also a default setting below that can be changed to enable this to be
-# save to a file named outfile_graph.gif. The graph will be scaled to size 100x100.
+# -g graphmode... enables the creation of a graph of the curved transformation, 
+# which is then displayed automatically. The choices are: curve (C) or 
+# points (P), where the latter shows the original user specified break points 
+# in addition to the curve. The default is no graph if this option is not used. 
+# There is also a default setting below that can be changed to enable this to be 
+# save to a file named outfile_graph.gif. The graph will be scaled to size 100x100. 
 # IMPORTANT: To end the script, close/quit the graph image.
-#
+# 
 # REQUIREMENTS: IM 6.7.8.2 or higher when using channel=luminosity.
-#
-# CAVEAT: No guarantee that this script will work on all platforms, nor that
-# trapping of inconsistent parameters is complete and foolproof. Use At Your
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, nor that 
+# trapping of inconsistent parameters is complete and foolproof. Use At Your 
 # Own Risk.
-#
+# 
 ######
-#
+# 
 
 # set default value for scale and height of lut
 xscale=100
@@ -139,13 +139,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -202,7 +202,7 @@ else
 					   exit 0  ;;
 				-g)    # get  graphmode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAPHMODE SPECIFICATION ---"
 					   checkMinus "$1"
 						case "$1" in
@@ -217,7 +217,7 @@ else
 					   ;;
 				-c)    # get  channel
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CHANNEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   channel=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -235,7 +235,7 @@ else
 				-f)    # text file with point pairs
 					   opt=-f
 					   shift  # to get the next parameter - point_file
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INCORRECT POINT_FILE SPECIFICATION ---"
 					   checkMinus "$1"
 					   point_file=$1
@@ -243,7 +243,7 @@ else
 					   [ -f $point_file -a -r $point_file -a -s $point_file ] || errMsg "--- POINT FILE $point_file DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"  ;;
 				-s)    # scaling parameter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INCORRECT XSCALE,YSCALE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # separate xscale and yscale and test for validity
@@ -327,8 +327,8 @@ gg="_graph"
 tmp1="$dir/$outname$gg.gif"
 
 # remove temporaries
-if [ "$graph" = "view" ]
-	then
+if [ "$graph" = "view" ] 
+	then 
 	trap "rm -f $tmpA $tmpB $tmp1;" 0
 	trap "rm -f $tmpA $tmpB $tmp1; exit 1" 1 2 3 15
 #	trap "rm -f $tmpA $tmpB $tmp1; exit 1" ERR
@@ -364,11 +364,11 @@ fi
 # x=a0+a1*s+a2*s^2+a3*s^3
 # y=b0+b1*s+b2*s^2+b3*s^3
 # Q=C¥S; where Q=(x;y)=polynomial coordinate (column) vector
-# and C=(a3 a2 a1 a0; b3 b2 b1 b0)=coefficient matrix with a's and b's as rows;
+# and C=(a3 a2 a1 a0; b3 b2 b1 b0)=coefficient matrix with a's and b's as rows; 
 # and S=(s^3 s^2 s 1)=parametric (row) vector
 
 # spline formulation often represented as: Q=S¥M¥V
-# where M=matrix which depends upon the type of spline
+# where M=matrix which depends upon the type of spline 
 # and V is the control (column) vector (often either a set of knots or derivatives; knots being data points)
 # x=(s^3 s^2 s 1)¥M¥Vx where Vx is (column) vector of four components (knots, tangents or contol point)
 # y=(s^3 s^2 s 1)¥M¥Vx where Vx is (column) vector of four components (knots, tangents or control points)
@@ -404,7 +404,7 @@ if [ $count -eq 1 ]; then
 	firstx=`echo "$plist" | sed -n 's/^\([.0-9]*\),.*$/\1/p'`
 	lastx=$firstx
 	lasty=`echo "$plist" | sed -n 's/^.*,\([.0-9]*\)$/\1/p'`
-elif [ $count -gt 1 ]; then
+elif [ $count -gt 1 ]; then	
 	firstx=`echo "$plist" | sed -n 's/^\([.0-9]*\),.*$/\1/p'`
 	lastx=`echo "$plist" | sed -n 's/^.* \([.0-9]*\),[.0-9]*$/\1/p'`
 	lasty=`echo "$plist" | sed -n 's/^.*,\([.0-9]*\)$/\1/p'`
@@ -475,7 +475,7 @@ spline_interp()
 	pinc=`convert xc: -format "%[fx:$range/$numinc]" info:`
 	s=0
 	# do not include last value if this is not the last sequence as overlaps with first value in next sequence
-	if [ "$x3" != "$prightx" ]; then
+	if [ "$x3" != "$prightx" ]; then 
 		op="<"
 	else
 		op="<="
@@ -533,7 +533,7 @@ config=`convert -list configure`
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 if [ "$im_version" -ge "06030507" ]
-	then
+	then 
 	proc="-clut"
 else
 	proc="-fx 'v.p{u*v.w,0}'"

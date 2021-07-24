@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 2/26/2009 .......... revised 5/3/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: tricolorize [-l lcolor] [-m mcolor] [-h hcolor] [-c contrast] [-o offset] [-t type] infile outfile [lutfile]
@@ -36,64 +36,64 @@
 #                            The default=black
 # -m      mcolor             Color for mid range of grayscale;  Any valid IM color is allowed;
 #                            The default=gray50
-# -h      hcolor             Color for high end of grayscale; Any valid IM color is allowed;
+# -h      hcolor             Color for high end of grayscale; Any valid IM color is allowed; 
 #                            The default=white
 # -c      contrast           percent contrast change; integers; -100<=contrast<=100;
 #                            default=0
-# -o      offset             percent color offset; integers; -100<=offset<=100;
+# -o      offset             percent color offset; integers; -100<=offset<=100; 
 #                            default=0
-# -t      type				 type of look up table (lut) smoothing/interpolation; choices are:
+# -t      type				 type of look up table (lut) smoothing/interpolation; choices are: 
 #                            cubic, quadratic, gaussian, triangle, point; default=triangle
 #
 ###
 #
-# NAME: TRICOLORIZE
-#
+# NAME: TRICOLORIZE 
+# 
 # PURPOSE: To smoothly colorize a grayscale image with either one, two or three different colors.
-#
-# DESCRIPTION: TRICOLORIZE smoothly colorizes a grayscale image with either one, two or three
+# 
+# DESCRIPTION: TRICOLORIZE smoothly colorizes a grayscale image with either one, two or three 
 # different colors. If the input image is color, it will be converted to grayscale first.
-# Using an appropriate mid color with low color of black and high color of white will allow
-# one to tint an image. This achieves the same result as my tintilize script, except the default
+# Using an appropriate mid color with low color of black and high color of white will allow 
+# one to tint an image. This achieves the same result as my tintilize script, except the default 
 # type there is quadratic. The script generates a color look up table (lut) and applies it
-# against the grayscale version of the image. The lut can be saved, if desired, for future use
+# against the grayscale version of the image. The lut can be saved, if desired, for future use 
 # and will have a size of 256x20 pixels.
+# 
+# 
+# OPTIONS: 
 #
-#
-# OPTIONS:
-#
-# -l lcolor ... LCOLOR is the color to use at the low end of the grayscale. The default=black.
+# -l lcolor ... LCOLOR is the color to use at the low end of the grayscale. The default=black. 
 # Any valid IM color is allowed. See http://imagemagick.org/script/color.php
-#
-# -m mcolor ... MCOLOR is the color to use in the mid grayscale range. The default=gray50.
+# 
+# -m mcolor ... MCOLOR is the color to use in the mid grayscale range. The default=gray50. 
 # Any valid IM color is allowed. See http://imagemagick.org/script/color.php
-# For tinting, a good choice of colors may be specified as hsl with saturation about 25%
-# and lightness about 50% and your choice of hue. For reference,
+# For tinting, a good choice of colors may be specified as hsl with saturation about 25% 
+# and lightness about 50% and your choice of hue. For reference,  
 # see http://homepages.cwi.nl/~steven/css/hsl-examples.html
-#
-# -h hcolor ... HCOLOR is the color to use at the high end of the grayscale. The default=white.
+# 
+# -h hcolor ... HCOLOR is the color to use at the high end of the grayscale. The default=white. 
 # Any valid IM color is allowed. See http://imagemagick.org/script/color.php
-#
-# -c contrast ... CONTRAST is the percent change in color contrast. Values are integers such
+# 
+# -c contrast ... CONTRAST is the percent change in color contrast. Values are integers such 
 # that -100<=offset<=100. The default=0.
-#
-# -o offset ... OFFSET is the percent shift of the colors. Values are integers such
-# that -100<=offset<=100. Positive values shift the colors towards the brighter end
-# of the grayscale and negative values shift the colors towards the darker end of
+# 
+# -o offset ... OFFSET is the percent shift of the colors. Values are integers such 
+# that -100<=offset<=100. Positive values shift the colors towards the brighter end 
+# of the grayscale and negative values shift the colors towards the darker end of 
 # the grayscale. The default=0.
-#
-# -t type ... TYPE of smoothing/interpolation of the colors to fill out the look up table.
+# 
+# -t type ... TYPE of smoothing/interpolation of the colors to fill out the look up table. 
 # The choices are: cubic, gaussian, quadratic, triangle or point. The default=triangle.
-#
-# IMPORTANT: Prior to IM 6.5.6-6, hue was specified in the range of 0-360, when
-# saturation and lightness/brightness were either in the range of 0-255 or
-# 0%-100%. Afterwards, hue was specified as percent when saturation and
+# 
+# IMPORTANT: Prior to IM 6.5.6-6, hue was specified in the range of 0-360, when 
+# saturation and lightness/brightness were either in the range of 0-255 or 
+# 0%-100%. Afterwards, hue was specified as percent when saturation and 
 # lightness/brightness were percent.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -115,13 +115,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -169,28 +169,28 @@ else
 					   ;;
 				-l)    # get lcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LOW COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   lcolor="$1"
 					   ;;
 				-m)    # get mcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   mcolor="$1"
 					   ;;
 				-h)    # get hcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HIGH COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   hcolor="$1"
 					   ;;
 				-c)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -201,7 +201,7 @@ else
 					   ;;
 				-o)    # get offset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID OFFSET SPECIFICATION ---"
 					   #checkMinus "$1"
 					   offset=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -269,9 +269,9 @@ trap "rm -f $tmpA $tmpB $tmp0; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -290,7 +290,7 @@ if [ "$im_version" -gt "06080504" ]; then
 fi
 
 
-# test $infile and convert to grayscale
+# test $infile and convert to grayscale 
 if convert -quiet "$infile" $setcspace -colorspace gray +repage "$tmpA"
 	then
 	: ' Do Nothing '

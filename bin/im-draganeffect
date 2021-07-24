@@ -3,79 +3,79 @@
 # Developed by Fred Weinhaus 6/22/2013 .......... revised 4/29/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: draganeffect [-b brightness] [-c contrast] [-d darkness ]
+# USAGE: draganeffect [-b brightness] [-c contrast] [-d darkness ] 
 # [-s saturation] infile outfile
 # USAGE: draganeffect [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -b     brightness     brightness factor; float>=0; default=1 no change
-# -c     contrast       contrast; float; nominally -10 to 10; default=0
+# -c     contrast       contrast; float; nominally -10 to 10; default=0 
 # -d     darkness       shadow darkness; float>=1; default=1
 # -s     saturation     saturation; integer>=0; 100 (no change); default=150
-#
+# 
 ###
-#
-# NAME: DRAGANEFFECT
-#
+# 
+# NAME: DRAGANEFFECT 
+# 
 # PURPOSE: To apply a Dragan-like effect to an image.
-#
-# DESCRIPTION: DRAGANEFFECT applies a Dragan-like effect to an image to enhance
+# 
+# DESCRIPTION: DRAGANEFFECT applies a Dragan-like effect to an image to enhance 
 # wrinkles creating a "gritty" effect.
-#
-#
-# ARGUMENTS:
-#
-# -b brightness ... BRIGHTNESS is a brightness factor. Values are floats>=0.
+# 
+# 
+# ARGUMENTS: 
+# 
+# -b brightness ... BRIGHTNESS is a brightness factor. Values are floats>=0. 
 # The default=1 or no change. Increase brightness is larger than 1.
 # Decrease brightness is less than 1.
-#
-# -c contrast ... CONTRAST is a sigmoidal contrast. Values are floats nominally
-# in the range of -10 to 10. Positive values increase contrast and negative
+# 
+# -c contrast ... CONTRAST is a sigmoidal contrast. Values are floats nominally 
+# in the range of -10 to 10. Positive values increase contrast and negative 
 # values decrease contrast. The default=0 (no change).
-#
-# -d darkness ... DARKNESS is the shadow darkening factor. Values are
+# 
+# -d darkness ... DARKNESS is the shadow darkening factor. Values are 
 # floats>=1. The default=1 or no change. Darker shadows is larger than 1.
-#
-# -s saturation ... SATURATION. Values are integer>=0. A value of 100 is no
+# 
+# -s saturation ... SATURATION. Values are integer>=0. A value of 100 is no 
 # change. The default=150.
-#
+# 
 # References:
 # http://andrzejdragan.com/
-# http://www.dmimaging.net/photography-trends-dragan-effect/
+# http://www.dmimaging.net/photography-trends-dragan-effect/ 
 # http://photoshopfrenzy.com/?p=94
 #
 # REQUIREMENTS: IM 6.6.1.9 due to the use of -morphology DoG
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 brightness=1		# float>=0; 1=no change; >1 is brighter; <1 is darker
@@ -91,13 +91,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -145,7 +145,7 @@ else
 					   ;;
 				-b)    # get  brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   brightness=`expr "$1" : '\([.0-9]*\)'`
@@ -153,7 +153,7 @@ else
 					   ;;
 				-c)    # get  contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-.0-9]*\)'`
@@ -161,7 +161,7 @@ else
 					   ;;
 				-d)    # get  darkness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DARKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   darkness=`expr "$1" : '\([.0-9]*\)'`
@@ -171,7 +171,7 @@ else
 					   ;;
 				-s)    # get saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   saturation=`expr "$1" : '\([0-9]*\)'`
@@ -222,14 +222,14 @@ im_version=`convert -list configure | \
 darkness=`convert xc: -format "%[fx:3/$darkness]" info:`
 
 # set up brightness
-if [ "$brightness" = "1" ]; then
+if [ "$brightness" = "1" ]; then 
 	brightening=""
 else
 	brightening="-evaluate multiply $brightness"
 fi
 
 # set up contrast
-if [ "$contrast" = "0" ]; then
+if [ "$contrast" = "0" ]; then 
 	contrasting=""
 else
 	test1=`convert xc: -format "%[fx:sign($contrast)]" info:`
@@ -242,7 +242,7 @@ else
 fi
 
 # set up darkness
-if [ "$darkness" = "1" ]; then
+if [ "$darkness" = "1" ]; then 
 	darkening=""
 else
 	# -clamp needed for HDRI
@@ -258,7 +258,7 @@ fi
 
 
 # process image
-# first line: read image, enhance brightness, sigmoidal-contrast and saturation
+# first line: read image, enhance brightness, sigmoidal-contrast and saturation 
 # second line: clone, desaturate, darken and compose multiply with input
 # third line: clone previous result and apply high pass filter using DoG
 # fourth line: clone both use overlay composite to apply high pass filter to enhanced input
@@ -273,3 +273,4 @@ convert $tmpA1 $brightening $contrasting -modulate 100,$saturation,100 \
 
 
 exit 0
+

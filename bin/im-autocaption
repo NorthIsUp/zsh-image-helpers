@@ -3,107 +3,107 @@
 # Developed by Fred Weinhaus 2/3/2010 .......... revised 10/1/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: autocaption -s size -t text [-b buffer] [-f font] [-c color]
+# USAGE: autocaption -s size -t text [-b buffer] [-f font] [-c color] 
 # [-u undercolor] [-o outlinecolor] [-w width] infile outfile
 # USAGE: autocaption [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -s     size           size of square textbox; integer>0
 # -t     text           text to apply to image; enclose in quotes
-# -b     buffer         buffer or padding around text box; integer>=0;
+# -b     buffer         buffer or padding around text box; integer>=0; 
 #                       default=0
 # -f     font           font name or path to font file; default=Arial
 # -c     color          text color; any valid IM color specification;
-#                       default will be either black or white, whichever
-#                       contrasts best with the color of the region that
+#                       default will be either black or white, whichever 
+#                       contrasts best with the color of the region that 
 #                       was found by the search
-# -u     undercolor     undercolor for text; any valid IM color
-#                       specification; default=none for transparent so that
+# -u     undercolor     undercolor for text; any valid IM color 
+#                       specification; default=none for transparent so that 
 #                       image coloration shows behind text
-# -o                    outlinecolor for text; any valid IM color
-#                       specification; default=none for transparent so that
-#                       there is effectively no outline; if this is not
-#                       none, then no contrast will be used and the text
+# -o                    outlinecolor for text; any valid IM color 
+#                       specification; default=none for transparent so that 
+#                       there is effectively no outline; if this is not 
+#                       none, then no contrast will be used and the text 
 #                       color will default to white.
 # -w     width          width (thickness) of outline; integer>=0; default=1
-#
-#
+#                           
+# 
 ###
-#
-# NAME: AUTOCAPTION
-#
-# PURPOSE: To place text automatically in a specified square size region that
+# 
+# NAME: AUTOCAPTION 
+# 
+# PURPOSE: To place text automatically in a specified square size region that  
 # has the least color variation throughout the image.
-#
-# DESCRIPTION: AUTOCAPTION places text automatically in a specified square size
-# region that has the least color variation throughout the image. The text will
-# be placed at the first acceptable location found. By default the text will be
-# placed on the image with no undercolor. But an undercolor can be used which
+# 
+# DESCRIPTION: AUTOCAPTION places text automatically in a specified square size 
+# region that has the least color variation throughout the image. The text will 
+# be placed at the first acceptable location found. By default the text will be 
+# placed on the image with no undercolor. But an undercolor can be used which 
 # will cover the underlying image.
-#
-#
-# ARGUMENTS:
-#
-# -s size ... SIZE of square textbox. Also used to find the location in the
-# image that has the least color variation. The text will be placed in multiple
+# 
+# 
+# ARGUMENTS: 
+# 
+# -s size ... SIZE of square textbox. Also used to find the location in the 
+# image that has the least color variation. The text will be placed in multiple 
 # rows as determined by the textbox size.
 #
 # -t text ... TEXT to apply to image. Be sure to enclose in quotes.
-#
-# -b buffer ... BUFFER is the amount of padding around the textbox. Values are
+# 
+# -b buffer ... BUFFER is the amount of padding around the textbox. Values are 
 # integers greater than zero. The default=0.
-#
-# -f font ... FONT is the text font or path to the font file. The default is
+# 
+# -f font ... FONT is the text font or path to the font file. The default is 
 # Arial.
-#
-# -c color ... COLOR is the text color. Any valid IM color specification is
-# allowed. The default will be either black or white, whichever contrasts best
+# 
+# -c color ... COLOR is the text color. Any valid IM color specification is 
+# allowed. The default will be either black or white, whichever contrasts best 
 # with the color of the region that was found by the search.
-#
-# -u undercolor ... UNDERCOLOR is the color to use under the text within the
-# textbox. Any valid IM color specification is allowed. The default=none, which
-# means that the text will be placed over the image without any undercolor. If
+# 
+# -u undercolor ... UNDERCOLOR is the color to use under the text within the 
+# textbox. Any valid IM color specification is allowed. The default=none, which 
+# means that the text will be placed over the image without any undercolor. If 
 # an undercolor is specified, then it will cover the underlying image.
-#
-# -o outlinecolor ... OUTLINECOLOR is the color to use for outline style text.
-# Any valid IM color specification is allowed. The default=none for transparent
-# so that there is effectively no outline. if this is not none (recommend
-# black), then no contrast will be used and the text color will default to
+# 
+# -o outlinecolor ... OUTLINECOLOR is the color to use for outline style text. 
+# Any valid IM color specification is allowed. The default=none for transparent 
+# so that there is effectively no outline. if this is not none (recommend 
+# black), then no contrast will be used and the text color will default to 
 # white.
-#
-# -w width ... WIDTH (thickness) of outline. Values are integers>=0. The
+# 
+# -w width ... WIDTH (thickness) of outline. Values are integers>=0. The 
 # default=1
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 size=""					# size of square match window
@@ -122,13 +122,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -176,7 +176,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*\)'`
@@ -186,14 +186,14 @@ else
 					   ;;
 				-t)    # get  text
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   text="$1"
 					   ;;
 				-b)    # get  buffer
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BUFFER SPECIFICATION ---"
 					   checkMinus "$1"
 					   buffer=`expr "$1" : '\([0-9]*\)'`
@@ -201,35 +201,35 @@ else
 					   ;;
 				-f)    # get  font
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   checkMinus "$1"
 					   font="$1"
 					   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-u)    # get ucolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ucolor="$1"
 					   ;;
 				-o)    # get ocolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ocolor="$1"
 					   ;;
 				-w)    # get owidth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   owidth=`expr "$1" : '\([0-9]*\)'`
@@ -306,15 +306,15 @@ hhc=`convert xc: -format "%[fx:$height-2*$yoff]" info:`
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
 # but we need to use -set colorspace RGB before using them at appropriate times
 # so that results stay as in original script
-# The following was determined from various version tests using autocaption
+# The following was determined from various version tests using autocaption 
 # with IM 6.6.0.10, 6.7.2.10, 6.7.4.10, 6.7.5.5, 6.7.5.9, 6.7.6.10, 6.7.8.6
 # Note: bug in caption: via pango somewhere after 6.7.2.10 and before 6.7.5.9 ?
 # Pango introduced at 6.7.3-3 -- so probably started there
@@ -342,7 +342,7 @@ fi
 # fourth line get square of average
 # fifth line delete temps
 # sixth line get std
-# seventh line get equal average of 3 channels std, then negate
+# seventh line get equal average of 3 channels std, then negate 
 # so best result is largest (white)
 convert $tmpA1 $setcspace \
 	\( -clone 0 -clone 0 -compose multiply -composite -virtual-pixel black -blur ${rad}x65000 \) \
@@ -424,3 +424,6 @@ convert $tmpA1 $tmpA3 -geometry +${xxmp}+${yymp} \
 -composite "$outfile"
 
 exit 0
+
+
+

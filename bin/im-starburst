@@ -4,27 +4,27 @@
 # Concept And Intial Example By Anthony Thyssen  ................ 2/13/2009
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: starburst [-r radius] [-g glow] [-c center] [-k contrast] [-t tcolor] [-b bcolor] [-f fcolor] [-a angle] [-n newseed] [-s size] [infile] outfile
@@ -32,84 +32,84 @@
 #
 # OPTIONS:
 #
-# -r      radius             maximum radius of the starburst pattern;
+# -r      radius             maximum radius of the starburst pattern; 
 #                            integer>0; default is one third the minimum image dimension
 # -g      glow               radius of the inner glow area as percentage of radius;
 #                            integer; 0<=glow<=100; default=50
-# -c      center             center point for the halo; center=cx,cy;
+# -c      center             center point for the halo; center=cx,cy; 
 #                            integer>=0; default is center of image
-# -k      contrast           percent change in contrast for starburst pattern;
+# -k      contrast           percent change in contrast for starburst pattern; 
 #                            values are positive, zero or negative integers; default=0
 # -t      tcolor             tint color for starburst;  Any valid IM color is allowed;
 #                            The default=white
 # -f      fcolor             foreground color for starburst;  Any valid IM color is allowed;
 #                            The default=white
-# -b      bcolor             background color for starburst if no input image is provided;
+# -b      bcolor             background color for starburst if no input image is provided;  
 #                            Any valid IM color is allowed; The default=black
-# -a      angle              clockwise rotation angle for starburst pattern; integer;
+# -a      angle              clockwise rotation angle for starburst pattern; integer; 
 #                            0<=angle<=360; default=0
-# -n      newseed            seed value for random starburst pattern; integer>0;
+# -n      newseed            seed value for random starburst pattern; integer>0; 
 #                            default=different pattern each time
 # -s      size               size of output (WidthxHeight) if no input image provided
 #
 ###
 #
-# NAME: STARBURST
-#
+# NAME: STARBURST 
+# 
 # PURPOSE: To apply a starburst pattern to an image.
-#
-# DESCRIPTION: STARBURST applies a radial starburst pattern to an image a given
-# center, radius and glow amount. The user can also control the coloring,
-# contrast and rotation of the starburst pattern. If no input image is provided
+# 
+# DESCRIPTION: STARBURST applies a radial starburst pattern to an image a given 
+# center, radius and glow amount. The user can also control the coloring,   
+# contrast and rotation of the starburst pattern. If no input image is provided 
 # the script will create an image of the desired size.
+# 
+# 
+# OPTIONS: 
 #
-#
-# OPTIONS:
-#
-# -r radius ... RADIUS is the maximum radius of the starburst pattern. Values are
+# -r radius ... RADIUS is the maximum radius of the starburst pattern. Values are 
 # integers>0. The default is one third of the minimum dimension of the image.
-#
-# -g glow ... GLOW is the radious of inner glow area of the starburst as a
-# percentage of the radius parameter. Values are integers in the range
+# 
+# -g glow ... GLOW is the radious of inner glow area of the starburst as a 
+# percentage of the radius parameter. Values are integers in the range 
 # 0<=glow<=100. The default=50.
-#
-# -c center ... CENTER=cx,cy are the comma separated coordinates in the image
-# determining the center of the halo. Values are integers>=0. The default
+# 
+# -c center ... CENTER=cx,cy are the comma separated coordinates in the image 
+# determining the center of the halo. Values are integers>=0. The default 
 # is the center of the input image or size specified for the output image.
-#
-# -k contrast ... CONTRAST is the percent contrast change for the starburst
+# 
+# -k contrast ... CONTRAST is the percent contrast change for the starburst 
 # pattern. Values are positive or negative integers. The default=0.
-#
-# -t tcolor ... TCOLOR is the tint color for the starburst. The default=white.
+# 
+# -t tcolor ... TCOLOR is the tint color for the starburst. The default=white. 
 # Any valid IM color is allowed. See http://imagemagick.org/script/color.php
-#
-# -f fcolor ... FCOLOR is the foreground color for the starburst. The default=white.
+# 
+# -f fcolor ... FCOLOR is the foreground color for the starburst. The default=white. 
 # Any valid IM color is allowed. See http://imagemagick.org/script/color.php
-#
-# -b bcolor ... BCOLOR is the background color for the starburst when no input
+# 
+# -b bcolor ... BCOLOR is the background color for the starburst when no input 
 # image is provided. The default=black. Any valid IM color is allowed.
 # See http://imagemagick.org/script/color.php
-#
-# -a angle ... ANGLE is the clockwise rotation angle for the starburst
+# 
+# -a angle ... ANGLE is the clockwise rotation angle for the starburst   
 # pattern. Values are integers such that 0<=angle<=360. The default=0.
-#
-# -n newseed ... NEWSEED is the seed value for the random starburst pattern.
+# 
+# -n newseed ... NEWSEED is the seed value for the random starburst pattern. 
 # Values are integers>0. The default is a different pattern each time.
-#
-# -s size ... SIZE is the WIDTHxHEIGHT of the desired output image if no
-# input image is specified. Any value supplied will be ignored if an
+# 
+# -s size ... SIZE is the WIDTHxHEIGHT of the desired output image if no 
+# input image is specified. Any value supplied will be ignored if an 
 # input image is specified.
-#
-# NOTE: The concept and initial example were developed by Anthony Thyssen.
-# See http://www.imagemagick.org/Usage/advanced/#radial_flares. This script
+# 
+# NOTE: The concept and initial example were developed by Anthony Thyssen. 
+# See http://www.imagemagick.org/Usage/advanced/#radial_flares. This script 
 # is an elaboration on Anthony's original example.
-#
+# 
 # NOTE: Requires IM 6.4.2-8 or higher due to the use of -distort polar/depolar.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -134,13 +134,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -188,7 +188,7 @@ else
 					   ;;
 				-r)    # get rad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   rad=`expr "$1" : '\([0-9]*\)'`
@@ -198,7 +198,7 @@ else
 					   ;;
 				-g)    # get glow
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GLOW SPECIFICATION ---"
 					   checkMinus "$1"
 					   glow=`expr "$1" : '\([0-9]*\)'`
@@ -209,7 +209,7 @@ else
 					   ;;
 				-c)    # get center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -222,7 +222,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   test=`echo "$1" | tr "x" " " | wc -w`
@@ -235,7 +235,7 @@ else
 					   ;;
 				-k)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -243,28 +243,28 @@ else
 					   ;;
 				-t)    # get tcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TINT COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   tcolor="$1"
 					   ;;
 				-f)    # get fcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FOREGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   fcolor="$1"
 					   ;;
 				-b)    # get bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-a)    # get angle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   angle=`expr "$1" : '\([0-9]*\)'`
@@ -275,7 +275,7 @@ else
 					   ;;
 				-n)    # get newseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NEWSEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   newseed=`expr "$1" : '\([0-9]*\)'`
@@ -329,9 +329,9 @@ trap "rm -f $tmpA $tmpB $tmp0 $tmp1; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -436,7 +436,7 @@ fi
 # L1: create random values in 1 row
 # L2: rotate/roll as needed and add foreground background color
 # L3: append remaining rows of background color and motion-blur vertically
-# L4: create central glow taper mask, where
+# L4: create central glow taper mask, where 
 # taper has shape of cosine raised to 1.5 power for reasonable rolloff
 # L5: use -compose screen so that will only brighten and not darken
 # L6: convert from polar back to rectangular coords

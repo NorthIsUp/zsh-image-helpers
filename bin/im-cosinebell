@@ -3,78 +3,78 @@
 # Developed by Fred Weinhaus 11/23/2015 .......... 11/23/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: cosinebell [-r rolloff] [-g gravity] [-o offsets]
+# USAGE: cosinebell [-r rolloff] [-g gravity] [-o offsets] 
 # infile1 [infile2] outfile
 # USAGE: cosinebell [-h or -help]
 #
 # OPTIONS:
 #
-# -r     rolloff     rolloff percent (percent distance from the center of the
-#                    image to the image edge where the alpha channel drops to
+# -r     rolloff     rolloff percent (percent distance from the center of the 
+#                    image to the image edge where the alpha channel drops to 
 #                    50% amplitude; 0<=integer<=100; default=30
-# -g     gravity     gravity setting for compositing the smaller image into
-#                    the larger image; any valid IM gravity setting is allowed;
+# -g     gravity     gravity setting for compositing the smaller image into  
+#                    the larger image; any valid IM gravity setting is allowed; 
 #                    default=northwest
-# -o     offsets     x and y offsets relative to the gravity for compositing
-#                    the smaller image into the larger image; geometry-like
+# -o     offsets     x and y offsets relative to the gravity for compositing 
+#                    the smaller image into the larger image; geometry-like 
 #                    values, +-X+-Y in pixels; default=+0+0
 #
-# infile1 is the smaller foreground image and infile2 is the larger
+# infile1 is the smaller foreground image and infile2 is the larger 
 # background image.
 #
 ###
 #
-# NAME: COSINEBELL
-#
-# PURPOSE: Creates a cosine-bell-shaped tapered alpha channel in an image
+# NAME: COSINEBELL 
+# 
+# PURPOSE: Creates a cosine-bell-shaped tapered alpha channel in an image 
 # and optionally blends the image into a background image.
-#
+# 
 # DESCRIPTION: COSINEBELL creates a cosine-bell-shaped tapered alpha channel
 # in an image and optionally blends the image into a background image.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -r rolloff ... ROLLOFF (taper) percent (percent distance from the edge of
-# the image to the image center where the alpha channel drops to 50% amplitude.
+# -r rolloff ... ROLLOFF (taper) percent (percent distance from the edge of 
+# the image to the image center where the alpha channel drops to 50% amplitude. 
 # Values are 0<=integer<=100. Nominal values are 10 to 30. The default=30.
-#
+# 
 # -g gravity ... GRAVITY setting for compositing the smaller image into the
 # larger image. Any valid IM gravity setting is allowed. The default=northwest.
-#
+# 
 # -o offsets ... x and y OFFSETS relative to the gravity for compositing the
-# smaller image into the larger image. These are geometry-like values,
+# smaller image into the larger image. These are geometry-like values, 
 # +-X+-Y in pixels. The default=+0+0
-#
-# The foreground (infile1) must not be larger than the background
+# 
+# The foreground (infile1) must not be larger than the background 
 # image (infile2).
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -90,13 +90,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -144,7 +144,7 @@ else
 					   ;;
 				-r)    # get rolloff
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROLLOFF SPECIFICATION ---"
 					   checkMinus "$1"
 					   rolloff=`expr "$1" : '\([0-9]*\)'`
@@ -154,12 +154,12 @@ else
 					   ;;
 				-g)    # get gravity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   gravity="$1"
 					   gravity=`echo "$gravity" | tr "[:upper:]" "[:lower:]"`
-					   case "$gravity" in
+					   case "$gravity" in 
 					   		northwest) ;;
 					   		north) ;;
 					   		northeast) ;;
@@ -169,12 +169,12 @@ else
 					   		southwest) ;;
 					   		south) ;;
 					   		southeast) ;;
-					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---"
+					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---" 
 					   esac
 					   ;;
 				-o)    # get offsets
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSETS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   offsets=`expr "$1" : '\([+-][0-9]*[+-][0-9]*\)'`
@@ -224,8 +224,8 @@ trap "rm -f $tmpA1 $tmpB1 $tmpA2 $tmpB2; exit 1" ERR
 # test input images
 convert -quiet "$infile1" +repage "$tmpA1" ||
 	errMsg "--- FILE $infile1 DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
-
-if [ "$infile2" != "" ]; then
+	
+if [ "$infile2" != "" ]; then	
 	convert -quiet "$infile2" +repage "$tmpA2" ||
 		errMsg "--- FILE $infile2 DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE ---"
 fi
@@ -233,7 +233,7 @@ fi
 # get image1 and image2 width, height and test the same size
 w1=`convert $tmpA1 -ping -format "%w" info:`
 h1=`convert $tmpA1 -ping -format "%h" info:`
-if [ "$infile2" != "" ]; then
+if [ "$infile2" != "" ]; then	
 	w2=`convert $tmpA2 -ping -format "%w" info:`
 	h2=`convert $tmpA2 -ping -format "%h" info:`
 	[ $w1 -gt $w2 ] && errMsg "--- $infile1 WIDTH IS GREATER THAN $infile2 WIDTH ---"
@@ -244,7 +244,7 @@ fi
 ff=`convert xc: -format "%[fx:$rolloff/100]" info:`
 
 # process image(s)
-if [ "$infile2" = "" ]; then
+if [ "$infile2" = "" ]; then	
 	convert $tmpA1 \
 	\( -clone 0 -crop ${w1}x1+0+0 +repage -fx "0.5*cos(pi*max(0,(1-i/($ff*(w-1)))))+0.5" \
 		-scale ${w1}x${h1}! -write mpr:tmp0 +delete \) \

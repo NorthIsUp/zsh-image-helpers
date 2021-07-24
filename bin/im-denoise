@@ -3,99 +3,99 @@
 # Developed by Fred Weinhaus 4/22/2010 .......... revised 4/29/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: denoise [-m method] [-f filter] [-s subsection] [-n nstd]
+# USAGE: denoise [-m method] [-f filter] [-s subsection] [-n nstd] 
 # [-u unsharp] [-g gain] infile outfile
 # USAGE: denoise [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -m      method            method of filtering; mean or median; default=mean
 # -f      filter            filter size; float>0; default=2
 # -s      subsection        subsection of image to compute noise standard deviation;
 #                           WIDTHxHEIGHT+XOFF+YOFF; default is no subsection
 #                           and get noise standard deviation from nstd argument
-# -n      nstd              noise standard deviation estimate expressed as
-#                           percentage of std value in range 0 to 1;
+# -n      nstd              noise standard deviation estimate expressed as 
+#                           percentage of std value in range 0 to 1; 
 #                           0<=float<=100; default is estimated automatically
 # -u      unsharp           unsharp masking sigma to apply after filtering;
 #                           float>=0; default is no unsharp masking
 # -g      gain              unsharp masking gain to apply after filtering;
 #                           float>=0; default=1
-#
+# 
 ###
-#
-# NAME: DENOISE
-#
+# 
+# NAME: DENOISE 
+# 
 # PURPOSE: To reduces the noise in an image.
-#
+# 
 # DESCRIPTION: DENOISE reduces the noise in an image. It uses the formula:
-# input + gain*(input - mean), where mean is a local mean computed in the
-# neighborhood of each pixel and gain=max(0,(std-nstd)/std), where std is the
-# local standard deviation computed in the neighborhood of each pixel. This is
-# an implementation of the Lee Filter. See Lee, J.S., 1981. Speckle Analysis
+# input + gain*(input - mean), where mean is a local mean computed in the 
+# neighborhood of each pixel and gain=max(0,(std-nstd)/std), where std is the 
+# local standard deviation computed in the neighborhood of each pixel. This is 
+# an implementation of the Lee Filter. See Lee, J.S., 1981. Speckle Analysis 
 # and Smoothing of Synthetic Aperture Radar Images. Computer Graphics and Image
 # Processing, Vol. 17:24-32.
-#
-#
-# ARGUMENTS:
-#
+# 
+# 
+# ARGUMENTS: 
+# 
 # -m method ... METHOD of filtering. Choices are: mean or median. Default=mean.
-#
+# 
 # -f filter ... FILTER size. Values are floats>0. The default=2.
-#
-# -s subsection ... Subsection is a rectangular homogeneous region where the
-# noise standard deviation will be computed if provided. Otherwise, nstd,
-# must be provided. The values are in the form of the usual IM subsection
+# 
+# -s subsection ... Subsection is a rectangular homogeneous region where the 
+# noise standard deviation will be computed if provided. Otherwise, nstd, 
+# must be provided. The values are in the form of the usual IM subsection 
 # expressed as WIDTHxHEIGHT+XOFF+YOFF. The default is no subsection provided.
-#
+# 
 # -n nstd ... NSTD is an estimate of the noise standard deviation in the image
-# expressed as a percentage (100 times std values in the range of 0 to 1). Thus
+# expressed as a percentage (100 times std values in the range of 0 to 1). Thus 
 # values for nstd are 0<=float<=100. The default is estimated automatically.
-#
-# -u unsharp ... UNSHARP masking sigma to apply as a post processing step to
+# 
+# -u unsharp ... UNSHARP masking sigma to apply as a post processing step to 
 # sharpen the image. Values are floats>=0. The default=0 for no unsharp masking.
-#
-# -g gain ... UNSHARP masking gain to apply as a post processing step to
+# 
+# -g gain ... UNSHARP masking gain to apply as a post processing step to 
 # sharpen the image. Values are floats>=0. The default=1.
-#
+# 
 # References:
 # Lee, J.S., 1981. Speckle Analysis and Smoothing of Synthetic Aperture Radar Images. Computer Graphics and Image Processing, Vol. 17:24-32.
 # http://www.isprs.org/proceedings/XXXVI/1-W41/makaleler/Rajabi_Specle_Noise.pdf
 # J. Immerkaer, "Fast Noise Variance Estimation", Comput. Vis. Image Understand., vol. 64, pp. 300-302, Sep. 1996
 # http://www.iaeng.org/IJCS/issues_v37/issue_1/IJCS_37_1_09.pdf
-#
-# NOTE: This script may be a bit slow due to the use of -fx for version of IM
+# 
+# NOTE: This script may be a bit slow due to the use of -fx for version of IM 
 # prior to 6.8.0.5.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 method="mean"           # mean or median
@@ -112,13 +112,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -166,7 +166,7 @@ else
 					   ;;
 		 		-m)    # method
 					   shift  # to get the next parameter - mode
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test mode values
@@ -175,7 +175,7 @@ else
 					   ;;
 				-f)    # get filter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FILTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   filter=`expr "$1" : '\([.0-9]*\)'`
@@ -185,7 +185,7 @@ else
 					   ;;
 				-s)    # get subsection
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SUBSECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   subsection=`expr "$1" : '\([x+0-9]*\)'`
@@ -193,7 +193,7 @@ else
 					   ;;
 				-n)    # get nstd
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NSTD SPECIFICATION ---"
 					   checkMinus "$1"
 					   nstd=`expr "$1" : '\([.0-9]*\)'`
@@ -204,7 +204,7 @@ else
 					   ;;
 				-u)    # get unsharp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UNSHARP SPECIFICATION ---"
 					   checkMinus "$1"
 					   unsharp=`expr "$1" : '\([.0-9]*\)'`
@@ -212,7 +212,7 @@ else
 					   ;;
 				-g)    # get gain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   gain=`expr "$1" : '\([.0-9]*\)'`
@@ -277,7 +277,7 @@ if [ "$nstd" = "" -a "$subsection" = "" ]; then
 	nstd=`convert $tmpI1 -define convolve:scale='!' $biasing \
 		-morphology Convolve Laplacian:3 -solarize 50% -level 0x50% -negate \
 		-format "%[fx:2*(mean/standard_deviation)*sqrt(pi/2)]" info:`
-elif [ "$nstd" = "" -a "$subsection" != "" ]; then
+elif [ "$nstd" = "" -a "$subsection" != "" ]; then	
 	nstd=`convert $tmpI1[$subsection] -format "%[fx:100*standard_deviation]" info:`
 fi
 

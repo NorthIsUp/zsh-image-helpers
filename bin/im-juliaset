@@ -3,104 +3,104 @@
 # Developed by Fred Weinhaus 12/6/2016 .......... revised 12/6/2016
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: juliaset [-d dimensions] [-c constant ][-z zoom] [-m middle]
+# USAGE: juliaset [-d dimensions] [-c constant ][-z zoom] [-m middle] 
 # [-C colors] outfile
 # USAGE: juliaset [-h or -help]
 #
 # OPTIONS:
 #
 # -d     dimensions     WxH of output; integers>0; default="400x400"
-# -c     constant       fixed complex constant, c=(creal+i*cimag) used in
-#                       the julia set expression; comma separate pair:
-#                       "creal,cimag" where creal is the real part and
-#                       cimag is the imaginary part; the absolute value of c,
-#                       |c| = sqrt(realc^2 - imagc^2) <= 2;
+# -c     constant       fixed complex constant, c=(creal+i*cimag) used in 
+#                       the julia set expression; comma separate pair: 
+#                       "creal,cimag" where creal is the real part and 
+#                       cimag is the imaginary part; the absolute value of c, 
+#                       |c| = sqrt(realc^2 - imagc^2) <= 2; 
 #                       default="-0.7,0.27015"
-# -z     zoom           zoom value; float>0; default=1 (nominal size);
+# -z     zoom           zoom value; float>0; default=1 (nominal size); 
 #                       larger values zoom in and smaller values zoom out
-# -m     middle         middle (center) location for pattern; mx,my; comma
-#                       separate pair of integers within the output image;
+# -m     middle         middle (center) location for pattern; mx,my; comma  
+#                       separate pair of integers within the output image;  
 #                       default is W/2,H/2
-# -C     colors         list of colors to make up the color map; at least two
-#                       colors must be provided; the first color will be used
-#                       as the background color; default="white blueviolet
+# -C     colors         list of colors to make up the color map; at least two 
+#                       colors must be provided; the first color will be used 
+#                       as the background color; default="white blueviolet 
 #                       blue cyan green1 yellow orange red"
 ###
 #
 # NAME: JULIASET
-#
+# 
 # PURPOSE: To create a julia set fractal image.
-#
+# 
 # DESCRIPTION: JULIASET creates a julia set fractal image. The fractal is
-# defined in the complex plane by iterating the expression, z^2 + c, where
-# z=(x+i*y), i=sqrt(-1) and c=(creal+i*cimag) is a fixed complex value.
-# The fractal may be zoomed in at any center coordinate within the WxH. The
-# output image is colored by a color map according to the number of iterations
-# needed to converge at each pixel. The background color (first color in the
-# list) represents reaching the maximum number of iterations, which is 255.
-# Otherwise, smaller number correspond more to the left in the color map and
+# defined in the complex plane by iterating the expression, z^2 + c, where 
+# z=(x+i*y), i=sqrt(-1) and c=(creal+i*cimag) is a fixed complex value. 
+# The fractal may be zoomed in at any center coordinate within the WxH. The 
+# output image is colored by a color map according to the number of iterations 
+# needed to converge at each pixel. The background color (first color in the 
+# list) represents reaching the maximum number of iterations, which is 255. 
+# Otherwise, smaller number correspond more to the left in the color map and 
 # larger colors correspond to more to the right in the color map.
-#
-# OPTIONS:
-#
-# -d dimensions ... DIMENSIONS are the width and height of the output image
-# expressed as WxH. Values are integers>0. The default="400x400".
-#
-# -c constant ... CONSTANT is the fixed complex constant in the julia set
-# expression where c=(creal+i*cimag) is expressed as a comma separate pair:
-# "creal,cimag". Here creal is the real part and cimag is the imaginary part.
-# The absolute value of c, |c| = sqrt(realc^2 - imagc^2) <= 2.
+# 
+# OPTIONS: 
+# 
+# -d dimensions ... DIMENSIONS are the width and height of the output image  
+# expressed as WxH. Values are integers>0. The default="400x400". 
+#  
+# -c constant ... CONSTANT is the fixed complex constant in the julia set 
+# expression where c=(creal+i*cimag) is expressed as a comma separate pair: 
+# "creal,cimag". Here creal is the real part and cimag is the imaginary part. 
+# The absolute value of c, |c| = sqrt(realc^2 - imagc^2) <= 2. 
 # The default="-0.7,0.27015"
-#
+# 
 # -z zoom ... ZOOM value. Values are floats>0. The default=1 (nominal size).
 # Larger values zoom in and smaller values zoom out.
-#
-# -m middle ... MIDDLE (center) location for the fractal pattern expressed as
-# comma separated pair of integers, cx,cy, within the WxH. The default is
+# 
+# -m middle ... MIDDLE (center) location for the fractal pattern expressed as  
+# comma separated pair of integers, cx,cy, within the WxH. The default is 
 # W/2,H/2.
-#
-# -C colors ... COLORS is the list of space delimited colors that makes up
-# the horizontal 1D color map. At least two colors must be provided. The
-# default="white blueviolet blue cyan green1 yellow orange red". Any valid
+# 
+# -C colors ... COLORS is the list of space delimited colors that makes up 
+# the horizontal 1D color map. At least two colors must be provided. The 
+# default="white blueviolet blue cyan green1 yellow orange red". Any valid 
 # IM (opaque) colors are allowed.
-#
-# NOTE: this script may be slow due to having to iterate up to 255 times at
-# each pixels. Time run from a couple of seconds up to about 15 seconds for
+# 
+# NOTE: this script may be slow due to having to iterate up to 255 times at 
+# each pixels. Time run from a couple of seconds up to about 15 seconds for 
 # for a 400x400 sized image. The larger the zoom, the slower it will be.
-#
+# 
 # REFERENCES:
 # http://jonisalonen.com/2013/lets-draw-the-mandelbrot-set/
 # https://rosettacode.org/wiki/Julia_set
 # https://en.wikipedia.org/wiki/Julia_set
 # http://lodev.org/cgtutor/juliamandelbrot.html
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -123,13 +123,13 @@ trap "rm -f $tmpL; exit 1" 1 2 3 15
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -177,7 +177,7 @@ else
 					   ;;
 				-d)    # dimensions
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSIONS SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimensions=`expr "$1" : '\([0-9]*x[0-9]*\)'`
@@ -185,7 +185,7 @@ else
 					   ;;
 				-c)    # constant
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CONSTANT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   constant=`expr "$1" : '\([-.0-9]*,[-.0-9]*\)'`
@@ -193,7 +193,7 @@ else
 					   ;;
 				-z)    # zoom
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ZOOM SPECIFICATION ---"
 					   checkMinus "$1"
 					   zoom=`expr "$1" : '\([.0-9]*\)'`
@@ -203,7 +203,7 @@ else
 					   ;;
 				-m)    # middle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIDDLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   middle=`expr "$1" : '\([0-9]*,[0-9]*\)'`
@@ -211,7 +211,7 @@ else
 					   ;;
 				-C)    # colors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors="$1"
@@ -286,13 +286,13 @@ wd2=width/2;
 ht2=height/2;
 xbias=(wd2-xoff)/(wd2/2);
 ybias=(ht2-yoff)/(ht2/2);
-if (width>height)
-    {
+if (width>height) 
+    { 
     aspectw = (width/height);
     aspecth = 1;
     }
 else if (height>width)
-	{
+	{ 
 	aspectw = 1;
     aspecth = (height/width);
     }

@@ -1,114 +1,114 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 8/11/2017 .......... revised 10/15/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: pano2fisheye [-p projection] [-v viewtype] [-d dimension] [-b bgcolor]
+# USAGE: pano2fisheye [-p projection] [-v viewtype] [-d dimension] [-b bgcolor] 
 # [-f fade] [-s smooth] [-n newseed] infile outfile
 # USAGE: pano2fisheye [-h or -help]
 #
 # OPTIONS:
-#
+# 
 # -p     projection     fisheye projection type: choices are linear, stereographic, or
 #                       orthographic; default=linear
-# -v     viewtype       type of view; choices are: planet or manhole; planet is a view
-#                       looking down from the sky; manhole is a view from the ground up;
+# -v     viewtype       type of view; choices are: planet or manhole; planet is a view 
+#                       looking down from the sky; manhole is a view from the ground up; 
 #                       default=planet
-# -d     dimension      square dimension of output; integer>0; default is the height
+# -d     dimension      square dimension of output; integer>0; default is the height 
 #                       of the input
-# -b     bgcolor        bgcolor is the color for the area outside the
-#                       circle of the fisheye area; any valid IM color is permitted or
-#                       the special name of "stars" to create a black background with
-#                       random point star field; use none to make the background
+# -b     bgcolor        bgcolor is the color for the area outside the 
+#                       circle of the fisheye area; any valid IM color is permitted or 
+#                       the special name of "stars" to create a black background with 
+#                       random point star field; use none to make the background 
 #                       transparent; default=white
-# -f     fade           amount of fade in pixels between the image and background color
-#                       at the top of the image for viewtype=planet; integer>=0;
+# -f     fade           amount of fade in pixels between the image and background color 
+#                       at the top of the image for viewtype=planet; integer>=0; 
 #                       default=0
-# -s     smooth         amount of smoothing for antialiasing when bgcolor=none;
+# -s     smooth         amount of smoothing for antialiasing when bgcolor=none; 
 #                       float>=0; default=0
 # -n     newseed        random seed for creating the star field when bgcolor=stars
-#
+# 
 ###
-#
-# NAME: PANO2FISHEYE
-#
+# 
+# NAME: PANO2FISHEYE 
+# 
 # PURPOSE: To transforms a spherical panorama to a fisheye view.
-#
-# DESCRIPTION: FISHEYE is designed to transform a spherical (equirectangular) panorama
-# to a fisheye view. There are 3 choices for the fisheye format: linear, stereographics
-# and orthographic. The spherical (equirectangular) panorama's pixels represent
-# x=longitude and y=latitude. That is, both x and y are angular units. Longitude
+# 
+# DESCRIPTION: FISHEYE is designed to transform a spherical (equirectangular) panorama 
+# to a fisheye view. There are 3 choices for the fisheye format: linear, stereographics 
+# and orthographic. The spherical (equirectangular) panorama's pixels represent 
+# x=longitude and y=latitude. That is, both x and y are angular units. Longitude 
 # corresponds to 360 degree range. Thus the left and right sides must wrap contiguously.
-# Thus a width to height aspect of 2:1. An image can be faked by cropping to w/h aspect
-# of 2:1 (width is twice the height), then mirroring it horizontally, appending
+# Thus a width to height aspect of 2:1. An image can be faked by cropping to w/h aspect 
+# of 2:1 (width is twice the height), then mirroring it horizontally, appending 
 # horizontally, then cropping the center half and rolling it horizontally 50%.
-#
-#
-# ARGUMENTS:
-#
-# -p projection ... PROJECTION is the fisheye projection type. Choices are linear (l),
+# 
+# 
+# ARGUMENTS: 
+# 
+# -p projection ... PROJECTION is the fisheye projection type. Choices are linear (l), 
 # stereographic (s), or orthographic (o). The default=linear.
-#
-# -v viewtype ... VIEWTYPE is the type of view. Choices are: planet (p) or manhole (m).
-# The choice of planet is a view looking down from the sky. The choice of manhole is a
+# 
+# -v viewtype ... VIEWTYPE is the type of view. Choices are: planet (p) or manhole (m). 
+# The choice of planet is a view looking down from the sky. The choice of manhole is a 
 # view from the ground up. The default=planet.
-#
-# -d dimension ... DIMENSION is the square dimension of output image. Values are
+# 
+# -d dimension ... DIMENSION is the square dimension of output image. Values are 
 #  integers>0. The default is the height of the input.
-#
-# -b bgcolor ... BGCOLOR is the color for the area outside the circle of the fisheye
-# region. Any valid IM color is permitted or the special name of "stars" to create
-# a black background with random point star field. Use "none" to make the background
+# 
+# -b bgcolor ... BGCOLOR is the color for the area outside the circle of the fisheye 
+# region. Any valid IM color is permitted or the special name of "stars" to create 
+# a black background with random point star field. Use "none" to make the background 
 # transparent. The default=white.
-#
-# -f fade ... FADE is the amount of fade in pixels between the top of the input image
-# and background color for viewtype=planet. This is a preprocessing step so that
-# the outside of the fisheye circular region will fade to the background color.
+# 
+# -f fade ... FADE is the amount of fade in pixels between the top of the input image 
+# and background color for viewtype=planet. This is a preprocessing step so that 
+# the outside of the fisheye circular region will fade to the background color. 
 # Values are integers>=0. The default=0.
-#
-# -s smooth ... SMOOTH is the amount of smoothing for antialiasing when bgcolor=none or
+# 
+# -s smooth ... SMOOTH is the amount of smoothing for antialiasing when bgcolor=none or 
 # stars. Values are float>=0. The default=0.
-#
-# -n newseed .. .NEWSEED is the random seed for creating the star field when
-# bgcolor=stars. Values are integers>=0. The default is totally random star placement
+# 
+# -n newseed .. .NEWSEED is the random seed for creating the star field when 
+# bgcolor=stars. Values are integers>=0. The default is totally random star placement 
 # from run-to-run.
-#
+# 
 # REFERENCES:
 # http://en.wikipedia.org/wiki/Fisheye_lens
 # http://www.bobatkins.com/photography/technical/field_of_view.html
 # http://www.photographymad.com/pages/view/little-planet-photos-5-simple-steps-to-making-panorama-worlds
-#
+# 
 # NOTE: This script will be slow due to the use of -fx.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 projection="linear"			# linear, stereographic, orthographic
@@ -118,7 +118,7 @@ bgcolor="white"				# background color outside fisheye circle
 fade=0						# fade height (fade at top to bgcolor); integer>=0
 smooth=0					# smoothing for antialiasing if bgcolor=none or stars; float>=0
 newseed=""					# seed for random stars; integer>=0
-
+ 
 
 # set directory for temporary files
 dir="."    # suggestions are dir="." or dir="/tmp"
@@ -127,13 +127,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -181,7 +181,7 @@ else
 					   ;;
 				-p)    # get  projection
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PROJECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   projection=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -189,24 +189,24 @@ else
 						 linear|l)			projection="linear";;
 						 stereographic|s)	projection="stereographic";;
 						 orthographic|o)		projection="orthographic";;
-					   	 *) errMsg "--- PROJECTION=$projection IS AN INVALID VALUE ---"
+					   	 *) errMsg "--- PROJECTION=$projection IS AN INVALID VALUE ---" 
 					   esac
 					   ;;
 				-v)    # get  viewtype
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VIEWTYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   viewtype=`echo "$1" | tr "[:upper:]" "[:lower:]"`
 					   case "$1" in
 						 planet|p)	viewtype="planet";;
 						 manhole|m)	viewtype="manhole";;
-					   	 *) errMsg "--- VIEWTYPE=$viewtype IS AN INVALID VALUE ---"
+					   	 *) errMsg "--- VIEWTYPE=$viewtype IS AN INVALID VALUE ---" 
 					   esac
 					   ;;
 				-d)    # get dimension
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimension=`expr "$1" : '\([0-9]*\)'`
@@ -216,14 +216,14 @@ else
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-f)    # get fade
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FADE SPECIFICATION ---"
 					   checkMinus "$1"
 					   fade=`expr "$1" : '\([0-9]*\)'`
@@ -231,7 +231,7 @@ else
 					   ;;
 				-s)    # get smooth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMOOTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   smooth=`expr "$1" : '\([.0-9]*\)'`
@@ -239,7 +239,7 @@ else
 					   ;;
 				-n)    # get newseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NEWSEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   newseed=`expr "$1" : '\([0-9]*\)'`
@@ -291,7 +291,7 @@ if [ ! -f "$infile" -a ! -r "$infile" -a ! -s "$infile" ]; then
 fi
 
 # set up viewing
-# could use -roll +50%+0% for IM 6.9.9.0 or higher, but before IM 7.
+# could use -roll +50%+0% for IM 6.9.9.0 or higher, but before IM 7. 
 # or im 7.0.6.1 or higher.
 # too many conditionals to deal with now.
 if [ "$viewtype" = "manhole" ]; then
@@ -389,7 +389,7 @@ fi
 
 # compute destination radius and theta angle
 if [ "$im_version" -ge "06030600" ]
-	then
+	then 
 	rd="rd=hypot(xd,yd);"
 else
 	rd="rd=sqrt(xd^2+yd^2);"
@@ -417,7 +417,7 @@ xs="xs=$ww2+theta*$px_per_theta;"
 ys="ys=$hh-phiang*$px_per_phi;"
 
 # set up tproc (for transparency) and smoothing
-if [ "$bgcolor" = "none" -o "$bgcolor" = "transparent" -o "$bgcolor" = "stars" ]; then
+if [ "$bgcolor" = "none" -o "$bgcolor" = "transparent" -o "$bgcolor" = "stars" ]; then 
 	tproc="-alpha on -channel rgba"
 	if [ "$smooth" != "0" ]; then
 		smoothing="-alpha on -channel a -blur 0x$smooth -level 50x100% +channel"
@@ -443,3 +443,9 @@ else
 		"$outfile"
 fi
 exit 0
+
+
+
+
+
+

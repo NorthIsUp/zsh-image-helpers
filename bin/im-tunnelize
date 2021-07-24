@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/8/2008 .......... revised 4/3/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: tunnelize [-m mode] infile outfile
@@ -35,27 +35,27 @@
 #
 ###
 #
-# NAME: TUNNELIZE
-#
+# NAME: TUNNELIZE 
+# 
 # PURPOSE: To create a tunnel-like effect on an image.
-#
-# DESCRIPTION: TUNNELIZE creates a tunnel-like effect on an image
+# 
+# DESCRIPTION: TUNNELIZE creates a tunnel-like effect on an image 
 # by swapping polar for cartesian coordinates.
-#
-# OPTIONS:
-#
-# -m mode ... MODE is either 1 or 2. Mode=1 swaps angle for x and
+# 
+# OPTIONS: 
+# 
+# -m mode ... MODE is either 1 or 2. Mode=1 swaps angle for x and 
 # radius for y. Mode=2 swaps radius for x and angle for y.
 #
-# NOTE: This script may run rather slowly as it uses -fx. A similar
+# NOTE: This script may run rather slowly as it uses -fx. A similar 
 # effect to mode=1 can be achieved using -distort arc "360 90 size 0",
-# where size is in the range of half one or the other dimensions of the
+# where size is in the range of half one or the other dimensions of the 
 # image or as large as the half diagonal of the image.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -69,13 +69,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -123,7 +123,7 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter - scale
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"

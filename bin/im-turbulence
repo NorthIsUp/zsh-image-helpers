@@ -1,92 +1,92 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 10/26/2017 .......... revised 10/26/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: turbulence [-m method] [-d distance] [-s smooth] [-c channels] [-v vpmethod]
+# USAGE: turbulence [-m method] [-d distance] [-s smooth] [-c channels] [-v vpmethod] 
 # [-b bgcolor] infile outfile
 # USAGE: turbulence [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -m     method       method of turbulence warping; choices are: displace or distort;
+# 
+# -m     method       method of turbulence warping; choices are: displace or distort; 
 #                     default=displace
-# -d     distance     distance amount for turbulence warping; comma separate pair of
+# -d     distance     distance amount for turbulence warping; comma separate pair of 
 #                     integer>=0; for x and y distiance; default=20
 # -s     smooth       smoothing amount of turbulence warping; integer>=0; default=20
-# -c     channels     channel processing; choices are: together or separate;
+# -c     channels     channel processing; choices are: together or separate; 
 #                     default=together
-# -v     vpmethod     virtual pixel method; any valid IM virtual-pixel method may be
+# -v     vpmethod     virtual pixel method; any valid IM virtual-pixel method may be 
 #                     specified; default=mirror
-# -b     bgcolor      background color when virtual pixel method is background;
+# -b     bgcolor      background color when virtual pixel method is background; 
 #                     any valid IM color may be specified; default=black
-#
+# 
 ###
-#
+# 
 # NAME: TURBULENCE
-#
+#  
 # PURPOSE: To apply a turbulence-like warping of the image.
-#
-# DESCRIPTION: TURBULENCE applies a turbulence-like warping of the image. The warping
-# is done via a displacement/distortion mapping from an edge extracted version of the
-# input image. Using channels=together will warp all channels the same. Using
+# 
+# DESCRIPTION: TURBULENCE applies a turbulence-like warping of the image. The warping 
+# is done via a displacement/distortion mapping from an edge extracted version of the 
+# input image. Using channels=together will warp all channels the same. Using 
 # channels=separate will warp each channel separately.
-#
-#
-# Arguments:
-#
-# -m method ... METHOD of turbulence warping. The choices are: displace or distort.
+# 
+# 
+# Arguments: 
+# 
+# -m method ... METHOD of turbulence warping. The choices are: displace or distort.  
 # The default=displace.
-#
-# -d distance ... DISTANCE amounts for x and y turbulence warping. Values are a comma
-# separated pair of integers>=0. If only one value is supplied, then it will be use
+# 
+# -d distance ... DISTANCE amounts for x and y turbulence warping. Values are a comma 
+# separated pair of integers>=0. If only one value is supplied, then it will be use 
 # for both x and y distances. The default=20.
-#
-# -s smooth ... SMOOTH is the smoothing amount of turbulence warping. Values are
+# 
+# -s smooth ... SMOOTH is the smoothing amount of turbulence warping. Values are 
 # integers>=0. The default=20.
-#
-# -c channels ... CHANNELS is the channel processing technique. The choices are:
+# 
+# -c channels ... CHANNELS is the channel processing technique. The choices are: 
 # together (t) or separate (s). The default=together.
-#
-# -v vpmethod ... VPMETHOD is the virtual pixel method. Any valid IM virtual-pixel
+# 
+# -v vpmethod ... VPMETHOD is the virtual pixel method. Any valid IM virtual-pixel 
 # method may be specified. The default=mirror.
-#
-# -b bgcolor ... BGCOLOR is the background color when virtual pixel method is
+# 
+# -b bgcolor ... BGCOLOR is the background color when virtual pixel method is 
 # background. Any valid IM color may be specified. The default=black.
-#
+# 
 # REQUIREMENTS: IM 6.5.3-5 or higher when using method=distort.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
-# set default values;
+# set default values; 
 method="displace"		# displace or distort
 distance=20		# distance of shift
 smooth=20				# smoothing of distortion
@@ -101,13 +101,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -152,7 +152,7 @@ else
 				   ;;
 			-m)    # method
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 				   checkMinus "$1"
 				   method=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -164,7 +164,7 @@ else
 				   ;;
 			-d)    # get distance
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID DISTANCE SPECIFICATION ---"
 				   checkMinus "$1"
 				   distance=`expr "$1" : '\([0-9]*,*[0-9]*\)'`
@@ -172,7 +172,7 @@ else
 				   ;;
 			-s)    # get smooth
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SMOOTH SPECIFICATION ---"
 				   checkMinus "$1"
 				   smooth=`expr "$1" : '\([0-9]*\)'`
@@ -180,7 +180,7 @@ else
 				   ;;
 			-c)    # channels
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID CHANNELS SPECIFICATION ---"
 				   checkMinus "$1"
 				   channels=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -192,14 +192,14 @@ else
 				   ;;
 			-v)    # vpmethod
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID VPMETHOD SPECIFICATION ---"
 				   checkMinus "$1"
 				   vpmethod=$1
 				   ;;
 			-b)    # bgcolor
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 				   checkMinus "$1"
 				   bgcolor=$1
@@ -268,3 +268,9 @@ fi
 
 
 exit 0
+
+
+
+
+
+

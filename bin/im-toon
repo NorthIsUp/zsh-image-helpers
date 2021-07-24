@@ -3,30 +3,30 @@
 # Developed by Fred Weinhaus 11/2/2015 .......... revised 6/21/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: toon [-m method] [-g gain] [-c compose] [-b blur] [-s saturation]
+# USAGE: toon [-m method] [-g gain] [-c compose] [-b blur] [-s saturation] 
 # [-B brightness] [-S smoothing] infile outfile
 # USAGE: toon [-help]
 #
@@ -38,46 +38,46 @@
 # -b     blur           blur amount for method=2; float>=0; default=5
 # -s     saturation     color saturation; integer>=0; default=100 (no change)
 # -B     brightness     brightness; integer>=0; default=100 (no change)
-# -S     smoothing      smoothing; 0<=integer<=100; default=0 for method=1
+# -S     smoothing      smoothing; 0<=integer<=100; default=0 for method=1  
 #                       and default=30 for method=2
 #
 ###
 #
-# NAME: TOON
-#
+# NAME: TOON 
+# 
 # PURPOSE: To apply a cartoon-like effect to an image.
-#
+# 
 # DESCRIPTION: TOON applies a cartoon-like effect to an image.
-#
-# OPTIONS:
-#
-# -g  gain ... GAIN is the edge gain (i.e. strength or intensity).
+# 
+# OPTIONS: 
+# 
+# -g  gain ... GAIN is the edge gain (i.e. strength or intensity). 
 # Values are floats>=0. The default=5.
-#
+# 
 # -m method ... METHOD. The choices are: 1 or 2. The default=1.
-#
-# -c compose ... optional COMPOSE type for method=1. The choices are:
-# overlay, multiply, bumpmap, hardlight, softlight, pegtoplight, pinlight,
+# 
+# -c compose ... optional COMPOSE type for method=1. The choices are: 
+# overlay, multiply, bumpmap, hardlight, softlight, pegtoplight, pinlight, 
 # linearlight, vividlight, linearburn, colorburn. The default is no compose.
-#
+# 
 # -b blur ... BLUR amount for method=2. Values are floats>=0. The default=5.
-#
-# -s saturation ... color SATURATION. Values are integers>=0. The default=100
+# 
+# -s saturation ... color SATURATION. Values are integers>=0. The default=100 
 # (no change). 0 is grayscale and 200 is twice the saturation
-#
-# -B brightness ... BRIGHTNESS. Values are integers>=0. The default=100
+# 
+# -B brightness ... BRIGHTNESS. Values are integers>=0. The default=100 
 # (no change).
-#
-# -S smoothing ... SMOOTHING. Values are 0<=integer<=100. The default=0 for
+# 
+# -S smoothing ... SMOOTHING. Values are 0<=integer<=100. The default=0 for 
 # method=1 and the default=30 for method=2.
-#
-# REQUIREMENTS: IM 6.6.2.2 due to the use of rotated kernels in -morphology
+# 
+# REQUIREMENTS: IM 6.6.2.2 due to the use of rotated kernels in -morphology 
 # convolve.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -96,13 +96,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -150,11 +150,11 @@ else
 					   ;;
 				-m)    # get  method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$method" in
+					   case "$method" in 
 					   		1) ;;
 					   		2) ;;
 					   		*) errMsg "--- METHOD=$method IS AN INVALID VALUE ---"  ;;
@@ -162,7 +162,7 @@ else
 					   ;;
 				-g)    # get gain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   gain=`expr "$1" : '\([.0-9]*\)'`
@@ -170,7 +170,7 @@ else
 					   ;;
 				-b)    # get blur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   blur=`expr "$1" : '\([.0-9]*\)'`
@@ -178,11 +178,11 @@ else
 					   ;;
 				-c)    # get  compose
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COMPOSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   compose=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$compose" in
+					   case "$compose" in 
 					   		overlay) ;;
 					   		multiply) ;;
 					   		bumpmap) ;;
@@ -199,7 +199,7 @@ else
 					   ;;
 				-s)    # get saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   saturation=`expr "$1" : '\([0-9]*\)'`
@@ -207,7 +207,7 @@ else
 					   ;;
 				-B)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   brightness=`expr "$1" : '\([0-9]*\)'`
@@ -215,7 +215,7 @@ else
 					   ;;
 				-S)    # get smoothing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMOOTHING SPECIFICATION ---"
 					   checkMinus "$1"
 					   smoothing=`expr "$1" : '\([0-9]*\)'`
@@ -282,7 +282,7 @@ fi
 
 # set up for -sigmoidal-contrast depending upon version
 # below 6.7.9.5, it would make a black result if value was 0, so use value of 1
-# alternate is to just disable sigmoidal contrast setting contrasting="" if
+# alternate is to just disable sigmoidal contrast setting contrasting="" if 
 # smoothing=0; otherwise contrasting="-sigmoidal-contrast $smoothing"
 test=`convert xc: -format "%[fx:($smoothing<0.0001)?1:0]" info:`
 if [ "$im_version" -lt "06070905" -a $method -eq 1 -a $test -eq 1 ]; then

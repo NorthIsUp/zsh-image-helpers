@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/4/2008 .......... revised 1/29/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: 3Dtext -t "some text" [-f fontname] [-p pointsize] [-i italic] [-c text-color] [-u under-color] [-b border-color] [-o outline-color] [-l lineweight] [x extrude-color] [-a amount] [-d direction] outfile
@@ -42,75 +42,75 @@
 # -s      border-size           size of border in pixels; integer>=0; default=5
 # -o      outline-color			color of outline; any IM color specification; default=black
 # -l      lineweight			line thickness for outline in pixels; float>=0; default=0
-# -x	  extrude-color         color of 3D extrusion effect; any IM color specification;
+# -x	  extrude-color         color of 3D extrusion effect; any IM color specification; 
 #                               default=gray
 # -a      amount				3D extrude amount in pixels; integer>0; default=8
-# -d      direction             3D extrude direction; northwest, north, northeast, east,
+# -d      direction             3D extrude direction; northwest, north, northeast, east, 
 #                               southeast, south, southwest, west; default=northwest
-#
+# 
 ###
 #
-# NAME: 3DTEXT
-#
+# NAME: 3DTEXT 
+# 
 # PURPOSE: To convert text into an image with a 3D extrusion effect.
-#
-# DESCRIPTION: 3DTEXT converts text into an image with a 3D extrusion effect.
+# 
+# DESCRIPTION: 3DTEXT converts text into an image with a 3D extrusion effect. 
 # The use can control various colors and the extrusion amount and direction.
-#
-# ARGUMENTS:
-#
-# -t "some text" ... The text to apply some effect, style and/or color and convert
+# 
+# ARGUMENTS: 
+# 
+# -t "some text" ... The text to apply some effect, style and/or color and convert 
 # to an image. Required parameter. Be sure to enclose in double quotes.
 #
-# -f fontname ... FONTNAME is the desired font for the text. Use a bold/italics font if
-# you want the text to be bold/italics or use the italic option. The default
+# -f fontname ... FONTNAME is the desired font for the text. Use a bold/italics font if 
+# you want the text to be bold/italics or use the italic option. The default 
 # is Arial.
 #
-# -p pointsize ... POINTSIZE is the desired pointsize for the font. The output
-# image will be generated to the size consistent with this pointsize and any
+# -p pointsize ... POINTSIZE is the desired pointsize for the font. The output 
+# image will be generated to the size consistent with this pointsize and any 
 # padding you apply. The default is 48.
-#
-# -i italic ... ITALIC is the font slant angle in degrees which creates an italic effect.
+# 
+# -i italic ... ITALIC is the font slant angle in degrees which creates an italic effect. 
 # Values are floats between -45 and 45. The default=0.
-#
-# -c text-color ... TEXT-COLOR is the color to apply to the text. Any valid IM
-# text color may be used. The default is navy.
+# 
+# -c text-color ... TEXT-COLOR is the color to apply to the text. Any valid IM 
+# text color may be used. The default is navy. 
 # See http://imagemagick.org/script/color.php
-#
-# -u under-color ... UNDER-COLOR is the color to apply directly under the text, but
-# separate from the border padding. Any valid IM text color may be used.
+# 
+# -u under-color ... UNDER-COLOR is the color to apply directly under the text, but  
+# separate from the border padding. Any valid IM text color may be used. 
 # The default is white. See http://imagemagick.org/script/color.php
-#
-# -b border-color ... BORDER-COLOR is the color to apply to the border padding.
-# Any valid IM text color may be used. The default is white.
+# 
+# -b border-color ... BORDER-COLOR is the color to apply to the border padding. 
+# Any valid IM text color may be used. The default is white. 
 # See http://imagemagick.org/script/color.php
-#
-# -s border-size ... BORDER-SIZE is the amount of border padding in pixels. The
+# 
+# -s border-size ... BORDER-SIZE is the amount of border padding in pixels. The 
 # default=5
-#
-# -o outline-color ... OUTLINE-COLOR is the color to apply to the text border or
-# outline. Any valid IM text color may be used. The default is black.
+# 
+# -o outline-color ... OUTLINE-COLOR is the color to apply to the text border or 
+# outline. Any valid IM text color may be used. The default is black. 
 # See http://imagemagick.org/script/color.php
-#
-# -l lineweight ... LINEWEIGHT is the outline thickness in pixels. Values may be
+# 
+# -l lineweight ... LINEWEIGHT is the outline thickness in pixels. Values may be 
 # floats greater than or equal to 0. The default=0, indicates no outline.
-#
-# -x extrude-color ... EXTRUDE-COLOR is the color to apply to the extrusion 3D effect.
-# Any valid IM text color may be used. The default is gray. Use a very light or very
+# 
+# -x extrude-color ... EXTRUDE-COLOR is the color to apply to the extrusion 3D effect. 
+# Any valid IM text color may be used. The default is gray. Use a very light or very 
 # dark gray (or color), depending upon direction to simulate shade-like lighting.
 # See http://imagemagick.org/script/color.php
 #
-# -a amount ... AMOUNT is the extrude amount to use to create the 3D effect.
+# -a amount ... AMOUNT is the extrude amount to use to create the 3D effect. 
 # Values are integers>0. The default=8.
-#
+# 
 # -d direction ... DIRECTION is the extrude direction to use to create the 3D effect.
-# Choices are: northwest, north, northeast, east, southeast, south, southwest, west.
+# Choices are: northwest, north, northeast, east, southeast, south, southwest, west. 
 # The default=northwest.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -136,13 +136,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -190,14 +190,14 @@ else
 					   ;;
 				-f)    # get  fontname
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONTNAME SPECIFICATION ---"
 					   checkMinus "$1"
 					   fontname="$1"
 					   ;;
 				-p)    # get pointsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POINTSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   psize=`expr "$1" : '\([0-9]*\)'`
@@ -207,7 +207,7 @@ else
 					   ;;
 				-i)    # get italic slant
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID ITALIC SPECIFICATION ---"
 					   #checkMinus "$1"
 					   italic=`expr "$1" : '\([.0-9\-]*\)'`
@@ -218,21 +218,21 @@ else
 					   ;;
 				-c)    # get  text-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEXT-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   tcolor="$1"
 					   ;;
 				-o)    # get  outline-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OUTLINE-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ocolor="$1"
 					   ;;
 				-l)    # get lineweight
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LINEWEIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   linewt=`expr "$1" : '\([.0-9]*\)'`
@@ -240,14 +240,14 @@ else
 					   ;;
 				-b)    # get  border-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDER-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-s)    # get border size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDER SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   bsize=`expr "$1" : '\([0-9]*\)'`
@@ -255,21 +255,21 @@ else
 					   ;;
 				-u)    # get  under-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UNDER-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ucolor="$1"
 					   ;;
 				-x)    # get  extrude-color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXTRUDE-COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   xcolor="$1"
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([0-9]*\)'`
@@ -279,11 +279,11 @@ else
 					   ;;
 				-d)    # get  direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   xdir=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$xdir" in
+					   case "$xdir" in 
 					   		northwest) ;;
 					   		north) ;;
 					   		northeast) ;;
@@ -292,12 +292,12 @@ else
 					   		south) ;;
 					   		southwest) ;;
 					   		west) ;;
-					   		*) errMsg "--- DIRECTION=$xdir IS AN INVALID VALUE ---"
+					   		*) errMsg "--- DIRECTION=$xdir IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 		   		-t)	   # get text
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TEXT SPECIFICATION ---"
 					   checkMinus "$1"
 			   		   text="$1"
@@ -345,7 +345,7 @@ i=0
 txtcmd=""
 while [ $i -lt $amount ]; do
 	# accumulate -annotate commands
-	# note single quotes around text required for each annotate (when text is more than one word)
+	# note single quotes around text required for each annotate (when text is more than one word) 
 	txtcmd="$txtcmd -fill \"$xcolor\" -gravity center -annotate 0x$italic+$xx+$yy '$text'"
 
 	# increment offsets depending upon the extrude direction
@@ -392,3 +392,13 @@ eval 'convert -size "$dim" xc:"$ucolor" \
 	-trim -bordercolor "$bcolor" -border "$bsize" +repage \
 	"$outfile"'
 exit 0
+
+
+
+
+
+
+
+
+
+

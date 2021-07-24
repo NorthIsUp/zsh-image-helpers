@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus revised 6/9/2012 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: splitcrop [-x xcoord] [-y ycoord] [-L] infile [outfile]
@@ -31,46 +31,46 @@
 #
 # OPTIONS:
 #
-# -x     xcoord     x coordinate for split; 0<integer<width; default=center
+# -x     xcoord     x coordinate for split; 0<integer<width; default=center 
 # -y     xcoord     y coordinate for split; 0<integer<height; default=center
 # -L                list crop dimensions and offsets to the terminal
-#
-# Note, the output images will be named automatically from the outfile name and
-# suffix.  Two or four of the following: _left, _right, _top, _bottom,
+# 
+# Note, the output images will be named automatically from the outfile name and 
+# suffix.  Two or four of the following: _left, _right, _top, _bottom, 
 # _topleft, _topright, _bottomleft, _bottomright will be appended before the
-# suffix. If no outfile is provided, then the infile name and suffix will be
+# suffix. If no outfile is provided, then the infile name and suffix will be 
 # used for the output.
-#
+# 
 ###
 #
-# NAME: SPLITCROP
-#
+# NAME: SPLITCROP 
+# 
 # PURPOSE: To crop an image into two or four sections according to the given
 # x,y coordinates.
-#
-# DESCRIPTION: SPLITCROP crops an image into two or four sections according to
-# the given x,y coordinates. One or both of the x,y coordinates may be
-# specified. If one coordinate is specified, then the image will be split into
-# two parts. If two coordinate are specified, then the image will be split both
-# ways into four parts. Note that these are coordinates and not sizes. The top,
-# left or topleft section will include the coordinate specified. The size of
-# the split will be the coordinate plus 1. If the image dimension is odd,
+# 
+# DESCRIPTION: SPLITCROP crops an image into two or four sections according to 
+# the given x,y coordinates. One or both of the x,y coordinates may be 
+# specified. If one coordinate is specified, then the image will be split into 
+# two parts. If two coordinate are specified, then the image will be split both 
+# ways into four parts. Note that these are coordinates and not sizes. The top, 
+# left or topleft section will include the coordinate specified. The size of 
+# the split will be the coordinate plus 1. If the image dimension is odd, 
 # then the top, left or topleft will contain the extra pixel(s).
-#
-# OPTIONS:
-#
-# -x xcoord ... XCOORD is the x coordinate for the split. Values are
+# 
+# OPTIONS: 
+# 
+# -x xcoord ... XCOORD is the x coordinate for the split. Values are 
 # 0<integers<width. The default=center of image
-#
-# -y ycoord ... YCOORD is the y coordinate for the split. Values are
+# 
+# -y ycoord ... YCOORD is the y coordinate for the split. Values are 
 # 0<integers<height. The default=center of image
-#
+# 
 # -L ... LIST crop dimensions and offsets to the terminal
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -86,13 +86,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -141,7 +141,7 @@ else
 					   ;;
 				-x)    # get xcoord
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID XCOORD SPECIFICATION ---"
 					   checkMinus "$1"
 					   xcoord=`expr "$1" : '\([0-9]*\)'`
@@ -149,7 +149,7 @@ else
 					   ;;
 				-y)    # get ycoord
 					   shift  # to get the neyt parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID YCOORD SPECIFICATION ---"
 					   checkMinus "$1"
 					   ycoord=`expr "$1" : '\([0-9]*\)'`
@@ -266,3 +266,15 @@ elif [ "$y" != "" ]; then
 fi
 
 exit 0
+
+
+
+
+
+
+
+
+
+
+
+

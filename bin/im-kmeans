@@ -3,30 +3,30 @@
 # Developed by Fred Weinhaus 6/25/2014 .......... revised 7/20/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: kmeans [-n numcolors] [-s seedcolors] [-m maxiters] [-c convergence] [-a area]
+# USAGE: kmeans [-n numcolors] [-s seedcolors] [-m maxiters] [-c convergence] [-a area] 
 # [-t type] [-C colorspace] [-b bgcolor] [-v view] [-A adjoin] [-k compression]
 # infile outfile
 # USAGE: kmeans [-h or -help]
@@ -34,93 +34,93 @@
 # OPTIONS:
 #
 # -n     numcolors       number of colors to use as seeds; integer>1; default=5
-# -s     seedcolors      list of seed colors rather than selecting a number of
-#                        colors; space separate list of opaque color; default
+# -s     seedcolors      list of seed colors rather than selecting a number of 
+#                        colors; space separate list of opaque color; default  
 #                        is to use the number of colors
-# -m     maxiters        maximum number of iterations before stopping;
+# -m     maxiters        maximum number of iterations before stopping; 
 #                        integer>0; default=40
-# -c     convergence     minimum rmse (times 100) between previous and current
+# -c     convergence     minimum rmse (times 100) between previous and current 
 #                        set of colors to stop iterating; default=0.05
-# -a     area            largest pixel area of a cluster to be merged into
+# -a     area            largest pixel area of a cluster to be merged into 
 #                        its background; integer>=0; default=0 (no merging)
-# -t     type            type of output; choices are flattened (f) or
+# -t     type            type of output; choices are flattened (f) or 
 #                        layered (l); default=flattened
 # -C     colorspace      colorspace in which to do processing; default=sRGB
 # -b     bgcolor         color to put under any transparency; any valid opaque
 #                        color is allowed; default is no change of color
-# -v     view            hexcolors (only), swatches (and hex colors),
-#                        progress (and hex colors), all (progress, hexcolors
+# -v     view            hexcolors (only), swatches (and hex colors), 
+#                        progress (and hex colors), all (progress, hexcolors 
 #                        swatches) and dominant (dominant color).
-# -A     adjoin          adjoin layered output images into a single multi-page
+# -A     adjoin          adjoin layered output images into a single multi-page 
 #                        image; choices are: yes (y) or no (n); default=yes
-# -k     compression     compression type if saved to tif; choices are: none (n),
+# -k     compression     compression type if saved to tif; choices are: none (n), 
 #                        lzw (l), or zip (z); default=zip
 #
 ###
 #
-# NAME: KMEANS
-#
+# NAME: KMEANS 
+# 
 # PURPOSE: To apply k-means color reduction to an image.
-#
-# DESCRIPTION: KMEANS applies k-means color reduction to an image. This is a
-# colorspace clustering or segmentation technique. The user must specify either
-# a number of desired final colors or a set of initial seed colors. If a list
-# of seed colors is not provided, then seed colors will be estimated using IM
-# -colors (color quantization). The algorithm uses the seed colors to group
-# (cluster) each pixel in the image according to the smallest rmse value to
-# each seed color. Then it computes the new mean colors from the clusters.
-# This process iterates until either the convergence value is reached or the
-# maximum number of iterations is reached. The script is limited to fully
-# opaque images for type=layered. If type=flattened, then the input may have
-# and alpha channel that will be remove for processing and added back at the
-# end. Optionally, connected components labeling may be use to remove small
-# isolated clusters for IM versions 6.8.9-10 or later. The final list of
-# colors will be sorted by histogram count so that the first color in the
+# 
+# DESCRIPTION: KMEANS applies k-means color reduction to an image. This is a 
+# colorspace clustering or segmentation technique. The user must specify either 
+# a number of desired final colors or a set of initial seed colors. If a list 
+# of seed colors is not provided, then seed colors will be estimated using IM 
+# -colors (color quantization). The algorithm uses the seed colors to group 
+# (cluster) each pixel in the image according to the smallest rmse value to  
+# each seed color. Then it computes the new mean colors from the clusters. 
+# This process iterates until either the convergence value is reached or the 
+# maximum number of iterations is reached. The script is limited to fully 
+# opaque images for type=layered. If type=flattened, then the input may have 
+# and alpha channel that will be remove for processing and added back at the 
+# end. Optionally, connected components labeling may be use to remove small 
+# isolated clusters for IM versions 6.8.9-10 or later. The final list of 
+# colors will be sorted by histogram count so that the first color in the 
 # list will be the dominant color in the image.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -n numcolors ... NUMCOLORS is the number of colors to use as seeds. Values
+# -n numcolors ... NUMCOLORS is the number of colors to use as seeds. Values 
 # are integer>1. The default=5.
-#
-# -s seedcolors ... SEEDCOLORS is a space delimited list of opaque seed colors.
-# It is used rather than just selecting a given number of colors. Providing a
-# well selected list of colors can make the iteration process quicker. Any
-# valid set of opaque IM colors may be used. This includes rgb, hex or color
-# names. However, there must not be any spaces in the color, especially for rgb
+# 
+# -s seedcolors ... SEEDCOLORS is a space delimited list of opaque seed colors.  
+# It is used rather than just selecting a given number of colors. Providing a  
+# well selected list of colors can make the iteration process quicker. Any 
+# valid set of opaque IM colors may be used. This includes rgb, hex or color 
+# names. However, there must not be any spaces in the color, especially for rgb 
 # color definitions. The default is to just use the desired number of colors.
-#
-# -m maxiters ... MAXITERS is the maximum number of iterations before stopping.
+# 
+# -m maxiters ... MAXITERS is the maximum number of iterations before stopping. 
 # Values are integer>0. The default=40
-#
-# -c convergence ... CONVERGENCE is the minimum rmse (times 100) between the
-# previous and current set of colors to stop iterating. Values are floats>=0.
+# 
+# -c convergence ... CONVERGENCE is the minimum rmse (times 100) between the 
+# previous and current set of colors to stop iterating. Values are floats>=0. 
 # Larger convergence values will run faster and converge to slightly different
-# colors. The default=0.05, but runs rather slow due to many iterations.
-# A value of 0.3 will run much faster with much fewer iterations, though the
+# colors. The default=0.05, but runs rather slow due to many iterations. 
+# A value of 0.3 will run much faster with much fewer iterations, though the 
 # colors will be slightly different and thus the clusters will be different.
-#
-# -a area ... AREA is the largest pixel area of a cluster to be merged into
-# its surrounding or largest neighboring cluster (color). Any cluster of this
-# area or smaller will be merged. Value are integers>=0. The default=0 is no
+# 
+# -a area ... AREA is the largest pixel area of a cluster to be merged into 
+# its surrounding or largest neighboring cluster (color). Any cluster of this 
+# area or smaller will be merged. Value are integers>=0. The default=0 is no 
 # merging.
-#
-# -t type ... TYPE of output image. The choices are flattened (f) or
-# layered (l). The default=flattened. Note the format of the output must be
-# either GIF or TIF or TIFF to support the multi-page layered option, unless
-# -A adjoin is set to no. Suffixes may be all upper case or all lower case.
-# If other formats are used, then multiple output images will be created rather
+# 
+# -t type ... TYPE of output image. The choices are flattened (f) or 
+# layered (l). The default=flattened. Note the format of the output must be 
+# either GIF or TIF or TIFF to support the multi-page layered option, unless  
+# -A adjoin is set to no. Suffixes may be all upper case or all lower case. 
+# If other formats are used, then multiple output images will be created rather  
 # than a layered image.
-#
-# -C colorspace ... COLORSPACE in which to do processing; default=sRGB; other
+# 
+# -C colorspace ... COLORSPACE in which to do processing; default=sRGB; other 
 # colorspaces that do well are YCbCr and LAB.
-#
+# 
 # -b bgcolor ... BGCOLOR is the backgrouond color to put under any transparency.
 # Any valid opaque color is allowed. The default is no change of color.
-#
+# 
 # -v view ... VIEW permits one to list to the terminal or display any of the
 # following options: hexcolors, swatches (and hex colors), progress (and hex
-# colors), all (progress, hexcolors swatches) and dominant (dominant color).
+# colors), all (progress, hexcolors swatches) and dominant (dominant color). 
 # Hexcolors will list to the terminal for both  the initial seed and
 # final cluster colors in hex notation. The final colors will be sorted by
 # histogram count with the first color the dominant color in the resulting
@@ -131,26 +131,26 @@
 # will list only the hexcolor value of the dominant color in the image. The
 # default is none of the above. Note that hexcolors and swatches will be
 # presented in the working colorspace and not converted to sRGB.
-#
-# -A adjoin ... ADJOIN layered output images into a single multi-page image.
+# 
+# -A adjoin ... ADJOIN layered output images into a single multi-page image. 
 # The choices are: yes (y) or no (n). The default=yes.
-#
-# -k compression ... COMPRESSION type if saved to tif. The choices are: none (n),
+# 
+# -k compression ... COMPRESSION type if saved to tif. The choices are: none (n), 
 # lzw (l), or zip (z); default=zip
-#
-# REQUIREMENTS: IM version 6.8.9-10 or higher to use option -a with connected
+# 
+# REQUIREMENTS: IM version 6.8.9-10 or higher to use option -a with connected 
 # components labeling to remove small isolated clusters.
-#
+# 
 # References:
 # http://en.wikipedia.org/wiki/Kmeans
-#
-# NOTE: the script may be slow due to its iterative nature. Also GIF files
+# 
+# NOTE: the script may be slow due to its iterative nature. Also GIF files 
 # cannot be made transparent in IM 6.9.1.7.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -175,13 +175,13 @@ tmpdir="."    # suggestions are tmpdir="." or tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -229,7 +229,7 @@ else
 					   ;;
 				-n)    # get numcolors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMCOLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   numcolors=`expr "$1" : '\([0-9]*\)'`
@@ -239,14 +239,14 @@ else
 					   ;;
 				-s)    # get seedcolors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SEEDCOLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   seedcolors="$1"
 					   ;;
 				-m)    # get maxiters
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MAXITERS SPECIFICATION ---"
 					   checkMinus "$1"
 					   maxiters=`expr "$1" : '\([0-9]*\)'`
@@ -256,7 +256,7 @@ else
 					   ;;
 				-c)    # get convergence
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CONVERGENCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   convergence=`expr "$1" : '\([.0-9]*\)'`
@@ -264,7 +264,7 @@ else
 					   ;;
 				-a)    # get area
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AREA SPECIFICATION ---"
 					   checkMinus "$1"
 					   area=`expr "$1" : '\([0-9]*\)'`
@@ -284,14 +284,14 @@ else
 					   ;;
 				-C)    # get colorspace
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORSPACE SPECIFICATION ---"
 					   checkMinus "$1"
 					   colorspace="$1"
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
@@ -454,7 +454,7 @@ echo "$compressing"
 
 # process kmeans code
 # create white image
-# note must add -colorspace gray for IM 7;
+# note must add -colorspace gray for IM 7; 
 # otherwise it will be doing -evaluate-sequence later between 3 channel white image and grayscale images,
 # which will produce a cyan result.
 convert -size ${ww}x${hh} xc:white -colorspace gray $dir/tmpW.miff
@@ -472,14 +472,14 @@ for ((k=0; k<maxiters; k++)); do
 		convert $dir/tmpI.miff \( -size ${ww}x${hh} xc:"${colorArr[$i]}" \) \
 		-compose difference -composite +duplicate -compose over -compose multiply -composite \
 		-separate +channel -evaluate-sequence mean -evaluate pow 0.5 $dir/tmpCD$i.miff
-
+	
 		# get smallest rmse for all color rmse images
-		convert $dir/tmpD.miff $dir/tmpCD$i.miff -evaluate-sequence min $dir/tmpD.miff
+		convert $dir/tmpD.miff $dir/tmpCD$i.miff -evaluate-sequence min $dir/tmpD.miff 
 	done
 
 	# create mask for each color
 	for (( i=0;i<numcolors; i++)); do
-
+	
 		# compare smallest rmse to each color rmse and threshold
 		convert $dir/tmpD.miff $dir/tmpCD$i.miff -compose difference -composite -threshold 0 -negate $dir/tmpM$i.miff
 
@@ -500,7 +500,7 @@ for ((k=0; k<maxiters; k++)); do
 		j=$((k+1))
 		echo "iteration=$j 100*rmse=$rmse"
 	fi
-
+	
 	test=`convert xc: -format "%[fx:$rmse<$convergence?1:0]" info:`
 	[ $test -eq 1 ] && break
 
@@ -526,7 +526,7 @@ done
 # do CCL processing to merge small areas in to surrounding/neighboring clusters
 if [ $area -gt 0 ]; then
 	if [ "$im_version" -lt "06090209" ]; then
-
+	
 		# increase area by 1, since CCL uses smallest area to save rather than largest area to remove
 		area=$((area+1))
 
@@ -548,7 +548,7 @@ if [ $area -gt 0 ]; then
 		#echo "i=$i; num=$num; index=$index; pct=$pct; color=$color;"
 		convert $dir/tmpI.miff -depth 16 -fill "$color" -opaque "gray($pct%)" $dir/tmpI.miff
 		done
-
+	
 			# create colormap for -remap due to error in reporting CCL colors after an area merge
 			# remove this and remap below when bug is fixed in CCL
 			str=""
@@ -562,7 +562,7 @@ if [ $area -gt 0 ]; then
 
 			# remap the colors due to error in merged color reporting in CCL
 			convert $dir/tmpI.miff +dither -remap $dir/lut.miff -depth 8 $dir/tmpI.miff
-
+	
 		# re-create one image/layer per color
 		for ((i=0; i<numcolors; i++)); do
 		convert $dir/tmpI.miff -depth 8 -channel rgba -fill none +opaque "${colorArr[$i]}" $dir/tmpS$i.miff
@@ -587,7 +587,7 @@ if [ $area -gt 0 ]; then
 			done
 			eval 'convert '$swatch_list' +append -scale 5000% show:'
 		fi
-
+	
 	else
 
 		# increase area by 1, since CCL uses smallest area to save rather than largest area to remove
@@ -602,7 +602,7 @@ if [ $area -gt 0 ]; then
 		-define connected-components:area-threshold=$area \
 		-define connected-components:mean-color=true \
 		-connected-components 8 \
-		-depth 8 $dir/tmpI.miff
+		-depth 8 $dir/tmpI.miff	
 
 		# separate colorized images to form final layered images
 		if [ "$type" = "layered" ]; then
@@ -671,7 +671,7 @@ else
 		done
 		eval 'convert '$swatch_list' +append -scale 5000% show:'
 	fi
-
+			
 fi
 
 exit 0

@@ -1,38 +1,38 @@
 #!/bin/sh
-#
-# Fred Weinhaus ................................ revised 4/25/2015
+# 
+# Fred Weinhaus ................................ revised 4/25/2015 
 # Code Improvements by Anthony Thyssen  ................ 7/7/2008
 # Developed by Fred Weinhaus 7/6/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: shapemorph [-f frames] [-d delay] [-p pause] [-r] [-m] "x1,y1 x2,y2" infile1 infile2 outfile
 #        shapemorph [-h|-help]
-#
+# 
 # OPTIONS:
-#
+# 
 #   -f  frames     number of frames in animation; frames>1; default=20
 #   -d  delay      delay between frames; delay>0; default=10
 #   -p  pause      pause delay for two undistorted input images;
@@ -42,13 +42,13 @@
 #   "x1,y1 x2,y2"  Control point location in infile1 and infile2, respectively;
 #                  MUST be specified just prior to infile1 and outfile1
 #                  consist of four, comma or space seperated numbers
-#
+# 
 ###
 #
 # NAME: SHAPEMORPH
-#
+# 
 # PURPOSE: To create a shape morphing animation sequence between two images.
-#
+# 
 # DESCRIPTION: SHAPEMORPH creates a shape morphing animation sequence between
 # two images using one corresponding control point specified from each of the
 # input images. The control point along with the fixed corners actually form
@@ -56,39 +56,39 @@
 # that are then used to transform the geometry of each image to the other. The
 # corresponding frames from the transformation of each image are then blended
 # proportional to the progression of frames.
-#
+# 
 # OPTIONS:
-#
+# 
 # -f frames ... FRAMES is the total number of frames in the animation (including
 # infile1 and infile2 as the start and end frames. Values are integers > 1. The
 # default is 20.
-#
+# 
 # -d delay ... DELAY between frames. Values are integers>0. The default=10
-#
+# 
 # -p pause ... PAUSE is the delay to use for the first and last frame of the
 # animation, i.e. the delay for each of the input images. The default=100
-#
+# 
 # -r ... If supplied, then reverse the animation sequence, remove the first and
 # last frames of the reversed sequence and append these reversed frames to
 # the end of the animation.
-#
+# 
 # -m ... If supplied, then enable monitoring of -fx as it creates each frame.
-#
+# 
 # "x1,y1 x2,y2" ... The corresponding control point locations in infile1 and
 # infile2 respectively. Only one control point in each image may be used. These
 # coordinates MUST be provided after all the optional arguments and just prior
 # to the declaration of infile1 infile2.
-#
-# NOTE: Thanks to Anthony Thyssen's improvements, the script has a 10x
-# speed increase for IM version prior to 6.4.2-4 and is now even faster
+# 
+# NOTE: Thanks to Anthony Thyssen's improvements, the script has a 10x 
+# speed increase for IM version prior to 6.4.2-4 and is now even faster 
 # for IM version after 6.4.2-4 due to the use of the new -distort shepards.
-#
+# 
 # CAVEAT: No guarantee that this script will work on all platforms,
 # nor that trapping of inconsistent parameters is complete and
 # foolproof. Use At Your Own Risk.
-#
+# 
 ######
-#
+# 
 
 # set default values
 frames=20
@@ -105,13 +105,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -237,20 +237,20 @@ im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
 
-if [ "$im_version" -ge "06040304" ]; then
+if [ "$im_version" -ge "06040304" ]; then 
 	# use -distort shepards technique
-
+	
 	# set corner control points as fixed
 	corners="0,0 0,0  $wm1,0 $wm1,0  $wm1,$hm1 $wm1,$hm1  0,$hm1 0,$hm1"
 
 	# do geometric warping and intensity blending
 	echo ""
 	echo "Processing $frames Frames:"
-
+	
 	# add infile1 as first (zeroth) frame
 	echo "0 (start image)"
 	convert -delay $pause $dir/A.mpc $dir/result.miff
-
+	
 	# create the in between frames
 	iter=`expr $frames - 1`
 	# initial coord for destination for both images
@@ -263,61 +263,61 @@ if [ "$im_version" -ge "06040304" ]; then
 	i=1
 	while [ $i -lt $iter ]; do
 		echo "$i"
-
+		
 		# set up iteration
 		blend=`convert xc: -format "%[fx:100*$i/$iter]" info:`
-
+		
 		# new same location for a given iteration used for both images
 		cpx=`convert xc: -format "%[fx:$cpx+$dx]" info:`
 		cpy=`convert xc: -format "%[fx:$cpy+$dy]" info:`
-
+		
 		# interate new control point for infile 2 (B)
 		cpointsb="$corners  $xx2,$yy2 $cpx,$cpy"
-
+		
 		# interate new control point for infile 1 (A)
 		cpointsa="$corners  $xx1,$yy1 $cpx,$cpy"
-
+		
 		# NOTE: A multi-image miff is just a concatanation of images!
 		# This makes it easy to form pipelined commands.
-
+		
 		if [ "$im_version" -ge "06050304" ]; then
-			(
+			( 
 			# ( ... ) is a subshell to allow two miff:- to be used as multi-image miff
-
+			
 			# Warp each image using -distort shepards.
-
+			
 			# transform B to A
 			convert $dir/B.mpc -distort shepards "$cpointsb" miff:-
-
+			
 			# transform A to B
 			convert $dir/A.mpc -distort shepards "$cpointsa" miff:-
-
+			
 			# blend the displaced images
 			) | convert - -reverse -define compose:args=${blend}% -compose blend -composite miff:- >> $dir/result.miff
 
 		else
-				(
+				( 
 			# ( ... ) is a subshell to allow two miff:- to be used as multi-image miff
-
+			
 			# Warp each image using -distort shepards.
-
+			
 			# transform B to A
 			convert $dir/B.mpc -distort shepards "$cpointsb" miff:-
-
+			
 			# transform A to B
 			convert $dir/A.mpc -distort shepards "$cpointsa" miff:-
-
+			
 			# blend the displaced images
 			) | composite -blend ${blend}% - miff:- >> $dir/result.miff
 		fi
-
+			
 		i=`expr $i + 1`
 	done
-
+	
 	# add infile2 as last frame
 	echo "$i (end image)"
 	convert -delay $pause $dir/B.mpc miff:- >> $dir/result.miff
-
+	
 	# reverse and append if desired
 	if [ "$reverse" = "yes" ]; then
 	  convert $dir/result.miff \( -clone -2-1 \) -loop 0 "$outfile"
@@ -327,13 +327,13 @@ if [ "$im_version" -ge "06040304" ]; then
 
 else
 	# use displacement mapping technique
-
+	
 	# create x and y displacement maps for transforming geometry
 	# from infile1 to infile2
-
+	
 	# As a speed up, all operations done only in the green
 	# (for grey) channel which is then extracted
-
+	
 	# shepards method to interpolate control point value with zero at corners
 	# functions to work out the inverse distance squared from corners and control
 	da="da=1/max(1,i*i+j*j);"               		# upper-left
@@ -342,7 +342,7 @@ else
 	dd="dd=1/max(1,i*i+(j-$hm1)^2);"         		# upper-right
 	de="de=1/max(1,(i-$xx2)^2+(j-$yy2)^2);"   		# control point
 	ds="ds=(da+db+dc+dd+de);"               		# sum of inverse distance squared
-
+	
 	echo ""
 	echo "Creating Displacement Map For Infile1"
 	# all operations done only in the green for greyscale channel
@@ -351,11 +351,11 @@ else
 	convert -size ${ww}x${hh} xc: -monitor -channel G \
 			-fx "$da $db $dc $dd $de $ds de/ds" \
 			+level 50,100%  -separate  $dir/Amap.mpc
-
+	
 	# Repeat shepards method for morphing in the other direction
 	# We only need to change the control point and displacement direction
 	de="de=1/max(1,(hypot((i-$xx1),(j-$yy1))^2));"  # control point
-
+	
 	echo ""
 	echo "Creating Displacement Map For Infile2"
 	# all operations done only in the green for greyscale channel
@@ -364,22 +364,22 @@ else
 	convert -size ${ww}x${hh} xc: -monitor -channel G \
 			-fx "$da $db $dc $dd $de $ds de/ds" \
 			+level 50,100%  -separate  $dir/Bmap.mpc
-
+	
 	# do geometric warping and intensity blending
 	echo ""
 	echo "Processing $frames Frames:"
-
+	
 	# add infile1 as first (zeroth) frame
 	echo "0 (start image)"
 	convert -delay $pause $dir/A.mpc $dir/result.miff
-
+	
 	# dx,dy offset in pixels between moving control points.
 	# note formula reversed from -distort shepards method above
 	Adx=`convert xc: -format "%[fx:$xx1-$xx2]" info:`
 	Ady=`convert xc: -format "%[fx:$yy1-$yy2]" info:`
 	Bdx=`convert xc: -format "%[fx:-$Adx]" info:`
 	Bdy=`convert xc: -format "%[fx:-$Ady]" info:`
-
+	
 	# create the in between frames
 	iter=`expr $frames - 1`
 	i=1
@@ -388,37 +388,37 @@ else
 		Awarp=`convert xc: -format "%[fx:$i/($iter)]" info:`
 		Bwarp=`convert xc: -format "%[fx:1-$Awarp]" info:`
 		blend=`convert xc: -format "%[fx:100*$Awarp]" info:`
-
+		
 		# NOTE: A multi-image miff is just a concatanation of images!
 		# This makes it easy to form pipelined commands.
-
-		(
+		
+		( 
 		# ( ... ) is a subshell to allow two miff:- to be used as multi-image miff
-
+		
 		# Warp each image using the pre-calculated displacement maps.
-
+		
 		# transform B to A
 		dx=`convert xc: -format "%[fx:$Bdx*$Bwarp]" info:`
 		dy=`convert xc: -format "%[fx:$Bdy*$Bwarp]" info:`
 		composite -displace "$dx,$dy" $dir/Bmap.mpc $dir/B.mpc \
 				  $monitor miff:-
-
+		
 		# transform A to B
 		dx=`convert xc: -format "%[fx:$Adx*$Awarp]" info:`
 		dy=`convert xc: -format "%[fx:$Ady*$Awarp]" info:`
 		composite -displace "$dx,$dy" $dir/Amap.mpc $dir/A.mpc \
 				  $monitor miff:-
-
+		
 		# blend the displaced images
 		) | composite -blend ${blend}% - miff:- >> $dir/result.miff
-
+		
 		i=`expr $i + 1`
 	done
-
+	
 	# add infile2 as last frame
 	echo "$i (end image)"
 	convert -delay $pause $dir/B.mpc miff:- >> $dir/result.miff
-
+	
 	# reverse and append if desired
 	if [ "$reverse" = "yes" ]; then
 	  convert $dir/result.miff \( -clone -2-1 \) -loop 0 "$outfile"

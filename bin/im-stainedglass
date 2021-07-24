@@ -3,123 +3,123 @@
 # Developed by Fred Weinhaus 6/12/2010 .......... 11/12/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: stainedglass [-k kind] [-s size] [-o offset] [-n ncolors] [-b bright]
+# USAGE: stainedglass [-k kind] [-s size] [-o offset] [-n ncolors] [-b bright] 
 # [-e ecolor] [-t thick] [-r rseed] [-a] infile outfile
 # USAGE: stainedglass [-h or -help]
 #
 # OPTIONS:
 #
-# -k      kind         kind of stainedglass cell shape; choices are: square
+# -k      kind         kind of stainedglass cell shape; choices are: square 
 #                      (or s),  hexagon (or h), random (or r); default=random
-# -s      size         size of cell; integer>0; default=16
-# -o      offset       random offset amount; integer>=0; default=6;
+# -s      size         size of cell; integer>0; default=16 
+# -o      offset       random offset amount; integer>=0; default=6; 
 #                      only applies to kind=random
-# -n      ncolors      number of desired reduced colors for the output;
+# -n      ncolors      number of desired reduced colors for the output; 
 #                      integer>1; default is no color reduction
-# -b      bright       brightness value in percent for output image;
+# -b      bright       brightness value in percent for output image; 
 #                      integer>=0; default=100
-# -e      ecolor       color for edge or border around each cell; any valid
+# -e      ecolor       color for edge or border around each cell; any valid 
 #                      IM color; default=black
-# -t      thick        thickness for edge or border around each cell;
+# -t      thick        thickness for edge or border around each cell; 
 #                      integer>=0; default=1; zero means no edge or border
-# -r      rseed        random number seed value; integer>=0; if seed provided,
-#                      then image will reproduce; default is no seed, so that
-#                      each image will be randomly different; only applies
+# -r      rseed        random number seed value; integer>=0; if seed provided, 
+#                      then image will reproduce; default is no seed, so that 
+#                      each image will be randomly different; only applies 
 #                      to kind=random
-# -a                   use average color of cell rather than color at center
+# -a                   use average color of cell rather than color at center 
 #                      of cell; default is center color
 #
 ###
 #
-# NAME: STAINEDGLASS
-#
+# NAME: STAINEDGLASS 
+# 
 # PURPOSE: Applies a stained glass cell effect to an image.
-#
-# DESCRIPTION: STAINEDGLASS applies a stained glass cell effect to an image. The
-# choices of cell shapes are hexagon, square and randomized square. The cell
+# 
+# DESCRIPTION: STAINEDGLASS applies a stained glass cell effect to an image. The 
+# choices of cell shapes are hexagon, square and randomized square. The cell 
 # size and border around the cell can be specified.
-#
-#
-# OPTIONS:
-#
-# -k kind ... KIND of stainedglass cell shape; choices are: square (or s),
-# hexagon (or h), random (or r). The latter is a square with each corner
+# 
+# 
+# OPTIONS: 
+# 
+# -k kind ... KIND of stainedglass cell shape; choices are: square (or s), 
+# hexagon (or h), random (or r). The latter is a square with each corner 
 # randomly offset. The default=random.
 #
 # -s size ... SIZE of stained glass cells. Values are integers>=0. The
 # default=16.
 #
-# -o offset ... OFFSET is the random offset amount for the case of kind=random.
+# -o offset ... OFFSET is the random offset amount for the case of kind=random. 
 # Values are integers>=0. The default=6.
-#
-# -n ncolors ... NCOLORS is the number of desired reduced colors in the output.
-# Values are integers>1. The default is no color reduction. Larger number of
+# 
+# -n ncolors ... NCOLORS is the number of desired reduced colors in the output. 
+# Values are integers>1. The default is no color reduction. Larger number of 
 # colors takes more time to color reduce.
-#
+# 
 # -b bright ... BRIGHTNESS value in percent for the output image. Values are
 # integers>=0. The default=100 means no change in brightness.
-#
-# -e ecolor ... ECOLOR is the color for the edge or border around each cell.
+# 
+# -e ecolor ... ECOLOR is the color for the edge or border around each cell. 
 # Any valid IM color is allowed. The default=black.
 #
-# -t thick ... THICK is the thickness for the edge or border around each cell.
-# Values are integers>=0. The default=1. A value of zero means no edge or
+# -t thick ... THICK is the thickness for the edge or border around each cell. 
+# Values are integers>=0. The default=1. A value of zero means no edge or 
 # border will be included.
-#
-# -r rseed ... RSEED is the random number seed value for kind=random. Values
-# are integers>=0. If a seed is provided,  then the resulting image will be
-# reproducable. The default is no seed. In that case, each resulting image
+# 
+# -r rseed ... RSEED is the random number seed value for kind=random. Values 
+# are integers>=0. If a seed is provided,  then the resulting image will be 
+# reproducable. The default is no seed. In that case, each resulting image 
 # will be randomly different.
 #
-# -a ... use AVERAGE color of cell rather than color at center of shell;
-# default is center color. The average value will be accurate only for odd
-# square shapes with IM 6.5.9.0 or higher. All others cases will use only an
+# -a ... use AVERAGE color of cell rather than color at center of shell; 
+# default is center color. The average value will be accurate only for odd 
+# square shapes with IM 6.5.9.0 or higher. All others cases will use only an 
 # approximate average.
-#
-# Thanks to Anthony Thyssen for critiqing the original version and for
+# 
+# Thanks to Anthony Thyssen for critiqing the original version and for 
 # several useful suggestions for improvement.
-#
-# NOTE: This script will be slow prior to IM 6.8.3.10 due to the need to
-# extract color values for each cell center point across the input image.
-# A progress meter is therefore provided to the terminal. A speed-up is
-# available via a -process function, getColors. To obtain getColors,
+# 
+# NOTE: This script will be slow prior to IM 6.8.3.10 due to the need to 
+# extract color values for each cell center point across the input image. 
+# A progress meter is therefore provided to the terminal. A speed-up is 
+# available via a -process function, getColors. To obtain getColors, 
 # contact me. It requires IM 6.6.2-10 or higher.
-#
-# IMPORTANT: This script will fail due to an unintended restriction in the
-# txt: format starting with IM 6.9.9.1 and IM 7.0.6.2. It has been fixed at
+# 
+# IMPORTANT: This script will fail due to an unintended restriction in the 
+# txt: format starting with IM 6.9.9.1 and IM 7.0.6.2. It has been fixed at 
 # IM 6.9.9.23 and IM 7.0.7.11.
 #
 # REQUIREMENTS: Does not produce a proper set of edges/borders around each
-# cell under Q8, due to insufficient graylevel resolution (0 and 255)
+# cell under Q8, due to insufficient graylevel resolution (0 and 255) 
 # to handle more that 255 cells.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -141,13 +141,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -195,11 +195,11 @@ else
 					   ;;
 				-k)    # get  kind
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID KIND SPECIFICATION ---"
 					   checkMinus "$1"
 					   kind=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$kind" in
+					   case "$kind" in 
 					   		hexagon|h) kind="hexagon" ;;
 					   		square|s) kind="square" ;;
 					   		random|r) kind="random" ;;
@@ -208,7 +208,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*\)'`
@@ -218,7 +218,7 @@ else
 					   ;;
 				-o)    # get offset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSET SPECIFICATION ---"
 					   checkMinus "$1"
 					   offset=`expr "$1" : '\([0-9]*\)'`
@@ -226,7 +226,7 @@ else
 					   ;;
 				-n)    # get ncolors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NCOLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   ncolors=`expr "$1" : '\([0-9]*\)'`
@@ -236,7 +236,7 @@ else
 					   ;;
 				-b)    # get bright
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   bright=`expr "$1" : '\([0-9]*\)'`
@@ -244,14 +244,14 @@ else
 					   ;;
 				-e)    # get ecolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ecolor="$1"
 					   ;;
 				-t)    # get thick
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICK SPECIFICATION ---"
 					   checkMinus "$1"
 					   thick=`expr "$1" : '\([0-9]*\)'`
@@ -259,7 +259,7 @@ else
 					   ;;
 				-r)    # get rseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RSEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   rseed=`expr "$1" : '\([0-9]*\)'`
@@ -350,7 +350,7 @@ fi
 # read the input image and filter image into the temp files and test validity.
 convert -quiet "$infile" $reduce $modulation +repage "$tmpA1" ||
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE  ---"
-
+	
 # preprocess for average color
 if [ "$average" = "yes" -a "$im_version" -ge "06050900" -a "$kind" = "square" ]; then
 	dim=`convert xc: -format "%[fx:round(($size-1)/2)]" info:`
@@ -368,7 +368,7 @@ if [ "$im_version" -ge "06050210" ]; then
 	process_test=`convert -list module | grep "getColors"`
 fi
 #echo "process_test=$process_test;"
-
+	
 ww=`convert $tmpA1 -ping -format "%w" info:`
 hh=`convert $tmpA1 -ping -format "%h" info:`
 ww1=$(($ww-1))
@@ -390,58 +390,58 @@ touch $tmpG
 if [ "$kind" = "random" ]; then
 	# need to add 1 to offset as awk rand is exclusive between 0 and 1
 	offset=$(($offset+1))
-
+	
 	awk -v size="$size" -v ww1="$ww1" -v hh1="$hh1" -v ww2="$ww2" -v hh2="$hh2" -v offset="$offset" -v rseed="$rseed" '
-		BEGIN { if (rseed=="") {srand();} else {srand(rseed);} y=0; while ( y < hh2 )
-		{ x=0; while (x < ww2 )
-		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;}
+		BEGIN { if (rseed=="") {srand();} else {srand(rseed);} y=0; while ( y < hh2 ) 
+		{ x=0; while (x < ww2 ) 
+		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} 
 		rx=rand(); if (rx<0.5) {signx=-1;} else {signx=1;}
-		offx=int(signx*rand()*offset);
+		offx=int(signx*rand()*offset); 
 		xx=x+offx; if (xx<0) {xx=0}; if (xx>ww1) {xx=ww1};
 		ry=rand(); if (ry<0.5) {signy=-1;} else {signy=1;}
-		offy=int(signy*rand()*offset);
+		offy=int(signy*rand()*offset); 	
 		yy=y+offy; if (yy<0) {yy=0}; if (yy>hh1) {yy=hh1};
-		print xx","yy": (255,255,255)"; x=x+size; }
+		print xx","yy": (255,255,255)"; x=x+size; } 
 		y=y+size; } }' >> $tmpC
-
+	
 	awk -v size="$size" -v ww1="$ww1" -v hh1="$hh1" -v ww2="$ww2" -v hh2="$hh2" -v qrange="$qrange" -v offset="$offset" -v rseed="$rseed" '
-		BEGIN { if (rseed=="") {srand();} else {srand(rseed);} k=0; y=0; while ( y < hh2 )
-		{ x=0; while (x < ww2 )
-		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;}
+		BEGIN { if (rseed=="") {srand();} else {srand(rseed);} k=0; y=0; while ( y < hh2 ) 
+		{ x=0; while (x < ww2 ) 
+		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} 
 		rx=rand(); if (rx<0.5) {signx=-1;} else {signx=1;}
-		offx=int(signx*rand()*offset);
+		offx=int(signx*rand()*offset); 
 		xx=x+offx; if (xx<0) {xx=0}; if (xx>ww1) {xx=ww1};
 		ry=rand(); if (ry<0.5) {signy=-1;} else {signy=1;}
-		offy=int(signy*rand()*offset);
+		offy=int(signy*rand()*offset); 	
 		yy=y+offy; if (yy<0) {yy=0}; if (yy>hh1) {yy=hh1};
-		g=(k % 256);
-		print xx,yy" gray("g")"; k++; x=x+size; }
+		g=(k % 256); 
+		print xx,yy" gray("g")"; k++; x=x+size; } 
 		y=y+size; } }' >> $tmpG
 
 elif [ "$kind" = "hexagon" ]; then
 	awk -v size="$size" -v ww1="$ww1" -v hh1="$hh1" -v ww2="$ww2" -v hh2="$hh2" '
-		BEGIN { j=0; y=0; while ( y < hh2 )
-		{ if (j%2==0) {x=int((size+0.5)/2);} else {x=0;} while (x < ww2 )
-		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} print x","y": (255,255,255)"; x=x+size; }
+		BEGIN { j=0; y=0; while ( y < hh2 ) 
+		{ if (j%2==0) {x=int((size+0.5)/2);} else {x=0;} while (x < ww2 ) 
+		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} print x","y": (255,255,255)"; x=x+size; } 
 		j++; y=y+size; } }' >> $tmpC
-
+		
 	awk -v size="$size" -v ww1="$ww1" -v hh1="$hh1" -v ww2="$ww2" -v hh2="$hh2" -v qrange="$qrange" '
-		BEGIN { j=0; k=0; y=0; while ( y < hh2 )
-		{ if (j%2==0) {x=int((size+0.5)/2);} else {x=0;} while (x < ww2 )
-		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} g=(k % 256); print x,y" gray("g")"; k++; x=x+size; }
+		BEGIN { j=0; k=0; y=0; while ( y < hh2 ) 
+		{ if (j%2==0) {x=int((size+0.5)/2);} else {x=0;} while (x < ww2 ) 
+		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} g=(k % 256); print x,y" gray("g")"; k++; x=x+size; } 
 		j++; y=y+size; } }' >> $tmpG
 
 elif [ "$kind" = "square" ]; then
 	awk -v size="$size" -v ww1="$ww1" -v hh1="$hh1" -v ww2="$ww2" -v hh2="$hh2" '
-		BEGIN { y=0; while ( y < hh2 )
-		{ x=0; while (x < ww2 )
-		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} print x","y": (255,255,255)"; x=x+size; }
+		BEGIN { y=0; while ( y < hh2 ) 
+		{ x=0; while (x < ww2 ) 
+		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} print x","y": (255,255,255)"; x=x+size; } 
 		y=y+size; } }' >> $tmpC
-
+	
 	awk -v size="$size" -v ww1="$ww1" -v hh1="$hh1" -v ww2="$ww2" -v hh2="$hh2" -v qrange="$qrange" '
-		BEGIN { k=0; y=0; while ( y < hh2 )
-		{ x=0; while (x < ww2 )
-		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} g=(k % 256); print x,y" gray("g")"; k++; x=x+size; }
+		BEGIN { k=0; y=0; while ( y < hh2 ) 
+		{ x=0; while (x < ww2 ) 
+		{ if (x>ww1) {x=ww1;} if (y>hh1) {y=hh1;} g=(k % 256); print x,y" gray("g")"; k++; x=x+size; } 
 		y=y+size; } }' >> $tmpG
 
 fi
@@ -471,7 +471,7 @@ if [ "$thick" = "0" ]; then
 		convert -size ${ww}x${hh} xc: -sparse-color voronoi "@$tmpC" \
 			"$outfile"
 	fi
-
+		
 else
 	if [ "$im_version" -ge "06080310" ]; then
 		convert $tmpA1 \( -background black $tmpC \) \

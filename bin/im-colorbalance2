@@ -3,79 +3,79 @@
 # Developed by Fred Weinhaus 6/19/2015 .......... revised 6/19/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: colorbalance2 [-c color] [-a amount] [-r region] [-l lowthresh]
+# USAGE: colorbalance2 [-c color] [-a amount] [-r region] [-l lowthresh] 
 # [-h highthresh] infile outfile
 #
 # USAGE: colorbalance2 [-help]
 #
 # OPTIONS:
 #
-# -c     color          color to modify: red (r), yellow (y), green (g),
+# -c     color          color to modify: red (r), yellow (y), green (g), 
 #                       cyan (c), blue (b), magenta (m); default=red
 # -a     amount         amount (percent) of color change; float>0; default=25
-# -r     region         region to change: midtones (m), shadows (s),
+# -r     region         region to change: midtones (m), shadows (s), 
 #                       highlights (h); default=midtones
-# -l     lowthresh      low (shadow) value threshold; 0<=float<=100;
+# -l     lowthresh      low (shadow) value threshold; 0<=float<=100; 
 #                       default=25
-# -h     highthresh     high (hightlight) value threshold; 0<=float<=100;
+# -h     highthresh     high (hightlight) value threshold; 0<=float<=100; 
 #                       default=75
-#
+# 
 ###
 #
-# NAME: COLORBALANCE2
-#
-# PURPOSE: To manually color balance an image in midtones, highlights, or
+# NAME: COLORBALANCE2 
+# 
+# PURPOSE: To manually color balance an image in midtones, highlights, or 
 # shadows.
-#
-# DESCRIPTION: COLORBALANCE2 manually color balances an image according to a
-# user selected color, region and amount. The regions are midtones, shadows,
+# 
+# DESCRIPTION: COLORBALANCE2 manually color balances an image according to a 
+# user selected color, region and amount. The regions are midtones, shadows, 
 # or highlights.
-#
-# OPTIONS:
-#
-# -c color ... COLOR to modify. The choices are: red (r), yellow (y),
+# 
+# OPTIONS: 
+# 
+# -c color ... COLOR to modify. The choices are: red (r), yellow (y), 
 # green (g), cyan (c), blue (b) or magenta (m). The default=red
-#
-# -a amount ... AMOUNT of color change. Values are float>=0 as percent, but
+# 
+# -a amount ... AMOUNT of color change. Values are float>=0 as percent, but 
 # one can go over 100%. The default=25.
 #
-# -r region ... REGION of image to change. The choices are: midtones (m),
+# -r region ... REGION of image to change. The choices are: midtones (m), 
 # shadows (s), or highlights (h). The default=midtones.
-#
-# -l low ... LOW is shadow mask threshold value. Values are in the range
+# 
+# -l low ... LOW is shadow mask threshold value. Values are in the range 
 # 0<=float<=100. The default=25.
-#
-# -h high ... HIGH is highlight mask threshold value. Values are in the
+# 
+# -h high ... HIGH is highlight mask threshold value. Values are in the 
 # range 0<=float<=100. The default=75.
+# 
 #
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -93,13 +93,13 @@ tmpdir="."		# suggestions are tmpdir="." or tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -147,36 +147,36 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$color" in
+					   case "$color" in 
 					   		red|r) color="red";;
 					   		yellow|y) color="yellow";;
 					   		green|g) color="green";;
 					   		cyan|c) color="cyan";;
 					   		blue|b) color="blue";;
 					   		magenta|m) color="magenta";;
-					   		*) errMsg "--- COLOR=$color IS AN INVALID VALUE ---"
+					   		*) errMsg "--- COLOR=$color IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-r)    # get  region
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REGION SPECIFICATION ---"
 					   checkMinus "$1"
 					   region=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$region" in
+					   case "$region" in 
 					   		midtones|m) region="midtones";;
 					   		shadows|s) region="shadows";;
 					   		highlights|h) region="highlights";;
-					   		*) errMsg "--- REGION=$region IS AN INVALID VALUE ---"
+					   		*) errMsg "--- REGION=$region IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([.0-9]*\)'`
@@ -186,7 +186,7 @@ else
 					   ;;
 				-l)    # get low
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LOW SPECIFICATION ---"
 					   checkMinus "$1"
 					   low=`expr "$1" : '\([.0-9]*\)'`
@@ -197,7 +197,7 @@ else
 					   ;;
 				-h)    # get high
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HIGH SPECIFICATION ---"
 					   checkMinus "$1"
 					   high=`expr "$1" : '\([.0-9]*\)'`
@@ -271,3 +271,4 @@ elif [ "$region" = "highlights" ]; then
 fi
 
 exit 0
+

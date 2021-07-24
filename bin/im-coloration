@@ -3,110 +3,110 @@
 # Developed by Fred Weinhaus 11/9/2012 .......... revised 11/29/16
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: coloration [-h hue] [-s sat] [-l light] [-r red] [-g green] [-b blue]
+# USAGE: coloration [-h hue] [-s sat] [-l light] [-r red] [-g green] [-b blue] 
 # [-B bright] [-C contrast] infile outfile [lutfile]
 #
 # USAGE: coloration [-help]
 #
 # OPTIONS:
 #
-# -h     hue          hue value to use for coloration; values are integers
+# -h     hue          hue value to use for coloration; values are integers 
 #                     either in range 0 to 360 (degrees) or 0 to 100 (percent)
 #                     depending upon the units argument; default=0 (red)
-# -s     sat          saturation value to use for coloration; values are
+# -s     sat          saturation value to use for coloration; values are 
 #                     integers in range 0 to 100 (percent); default=50
-# -l     light        lightness value to use for coloration; values are
+# -l     light        lightness value to use for coloration; values are 
 #                     integers in range -100 to 100(percent); default=0
-# -u     units        units for hue; choices are: degrees (d) or percent (p);
+# -u     units        units for hue; choices are: degrees (d) or percent (p); 
 #                     default=degrees
 # -r     red          red mixing percent; float; default=29.9
 # -g     green        green mixing percent; float; default=58.7
 # -b     blue         blue mixing percent; float; default=11.4
-# -B     bright       percent brightness change in coloration processing;
+# -B     bright       percent brightness change in coloration processing; 
 #                     -100<=float<=100; default=10 (to match GIMP better)
-# -C     contrast     percent contrast change in coloration processing;
+# -C     contrast     percent contrast change in coloration processing; 
 #                     -100<=float<=100; default=-10 (to match GIMP better)
 #
 ###
 #
-# NAME: COLORATION
-#
-# PURPOSE: To mix the color channels from an image into a grayscale image and
+# NAME: COLORATION 
+# 
+# PURPOSE: To mix the color channels from an image into a grayscale image and 
 # tints it.
-#
-# DESCRIPTION: COLORATION mixes the color channels from an image into a
-# single grayscale image using a weighted combination and then tints it in a
-# manner similar to GIMP Colorize and using argument values similar to those
-# used by GIMP. The script generates a color look up table (lut) and applies it
-# against the grayscale version of the image. The lut can be saved, if desired,
+# 
+# DESCRIPTION: COLORATION mixes the color channels from an image into a 
+# single grayscale image using a weighted combination and then tints it in a 
+# manner similar to GIMP Colorize and using argument values similar to those 
+# used by GIMP. The script generates a color look up table (lut) and applies it 
+# against the grayscale version of the image. The lut can be saved, if desired, 
 # for future use and will have a size of 256x20 pixels.
+# 
+# 
+# OPTIONS: 
 #
-#
-# OPTIONS:
-#
-# -h hue ... HUE value to use for coloration. The values are integers either
-# in the range 0 to 360(degrees) or 0 to 100(percent) depending upon the units
+# -h hue ... HUE value to use for coloration. The values are integers either 
+# in the range 0 to 360(degrees) or 0 to 100(percent) depending upon the units  
 # argument. The default=0 (red).
-#
-# -s sat ... SAT is the saturation value to use for coloration. The values are
+# 
+# -s sat ... SAT is the saturation value to use for coloration. The values are 
 # integers in the range 0 to 100 (percent). The default=50.
-#
-# -l light ... LIGHT is the lightness value to use for coloration. The values
-# are integers in range -100 to 100(percent). The default=0 is the normal
-# amount of lightness. Larger values will use IM colorize to mix pure white
-# with the result. Smaller values will use IM colorize to mix pure black
+# 
+# -l light ... LIGHT is the lightness value to use for coloration. The values 
+# are integers in range -100 to 100(percent). The default=0 is the normal 
+# amount of lightness. Larger values will use IM colorize to mix pure white 
+# with the result. Smaller values will use IM colorize to mix pure black 
 # with the result.
-#
-# -u units ... UNITS for specifying hue values. The choices are: raw (r) or
+# 
+# -u units ... UNITS for specifying hue values. The choices are: raw (r) or 
 # percent (p). The default=raw
-#
-# -r red ... RED is the red mix percent (weight) in forming the grayscale
-# image. Values are (pos. or neg.) floats. The default=29.9 is equivalent to
-# IM non-linear grayscale. Nominally the r,g,b,o weights should total 100%.
+# 
+# -r red ... RED is the red mix percent (weight) in forming the grayscale 
+# image. Values are (pos. or neg.) floats. The default=29.9 is equivalent to 
+# IM non-linear grayscale. Nominally the r,g,b,o weights should total 100%. 
 # Weights are not relevant to form=desat.
 #
-# -g green ... GREEN is the red mix percent (weight) in forming the grayscale
-# image. Values are (pos. or neg.) floats. The default=58.7 is equivalent to
-# IM non-linear grayscale. Nominally the r,g,b,o weights should total 100%.
+# -g green ... GREEN is the red mix percent (weight) in forming the grayscale 
+# image. Values are (pos. or neg.) floats. The default=58.7 is equivalent to 
+# IM non-linear grayscale. Nominally the r,g,b,o weights should total 100%. 
 # Weights are not relevant to form=desat.
 #
-# -b blue ... BLUE is the red mix percent (weight) in forming the grayscale
-# image. Values are (pos. or neg.) floats. The default=11.4 is equivalent to
-# IM non-linear grayscale. Nominally the r,g,b,o weights should total 100%.
+# -b blue ... BLUE is the red mix percent (weight) in forming the grayscale 
+# image. Values are (pos. or neg.) floats. The default=11.4 is equivalent to 
+# IM non-linear grayscale. Nominally the r,g,b,o weights should total 100%. 
 # Weights are not relevant to form=desat.
 #
-# -B bright ... BRIGHT is the percent change in brightness during processing.
-# Values are floats in the range of -100 to 100. The default=10
+# -B bright ... BRIGHT is the percent change in brightness during processing. 
+# Values are floats in the range of -100 to 100. The default=10 
 # (to match GIMP better).
-#
-# -C contrast ... CONTRAST is the percent change in contrast during processing.
-# image. Values are floats in the range of -100 to 100. The default=-10
+# 
+# -C contrast ... CONTRAST is the percent change in contrast during processing. 
+# image. Values are floats in the range of -100 to 100. The default=-10 
 # (to match GIMP better).
-#
-#
+# 
+# 
 ######
 #
 
@@ -130,13 +130,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -184,7 +184,7 @@ else
 					   ;;
 				-h)    # get hue
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HUE SPECIFICATION ---"
 					   checkMinus "$1"
 					   hue=`expr "$1" : '\([0-9]*\)'`
@@ -195,7 +195,7 @@ else
 					   ;;
 				-s)    # get sat
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   sat=`expr "$1" : '\([0-9]*\)'`
@@ -206,7 +206,7 @@ else
 					   ;;
 				-l)    # get light
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID LIGHT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   light=`expr "$1" : '\([-]*[0-9]*\)'`
@@ -217,19 +217,19 @@ else
 					   ;;
 				-u)    # get  units
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UNITS SPECIFICATION ---"
 					   checkMinus "$1"
 					   units=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$units" in
+					   case "$units" in 
 					   		degrees|d) units="degrees";;
 					   		percent|p) units="percent";;
-					   		*) errMsg "--- UNITS=$units IS AN INVALID VALUE ---"
+					   		*) errMsg "--- UNITS=$units IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-r)    # get red
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID RED SPECIFICATION ---"
 					   #checkMinus "$1"
 					   red=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -237,7 +237,7 @@ else
 					   ;;
 				-g)    # get green
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID GREEN SPECIFICATION ---"
 					   #checkMinus "$1"
 					   green=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -245,7 +245,7 @@ else
 					   ;;
 				-b)    # get blue
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID BLUE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   blue=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -253,7 +253,7 @@ else
 					   ;;
 				-B)    # get bright
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID BRIGHT SPECIFICATION ---"
 					   #checkMinus "$1"
 					   bright=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -264,7 +264,7 @@ else
 					   ;;
 				-C)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-]*[.0-9]*\)'`
@@ -326,9 +326,9 @@ convert -quiet "$infile" +repage "$tmpA1" ||
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear

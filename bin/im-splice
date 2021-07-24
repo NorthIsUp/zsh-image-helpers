@@ -3,102 +3,102 @@
 # Developed by Fred Weinhaus 11/2/2013 .......... revised 5/28/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: splice [-t top] [-b bottom] [-g gap] [-v vertices] [-m maxoffset]
+# USAGE: splice [-t top] [-b bottom] [-g gap] [-v vertices] [-m maxoffset] 
 # [-s seed] [-a amount] [-d distance] [-o opacity] [-c color] infile outfile
 # USAGE: splice [-h or -help]
 #
 # OPTIONS:
 #
-# -t    top           top section height; percent or pixels;
+# -t    top           top section height; percent or pixels; 
 #                     0<integer<image height (or 100%); default=30%
-# -b    bottom        bottom section height; percent or pixels;
+# -b    bottom        bottom section height; percent or pixels; 
 #                     0<integer<image height (or 100%); default=30%
-# -g    gap           gap in pixels between top and bottom sections;
+# -g    gap           gap in pixels between top and bottom sections; 
 #                     integer>=0; default=10
-# -v    vertices      number of vertices between sides (excluding end points);
+# -v    vertices      number of vertices between sides (excluding end points); 
 #                     integer>=0; default=8
-# -m    maxoffset     maximum vertex pixel offset in the vertical direction;
+# -m    maxoffset     maximum vertex pixel offset in the vertical direction; 
 #                     integer>=0; default=15
-# -s    seed          random number seed for vertex vertical offsets;
+# -s    seed          random number seed for vertex vertical offsets; 
 #                     integer>=0; default=300
 # -a    amount        amount of blur for shadow; integer>=0; default=4
 # -d    distance      shadow distance in pixels; integer>=0; default=4
-# -o    opacity       shadow opacity; 0<=integer<=100; default=100; if set to
+# -o    opacity       shadow opacity; 0<=integer<=100; default=100; if set to 
 #                     zero, then no shadow will be added
-# -c    color         background color; any valid IM color is allowed;
+# -c    color         background color; any valid IM color is allowed; 
 #                     default=white
-#
+# 
 ###
 #
-# NAME: SPLICE
-#
+# NAME: SPLICE 
+# 
 # PURPOSE: To apply a jagged cut and splice effect to an image.
-#
-# DESCRIPTION: SPLICE applies a jagged cut and splice effect to an image. A
+# 
+# DESCRIPTION: SPLICE applies a jagged cut and splice effect to an image. A 
 # shadow effect is optional, but applied by default.
-#
-# OPTIONS:
-#
-# -t top ... TOP is the top section height in percent or pixels. Values are
-# 0<integer<image height (or 100%). The default=30%. Note that the top and
+# 
+# OPTIONS: 
+# 
+# -t top ... TOP is the top section height in percent or pixels. Values are 
+# 0<integer<image height (or 100%). The default=30%. Note that the top and  
 # bottom sections typically add up to 100% or less of the original image.
-#
-# -b bottom ... BOTTOM is the bottom section height in percent or pixels.
-# Values are 0<integer<image height (or 100%). The default=30%. Note that the
+# 
+# -b bottom ... BOTTOM is the bottom section height in percent or pixels.  
+# Values are 0<integer<image height (or 100%). The default=30%. Note that the  
 # top and bottom sections typically add up to 100% or less of the original image.
-#
-# -g gap ... GAP is the gap in pixels between the top and bottom sections.
+# 
+# -g gap ... GAP is the gap in pixels between the top and bottom sections. 
 # Values are integer>=0. The default=10.
-#
-# -v vertices ... VERTICES are the number of vertices between left and right
-# sides of the image (excluding start and end points). Values are integer>=0.
+# 
+# -v vertices ... VERTICES are the number of vertices between left and right 
+# sides of the image (excluding start and end points). Values are integer>=0. 
 # The default=8.
-#
-# -m maxoffset ... MAXOFFSET is the maximum vertex pixel offset in the
+# 
+# -m maxoffset ... MAXOFFSET is the maximum vertex pixel offset in the 
 # vertical direction. Values are integer>=0. The default=15.
-#
-# -s seed ... SEED is the random number seed for the vertex vertical offsets.
+# 
+# -s seed ... SEED is the random number seed for the vertex vertical offsets.  
 # Values are integer>=0. The default=300.
-#
-# -a amount ... AMOUNT is the amount of blur for the shadow. Value are
+# 
+# -a amount ... AMOUNT is the amount of blur for the shadow. Value are 
 # integer>=0. The default=4.
 #
-# -d distance ... DISTANCE is the shadow distance in pixels. Values are
+# -d distance ... DISTANCE is the shadow distance in pixels. Values are 
 # integer>=0. The default=4.
-#
-# -o opacity ... OPACITY is the shadow opacity. Values are 0<=integer<=100.
+# 
+# -o opacity ... OPACITY is the shadow opacity. Values are 0<=integer<=100. 
 # The default=100. If opacity is set to zero, then no shadow will be added.
-#
-# -c color ... COLOR is the background color. Any valid IM color is allowed.
+# 
+# -c color ... COLOR is the background color. Any valid IM color is allowed. 
 # The default=white.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -122,13 +122,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -176,7 +176,7 @@ else
 					   ;;
 				-t)    # get top
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TOP SPECIFICATION ---"
 					   checkMinus "$1"
 					   top=`expr "$1" : '\([\%0-9]*\)'`
@@ -184,7 +184,7 @@ else
 					   ;;
 				-b)    # get bottom
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BOTTOM SPECIFICATION ---"
 					   checkMinus "$1"
 					   bottom=`expr "$1" : '\([\%0-9]*\)'`
@@ -192,7 +192,7 @@ else
 					   ;;
 				-g)    # get gap
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAP SPECIFICATION ---"
 					   checkMinus "$1"
 					   gap=`expr "$1" : '\([0-9]*\)'`
@@ -200,7 +200,7 @@ else
 					   ;;
 				-v)    # get vertices
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VERTICES SPECIFICATION ---"
 					   checkMinus "$1"
 					   vertices=`expr "$1" : '\([0-9]*\)'`
@@ -208,7 +208,7 @@ else
 					   ;;
 				-m)    # get maxoffset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MAXOFFSET SPECIFICATION ---"
 					   checkMinus "$1"
 					   maxoffset=`expr "$1" : '\([0-9]*\)'`
@@ -216,7 +216,7 @@ else
 					   ;;
 				-s)    # get seed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   seed=`expr "$1" : '\([0-9]*\)'`
@@ -224,7 +224,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([0-9]*\)'`
@@ -232,7 +232,7 @@ else
 					   ;;
 				-d)    # get distance
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISTANCE SPECIFICATION ---"
 					   checkMinus "$1"
 					   distance=`expr "$1" : '\([0-9]*\)'`
@@ -240,7 +240,7 @@ else
 					   ;;
 				-o)    # get opacity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity=`expr "$1" : '\([0-9]*\)'`
@@ -251,7 +251,7 @@ else
 					   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
@@ -299,7 +299,7 @@ hh=`convert $tmpA1 -format "%h" info:`
 wl=$((ww-1))
 hl=$((hh-1))
 num=$((vertices+2))
-inc=`convert xc: -format "%[fx:$wl/($num-1)]" info:`
+inc=`convert xc: -format "%[fx:$wl/($num-1)]" info:`	
 
 # get top and bottom location of splice
 testtop=`echo $top | grep "\%"`
@@ -409,6 +409,6 @@ else
 		-delete 0 -background none -layers merge \
 		\( -clone 0 -background black -shadow ${opacity}x${amount}+${distance}+${distance} \) \
 		+swap -background "$color" -layers merge "$outfile"
-fi
+fi	
 
 exit 0

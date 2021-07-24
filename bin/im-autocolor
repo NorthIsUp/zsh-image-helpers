@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/14/2008 .......... revised 11/6/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: autocolor [-m method] [-c clipmode] [-l cliplow] [-h cliphigh] [-n neutralgray] infile outfile
@@ -31,71 +31,71 @@
 #
 # OPTIONS:
 #
-# -m      method            method to adjust neutral color; method=gamma,
+# -m      method            method to adjust neutral color; method=gamma, 
 #                           recolor, none; default=recolor
-# -c      clipmode          clip channels mode; clip=together or separate;
+# -c      clipmode          clip channels mode; clip=together or separate; 
 #                           default=separate
-# -l      cliplow           clip percent on low end of histogram;
+# -l      cliplow           clip percent on low end of histogram; 
 #                           float; 0<=cliplow<=100; default=0.1
 # -h      cliphigh          clip percent on high end of histogram;
 #                           float; 0<=cliphigh<=100; default=same as cliplow
-# -n      neutralgray       neutral gray value (percent); float between
+# -n      neutralgray       neutral gray value (percent); float between 
 #                           0 and 100; default=mean of luminance
 #
 ###
 #
-# NAME: AUTOCOLOR
-#
+# NAME: AUTOCOLOR 
+# 
 # PURPOSE: To automatically color balance and image.
-#
-# DESCRIPTION: AUTOCOLOR automatically color balance and image by shifting
+# 
+# DESCRIPTION: AUTOCOLOR automatically color balance and image by shifting 
 # the mean value of each channel to the neutral gray value. There are
-# three methods that can be used. The first uses -gamma computed from the
-# neutral gray value and mean of each of the RGB channels. The second uses
-# -recolor (or -color-matrix) computed from the neutral gray value and mean
-# of each of the RGB channels. The third skips this step. In addition to
-# corrrecting the neutral color, the histogram is stretched to full black
+# three methods that can be used. The first uses -gamma computed from the 
+# neutral gray value and mean of each of the RGB channels. The second uses 
+# -recolor (or -color-matrix) computed from the neutral gray value and mean 
+# of each of the RGB channels. The third skips this step. In addition to 
+# corrrecting the neutral color, the histogram is stretched to full black 
 # and white using the clip values.
-#
-# OPTIONS:
-#
-# -m method ... METHOD defines how the neutral color will be set. The
-# choices are gamma (g), recolor (r) or none (n). Method=gamma uses
-# -gamma to shift the mean value to neutral gray. Method=recolor uses
-# -recolor (-color-matrix) to shift the mean value to neutral gray.
-# Method=none skips this processing and only does the clip operation.
-# If method=none and clipmode=together, then the result of the script will
-# be equivalent to IM -contrast-stretch with a change in contrast, but no
+# 
+# OPTIONS: 
+# 
+# -m method ... METHOD defines how the neutral color will be set. The 
+# choices are gamma (g), recolor (r) or none (n). Method=gamma uses 
+# -gamma to shift the mean value to neutral gray. Method=recolor uses 
+# -recolor (-color-matrix) to shift the mean value to neutral gray. 
+# Method=none skips this processing and only does the clip operation. 
+# If method=none and clipmode=together, then the result of the script will 
+# be equivalent to IM -contrast-stretch with a change in contrast, but no 
 # color change. The default=gamma.
-#
-# -c clipmode ... CLIPMODE specifies whether to clip the channels
-# in unison or independently. The choices are: together (t) or
+# 
+# -c clipmode ... CLIPMODE specifies whether to clip the channels 
+# in unison or independently. The choices are: together (t) or 
 # separate (s). The default=together
-#
-# Note: generally the best choices seem to be either method=recolor
+# 
+# Note: generally the best choices seem to be either method=recolor 
 # with clipmode=separate or method=gamma with clipmode=together.
-#
-# -l cliplow ... CLIPLOW is the cumulative percent at the low end of the
-# histogram whose graylevel will be stretch to full black. Values are
-# floats between 0 and 100. If cliplow=0, then the stretch will locate
+# 
+# -l cliplow ... CLIPLOW is the cumulative percent at the low end of the 
+# histogram whose graylevel will be stretch to full black. Values are 
+# floats between 0 and 100. If cliplow=0, then the stretch will locate 
 # the minimum value in the channel histogram. The default=0.1
-#
-# -h cliphigh ... CLIPHIGH is the cumulative percent at the high end of
-# the histogram whose graylevel will be stretch to full white. Values are
-# floats between 0 and 100. If cliplow=0, then the stretch will locate
+# 
+# -h cliphigh ... CLIPHIGH is the cumulative percent at the high end of  
+# the histogram whose graylevel will be stretch to full white. Values are 
+# floats between 0 and 100. If cliplow=0, then the stretch will locate 
 # the maximum value in the channel histogram. The default=same as cliplow.
-#
-# -n neutralgray ... NEUTRALGRAY is the graylevel for a given channel
-# to which the mean value will be adjusted. Values are floats between
-# 0 and 100. The default is computed from the average of the luminance
-# channel. Other choices are 50 for mid-gray or 84 which is equivalent
-# to 18% neutral gray. Using larger values will make the resulting image
+# 
+# -n neutralgray ... NEUTRALGRAY is the graylevel for a given channel  
+# to which the mean value will be adjusted. Values are floats between  
+# 0 and 100. The default is computed from the average of the luminance 
+# channel. Other choices are 50 for mid-gray or 84 which is equivalent 
+# to 18% neutral gray. Using larger values will make the resulting image 
 # brighter.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -114,13 +114,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -168,23 +168,23 @@ else
 					   ;;
 				-m)    # get  method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$method" in
+					   case "$method" in 
 					   		gamma) ;;
 					   		g) method="gamma";;
 					   		recolor) ;;
 					   		r) method="recolor";;
 					   		none) ;;
 					   		n) method="none";;
-					   		*) errMsg "--- METHOD=$method IS AN INVALID VALUE ---"
+					   		*) errMsg "--- METHOD=$method IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-n)    # get neutralgray
 					   shift  # to get the next parameter - mix
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NEUTRALGRAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   ngray=`expr "$1" : '\([.0-9]*\)'`
@@ -195,21 +195,21 @@ else
 					   ;;
 				-c)    # get  clipmode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CLIPMODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   clipmode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$clipmode" in
+					   case "$clipmode" in 
 					   		together) ;;
 					   		t) clipmode="together";;
 					   		separate) ;;
 					   		s) clipmode="separate";;
-					   		*) errMsg "--- CLIPMODE=$clipmode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- CLIPMODE=$clipmode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-l)    # get cliplow
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CLIPLOW SPECIFICATION ---"
 					   checkMinus "$1"
 					   cliplow=`expr "$1" : '\([.0-9]*\)'`
@@ -220,7 +220,7 @@ else
 					   ;;
 				-h)    # get cliphigh
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CLIPHIGH SPECIFICATION ---"
 					   checkMinus "$1"
 					   cliphigh=`expr "$1" : '\([.0-9]*\)'`
@@ -287,9 +287,9 @@ sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | 
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -329,7 +329,7 @@ getChannelMean()
 	{
 	img="$1"
 	if [ "$im_version" -ge "06030901" ]
-		then
+		then 
 		mean=`convert $img -format "%[mean]" info:`
 		mean=`convert xc: -format "%[fx:100*$mean/quantumrange]" info:`
 	else
@@ -356,45 +356,45 @@ if [ "$im_version" -lt "06060100" ]; then
 else
 	process="-color-matrix"
 fi
-
+	
 #echo ""
 # process colorbalance
 if [ "$method" != "none" ]; then
 
 	getChannelMean "$tmpR1"
-	if [ "$method" = "gamma" ]; then
+	if [ "$method" = "gamma" ]; then 
 		gammaval=`convert xc: -format "%[fx:log($mean/100)/log($ngray/100)]" info:`
 		#echo "R: ngray=$ngray; mean=$mean; gamma=$gammaval"
 		convert $tmpR1 -gamma $gammaval $tmpR1
-	elif [ "$method" = "recolor" ]; then
+	elif [ "$method" = "recolor" ]; then 
 		[ "$mean" = "0" -o "$mean" = "0.0" ] && mean=100
 		redratio=`convert xc: -format "%[fx:$ngray/$mean]" info:`
 		#echo "R: ngray=$ngray; mean=$mean; colorratio=$redratio"
 	fi
-
+	
 	getChannelMean "$tmpG1"
-	if [ "$method" = "gamma" ]; then
+	if [ "$method" = "gamma" ]; then 
 		gammaval=`convert xc: -format "%[fx:log($mean/100)/log($ngray/100)]" info:`
 		#echo "G: ngray=$ngray; mean=$mean; gamma=$gammaval"
 		convert $tmpG1 -gamma $gammaval $tmpG1
-	elif [ "$method" = "recolor" ]; then
+	elif [ "$method" = "recolor" ]; then 
 		[ "$mean" = "0" -o "$mean" = "0.0" ] && mean=100
 		greenratio=`convert xc: -format "%[fx:$ngray/$mean]" info:`
 		#echo "G: ngray=$ngray; mean=$mean; colorratio=$greenratio"
 	fi
-
+	
 	getChannelMean "$tmpB1"
-	if [ "$method" = "gamma" ]; then
+	if [ "$method" = "gamma" ]; then 
 		gammaval=`convert xc: -format "%[fx:log($mean/100)/log($ngray/100)]" info:`
 		#echo "B: ngray=$ngray; mean=$mean; gamma=$gammaval"
 		convert $tmpB1 -gamma $gammaval $tmpB1
-	elif [ "$method" = "recolor" ]; then
+	elif [ "$method" = "recolor" ]; then 
 		[ "$mean" = "0" -o "$mean" = "0.0" ] && mean=100
 		blueratio=`convert xc: -format "%[fx:$ngray/$mean]" info:`
 		#echo "B: ngray=$ngray; mean=$mean; colorratio=$blueratio"
 	fi
-
-	if [ "$method" = "recolor" ]; then
+	
+	if [ "$method" = "recolor" ]; then 
 		convert $tmpA1 $process "$redratio 0 0 0 $greenratio 0 0 0 $blueratio" $tmpA1
 		convert $tmpA1 $setcspace -channel R -separate $tmpR1
 		convert $tmpA1 $setcspace -channel G -separate $tmpG1
@@ -416,3 +416,8 @@ fi
 #echo ""
 
 exit 0
+
+	
+
+
+

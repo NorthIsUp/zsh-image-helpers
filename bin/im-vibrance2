@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 11/15/2017 .......... revised 11/15/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: vibrance2 [-a amount] infile outfile
@@ -36,25 +36,25 @@
 ###
 #
 # NAME: VIBRANCE2
-#
+# 
 # PURPOSE: To apply a non-linear change to the chroma channel of an image.
-#
-# DESCRIPTION: VIBRANCE2 applies a non-linear change to the vibrance of an
+# 
+# DESCRIPTION: VIBRANCE2 applies a non-linear change to the vibrance of an 
 # image using a gamma adjustment of the chroma channel in HCL colorspace.
-#
-# OPTIONS:
-#
-# -a amount ... AMOUNT is the vibrance value relative to 1. Values are floats>=0.
-# The default=1 (no change). Larger values increase the vibrance and smaller values
+# 
+# OPTIONS: 
+# 
+# -a amount ... AMOUNT is the vibrance value relative to 1. Values are floats>=0. 
+# The default=1 (no change). Larger values increase the vibrance and smaller values 
 # decrease the vibrance.
 #
-# REQUIREMENTS: IM 6.8.6-3 or greater in order to properly use HCL colorspace after a
+# REQUIREMENTS: IM 6.8.6-3 or greater in order to properly use HCL colorspace after a 
 # bug was fixed.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -68,13 +68,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -122,7 +122,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter - bluramt
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([.0-9]*\)'`

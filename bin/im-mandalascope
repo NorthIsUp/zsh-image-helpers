@@ -4,30 +4,30 @@
 # Developed by Greg McNeil 12/1/2017 ..... revised by Fred Weinhaus 12/7/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: mandalascope [-n number] [-s scale] [-r rotation] [ -t translation] [-z zoom]
+# USAGE: mandalascope [-n number] [-s scale] [-r rotation] [ -t translation] [-z zoom] 
 # [-b bgcolor] infile outfile
 #
 # USAGE: mandalascope [-h or -help]
@@ -44,30 +44,30 @@
 ###
 #
 # NAME: MANDALASCOPE
-#
+# 
 # PURPOSE: To convert an image into a mandala-like kaleidoscope image.
-#
+# 
 # DESCRIPTION: MANDALASCOPE converts an image into a mandala-like kaleidoscope image.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -n number ... NUMBER of repetitions. Values are integers>=3. The default=12.
-#
+# 
 # -s scale ... SCALE factor. Values are floats>0. The default=1.
-#
+# 
 # -r rotation ... ROTATION angle in degrees. Values are 0<=integer<=360. The default=0.
-#
+# 
 # -t translation ... TRANSLATION. Values are 0<=integer<=200. The default=0.
-#
+# 
 # -z zoom ... ZOOM factor. Values are floats>0. The default=1.4.
-#
-# -b bgcolor ... BGCOLOR is the background color. Any valid IM color is allowed.
+# 
+# -b bgcolor ... BGCOLOR is the background color. Any valid IM color is allowed. 
 # The default=black.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -86,13 +86,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -140,7 +140,7 @@ else
 					   ;;
 				-n)    # get number
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMBER SPECIFICATION ---"
 					   checkMinus "$1"
 					   number=`expr "$1" : '\([0-9]*\)'`
@@ -150,7 +150,7 @@ else
 					   ;;
 			    -s)    # get scale
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SCALE SPECIFICATION ---"
 					   checkMinus "$1"
 					   scale=`expr "$1" : '\([.0-9]*\)'`
@@ -160,7 +160,7 @@ else
 					   ;;
 				-r)    # get rotation
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROTATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   rotation=`expr "$1" : '\([0-9]*\)'`
@@ -170,7 +170,7 @@ else
 					   ;;
 				-t)    # get translation
 					   shift  # to get the next parameter - radius,sigma
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TRANSLATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   translation=`expr "$1" : '\([0-9]*\)'`
@@ -180,7 +180,7 @@ else
 					   ;;
 			    -z)    # get zoom
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ZOOM SPECIFICATION ---"
 					   checkMinus "$1"
 					   zoom=`expr "$1" : '\([.0-9]*\)'`
@@ -190,7 +190,7 @@ else
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"

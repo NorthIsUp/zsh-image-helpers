@@ -3,83 +3,83 @@
 # Developed by Fred Weinhaus 11/5/2015 .......... revised 11/5/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: toonizarro [-f filter] [-s sigma] [-g gain] [-t thickness] [-l lothresh]
+# USAGE: toonizarro [-f filter] [-s sigma] [-g gain] [-t thickness] [-l lothresh] 
 # [-h hithresh] [-c colors] infile outfile
 # USAGE: toonizarro [-help]
 #
 # OPTIONS:
 #
-# -f     filter       filter to adjust the coarseness; integer>0; default=3
+# -f     filter       filter to adjust the coarseness; integer>0; default=3 
 # -s     sigma        unsharpening sigma; float>0; default=2
 # -g     gain         unsharpening gain; float>=0; default=4
 # -t     thickness    edge thickness; integer>=0; default=0 means no edges
 # -l     lothresh     canny edge detection low threshold; integer>=0; default=20
 # -h     hithresh     canny edge detection high threshold; integer>=0; default=50
-# -c     colors       color list for colorizing the result; any space-separate list
-#                     of valid IM colors allowed; default is no colorization
+# -c     colors       color list for colorizing the result; any space-separate list 
+#                     of valid IM colors allowed; default is no colorization 
 #
 ###
 #
-# NAME: TOONIZARRO
-#
+# NAME: TOONIZARRO 
+# 
 # PURPOSE: To apply a Superman Bizarro-like cartoon effect to an image.
-#
-# DESCRIPTION: TOONIZARRO applies a Superman Bizarro-like cartoon effect to an image.
+# 
+# DESCRIPTION: TOONIZARRO applies a Superman Bizarro-like cartoon effect to an image. 
 # Edges may be added optionally.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -f filter ... FILTER to adjust the coarseness. Values are integers>0. The default=3.
-#
+# 
 # -s sigma ... SIGMA for unsharpening. Values are float>0. The default=2
-#
+# 
 # -g gain ... GAIN for unsharpening. Values are float>=0. The default=4.
-#
-# -t thickness ... THICKNESS of edges. Values are integers>=0. The default=0
+# 
+# -t thickness ... THICKNESS of edges. Values are integers>=0. The default=0 
 # means no edges.
-#
+# 
 # -l lothresh ... LOTHRESHOLD is the canny edge detection low threshold. Values are
 # integers>=0. The default=20.
-#
+# 
 # -l hithresh ... HITHRESHOLD is the canny edge detection high threshold. Values are
 # integers>=0. The default=40.
-#
-# -c colors ... COLORS is a list of colors for colorizing the result. Any space-separate
+# 
+# -c colors ... COLORS is a list of colors for colorizing the result. Any space-separate 
 # list of valid IM colors is allowed. (No spaces withing rgb color triples). The
 # default is no colorization.
-#
-# REQUIREMENTS: IM 6.8.9.9 due to the use of the Kuwahara filter. IM 6.8.9-0 to use
+# 
+# REQUIREMENTS: IM 6.8.9.9 due to the use of the Kuwahara filter. IM 6.8.9-0 to use 
 # the Canny edge detection. See:
 # http://www.imagemagick.org/discourse-server/viewtopic.php?f=4&t=26480
 # http://www.imagemagick.org/discourse-server/viewtopic.php?f=4&t=25405
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -100,13 +100,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -154,7 +154,7 @@ else
 					   ;;
 				-f)    # get filter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FILTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   filter=`expr "$1" : '\([0-9]*\)'`
@@ -162,7 +162,7 @@ else
 					   ;;
 				-s)    # get sigma
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIGMA SPECIFICATION ---"
 					   checkMinus "$1"
 					   sigma=`expr "$1" : '\([.0-9]*\)'`
@@ -172,7 +172,7 @@ else
 					   ;;
 				-g)    # get gain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   gain=`expr "$1" : '\([.0-9]*\)'`
@@ -180,7 +180,7 @@ else
 					   ;;
 				-t)    # get thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -188,7 +188,7 @@ else
 					   ;;
 				-l)    # get lothresh
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LOTHRESH SPECIFICATION ---"
 					   checkMinus "$1"
 					   lothresh=`expr "$1" : '\([0-9]*\)'`
@@ -196,7 +196,7 @@ else
 					   ;;
 				-h)    # get hithresh
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HITHRESH SPECIFICATION ---"
 					   checkMinus "$1"
 					   hithresh=`expr "$1" : '\([0-9]*\)'`
@@ -204,7 +204,7 @@ else
 					   ;;
 				-c)    # get colors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors="$1"
@@ -286,3 +286,9 @@ else
 fi
 
 exit 0
+
+
+
+
+
+

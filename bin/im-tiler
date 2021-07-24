@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 4/8/2011 .......... revised 5/3/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: tiler [-m method] [-o overlap] [-v vpmethod] infile outfile
@@ -35,45 +35,45 @@
 #                         1 is simple average blending; 2 is ramped blending;
 #                         default=1
 # -o      overlap         seam overlap amount in pixels; integer>=0; default=2
-# -v      vpmethod        virtual-pixel method used to extend the quadrants;
+# -v      vpmethod        virtual-pixel method used to extend the quadrants; 
 #                         any valid IM non-background virtual-pixel method
 #                         is allowed. Best choices seem to be mirror or edge;
 #                         default=mirror
 #
 # NOTE: the input image (infile) must be square and have even dimensions.
-#
+# 
 ###
 #
-# NAME: TILER
-#
+# NAME: TILER 
+# 
 # PURPOSE: To convert an image into a tilable texture.
-#
-# DESCRIPTION: TILER converts an image into a tilable texture. It does this
-# by swapping diagonal quadrants, exending the borders to get overlap and
+# 
+# DESCRIPTION: TILER converts an image into a tilable texture. It does this 
+# by swapping diagonal quadrants, exending the borders to get overlap and 
 # then composite blending the extended quadrants. The extension and blending
-# attempt to minimize or avoid manual painting/blurring/cloning along the
+# attempt to minimize or avoid manual painting/blurring/cloning along the 
 # seams.
-#
-# OPTIONS:
-#
-# -m method ... METHOD of overlap blending. The choices are 1 or 2. Method 1
+# 
+# OPTIONS: 
+# 
+# -m method ... METHOD of overlap blending. The choices are 1 or 2. Method 1 
 # is a simple average blending. Method 2 is a ramped blending. The default=1.
-#
-# -o overlap ... OVERLAP is amount of extension of the quadrants in order to
-# cover the center horizontal and vertical seems. Values are integers>=0.
+# 
+# -o overlap ... OVERLAP is amount of extension of the quadrants in order to 
+# cover the center horizontal and vertical seems. Values are integers>=0. 
 # The default=2
 #
-# -v vpmethod ... VPMETHOD is the virtual-pixel method used to extend the
+# -v vpmethod ... VPMETHOD is the virtual-pixel method used to extend the 
 # quadrants. Any valid IM non-background virtual-pixel method is allowed.
 # Recommended values are either mirror or edge. The default is mirror.
-#
-# Requirement: IM 6.5.3-4 or higher due to the use in method 1 of
+# 
+# Requirement: IM 6.5.3-4 or higher due to the use in method 1 of 
 # convert ... -compose blend -define compose:args=50,50 -composite ...
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -89,13 +89,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -143,7 +143,7 @@ else
 					   ;;
 				-m)    # get method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method=`expr "$1" : '\([0-2]*\)'`
@@ -152,7 +152,7 @@ else
 					   ;;
 				-o)    # get overlap
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OVERLAP SPECIFICATION ---"
 					   checkMinus "$1"
 					   overlap=`expr "$1" : '\([0-9]*\)'`
@@ -160,12 +160,12 @@ else
 					   ;;
 				-v)    # get  vpmethod
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VPMETHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   vp="$1"
 					   vp=`echo "$vp" | tr "[:upper:]" "[:lower:]"`
-					   case "$vp" in
+					   case "$vp" in 
 					   		black) ;;
 					   		dither) ;;
 					   		edge) ;;
@@ -175,7 +175,7 @@ else
 					   		tile) ;;
 					   		transparent) ;;
 					   		white) ;;
-					   		*) errMsg "--- VPMETHOD=$vp IS AN INVALID VALUE ---"
+					   		*) errMsg "--- VPMETHOD=$vp IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments

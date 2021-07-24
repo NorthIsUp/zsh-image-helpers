@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 12/26/2007 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: splitimage [-m mode] [-b begin] [-f final] [-i increment] [-d delay] [ -r resize] [-v] infile1 infile2 [outfile]
@@ -40,84 +40,84 @@
 #                     1 to width-1 or height-1 depending upon mode;
 #                     default=width-1 or height-1, depending upon mode
 # -i     increment    incremental shift of one image relative to second
-#                     per animation frame; 0 to width/4 or height/4;
+#                     per animation frame; 0 to width/4 or height/4; 
 #                     default=10 pixels if no outfile provided;
-#                     default=0 with outfile indicates single frame output
+#                     default=0 with outfile indicates single frame output         
 # -d     delay        time delay per animation frame (ms); delay >= 0; default=3
-# -r     resize       image resize percentage; resize > 0;
+# -r     resize       image resize percentage; resize > 0; 
 #                     default=100 (unchanged)
 # -v                  indicates to view (display) the outfile automatically
-# outfile             if no oufile is provided, an animation will be generated
+# outfile             if no oufile is provided, an animation will be generated 
 #                     and viewed (displayed) automatically without specifying
 #                     the -v option
 #
 ###
 #
-# NAME: SPLITIMAGE
-#
-# PURPOSE: To generate a side-by-side append of two partial images with an
-# option to animate the amount of each image used in the append.
-#
+# NAME: SPLITIMAGE 
+# 
+# PURPOSE: To generate a side-by-side append of two partial images with an 
+# option to animate the amount of each image used in the append. 
+# 
 # DESCRIPTION: SPLITIMAGE generates a side-by-side append of two partial images, nominally
-# half of each with the left half of the first image and right half of the second image.
-# However, one can specify to use two left halves or two right halves or the top and
-# bottom or two top halves or two bottom halves. Optionally the split between the two
-# images can be animated for visual comparison of the difference/change between the
+# half of each with the left half of the first image and right half of the second image. 
+# However, one can specify to use two left halves or two right halves or the top and 
+# bottom or two top halves or two bottom halves. Optionally the split between the two 
+# images can be animated for visual comparison of the difference/change between the 
 # the two images and the result saved and/or automatically displayed.
-#
-#
-# OPTIONS:
-#
-#
+# 
+# 
+# OPTIONS: 
+# 
+# 
 # -m mode ... MODE is the split orientation of the two images. The choices are:
 # LR (left/right), LL (left/left), RR (right/right), TB (top/bottom), TT (top/top),
 # or BB (bottom/bottom)
-#
-# -b begin ... BEGIN is the position for the split for a single frame output or the
-# beginning position for an animation. The values may be between 0 and width-2 or
+# 
+# -b begin ... BEGIN is the position for the split for a single frame output or the 
+# beginning position for an animation. The values may be between 0 and width-2 or 
 # height-2. The default is the center at width/2 or height/2 depending upon mode.
-#
-# -f final ... FINAL is the final position for the split for an animation before
-# it reverses and goes back to the beginning position to form a loop. The values
-# may be between 1 and width-1 or height-1, but must be greater than Begin.
-# The default is the width-1 or height-1 depending upon mode. Final is ignored
+# 
+# -f final ... FINAL is the final position for the split for an animation before  
+# it reverses and goes back to the beginning position to form a loop. The values 
+# may be between 1 and width-1 or height-1, but must be greater than Begin. 
+# The default is the width-1 or height-1 depending upon mode. Final is ignored 
 # if there is no animation.
-#
+# 
 # -i increment ... INCREMENT is the pixel offset amount for the split location
-# for each new frame of the animation. Increment values should be integers between
-# 0 to width/4 or height/4, depending upon the mode. The default=0 indicates no
-# animation and that a single frame output will be generated. If no outfile is
-# specified, then an animation will automatically be generated and displayed.
+# for each new frame of the animation. Increment values should be integers between 
+# 0 to width/4 or height/4, depending upon the mode. The default=0 indicates no 
+# animation and that a single frame output will be generated. If no outfile is 
+# specified, then an animation will automatically be generated and displayed. 
 # The default value in this case is 10 pixels.
-#
-# -d delay ... DELAY is the time delay in msec between frames in the animation.
-# Values are integers greater than or equal to zero. The default=3. Note that
-# the animation will be created to loop forever. Delay is ignored if a single
-# frame output is to be generated by specifying increment=0. The
-# delay=3 will make a fast animation if displayed under X11. However, if the
-# animation is saved to file and displayed in a browser, the browser will likely
+# 
+# -d delay ... DELAY is the time delay in msec between frames in the animation. 
+# Values are integers greater than or equal to zero. The default=3. Note that 
+# the animation will be created to loop forever. Delay is ignored if a single 
+# frame output is to be generated by specifying increment=0. The 
+# delay=3 will make a fast animation if displayed under X11. However, if the 
+# animation is saved to file and displayed in a browser, the browser will likely 
 # impose a larger delay per frame and the animation will appear slower.
-#
-# -r resize ... RESIZE allows the output to made larger or smaller than
-# the input image size. The values are integers greater than 0 representing the
-# resize percentage. The default=100 which leaves the output the same size as
+# 
+# -r resize ... RESIZE allows the output to made larger or smaller than 
+# the input image size. The values are integers greater than 0 representing the 
+# resize percentage. The default=100 which leaves the output the same size as 
 # the input image.
-#
-# -v ... Specifies that along with the output animation, the outfile is to be
-# viewed (displayed) automatically before the script is ended. If no output
-# animation file is provided, the animation will be created and viewed
-# automatically even if the -v option is not specified. This parameter is
+# 
+# -v ... Specifies that along with the output animation, the outfile is to be 
+# viewed (displayed) automatically before the script is ended. If no output 
+# animation file is provided, the animation will be created and viewed 
+# automatically even if the -v option is not specified. This parameter is 
 # ignored if the output is a single frame image (increment=0).
-#
+# 
 # infile1 and infile2 ... Both input images must be the same size.
-#
-# outfile ... OUTFILE, if provided for an animation, must be in a format such as
+# 
+# outfile ... OUTFILE, if provided for an animation, must be in a format such as 
 # gif that supports multiframe animations.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 # set default values
@@ -136,13 +136,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -188,7 +188,7 @@ else
 					   ;;
 				-m)    # mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
@@ -196,7 +196,7 @@ else
 					   ;;
 				-b)    # beginning position
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BEGIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   begin="$1"
@@ -205,7 +205,7 @@ else
 					   ;;
 				-f)    # final position
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FINAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   final="$1"
@@ -214,7 +214,7 @@ else
 					   ;;
 				-i)    # animation pixel increment
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INCREMENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   incr="$1"
@@ -223,7 +223,7 @@ else
 					   ;;
 				-d)    # delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay="$1"
@@ -232,7 +232,7 @@ else
 					   ;;
 				-r)    # resize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   resize="$1"
@@ -408,7 +408,7 @@ animateFrames()
 		ht2=`expr $ht2 + $incrh2`
 		ox2=`expr $ox2 + $incrx2`
 		oy2=`expr $oy2 + $incry2`
-
+		
 : '
 echo "wd1=$wd1"
 echo "ht1=$ht1"
@@ -457,7 +457,7 @@ case "$mode" in
 			oy2=0
 			append="+append"
 			;;
-
+	
 	TB|tb) 	wd1=$width
 			ht1=`expr $begin + 1`
 			ox1=0
@@ -530,7 +530,7 @@ else
 				;;
 		RR|rr) 	animateFrames $incr 0 $incrm 0 $incrm 0 $incr 0 "+append"
 				;;
-
+		
 		TB|tb) 	animateFrames 0 $incr 0 0 0 $incrm 0 $incr "-append"
 				;;
 		TT|tt) 	animateFrames 0 $incr 0 0 0 $incrm 0 0 "-append"
@@ -541,10 +541,10 @@ else
 				errMsg "--- UNKNOWN MODE ---"
 				;;
 	esac
-
+	
 	# create second half of animation and merge with first half
 	convert $tmp0 -coalesce \( -clone -2-1 \) -loop 0 $tmp0
-
+	
 	# save output animation
 	if [ "$outfile" != "" ]
 		then
@@ -553,7 +553,7 @@ else
 		echo ""
 		convert $tmp0 "$outfile"
 	fi
-
+	
 	# display animation
 	if [ "$outfile" = "" -o "$view" = "yes" ]
 		then

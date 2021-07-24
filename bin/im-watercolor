@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 6/28/2017 .......... revised 6/28/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: watercolor [-s smoothing] [-e edge] [-m mixing] [-c contrast] infile outfile
@@ -32,39 +32,39 @@
 # OPTIONS:
 #
 # -s     smoothing     smoothing of image texture; integer>=0; default=0 (no smoothing)
-# -e     edge          edge gain; float>=1; default=5
-# -m     mixing        mixing of edge content with smoothed image; 0<=integer<=100;
+# -e     edge          edge gain; float>=1; default=5   
+# -m     mixing        mixing of edge content with smoothed image; 0<=integer<=100; 
 #                      larger is more edge content; default=33
 # -c     contrast      contrast increase factor; float>=0; default=0 (no change)
 #
 ###
 #
 # NAME: WATERCOLOR
-#
+# 
 # PURPOSE: To apply a watercolor effect to an image.
-#
+# 
 # DESCRIPTION: WATERCOLOR applies a watercolor effect to an image.
-#
-# OPTIONS:
-#
-# -s smoothing ... SMOOTHING of image texture. Values are integers>=0. The default=0
+# 
+# OPTIONS: 
+# 
+# -s smoothing ... SMOOTHING of image texture. Values are integers>=0. The default=0 
 # (no smoothing). IMPORTANT: use odd integers to avoid image shift by half pixel.
-#
+# 
 # -e edge ... EDGE gain. Values are floats>=1. The default=5.
-#
-# -m mixing ... MIXINT of edge content with smoothed image. Values are 0<=integer<=100.
+#  
+# -m mixing ... MIXINT of edge content with smoothed image. Values are 0<=integer<=100. 
 # Larger is more edge content. The default=33.
-#
-# -c contrast ... CONTRAST increase factor. Values are floats>=0. The  default=0
+# 
+# -c contrast ... CONTRAST increase factor. Values are floats>=0. The  default=0 
 # (no change).
-#
-# Reference:
+# 
+# Reference: 
 # http://www.photoshopessentials.com/photo-effects/watercolor-painting-photoshop-cs6/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -82,13 +82,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -136,7 +136,7 @@ else
 					   ;;
 				-s)    # get smoothing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMOOTHING SPECIFICATION ---"
 					   checkMinus "$1"
 					   smoothing=`expr "$1" : '\([0-9]*\)'`
@@ -144,7 +144,7 @@ else
 					   ;;
 				-e)    # get edge
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EDGE SPECIFICATION ---"
 					   checkMinus "$1"
 					   edge=`expr "$1" : '\([.0-9]*\)'`
@@ -154,7 +154,7 @@ else
 					   ;;
 				-m)    # get mixing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIXING SPECIFICATION ---"
 					   #checkMinus "$1"
 					   mixing=`expr "$1" : '\([0-9]*\)'`
@@ -164,7 +164,7 @@ else
 					   ;;
 				-c)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   checkMinus "$1"
 					   contrast=`expr "$1" : '\([.0-9]*\)'`
@@ -228,3 +228,9 @@ convert $tmpA1 $cproc $sproc \
 
 
 exit 0
+
+
+
+
+
+

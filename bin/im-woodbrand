@@ -3,36 +3,36 @@
 # Developed by Fred Weinhaus 9/6/2018 .......... revised 9/6/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: woodbrand [-b blur] [-m motionblur ] [-n negate] [-B brighness] [-S saturation]
 # [-H hue] infile bgfile1 [bgfile2] outfile
-#
+# 
 # USAGE: woodbrand [-help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -b     blur           inner blur amount; integer>=0; default=5
 # -m     motionblur     motionblur amount; integer>=0; default=10
 # -n     negate         negate (invert) the binary input image; yes or no; default=no
@@ -43,51 +43,51 @@
 # infile is a binary image where white will produce the branding
 # bgfile1 is the background wood grain image
 # bgfile2 is an optional background wood grain image used in the branded area
-#
+# 
 ###
-#
-# NAME: WOODBRAND
-#
-# PURPOSE: To create a branded effect in a wood grain image using a binary image as the
+# 
+# NAME: WOODBRAND 
+# 
+# PURPOSE: To create a branded effect in a wood grain image using a binary image as the 
 # brand.
-#
-# DESCRIPTION: WOODBRAND creates a branded effect in a wood grain image using a binary
-# image as the brand. The white part of the binary input image will be the branded
-# area in the wood grain bgfile1. An optional bgfile2 may be used for the branded
-# region. The blur provides a symmetric inner blur. The motion blur adds a directional
-# blur to add a lighting effect. The brighntess, saturation and hue modify the wood
-# grain bgfile1 to darken it for the brand. Alternately, an optional second, bgfile2,
-# may be used to change the texture and color in the branded area in place of the
+# 
+# DESCRIPTION: WOODBRAND creates a branded effect in a wood grain image using a binary 
+# image as the brand. The white part of the binary input image will be the branded 
+# area in the wood grain bgfile1. An optional bgfile2 may be used for the branded 
+# region. The blur provides a symmetric inner blur. The motion blur adds a directional 
+# blur to add a lighting effect. The brighntess, saturation and hue modify the wood 
+# grain bgfile1 to darken it for the brand. Alternately, an optional second, bgfile2, 
+# may be used to change the texture and color in the branded area in place of the 
 # brightness, saturation and hue.
-#
-# ARGUMENTS:
-#
+# 
+# ARGUMENTS: 
+# 
 # -b blur ... BLUR is the inner blur amount. Values are integers>=0. The default=5.
-#
+# 
 # -m motionblur ... MOTIONBLUR amount. Values are integers>=0. The default=10.
-#
-# -n negate ... NEGATE (invert) the binary input image. The choices are: yes (y) or
+# 
+# -n negate ... NEGATE (invert) the binary input image. The choices are: yes (y) or 
 # no (n). The default=no.
-#
-# -B brightness ... BRIGHTNESS amount for the branded area. Values are integers>=0.
+# 
+# -B brightness ... BRIGHTNESS amount for the branded area. Values are integers>=0. 
 # The default=35. A value of 100 is no change.
 #
-# -S Saturation ... Saturation amount for the branded area. Values are integers>=0.
+# -S Saturation ... Saturation amount for the branded area. Values are integers>=0. 
 # The default=100 (no change).
-#
-# -h hue ... Hue amount. Values are integers>=0. The default=100 (no change). Values
-# vary between 0 and 200 for a full 360 degree hue change. Values larger than 100
-# shift the hue towards green and values smaller than 100 shift the hue towards the
+# 
+# -h hue ... Hue amount. Values are integers>=0. The default=100 (no change). Values 
+# vary between 0 and 200 for a full 360 degree hue change. Values larger than 100 
+# shift the hue towards green and values smaller than 100 shift the hue towards the 
 # blue.
-#
+# 
 # NOTE: This script is not designed for images with transparency.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 blur=5
@@ -104,13 +104,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -158,7 +158,7 @@ else
 					   ;;
 				-b)    # get blur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   blur=`expr "$1" : '\([0-9]*\)'`
@@ -166,7 +166,7 @@ else
 					   ;;
 				-m)    # get motionblur
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MOTIONBLUR SPECIFICATION ---"
 					   checkMinus "$1"
 					   motionblur=`expr "$1" : '\([0-9]*\)'`
@@ -174,11 +174,11 @@ else
 					   ;;
 				-n)    # get  negate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NEGATE SPECIFICATION ---"
 					   checkMinus "$1"
 					   negate=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$negate" in
+					   case "$negate" in 
 					   		yes|y) negate=yes ;;
 					   		no|n) negate=no;;
 					   		*) errMsg "--- NEGATE=$negate IS AN INVALID VALUE ---"  ;;
@@ -186,7 +186,7 @@ else
 					   ;;
 				-B)    # get  brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   brightness=`expr "$1" : '\([0-9]*\)'`
@@ -194,7 +194,7 @@ else
 					   ;;
 				-S)    # get  saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   saturation=`expr "$1" : '\([0-9]*\)'`
@@ -202,7 +202,7 @@ else
 					   ;;
 				-H)    # get  hue
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID HUE SPECIFICATION ---"
 					   checkMinus "$1"
 					   hue=`expr "$1" : '\([0-9]*\)'`
@@ -235,7 +235,7 @@ else
 		bgfile1="$2"
 		bgfile2="$3"
 		outfile="$4"
-	else
+	else 
 		errMsg "--- INCONSISTENT NUMBER OF IMAGES PROVIDED ---"
 	fi
 fi
@@ -296,5 +296,8 @@ else
 		"$bgfile1" +swap -gravity center -compose over -composite \
 		"$outfile"
 fi
-
+	
 exit 0
+
+
+

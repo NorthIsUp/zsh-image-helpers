@@ -1,104 +1,104 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 12/29/2018 .... revised 12/29/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: trim2rect [-f fuzzval] [-c coords] [-b bgcolor] [-p progress] [-g graphic]
+# USAGE: trim2rect [-f fuzzval] [-c coords] [-b bgcolor] [-p progress] [-g graphic] 
 # [-d dcolor] infile outfile
 # USAGE: trim2rect [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -f     fuzzval      fuzz value for determining border color; expressed as (float)
+# 
+# -f     fuzzval      fuzz value for determining border color; expressed as (float) 
 #                     percent 0 to 100; default=0 (uniform color)
-# -c     coords       pixel coordinate to extract color; may be expressed as a
-#                     gravity value (NorthWest, etc) or as "x,y" value; default
+# -c     coords       pixel coordinate to extract color; may be expressed as a 
+#                     gravity value (NorthWest, etc) or as "x,y" value; default 
 #                     is NorthWest=(0,0)
-# -b     bgcolor      background color surrounding region of interest; any valid IM
-#                     color is allowed; default is to use coords to get color; bgcolor
+# -b     bgcolor      background color surrounding region of interest; any valid IM 
+#                     color is allowed; default is to use coords to get color; bgcolor 
 #                     takes precedence over coordinates
 # -p     progress     show progress; choices are: yes or no
-# -g     graphic      draw crop box on input image; yes or no; default=no; graphic
+# -g     graphic      draw crop box on input image; yes or no; default=no; graphic 
 #                     image will be the input image name with _cropbox.jpg appended
-# -d     dcolor       crop box draw color; any valid opaque IM color is allowed:
+# -d     dcolor       crop box draw color; any valid opaque IM color is allowed: 
 #                     default=red
-#
+# 
 ###
-#
-# NAME: TRIM2RECT
-#
+# 
+# NAME: TRIM2RECT 
+#  
 # PURPOSE: Automatically trims the sides of an image until no outer row or column
-# contains the background color.
-#
-# DESCRIPTION: TRIM2RECT automatically trims the sides of an image one row or column
-# at a time until no side row or column contains the background color. The background
-# color is first floodfilled to be transparent and a -trim is performed to remove
-# excess background color that is completely along any side. Then the alpha channel is
-# extracted. Each side row or column of the alpha channel is then tested for its
-# mean value. If the mean value is less than one, a counter is incremented for that
-# side. Once a side row or column of the alpha channel has a mean of 1, that side row
-# or column is no longer tested. Processing continues until all side rows and columns
-# have a mean value of 1. A crop box is then computed from the counters indicating
-# how many rows and columns should be removed from each side. Finally the image is
+# contains the background color. 
+# 
+# DESCRIPTION: TRIM2RECT automatically trims the sides of an image one row or column 
+# at a time until no side row or column contains the background color. The background 
+# color is first floodfilled to be transparent and a -trim is performed to remove 
+# excess background color that is completely along any side. Then the alpha channel is 
+# extracted. Each side row or column of the alpha channel is then tested for its 
+# mean value. If the mean value is less than one, a counter is incremented for that 
+# side. Once a side row or column of the alpha channel has a mean of 1, that side row 
+# or column is no longer tested. Processing continues until all side rows and columns 
+# have a mean value of 1. A crop box is then computed from the counters indicating 
+# how many rows and columns should be removed from each side. Finally the image is 
 # cropped.
-#
-#
-# Arguments:
-#
-# -f fuzzval ... FUZZVAL is the fuzz amount specified as a percent 0 to 100
-# (without the % sign). The default=5. A value of zero indicates that border is a
+# 
+# 
+# Arguments: 
+# 
+# -f fuzzval ... FUZZVAL is the fuzz amount specified as a percent 0 to 100 
+# (without the % sign). The default=5. A value of zero indicates that border is a 
 # uniform color. Larger values are needed when the border is not a uniform color.
-#
-# -c coords ... COORDS is any location within the border area for the
-# algorithm to find the base border color. It may be specified in terms of
-# gravity parameters (NorthWest, North, NorthEast, East, SouthEast, South,
-# SouthWest or West) or as a pixel coordinate "x,y". The default is the
+# 
+# -c coords ... COORDS is any location within the border area for the 
+# algorithm to find the base border color. It may be specified in terms of 
+# gravity parameters (NorthWest, North, NorthEast, East, SouthEast, South, 
+# SouthWest or West) or as a pixel coordinate "x,y". The default is the 
 # upper left corner = NorthWest = "0,0".
-#
-# -bg color ... BGCOLOR is the background color surrounding the region of interest.
-# Any valid IM color is allowed. The default is to use coords to get color. The
+# 
+# -bg color ... BGCOLOR is the background color surrounding the region of interest. 
+# Any valid IM color is allowed. The default is to use coords to get color. The 
 # bgcolor takes precedence over coordinates.
-#
-# -p progress... show PROGRESS in cycles. The choices are: yes (y) or no (n). Each
-# cycle corresponds to a test of all four sides in the order of top, left, bottom,
+# 
+# -p progress... show PROGRESS in cycles. The choices are: yes (y) or no (n). Each  
+# cycle corresponds to a test of all four sides in the order of top, left, bottom, 
 # right.
-#
-# -g graphic ... GRAPHIC specifies to draw the crop box on input image after the
-# initial -trim to remove excess border. Choices are: yes (y) or no (n). The default=no.
+# 
+# -g graphic ... GRAPHIC specifies to draw the crop box on input image after the 
+# initial -trim to remove excess border. Choices are: yes (y) or no (n). The default=no. 
 # The graphic image will be the input image name with _cropbox.jpg appended.
-#
-# -d dcolor ... DCOLOR is the crop box draw color. Any valid opaque IM color is allowed.
+# 
+# -d dcolor ... DCOLOR is the crop box draw color. Any valid opaque IM color is allowed. 
 # The default=red.
-#
+# 
 # Note, this script may be quite slow as it processes one row or column at a time.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -118,13 +118,13 @@ tmpdir="."
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -169,7 +169,7 @@ else
 				   ;;
 			-f)    # fuzzval
 				   shift  # to get the next parameter - fuzzval
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 				   checkMinus "$1"
 				   fuzzval=`expr "$1" : '\([.0-9]*\)'`
@@ -179,7 +179,7 @@ else
 				   ;;
 			-c)    # coords
 				   shift  # to get the next parameter - coords
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID COORDS SPECIFICATION ---"
 				   checkMinus "$1"
 				   coords=$1
@@ -356,13 +356,13 @@ mean_min=`convert xc: -format "%[fx:min(min(min($mean_top,$mean_left),$mean_bott
 until [ "$top" = "opaque" -a "$left" = "opaque" -a "$bottom" = "opaque" -a "$right" = "opaque" ]; do
 echo "i=$i;"
 	#echo "i=$i; mean_top=$mean_top; mean_left=$mean_left; mean_bottom=$mean_bottom; mean_right=$mean_right; mean_min=$mean_min;"
-
+	
 	# test each side to see if transparent
 	# if transparent, then test if mean != 1
 	# if mean != 1, then test if mean = min
 	# if mean = min, then increment counter and continue loop
 	# if mean = 1, then set side to opaque
-
+	
 	if [ "$top" = "transparent" ]; then
 		if [ "$mean_top" != "1" ]; then
 			top_test=`echo "$mean_top==$mean_min" | bc`
@@ -384,7 +384,7 @@ echo "i=$i;"
 			echo "top is opaque"
 		fi
 	fi
-
+			
 	if [ "$left" = "transparent" ]; then
 		if [ "$mean_left" != "1" ]; then
 			left_test=`echo "$mean_left==$mean_min" | bc`
@@ -428,7 +428,7 @@ echo "i=$i;"
 			echo "bottom is opaque"
 		fi
 	fi
-
+			
 	if [ "$right" = "transparent" ]; then
 		if [ "$mean_right" != "1" ]; then
 			right_test=`echo "$mean_right==$mean_min" | bc`

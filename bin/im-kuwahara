@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 6/1/2014 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: kuwahara [-d dimension] [-m method] [-s smoothing] infile outfile
@@ -34,15 +34,15 @@
 # -d     dimension     square window dimension; integer>=2; default=3
 # -m     method        method of processing; 1=mean, 2=gaussian mean, 3=median
 #                      default=2
-# -s     smoothing     smoothing factor for method 2; float>=1; nominal
+# -s     smoothing     smoothing factor for method 2; float>=1; nominal 
 #                      between 1 and 2; default=1
 #
 ###
 #
-# NAME: KUWAHARA
-#
+# NAME: KUWAHARA 
+# 
 # PURPOSE: To apply a Kuwahara type edge preserving noise reduction filter to an image.
-#
+# 
 # DESCRIPTION: KUWAHARA applies a Kuwahara type edge preserving noise
 # reduction filter to an image. The basic Kuwahara filter does the following.
 # For each pixel in the image, the four diagonal neighboring square sized
@@ -59,27 +59,27 @@
 # circular Gaussian weighted mean within the square window and corresponding
 # standard deviation. Method 3 uses the circular Gaussian weighted approach to
 # compute the standard deviation, but uses a square window median value.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -d dimension ... DIMENSION is the square window dimension. Values are
-# integer>=2. Nominal values are in the range of 2 to 4. The default=3.
+# -d dimension ... DIMENSION is the square window dimension. Values are 
+# integer>=2. Nominal values are in the range of 2 to 4. The default=3. 
 # Values larger than 4 may cause jagged, flat regions.
-#
-# -m method ... METHOD is the method of processing. The choices are: 1=mean,
+# 
+# -m method ... METHOD is the method of processing. The choices are: 1=mean, 
 # 2=gaussian mean, 3=median. The default=2.
-#
-# -s smoothing ... SMOOTHING is the smoothing factor for method 2 only. Values
-# are float>=1. Nominal values are between 1 and 2. The default=1. The larger
+# 
+# -s smoothing ... SMOOTHING is the smoothing factor for method 2 only. Values 
+# are float>=1. Nominal values are between 1 and 2. The default=1. The larger 
 # the value the more smoothing.
 #
 # References:
 # http://en.wikipedia.org/wiki/Kuwahara_filter
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -97,13 +97,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -151,7 +151,7 @@ else
 					   ;;
 				-d)    # get dimension
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimension=`expr "$1" : '\([0-9]*\)'`
@@ -161,7 +161,7 @@ else
 					   ;;
 				-m)    # get method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method=`expr "$1" : '\([0-9]*\)'`
@@ -172,7 +172,7 @@ else
 					   ;;
 				-s)    # get smoothing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMOOTHING SPECIFICATION ---"
 					   checkMinus "$1"
 					   smoothing=`expr "$1" : '\([.0-9]*\)'`
@@ -291,15 +291,15 @@ convert $dir/tmpS.miff -distort SRT "0,0 1 0 0,-${shift}" +repage $dir/tmpS7.mif
 convert $dir/tmpS.miff -distort SRT "0,0 1 0 ${shift},0" +repage $dir/tmpS8.miff
 
 
-# find smallest std
+# find smallest std 
 convert \
 	$dir/tmpS1.miff $dir/tmpS2.miff $dir/tmpS3.miff $dir/tmpS4.miff \
 	$dir/tmpS5.miff $dir/tmpS6.miff $dir/tmpS7.miff $dir/tmpS8.miff \
 	-evaluate-sequence min $dir/tmpSMIN.miff
-
+	
 # compare std to min std and select appropriate mean
 test=`convert xc: -format "%[fx:$dimension%2]" info:`
-if [ "$test" = "0" -a "$method" != "2" ]; then
+if [ "$test" = "0" -a "$method" != "2" ]; then 
 	convert -respect-parenthesis $dir/tmpSMIN.miff \
 		\( $dir/tmpS1.miff -clone 0 -compose difference -composite -threshold 0 -negate \
 			$dir/tmpM1.miff +swap -alpha off -compose copy_opacity -composite \) \

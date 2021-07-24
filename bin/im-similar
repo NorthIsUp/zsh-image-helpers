@@ -3,74 +3,74 @@
 # Developed by Fred Weinhaus 12/30/2009 .......... revised 7/13/2016
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: similar [-m mode] infile1 infile2
 # USAGE: similar [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -m      mode       colorspace mode; g (for grayscale) or rgb; default=g
-#
+# 
 ###
-#
-# NAME: SIMILAR
-#
-# PURPOSE: To compute the normalized cross correlation similarity metric
+# 
+# NAME: SIMILAR 
+# 
+# PURPOSE: To compute the normalized cross correlation similarity metric 
 # between two equal dimensioned images.
-#
-# DESCRIPTION: SIMILAR computes the normalized cross correlation similarity
-# metric between two equal dimensioned images. The normalized cross correlation
-# metric measures how similar two images are, not how different they are. The
+# 
+# DESCRIPTION: SIMILAR computes the normalized cross correlation similarity 
+# metric between two equal dimensioned images. The normalized cross correlation 
+# metric measures how similar two images are, not how different they are. The  
 # range of ncc metric values is between 0 (dissimilar) and 1 (similar). If
-# mode=g, then the two images will be converted to grayscale. If mode=rgb,
-# then the two images first will be converted to colorspace=rgb. Next, the
-# ncc similarity metric will be computed for each channel. Finally, they will
-# be combined into an rms value. NOTE: this metric does not work for constant
-# color channels as it produces an ncc metric = 0/0 for that channel. Thus
-# it is not advised to run the script with either image having a totally
+# mode=g, then the two images will be converted to grayscale. If mode=rgb, 
+# then the two images first will be converted to colorspace=rgb. Next, the 
+# ncc similarity metric will be computed for each channel. Finally, they will 
+# be combined into an rms value. NOTE: this metric does not work for constant 
+# color channels as it produces an ncc metric = 0/0 for that channel. Thus 
+# it is not advised to run the script with either image having a totally 
 # opaque or totally transparent alpha channel that is enabled.
-#
-#
-# ARGUMENTS:
-#
-# -m mode ... MODE for colorspace to use when applying the normalized cross
-# correlation metric on the two images. If mode=g, then the two image will be
-# converted to grayscale. If mode=rgb, then the ncc similarity metric will be
+# 
+# 
+# ARGUMENTS: 
+# 
+# -m mode ... MODE for colorspace to use when applying the normalized cross 
+# correlation metric on the two images. If mode=g, then the two image will be 
+# converted to grayscale. If mode=rgb, then the ncc similarity metric will be 
 # computed for each channel and then combined as its rms value. Default=g
-#
+# 
 # NOTE: For best accuracy, this script should be run in HDRI compilation of IM.
-#
-# For reference on the normalized cross correlation metric, see
+# 
+# For reference on the normalized cross correlation metric, see 
 # http://en.wikipedia.org/wiki/Cross-correlation#Normalized_cross-correlation
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 mode="g"			# g or rgb
@@ -82,13 +82,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -136,15 +136,15 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
 					   mode=`echo "$mode" | tr "[:upper:]" "[:lower:]"`
-					   case "$mode" in
+					   case "$mode" in 
 					   		gray|grayscale|g) mode="g" ;;
 					   		rgb) mode="rgb" ;;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -189,7 +189,7 @@ if [ "$lastchar1" = "a" -a "$lastchar2" = "a" ]; then
 elif [ "$lastchar1" != "a" -a "$lastchar2" != "a" ]; then
 	aon="no"
 else
-	errMsg "--- ALPHA CHANNEL MUST BE ON IN BOTH IMAGES OR OFF IN BOTH IMAGES ---"
+	errMsg "--- ALPHA CHANNEL MUST BE ON IN BOTH IMAGES OR OFF IN BOTH IMAGES ---" 
 fi
 
 # set up temp file
@@ -210,9 +210,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmpA2 $tmpB2 $tmpA3 $tmpB3 $tmpA4 $tmpB4; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -257,7 +257,7 @@ w1=`convert $tmpA1 -ping -format "%w" info:`
 w2=`convert $tmpA2 -ping -format "%w" info:`
 h1=`convert $tmpA1 -ping -format "%h" info:`
 h2=`convert $tmpA2 -ping -format "%h" info:`
-if [ $w1 -ne $w2 -a $h1 -ne $h2 ]; then
+if [ $w1 -ne $w2 -a $h1 -ne $h2 ]; then 
 	errMsg "--- IMAGES MUST BE THE SAME WIDTH AND HEIGHT ---"
 fi
 
@@ -313,7 +313,7 @@ else
 	convert $tmpA2 $setcspace -channel blue -separate $tmpA4
 	nccMetric "$tmpA3" "$tmpA4"
 	nccblue=$ncc
-
+	
 	if [ "$aon" = "yes" ]; then
 	convert $tmpA1 -alpha extract $tmpA3
 	convert $tmpA2 -alpha extract $tmpA4
@@ -329,3 +329,7 @@ else
 	echo "red=$nccred; green=$nccgreen; blue=$nccblue;"
 fi
 echo ""
+
+
+
+

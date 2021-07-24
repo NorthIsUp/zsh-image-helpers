@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/21/2014 .......... revised 6/18/2016
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: space2 [-a autolevel] [-b bri] [-c con] [-s sat] [-m maxgain ] [-d]
@@ -32,21 +32,21 @@
 #
 # OPTIONS:
 #
-# -a              autolevel      autolevel as preprocessing; options are:
-#                                off (o), together (t), separately (s);
+# -a              autolevel      autolevel as preprocessing; options are: 
+#                                off (o), together (t), separately (s); 
 #                                default=together
-# -b              bri            brightness adjustment factor; float>0;
-#                                default=1 (no change)
-# -c              con            contrast adjustment factor; float>0;
-#                                default=1 (no change)
-# -s              sat            saturation adjustment percent; float;
-#                                -45<=sat<=45; default is no change
+# -b              bri            brightness adjustment factor; float>0; 
+#                                default=1 (no change)                             
+# -c              con            contrast adjustment factor; float>0; 
+#                                default=1 (no change)                             
+# -s              sat            saturation adjustment percent; float; 
+#                                -45<=sat<=45; default is no change 
 # -m              maxgain        maximum gain; controls amount of detail;
 #                                float>0; default=2.5
 #                                larger values will allow more detail;
-# -d                             set the desired standard deviation (dstd)
-#                                to an internally set constant value;
-#                                default is to use the image's actual std
+# -d                             set the desired standard deviation (dstd) 
+#                                to an internally set constant value; 
+#                                default is to use the image's actual std                                
 # -w              window         windowing size as percentage of image;
 #                                nominally between 5 and 20; 2<=float<=50;
 #                                default=8
@@ -55,11 +55,11 @@
 ###
 #
 # NAME: SPACE2
-#
-# PURPOSE: To change the contrast and/or brightness in an image adaptively.
-#
-# DESCRIPTION: SPACE2 is a locally adaptive technique to enhance an image's
-# brightness and contrast. SPACE is an abbreviation for SPacially Adaptive
+# 
+# PURPOSE: To change the contrast and/or brightness in an image adaptively. 
+# 
+# DESCRIPTION: SPACE2 is a locally adaptive technique to enhance an image's 
+# brightness and contrast. SPACE is an abbreviation for SPacially Adaptive 
 # Contrast Enhancement.
 #
 # The adaptive formula R = M + G*(I-M). Here R is the resulting image. I is
@@ -83,57 +83,57 @@
 # that are image dependent. They are applied via sigmoidal non-linear
 # functions. The saturation is a linear adjustment in LAB colorspace and the
 # default is no change.
+# 
+# 
+# Arguments: 
 #
-#
-# Arguments:
-#
-# -a autolevel --- autolevel as preprocessing step. The options are:
-# off (o), together (t), separately (s). The default=together. Note,
-# for some images, especially with haze, the option separately can cause
+# -a autolevel --- autolevel as preprocessing step. The options are: 
+# off (o), together (t), separately (s). The default=together. Note, 
+# for some images, especially with haze, the option separately can cause 
 # severe color shifts.
-#
-# -b bri --- bri is a brightness adjustment factor multiplied by the
-# automatically computed default. It is a float>0. Values larger then 1 will
-# increase the brightness and values smaller than 1 will decrease the
-# brightness. The default is 1 or no change from the automatically computed
-# value.
-#
-# -c con --- con is a contrast adjustment factor multiplied by the
-# automatically computed default. It is a float>0. Values larger then 1 will
-# increase the contrast and values smaller than 1 will decrease the contrast.
-# The default is 1 or no change from the automatically computed value.
-#
-# -s sat --- sat is a saturation factor. It is used in a post processing step.
-# It is a float in the range of -45 to 45 (percent). The default is 0 or no
-# change and skips saturation processing.
-#
-# -m maxgain --- maxgain is the maximum gain. It controls the amount of detail
-# (sharpness). Values are floats>0. The default is 2.5. Larger values allow
-# more detail to show and may be useful for very hazy images. Too large a
+# 
+# -b bri --- bri is a brightness adjustment factor multiplied by the  
+# automatically computed default. It is a float>0. Values larger then 1 will 
+# increase the brightness and values smaller than 1 will decrease the 
+# brightness. The default is 1 or no change from the automatically computed 
+# value. 
+# 
+# -c con --- con is a contrast adjustment factor multiplied by the  
+# automatically computed default. It is a float>0. Values larger then 1 will 
+# increase the contrast and values smaller than 1 will decrease the contrast. 
+# The default is 1 or no change from the automatically computed value. 
+# 
+# -s sat --- sat is a saturation factor. It is used in a post processing step. 
+# It is a float in the range of -45 to 45 (percent). The default is 0 or no 
+# change and skips saturation processing. 
+# 
+# -m maxgain --- maxgain is the maximum gain. It controls the amount of detail 
+# (sharpness). Values are floats>0. The default is 2.5. Larger values allow 
+# more detail to show and may be useful for very hazy images. Too large a  
 # value may over-exaggerate detail, especially when there is no haze.
-#
-# -d --- set the desired standard deviation (dstd) to an internally set
-# constant value. The default is to use the image's actual std for the dstd.
-# Both results are close. It becomes a user's preference. The results are
-# image dependent. Some images become slightly sharper with one method and
+# 
+# -d --- set the desired standard deviation (dstd) to an internally set 
+# constant value. The default is to use the image's actual std for the dstd.                             
+# Both results are close. It becomes a user's preference. The results are 
+# image dependent. Some images become slightly sharper with one method and 
 # other images are sharper with the other method.
-#
-# -w window --- the moving window size as a percentage of the input image for the
-# local averaging and standard deviation operations. Values are 2<=float<=50.
+# 
+# -w window --- the moving window size as a percentage of the input image for the 
+# local averaging and standard deviation operations. Values are 2<=float<=50. 
 # Typical values are between 5 and 20. The default is 8 (%).
-#
-# REQUIREMENTS: If not using HDRI mode, this script can be slow due to the
-# use of -fx. Also IM 6.5.5-1 or higher due to the use of -auto-level. For
-# best results use IM 6.7.9-5 or higher due to changes in the operation of
+# 
+# REQUIREMENTS: If not using HDRI mode, this script can be slow due to the 
+# use of -fx. Also IM 6.5.5-1 or higher due to the use of -auto-level. For 
+# best results use IM 6.7.9-5 or higher due to changes in the operation of 
 # -sigmoidal-contrast.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
-# set default values;
+# set default values; 
 autolevel="together"	# autolevel preprocess
 bri=1					# auto compute
 con=1					# auto compute
@@ -157,13 +157,13 @@ tmpdir="."
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -209,11 +209,11 @@ else
 				   ;;
 			-a)    # get  autolevel
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID AUTOLEVEL SPECIFICATION ---"
 				   checkMinus "$1"
 				   autolevel=`echo "$1" | tr '[A-Z]' '[a-z]'`
-				   case "$autolevel" in
+				   case "$autolevel" in 
 						o|off) autolevel="off" ;;
 						together|t) autolevel="together" ;;
 						separately|s) autolevel="separately" ;;
@@ -222,7 +222,7 @@ else
 				   ;;
 			-b)    # bri
 				   shift  # to get the next parameter - bri
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BRI SPECIFICATION ---"
 				   checkMinus "$1"
 				   bri=`expr "$1" : '\([.0-9]*\)'`
@@ -232,7 +232,7 @@ else
 				   ;;
 			-c)    # con
 				   shift  # to get the next parameter - con
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID CON SPECIFICATION ---"
 				   checkMinus "$1"
 				   con=`expr "$1" : '\([.0-9]*\)'`
@@ -242,7 +242,7 @@ else
 				   ;;
 			-s)    # sat
 				   shift  # to get the next parameter - sat
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SAT SPECIFICATION ---"
 				   sat=`expr "$1" : '\([-.0-9]*\)'`
 				   [ "$sat" = "" ] && errMsg "--- SAT=$sat MUST BE A NON-NEGATIVE FLOATING POINT VALUE (with no sign) ---"
@@ -252,7 +252,7 @@ else
 				   ;;
 			-w)    # window
 				   shift  # to get the next parameter - window
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID WINDOW SPECIFICATION ---"
 				   checkMinus "$1"
 				   window=`expr "$1" : '\([.0-9]*\)'`
@@ -263,7 +263,7 @@ else
 				   ;;
 			-m)    # maxgain
 				   shift  # to get the next parameter - maxgain
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 				   checkMinus "$1"
 				   maxgain=`expr "$1" : '\([.0-9]*\)'`
@@ -311,7 +311,7 @@ sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | 
 # test for hdri enabled
 # NOTE: must put grep before trap using ERR in case it does not find a match
 if [ "$im_version" -ge "07000000" ]; then
-	hdri_on=`convert -version | grep "HDRI"`
+	hdri_on=`convert -version | grep "HDRI"`	
 else
 	hdri_on=`convert -list configure | grep "enable-hdri"`
 fi
@@ -329,9 +329,9 @@ trap "rm -rf $dir; exit 1" 1 2 3 10 15
 trap "rm -rf $dir; exit 1" ERR
 
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -498,12 +498,12 @@ else
 	\(  -clone 4 -clone 3 +swap -define compose:clamp=off -compose divide -composite \) \
 	-delete 0,2,3,4 -define compose:clamp=off -compose plus -composite $dir/tmp3.mpc
 fi
-
+	
 # modify saturation if desired
 if [ "$sat" != "0" ]
 	then
 	bp=$sat
-	wp=`convert xc: -format "%[fx:(100-$sat)]" info:`
+	wp=`convert xc: -format "%[fx:(100-$sat)]" info:`		
 	convert $dir/tmp3.mpc $dir/tmpA.mpc
 	convert $dir/tmpA.mpc $setcspace -colorspace LAB -channel R -separate $dir/tmp0.mpc
 	convert $dir/tmpA.mpc $setcspace -colorspace LAB -channel G -separate $dir/tmp1.mpc

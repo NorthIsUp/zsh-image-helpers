@@ -3,33 +3,33 @@
 # Developed by Fred Weinhaus 8/15/2019 .......... 8/15/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: textetch -t text [-p pointsize] [-f font] [-c color] [-g gravity] [-o offset]
-# [-a arc] [-r rotation] [-n noise] [-i imageoffset] [-s scale] [-b brighness]
+# [-a arc] [-r rotation] [-n noise] [-i imageoffset] [-s scale] [-b brighness] 
 # [-C compose] infile [clipart] outfile
-#
+# 
 # USAGE: textetch [-help or -h]
 #
 # OPTIONS:
@@ -37,77 +37,77 @@
 # -t     text            text to apply to the input image. Required.
 # -p     pointsize       pointsize for the text; integer>0; default=28
 # -f     font            font name or path to font file; default=arial
-# -c     color           color of font; any valid opaque IM color is allowed;
+# -c     color           color of font; any valid opaque IM color is allowed; 
 #                        default="gray(128)"
-# -g     gravity         gravity setting for offset placement of text; choices are:
+# -g     gravity         gravity setting for offset placement of text; choices are: 
 #                        center or northwest; default=center
-# -o     offset          offset of text placement relative to gravity setting; format
+# -o     offset          offset of text placement relative to gravity setting; format 
 #                        is +-X+-Y; default="+0+0"
-# -a     arc             arc curvature of the text in degrees; 0<=integer<=360;
+# -a     arc             arc curvature of the text in degrees; 0<=integer<=360; 
 #                        default=0
 # -r     rotation        rotation angle of text; 0<=integer<=360; default=0
 # -n     noise           noise amount to use to texturize the text; float>=0; default=0.5
-# -i     imageoffset     offset of clipart placement relative to gravity setting; format
+# -i     imageoffset     offset of clipart placement relative to gravity setting; format 
 #                        is +-X+-Y; default="+0+0"
 # -s     scale           scale in percent for clipart; integer>0; default=100 (no change)
 # -b     brightness      brightness for clipart; integer>0; default=100 (no change)
-# -C     compose         compose method for compositing text and clipart; choices are:
+# -C     compose         compose method for compositing text and clipart; choices are: 
 #                        over or multiply; default=over
-#
+# 
 ###
 #
-# NAME: TEXTETCH
-#
+# NAME: TEXTETCH 
+# 
 # PURPOSE: Adds text to an image to simulate etching on glass.
-#
-# DESCRIPTION: TEXTETCH adds text to an image to simulate etching on glass. Text is
-# nominally added in one line. Multiple line format is controlled by adding new line
-# \n characters within the text. One optional clipart file may be added. It should
-# have a transparent background and will be converted to grayscale and optionally
+# 
+# DESCRIPTION: TEXTETCH adds text to an image to simulate etching on glass. Text is 
+# nominally added in one line. Multiple line format is controlled by adding new line 
+# \n characters within the text. One optional clipart file may be added. It should 
+# have a transparent background and will be converted to grayscale and optionally 
 # colorized the same as the text.
-#
-#
-# OPTIONS:
-#
+# 
+# 
+# OPTIONS: 
+# 
 # -t text ... TEXT string to apply to the image. Required. Must be enclosed in quotes.
-#
+# 
 # -p pointsize ... POINTSIZE for the text. Values are integer>0. The default=28.
-#
+# 
 # -f font ... FONT name or path to font file. The default=arial.
-#
-# -c color ... COLOR of the font. Any valid opaque IM color is allowed. The
+# 
+# -c color ... COLOR of the font. Any valid opaque IM color is allowed. The 
 # default="gray(128)".
-#
-# -g gravity ... GRAVITY setting for the offset placement of text. The choices are:
+# 
+# -g gravity ... GRAVITY setting for the offset placement of text. The choices are: 
 # center (c) or northwest (n). The default=center.
-#
-# -o offset ... OFFSET placement of the text relative to the gravity setting. The
+# 
+# -o offset ... OFFSET placement of the text relative to the gravity setting. The 
 # format is +-X+-Y. The default="+0+0"
-#
-# -a arc ... ARC downward curvature of the text in degrees. Values are 0<=integer<=360.
+# 
+# -a arc ... ARC downward curvature of the text in degrees. Values are 0<=integer<=360. 
 # The default=0.
-#
+# 
 # -r rotation ... ROTATION angle of text. Values are 0<=integer<=360. The default=0.
-#
-# -n noise ... NOISE amount to use to texturize the text. Values are float>=0.
+# 
+# -n noise ... NOISE amount to use to texturize the text. Values are float>=0. 
 # The default=0.5.
-#
-# -i imageoffset ... IMAGE OFFSET of clipart placement relative to gravity setting.
+# 
+# -i imageoffset ... IMAGE OFFSET of clipart placement relative to gravity setting. 
 # The format is +-X+-Y; default="+0+0".
-#
-# -s scale ... SCALE in percent for clipart. Values are integer>0. The default=100
+# 
+# -s scale ... SCALE in percent for clipart. Values are integer>0. The default=100 
 # (indicates no change).
-#
-# -b brightness ... BRIGHTNESS adjustment for the clipart. Values are integer>0.
+# 
+# -b brightness ... BRIGHTNESS adjustment for the clipart. Values are integer>0. 
 # The default=100 (indicates no change)
-#
-# -C compose ... COMPOSE method for compositing text and clipart; choices are:
+# 
+# -C compose ... COMPOSE method for compositing text and clipart; choices are: 
 # over (o) or multiply (m). The default=over.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -135,13 +135,13 @@ tmpdir="."
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -189,12 +189,12 @@ else
 					   ;;
 				-t)    # get text
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   text="$1"
 		   			   ;;
 				-p)    # get pointsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID POINTSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   pointsize=`expr "$1" : '\([0-9]*\)'`
@@ -204,33 +204,33 @@ else
 		   			   ;;
 				-f)    # get font
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FONT SPECIFICATION ---"
 					   checkMinus "$1"
 					   font="$1"
 		   			   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 		   			   ;;
 				-g)    # get gravity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   gravity=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$gravity" in
+					   case "$gravity" in 
 					   		center|c) gravity="center" ;;
 					   		northwest|n) gravity="northwest" ;;
-					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---"
+					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-o)    # get offset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OFFSET SPECIFICATION ---"
 					   checkMinus "$1"
 					   offset=`expr "$1" : '\([+-][0-9]*[+-][0-9]*\)'`
@@ -238,7 +238,7 @@ else
 		   			   ;;
 				-a)    # get arc
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ARC SPECIFICATION ---"
 					   checkMinus "$1"
 					   arc=`expr "$1" : '\([0-9]*\)'`
@@ -249,7 +249,7 @@ else
 		   			   ;;
 				-r)    # get rotation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROTATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   rotation=`expr "$1" : '\([0-9]*\)'`
@@ -260,7 +260,7 @@ else
 		   			   ;;
 				-n)    # get noise
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NOISE SPECIFICATION ---"
 					   checkMinus "$1"
 					   noise=`expr "$1" : '\([.0-9]*\)'`
@@ -268,7 +268,7 @@ else
 					   ;;
 				-i)    # get imageoffset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID IMAGEOFFSET SPECIFICATION ---"
 					   checkMinus "$1"
 					   imageoffset=`expr "$1" : '\([+-][0-9]*[+-][0-9]*\)'`
@@ -276,7 +276,7 @@ else
 		   			   ;;
 				-s)    # get scale
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SCALE SPECIFICATION ---"
 					   checkMinus "$1"
 					   scale=`expr "$1" : '\([0-9]*\)'`
@@ -286,7 +286,7 @@ else
 		   			   ;;
 				-b)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   brightness=`expr "$1" : '\([0-9]*\)'`
@@ -296,14 +296,14 @@ else
 		   			   ;;
 				-C)    # get compose
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COMPOSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   compose=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$compose" in
+					   case "$compose" in 
 					   		over|o) compose="over" ;;
 					   		multiply|m) compose="multiply" ;;
-					   		*) errMsg "--- COMPOSE=$compose IS AN INVALID VALUE ---"
+					   		*) errMsg "--- COMPOSE=$compose IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 			 	 -)    # STDIN and end of arguments

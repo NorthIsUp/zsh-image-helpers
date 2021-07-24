@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 1/20/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: flickerchannel [-c channellist] [-d delay] [ -r resize] [-m colormodel] [-i] [-l] [-f] infile
@@ -35,7 +35,7 @@
 #                         any two or three may be specified;
 #                         default "0 1 2 3" for CMYK; otherwise "0 1 2"
 # -d     delay            time delay per frame (ms); delay >= 0; default=50
-# -r     resize           image resize percentage; resize > 0;
+# -r     resize           image resize percentage; resize > 0; 
 #                         default=100 (unchanged)
 # -m     colormodel       desired color space to convert (RGB/sRGB) image;
 #                         default is infile colorspace: RGB/sRGB or CMYK
@@ -46,50 +46,50 @@
 ###
 #
 # NAME: FLICKERCHANNEL
-#
-# PURPOSE: To display and optionally save an animation of the channels in
+# 
+# PURPOSE: To display and optionally save an animation of the channels in 
 # an image.
-#
+# 
 # DESCRIPTION: FLICKERCHANNEL automatically displays an animation from the
-# channels of the supplied input image and optionally saves the animation
-# to a file. At least two channels must be supplied. The main purpose of the
+# channels of the supplied input image and optionally saves the animation 
+# to a file. At least two channels must be supplied. The main purpose of the 
 # script is to make a visual inspection of two (or more) channels of an image
-# by alternating the display of each channel. The input image must be sRGB/RGB
-# or CMYK. It may optionally be converted to any other valid colorspace by the
+# by alternating the display of each channel. The input image must be sRGB/RGB 
+# or CMYK. It may optionally be converted to any other valid colorspace by the 
 # script before the channels are labeled and displayed.
-#
-#
-# OPTIONS:
-#
-#
-# -c channellist ... CHANNELLIST is a double quoted list of the channels to
-# be included in the animation. For CMYK, this defaults to "0 1 2 3", but can
-# be any pair. For RGB or any other colorspace, this defaults to "0 1 2", but
+# 
+# 
+# OPTIONS: 
+# 
+# 
+# -c channellist ... CHANNELLIST is a double quoted list of the channels to 
+# be included in the animation. For CMYK, this defaults to "0 1 2 3", but can 
+# be any pair. For RGB or any other colorspace, this defaults to "0 1 2", but 
 # can be any pair.
 #
-# -d delay ... DELAY is the time delay in msec between frames in the animation.
-# Values are integers greater than or equal to zero. The default=50. Note that
+# -d delay ... DELAY is the time delay in msec between frames in the animation. 
+# Values are integers greater than or equal to zero. The default=50. Note that 
 # the animation will be created to loop forever.
-#
-# -r resize ... RESIZE allows the animation to made larger or smaller than
-# the input image size. The values are integers greater than 0 representing the
-# resize percentage. The default=100 which leaves the animation the same size as
+# 
+# -r resize ... RESIZE allows the animation to made larger or smaller than 
+# the input image size. The values are integers greater than 0 representing the 
+# resize percentage. The default=100 which leaves the animation the same size as 
 # the input image.
-#
-# -m  COLORMODEL is the desired color model in which to present the animation.
-# Any valid IM colorspace is permitted, but if used, the infile must be in
+# 
+# -m  COLORMODEL is the desired color model in which to present the animation. 
+# Any valid IM colorspace is permitted, but if used, the infile must be in  
 # RGB/sRGB or CMYK colorspace. The default is the input colorspace.
-#
+# 
 # -i ... Includes the full color infile in the animation.
-#
+# 
 # -l ... Disables the labeling of the images.
-#
+# 
 # -f ... Specifies that the animation is to be saved to a file called animation.gif
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -109,13 +109,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -190,7 +190,7 @@ else
 					   ;;
 				-c)    # list of channels
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CHANNEL LIST SPECIFICATION ---"
 					   checkMinus "$1"
 					   clist="$1"
@@ -199,7 +199,7 @@ else
 					   ;;
 				-d)    # delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay="$1"
@@ -210,7 +210,7 @@ else
 					   ;;
 				-r)    # resize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   resize="$1"
@@ -222,7 +222,7 @@ else
 					   ;;
 		 		-m)    # colormodel
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INCORRECT COLORMODEL PARAMETER SPECIFICATION ---"
 					   checkMinus "$1"
 					   colormodel=$1
@@ -270,9 +270,9 @@ trap "rm -f $tmpA $tmpB $tmpC $tmp0 $tmp1 $tmp2 $tmp3; exit 1" 1 2 3 15
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear

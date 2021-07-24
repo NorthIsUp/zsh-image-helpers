@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/3/2013 .......... revised 10/12/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: aspectcrop [-a aspect] [-g gravity] infile outfile
@@ -31,36 +31,36 @@
 #
 # OPTIONS:
 #
-# -a     aspect      aspect ratio value desired; width to height ratio; values
-#                    can be either a float or as two floats separated by a
+# -a     aspect      aspect ratio value desired; width to height ratio; values 
+#                    can be either a float or as two floats separated by a  
 #                    colon; default is input aspect ratio (no change)
-# -g     gravity     gravity alignment for cropping; any IM -gravity value;
+# -g     gravity     gravity alignment for cropping; any IM -gravity value; 
 #                    default=center
 #
 ###
 #
 # NAME: ASPECTCROP
-#
+# 
 # PURPOSE: To crop an image to a specified aspect ratio.
-#
+# 
 # DESCRIPTION: ASPECTPAD crops an image to a specified aspect ratio.
-#
-# OPTIONS:
-#
-# -a aspect ... ASPECT is the desired width to height aspect ratio. Values are
-# either floats>0, such as 2 (landscape) or 0.5 (portrait), or two floats
+# 
+# OPTIONS: 
+# 
+# -a aspect ... ASPECT is the desired width to height aspect ratio. Values are 
+# either floats>0, such as 2 (landscape) or 0.5 (portrait), or two floats 
 # separate by a colon (and no spaces), such a 2:1 (landscale) or 1:2 (portrait).
 # The default is input aspect ratio (no change).
-#
-# -g gravity ... GRAVITY alignment for cropping; Any IM -gravity setting is
-# allowed. Options are: center (c), north (n), south (s), east (e), west (w),
-# northwest (nw), northeast (ne), southwest, (sw) or southeast (se). The
+# 
+# -g gravity ... GRAVITY alignment for cropping; Any IM -gravity setting is 
+# allowed. Options are: center (c), north (n), south (s), east (e), west (w), 
+# northwest (nw), northeast (ne), southwest, (sw) or southeast (se). The 
 # default=center.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -75,13 +75,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -129,7 +129,7 @@ else
 					   ;;
 				-a)    # get aspect
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ASPECT SPECIFICATION ---"
 					   checkMinus "$1"
 					   aspect=`expr "$1" : '\([.0-9]*[:]*[.0-9]*\)'`
@@ -137,12 +137,12 @@ else
 					   ;;
 				-g)    # get  gravity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   gravity="$1"
 					   gravity=`echo "$gravity" | tr "[:upper:]" "[:lower:]"`
-					   case "$gravity" in
+					   case "$gravity" in 
 					   		center|c) gravity="center" ;;
 					   		north|n) gravity="north" ;;
 					   		south|s) gravity="south" ;;
@@ -152,7 +152,7 @@ else
 					   		northeast|nw) gravity="northeast" ;;
 					   		southwest|sw) gravity="southwest" ;;
 					   		southeast|se) gravity="southeast" ;;
-					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---"
+					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -198,7 +198,7 @@ ratio=`convert xc: -format "%[fx:$ww/$hh]" info:`
 #echo "ww=$ww; hh=$hh ratio=$ratio;"
 
 
-# copy input to output if aspect is not specified
+# copy input to output if aspect is not specified 
 if [ "$aspect" = "" ]; then
 	convert $tmpA1 $outfile
 	exit
@@ -213,7 +213,7 @@ if [ $aspect1 -eq 0 -o $aspect2 -eq 0 ]; then
 	errMsg "--- DESIRED WIDTH OR HEIGHT MUST NOT BE ZERO ---"
 elif [ "$aspect2" = "" ]; then
 	aspect=$aspect1
-elif [ $test -eq 1 ]; then
+elif [ $test -eq 1 ]; then 
 	aspect=$aspect1
 else
 	aspect=`convert xc: -format "%[fx:$aspect1/$aspect2]" info:`
@@ -224,7 +224,7 @@ fi
 
 # test if aspect >= ratio
 test=`convert xc: -format "%[fx:$aspect>=$ratio?1:0]" info:`
-[ $test -eq 1 ] && format="larger" || format="smaller"
+[ $test -eq 1 ] && format="larger" || format="smaller" 
 #echo "format=$format;"
 
 # compute width and height of output
@@ -234,10 +234,11 @@ if [ "$format" = "larger" ]; then
 elif [ "$format" = "smaller" ]; then
 	width=`convert xc: -format "%[fx:$ww*$aspect/$ratio]" info:`
 	height=$hh
-fi
+fi	
 
 
 # process image
 convert $tmpA1 -gravity $gravity -crop ${width}x${height}+0+0 +repage "$outfile"
 
 exit 0
+

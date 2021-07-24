@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 3/31/2010 .......... revised 11/22/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: innercrop [-o ocolor] [-p prep] [-f fuzzval] [-t thresholds] [-b biases] [-u ucolor] [-m mode] [-g gcolor] [-s swidth] [-i is360] [-r rmse] infile outfile
@@ -31,110 +31,110 @@
 #
 # OPTIONS:
 #
-# -o      ocolor	       	color of outer region to be cropped out;
+# -o      ocolor	       	color of outer region to be cropped out; 
 #                           Any valid IM color; default=black
 # -p      prep              preprocessing trim type; choices are 1 or 2;
 #                           1=fuzzy trim; 2=fuzzy floodfill trim; default=1
 # -f      fuzzval           fuzz value in percent to use for preprocessing;
 #                           0<=float<=100; default=0
-# -t      thresholds        four optional threshold values, one for each
-#                           processing pass; comma separate list; values
-#                           are floats>=0; default=",,,," means all four
+# -t      thresholds        four optional threshold values, one for each 
+#                           processing pass; comma separate list; values 
+#                           are floats>=0; default=",,,," means all four 
 #                           are computed automatically
-# -b      biases            four optional biases applied as multipliers of
-#                           automatic thresholds, only; values are floats>=0;
+# -b      biases            four optional biases applied as multipliers of 
+#                           automatic thresholds, only; values are floats>=0; 
 #                           default="1,1,1,1"
-# -u      ucolor	       	unused color in image to use when converting
+# -u      ucolor	       	unused color in image to use when converting 
 #                           image to a binary mask; Any valid IM color;
 #                           default="none"
 # -m      mode              mode for output image; choices are crop and box;
-#                           crop means to crop the input image; box means
+#                           crop means to crop the input image; box means 
 #                           to draw a rectangular box showing where the image
 #                           would be cropped; default=crop
 # -g      gcolor	       	color to use when mode=box; Any valid IM color;
 #                           default=red
 # -s      swidth            strokewidth to use when mode=box; integer>0;
 #                           default=1
-# -i      is360             test if cropped image is a 360 panorama;
+# -i      is360             test if cropped image is a 360 panorama; 
 #                           yes means do test; no means do not do test;
 #                           default=no
-# -r      rmse              rmse threshold value for determining if is 360
+# -r      rmse              rmse threshold value for determining if is 360 
 #                           panorama; float>0; default=.05
 #
 ###
 #
-# NAME: INNERCROP
-#
-# PURPOSE: To crop an image to a rectangle that will just trim
+# NAME: INNERCROP 
+# 
+# PURPOSE: To crop an image to a rectangle that will just trim 
 # any irregularly shaped outer boundary color.
-#
-# DESCRIPTION: INNERCROP crops an image to a rectangle that will
-# just trim any irregularly shaped outer boundary color. The image is first
-# trimmed and then converted to a binary mask. The mask is processed to one
-# column and one row and thresholded to find the first and last occurences of
-# white, which determine the top and bottom and left an right sides for
+# 
+# DESCRIPTION: INNERCROP crops an image to a rectangle that will 
+# just trim any irregularly shaped outer boundary color. The image is first 
+# trimmed and then converted to a binary mask. The mask is processed to one 
+# column and one row and thresholded to find the first and last occurences of 
+# white, which determine the top and bottom and left an right sides for 
 # cropping. This is repeated a second time to get the final crop coordinates.
-#
-#
-# OPTIONS:
-#
-# -o ocolor ... OCOLOR is the color of the outer region that is to be cropped
+# 
+# 
+# OPTIONS: 
+# 
+# -o ocolor ... OCOLOR is the color of the outer region that is to be cropped 
 # out of the image. Any valid IM color is allowed.
-#
-# -p prep ... PREP is the preprocessing trim type to be used. Choices are
-# either 1 or 2. A value of 1 means to simply do a fuzzy trim. A value of 2
-# means to do a fuzzy floodfill trim. The latter is useful when the image
+# 
+# -p prep ... PREP is the preprocessing trim type to be used. Choices are 
+# either 1 or 2. A value of 1 means to simply do a fuzzy trim. A value of 2 
+# means to do a fuzzy floodfill trim. The latter is useful when the image 
 # itself contains the ocolor interior to the outer region. The default=1
-#
-# -f fuzzval ... FUZZVAL is the fuzz factor in percent used in the
-# preprocessing step. The choice of value is important if the outer color
-# is not uniform as may be the case with jpeg compression. Typical values
-# in those cases are a few percent. Over cropping can occur if the fuzzval
+# 
+# -f fuzzval ... FUZZVAL is the fuzz factor in percent used in the 
+# preprocessing step. The choice of value is important if the outer color 
+# is not uniform as may be the case with jpeg compression. Typical values 
+# in those cases are a few percent. Over cropping can occur if the fuzzval 
 # is too high. Values are 0<=float<=100. The default=0
-#
-# -t thresholds ... THRESHOLDS are four comma separate combinations of
-# non-negative floating point values or null values (no spaces).
-# The default=",,," which indicates that each of the four thresholds is to
-# be computed automatically. Non-null values may be useful if the
-# automatic thresholds do not provide a good result and one desires to
+# 
+# -t thresholds ... THRESHOLDS are four comma separate combinations of 
+# non-negative floating point values or null values (no spaces). 
+# The default=",,," which indicates that each of the four thresholds is to 
+# be computed automatically. Non-null values may be useful if the 
+# automatic thresholds do not provide a good result and one desires to 
 # try to improve the result.
-#
-# -b biases ... BIASES are four comma separate non-negative floating point
+# 
+# -b biases ... BIASES are four comma separate non-negative floating point 
 # values that are used as multipliers of the automatically computed thresholds.
-# The corresponding bias is not used when a non-null value is proved for a
-# given threshold. The default="1,1,1,1". The biases may be useful if the
-# automatic thresholds do not provide a good result and one desires to
+# The corresponding bias is not used when a non-null value is proved for a 
+# given threshold. The default="1,1,1,1". The biases may be useful if the 
+# automatic thresholds do not provide a good result and one desires to 
 # try to improve the result.
-#
-# -u ucolor ... UCOLOR is any unused (safe) color in the image that will be
-# used to convert the image into a mask. Any valid IM color is allowd. The
+# 
+# -u ucolor ... UCOLOR is any unused (safe) color in the image that will be 
+# used to convert the image into a mask. Any valid IM color is allowd. The 
 # default=none (i.e. transparent) and assumes the image is fully opaque.
-#
-# -m mode ... MODE is the output mode. The choices are: crop and box. When
-# mode=crop, the ouput image will be the cropped version of the input image.
-# When mode=box, a graphic box outline will be drawn on the input image showing
+# 
+# -m mode ... MODE is the output mode. The choices are: crop and box. When 
+# mode=crop, the ouput image will be the cropped version of the input image. 
+# When mode=box, a graphic box outline will be drawn on the input image showing 
 # where the cropping would take place. The default=crop.
-#
-# -g gcolor ... GCOLOR is the color of the graphic box outline to be used
+# 
+# -g gcolor ... GCOLOR is the color of the graphic box outline to be used 
 # when mode=box. Any valid IM color is allowed. The default=red.
-#
-# -s swidth ... SWIDTH is the strokewidth to use when drawing the graphic
+# 
+# -s swidth ... SWIDTH is the strokewidth to use when drawing the graphic 
 # box outline. Values are integers>0. The default=1.
-#
-# -i is360 ... IS360 is a flag to perform a test to determine if the image
-# is a 360 degree panorama. The choices are yes or no. The default=no, which
+# 
+# -i is360 ... IS360 is a flag to perform a test to determine if the image 
+# is a 360 degree panorama. The choices are yes or no. The default=no, which 
 # means do not test for 360 degree panorama.
-#
-# -r rmse ... RMSE is the root mean squared error threshold used to compare
-# the first and last columns to determine if they are similar enough. Values
-# are floats>0. The default is 0.05. If the compare test has an rmse value
-# less than this threshold, then the image is determined to be a 360 degree
+# 
+# -r rmse ... RMSE is the root mean squared error threshold used to compare 
+# the first and last columns to determine if they are similar enough. Values 
+# are floats>0. The default is 0.05. If the compare test has an rmse value 
+# less than this threshold, then the image is determined to be a 360 degree 
 # panorama.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -158,13 +158,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -212,14 +212,14 @@ else
 					   ;;
 				-o)    # get ocolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ocolor="$1"
 					   ;;
 				-p)    # get prep
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PREP SPECIFICATION ---"
 					   checkMinus "$1"
 					   prep="$1"
@@ -227,7 +227,7 @@ else
 					   ;;
 				-f)    # get fuzzval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   fuzzval=`expr "$1" : '\([.0-9]*\)'`
@@ -237,7 +237,7 @@ else
 					   ;;
 				-t)    # get thresh
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THRESHOLDS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thresh=`expr "$1" : '\([,.0-9]*\)'`
@@ -245,7 +245,7 @@ else
 					   ;;
 				-b)    # get bias
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BIASES SPECIFICATION ---"
 					   checkMinus "$1"
 					   bias=`expr "$1" : '\([,.0-9]*\)'`
@@ -253,14 +253,14 @@ else
 					   ;;
 				-u)    # get ucolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ucolor="$1"
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr '[A-Z]' '[a-z]'`
@@ -268,14 +268,14 @@ else
 					   ;;
 				-g)    # get gcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   gcolor="$1"
 					   ;;
 				-s)    # get swidth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SWIDTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   swidth=`expr "$1" : '\([0-9]*\)'`
@@ -285,7 +285,7 @@ else
 					   ;;
 				-i)    # get is360test
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID IS360 SPECIFICATION ---"
 					   checkMinus "$1"
 					   is360test=`echo "$1" | tr '[A-Z]' '[a-z]'`
@@ -293,7 +293,7 @@ else
 					   ;;
 				-r)    # get rmse
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RMSE SPECIFICATION ---"
 					   checkMinus "$1"
 					   rmse=`expr "$1" : '\([.0-9]*\)'`
@@ -340,9 +340,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmpA2 $tmpB2 $tmpA3 $tmpB3; exit 1" ERR
 im_version=`convert -list configure | \
 sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -368,12 +368,12 @@ fi
 
 # read and test input image
 if [ $prep -eq 1 ]; then
-	convert -quiet "$infile" -fuzz ${fuzzval}% -trim "$tmpA1" ||
+	convert -quiet "$infile" -fuzz ${fuzzval}% -trim "$tmpA1" || 
 		errMsg  "--- FILE $imagefile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE  ---"
 elif [ $prep -eq 2 ]; then
 #echo "fuzzval=${fuzzval}%"
 	convert -quiet "$infile" -bordercolor "$ocolor" -border 2 \
-		-fuzz ${fuzzval}% -fill "$ocolor" -draw "color 0,0 floodfill" -trim "$tmpA1" ||
+		-fuzz ${fuzzval}% -fill "$ocolor" -draw "color 0,0 floodfill" -trim "$tmpA1" || 
 		errMsg  "--- FILE $imagefile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE  ---"
 fi
 
@@ -438,11 +438,11 @@ procVertHoriz()
 		thresh1=`convert $tmpA2[${width}x${height}+$xoff+$yoff] -format "%[fx:max(0.001,100*(1-mean)*$bias)]" info:`
 #echo "thresh1=$thresh1; bias=$bias;"
 	fi
-
+	
 	# compute complement threshold for actual processing
 	thresh2=`convert xc: -format "%[fx:100-$thresh1]" info:`
 #echo "thresh2=$thresh2"
-
+	
 	# get thresholded row or column from potentially cropped mask
 	# also compute length for array
 	if [ "$direction" = "vertical" ]; then
@@ -455,8 +455,8 @@ procVertHoriz()
 		len1=`convert xc: -format "%[fx:$width-1]" info:`
 	fi
 #echo "len=$len; len1=$len1;"
-
-	# convert row or column to text and find first and last white pixel for v1 and v2
+		
+	# convert row or column to text and find first and last white pixel for v1 and v2	
 	rcArr=(`convert $tmpA3 txt: | tail -n +2 | sed -n 's/^.*#[^ ]* \([a-z]*\)/\1/p'`)
 #echo "${#rcArr[*]}"
 	for ((i=0;i<=len;i+=1)); do
@@ -474,7 +474,7 @@ procVertHoriz()
 	}
 
 
-# process vertically
+# process vertically 
 procVertHoriz "vertical" "$ww" "$hh" "0" "0" "$threshy" "$biasy"
 y1=$v1
 y2=$v2
@@ -492,7 +492,7 @@ threshx=$thresh1
 #echo "x1=$x1; x2=$x2; threshx=$threshx;"
 
 
-# process vertically
+# process vertically 
 # get cropped width
 wwc=`convert xc: -format "%[fx:$x2-$x1+1]" info:`
 procVertHoriz "vertical" "$wwc" "$hhc" "$x1" "$y1" "$threshy2" "$biasy2"
@@ -561,3 +561,6 @@ fi
 echo ""
 
 exit 0
+
+
+

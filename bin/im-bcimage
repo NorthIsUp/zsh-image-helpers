@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 9/2/2007 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: bcimage [-g] bri,con[,sat] infile outfile
@@ -39,39 +39,39 @@
 #
 ###
 #
-# NAME: BCIMAGE
-#
-# PURPOSE: To change the brightness, contrast and/or saturation of
-# an image.
-#
-# DESCRIPTION: BCIMAGE is designed to change the brightness
-# and/or contrast and optionally saturation of an image. It
-# works by converting bri and con into slope and intercept and
-# and then into break points. The break points are then
-# converted into a 1-D image look up table. This LUT is then
-# used with clut or -fx to process the image. If the
-# image is not grayscale and a sat value provided, it will
-# convert the image into HSL space and then modify the saturation
-# channel by changing the gamma using -gamma. Both bri and con are
-# required. The range of values for bri,con,sat are -100 to +100.
-# A value of 0,0[,0] leaves the image unchanged. If the image is
-# grayscale, then it simply processes the image for brightness and
-# contrast. The -g option displays a graph of the piece-wise linear
-# mapping function between the input and output grayscale domains
-# (scaled to the range of 0 to 100). The graph is normally just
-# viewed, but a default parameter in the program can be set to
-# allow it to be saved as outfilename_graph.gif. To end the
-# script, close/quit the graph image.
-#
-# Arguments: -h or -help    ---  displays help information.
-# Arguments: -g             ---  displays graph of intensity mapping function.
-#
-# Note -g must come before bri,con[,sat]
-#
-# Arguments: bri,con[,sat] in_file out_file  ---  process the
+# NAME: BCIMAGE 
+# 
+# PURPOSE: To change the brightness, contrast and/or saturation of 
+# an image. 
+# 
+# DESCRIPTION: BCIMAGE is designed to change the brightness 
+# and/or contrast and optionally saturation of an image. It 
+# works by converting bri and con into slope and intercept and 
+# and then into break points. The break points are then 
+# converted into a 1-D image look up table. This LUT is then 
+# used with clut or -fx to process the image. If the 
+# image is not grayscale and a sat value provided, it will 
+# convert the image into HSL space and then modify the saturation 
+# channel by changing the gamma using -gamma. Both bri and con are 
+# required. The range of values for bri,con,sat are -100 to +100. 
+# A value of 0,0[,0] leaves the image unchanged. If the image is 
+# grayscale, then it simply processes the image for brightness and 
+# contrast. The -g option displays a graph of the piece-wise linear 
+# mapping function between the input and output grayscale domains 
+# (scaled to the range of 0 to 100). The graph is normally just 
+# viewed, but a default parameter in the program can be set to 
+# allow it to be saved as outfilename_graph.gif. To end the 
+# script, close/quit the graph image. 
+# 
+# Arguments: -h or -help    ---  displays help information. 
+# Arguments: -g             ---  displays graph of intensity mapping function. 
+# 
+# Note -g must come before bri,con[,sat] 
+# 
+# Arguments: bri,con[,sat] in_file out_file  ---  process the 
 # in_file to generate the out_file.
-#
-#
+# 
+# 
 ######
 #
 # set default value for width and height of lut
@@ -92,13 +92,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -194,8 +194,8 @@ tmp00="$dir/bcimage_00_$$.miff"
 outname=`echo "$outfile" | sed -n 's/^\([^.]*\)[.][^.]*$/\1/ p'`
 gg="_graph"
 tmp4="$dir/$outname$gg.gif"
-if [ "$graph" = "view" ]
-	then
+if [ "$graph" = "view" ] 
+	then 
 	trap "rm -f $tmpA $tmpB $tmp00 $tmp0 $tmp1 $tmp2 $tmp2p $tmp3 $tmp4;" 0
 	trap "rm -f $tmpA $tmpB $tmp00 $tmp0 $tmp1 $tmp2 $tmp2p $tmp3 $tmp4; exit 1" 1 2 3 15
 	trap "rm -f $tmpA $tmpB $tmp00 $tmp0 $tmp1 $tmp2 $tmp2p $tmp3 $tmp4; exit 1" ERR
@@ -252,10 +252,10 @@ fi
 echo "slope=$slope"
 #
 # intcp computed by adding contributions from con (slope) and from bri
-# attempting to keep slope fixed the mid-value of .5 when no brightness change,
+# attempting to keep slope fixed the mid-value of .5 when no brightness change, 
 # so that linear intensity mapping transformation pivots about this point.
 # However, the pivot should range from 0 to 1 depending upon bri.
-# The larger the pivot, the darker the image when slope is very large
+# The larger the pivot, the darker the image when slope is very large 
 # as the pivot determines the threshold point. So as brightness increases from 0 to 100
 # we want the pivot to go to 0 and when brightness decreases from 0 to -100 we want
 # the pivot to go to 1.
@@ -369,7 +369,7 @@ fi
 #
 # process the brightness channel and saturation channel and put image back together
 if [ "$im_version" -ge "06030507" ]
-	then
+	then 
 	convert $tmpA $tmp1 -clut $tmp00
 else
 	convert $tmpA $tmp1 -fx 'v.p{u*v.w,0}' $tmp00

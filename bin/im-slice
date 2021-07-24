@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 9/22/2008 .......... revised 9/12/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: slice blackpt,whitept [-m mode] [-i icolor] [-e ecolor] infile outfile
@@ -31,27 +31,27 @@
 #
 # OPTIONS:
 #
-# blackpt,whitept        low and high thresholds; integers in range 0-255
-#                        for mode=8, integers in range 0-65535 for mode=16
+# blackpt,whitept        low and high thresholds; integers in range 0-255 
+#                        for mode=8, integers in range 0-65535 for mode=16  
 #                        and float in range 0-100 for mode=P (for percent)
-# -m      mode           numerical mode for threshold values; values are:
-#                        8 for 8 bit range (0-255), 16 for 16 bit range
+# -m      mode           numerical mode for threshold values; values are: 
+#                        8 for 8 bit range (0-255), 16 for 16 bit range 
 #                        (0-65535) if Q=16 or 32 or P for percent (0-100);
 #                        default=8 for Q8; otherwise 16 for Q16 or Q32
-# -i      icolor         color for range inclusive of blackpt to whitept;
-#                        any valid IM non-transparent color, 'none' for
+# -i      icolor         color for range inclusive of blackpt to whitept; 
+#                        any valid IM non-transparent color, 'none' for 
 #                        transparency, or 'image' to leave image coloration
 # -e      ecolor         color for range exclusive of blackpt to whitept
-#                        any valid IM non-transparent color, 'none' for
+#                        any valid IM non-transparent color, 'none' for 
 #                        transparency, or 'image' to leave image coloration
 #
 ###
 #
-# NAME: SLICE
-#
-# PURPOSE: To threshold an image between a range of graylevels and optionally
+# NAME: SLICE 
+# 
+# PURPOSE: To threshold an image between a range of graylevels and optionally 
 # colorizes inside and/or outside the threshold range.
-#
+# 
 # DESCRIPTION: SLICE thresholds an image (inclusively) between a range of
 # graylevels and optionally colorize inside and/or outside the threshold
 # range. The inclusive range of graylevels may be set to any non-transparent
@@ -60,39 +60,39 @@
 # as image coloration. If the input image has transparency, the transparent
 # channel will be extracted and recombined with the output image. This will
 # supercede any transparency used in the processing.
-#
-#
-# OPTIONS:
-#
-# blackpt,whitept ... BLACKPT,WHITEPT are the low and high threshold values
-# used to determine the inclusive range and corresponding coloration. Values
-# are restricted to integers between 0 and 255 when mode=8, between 0 and
+# 
+# 
+# OPTIONS: 
+# 
+# blackpt,whitept ... BLACKPT,WHITEPT are the low and high threshold values 
+# used to determine the inclusive range and corresponding coloration. Values 
+# are restricted to integers between 0 and 255 when mode=8, between 0 and 
 # 65535 when mode=16, and floats between 0 and 100 when mode=P (for percent).
-#
-# -m mode ... MODE is the numerical mode for specifying the threshold values.
-# Values are restricted to integers between 0 and 255 when mode=8, between 0
-# and 65535 when mode=16, but floats between 0 and 100 are allowed when mode=P
+# 
+# -m mode ... MODE is the numerical mode for specifying the threshold values. 
+# Values are restricted to integers between 0 and 255 when mode=8, between 0  
+# and 65535 when mode=16, but floats between 0 and 100 are allowed when mode=P 
 # (for percent). Default=8 for Q8; otherwise 16 for Q16 or Q32
-#
-# -i icolor ... ICOLOR is the color to be used inclusive to the threshold
-# range. Any valid IM non-transparent color specification is allowed. One may
-# also use 'none' to specify fully transparent or 'image' to leave the image
+# 
+# -i icolor ... ICOLOR is the color to be used inclusive to the threshold 
+# range. Any valid IM non-transparent color specification is allowed. One may 
+# also use 'none' to specify fully transparent or 'image' to leave the image 
 # coloration. Default=white
-#
-# -e ecolor ... ECOLOR is the color to be used exclusive to the threshold
-# range. Any valid IM non-transparent color specification is allowed. One may
-# also use 'none' to specify fully transparent or 'image' to leave the image
+# 
+# -e ecolor ... ECOLOR is the color to be used exclusive to the threshold 
+# range. Any valid IM non-transparent color specification is allowed. One may 
+# also use 'none' to specify fully transparent or 'image' to leave the image 
 # coloration. Default=black
-#
-# NOTE: If the input has transparency, the transparency channel will be
-# removed, saved, the image processed without it and then combined back at
-# the end. This will supercede the use of any transparency used in the
+# 
+# NOTE: If the input has transparency, the transparency channel will be 
+# removed, saved, the image processed without it and then combined back at 
+# the end. This will supercede the use of any transparency used in the  
 # processing.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -110,13 +110,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -164,30 +164,30 @@ else
 					   ;;
 				-i)    # get icolor
 					   shift  # to get the next parameter - lineval
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ICOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   icolor="$1"
 					   ;;
 				-e)    # get ecolor
 					   shift  # to get the next parameter - lineval
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ecolor="$1"
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter - lineval
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode="$1"
-					   case "$mode" in
+					   case "$mode" in 
 					   		8) mode="8" ;;
 					   		16) mode="16";;
 					   		P|p) mode="percent";;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
-					   esac
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
+					   esac					   
 					   ;;
 				 -)    # STDIN and end of arguments
 					   break
@@ -237,9 +237,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmpA2 $tmpB2 $tmpA3 $tmpB3; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -411,7 +411,7 @@ convert $tmpA2 \
 	-fill white -opaque none \
 	-alpha off \
 	$tmpA2
-
+	
 
 # process the grayscale image with the lut, use as mask when "image" and colorize as appropriate
 if [ "$icolor" != "image" -a "$ecolor" != "image" ]; then

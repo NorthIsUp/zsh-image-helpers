@@ -3,38 +3,38 @@
 # Developed by Fred Weinhaus 8/20/2018 .......... revised 8/20/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: surroundblur [-r resize] [-b bgsize] [-s smoothing] [-c color] [-t thickness]
+# USAGE: surroundblur [-r resize] [-b bgsize] [-s smoothing] [-c color] [-t thickness] 
 # [-d darkness] [-f fade] [-e extent] [infile] [outfile]
-#
+# 
 # USAGE: surroundblur [h|-help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -r     resize         resize of input image; WxH in pixels; default is input size
-# -b     bgsize         blurred background size; WxH in pixels; default is twice the
+# -b     bgsize         blurred background size; WxH in pixels; default is twice the 
 #                       original input size
 # -s     smoothing      smoothing (blurring) amount; integer>=0; default=50
 # -c     color          color of border; default=white
@@ -44,50 +44,50 @@
 # -e     extent         extent (distance) of the shadow; integer>=0; default=5
 #
 ###
-#
-# NAME: SURROUNDBLUR
-#
+# 
+# NAME: SURROUNDBLUR 
+# 
 # PURPOSE: To create a blurred background region around the input image.
-#
-# DESCRIPTION: SURROUNDBLUR creates a blurred background region around the input image.
+# 
+# DESCRIPTION: SURROUNDBLUR creates a blurred background region around the input image. 
 # A border and or drop shadow may be added between the image and the blurred background.
-#
-#
-# ARGUMENTS:
-#
-# -r resize ... RESIZE of input image expressed as WxH in pixels or in percent as WxH%.
-# The default is the original input size. The resize value should be smaller than
+# 
+# 
+# ARGUMENTS: 
+# 
+# -r resize ... RESIZE of input image expressed as WxH in pixels or in percent as WxH%. 
+# The default is the original input size. The resize value should be smaller than 
 # the bgsize.
-#
-# -b bgsize ... BGSIZE is the blurred background size expressed as WxH in pixels or in
-# percent as WxH%. The default is twice the original input size. The bgsize should be
+#  
+# -b bgsize ... BGSIZE is the blurred background size expressed as WxH in pixels or in 
+# percent as WxH%. The default is twice the original input size. The bgsize should be 
 # larger than the resize.
-#
-# -s smoothing ... SMOOTHING (blurring) amount to apply to the input to create the
+# 
+# -s smoothing ... SMOOTHING (blurring) amount to apply to the input to create the 
 # background. Values are integers>=0. The default=50.
-#
+# 
 # -c color ... COLOR for the border. Any valid opaque IM color is allowed.
 # The default=white.
-#
-# -t thickness ... THICKNESS of the border. Values are integers>=0. The default=0
+# 
+# -t thickness ... THICKNESS of the border. Values are integers>=0. The default=0 
 # (no border)
 #
 # -d darkeness ... DARKNESS of the shadows. Values are 0<=integer<=100. The default=80.
-#
-# -f fade ... FADE (rolloff) of the shadow darkness. Values are integers>=0.
+# 
+# -f fade ... FADE (rolloff) of the shadow darkness. Values are integers>=0. 
 # The default=3.
-#
-# -e extent ... EXTENT (distance) of the shadow. Values are integers>=0. The default=0.
+# 
+# -e extent ... EXTENT (distance) of the shadow. Values are integers>=0. The default=0. 
 # (no shadow). Typical value is about 5
-#
+# 
 # NOTE: This script is not designed for images with transparency.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 resize=""
@@ -106,13 +106,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -160,7 +160,7 @@ else
 					   ;;
 				-r)    # get resize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   resize=`expr "$1" : '\([0-9]*[%]*x[0-9]*[%]*\)'`
@@ -168,7 +168,7 @@ else
 					   ;;
 				-b)    # get bgsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgsize=`expr "$1" : '\([0-9]*[%]*x[0-9]*[%]*\)'`
@@ -176,7 +176,7 @@ else
 					   ;;
 				-s)    # get smoothing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMOOTHING SPECIFICATION ---"
 					   checkMinus "$1"
 					   smoothing=`expr "$1" : '\([0-9]*\)'`
@@ -184,14 +184,14 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-t)    # get thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -199,7 +199,7 @@ else
 					   ;;
 				-d)    # get darkness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DARKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   darkness=`expr "$1" : '\([0-9]*\)'`
@@ -209,7 +209,7 @@ else
 					   ;;
 				-f)    # get fade
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FADE SPECIFICATION ---"
 					   checkMinus "$1"
 					   fade=`expr "$1" : '\([0-9]*\)'`
@@ -217,7 +217,7 @@ else
 					   ;;
 				-e)    # get extent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXTENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   extent=`expr "$1" : '\([0-9]*\)'`
@@ -264,10 +264,10 @@ ww=`convert -ping $tmpA1 -format "%w" info:`
 hh=`convert -ping $tmpA1 -format "%h" info:`
 
 # get resize and bgsize dimensions
-if [ "$resize" = "" ]; then
+if [ "$resize" = "" ]; then 
 	resize=${ww}x${hh}
 fi
-if [ "$bgsize" = "" ]; then
+if [ "$bgsize" = "" ]; then 
 	bww=$((2*ww))
 	bhh=$((2*hh))
 	bgsize=${bww}x${bhh}
@@ -280,7 +280,7 @@ if [ "$thickness" = "0" -a "$extent" = "0" ]; then
 	\( mpr:img -resize ${bgsize}^ -crop ${bgsize}+0+0 +repage -blur 0x$smoothing \) \
 	\( mpr:img -resize ${resize} \) \
 	-gravity center -compose over -composite "$outfile"
-
+	
 elif [ "$extent" = "0" ]; then
 	convert $tmpA1 -write mpr:img +delete \
 	\( mpr:img -resize ${bgsize}^ -crop ${bgsize}+0+0 +repage -blur 0x$smoothing \) \
@@ -307,5 +307,8 @@ else
 
 fi
 
-
+	
 exit 0
+
+
+

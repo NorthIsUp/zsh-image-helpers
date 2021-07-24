@@ -3,121 +3,121 @@
 # Developed by Fred Weinhaus 10/2/2017 .......... revised 12/9/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: adaptivegamma [-t type] [-c colormode] [-a autolevel] [-s sigma] [-m mix ]
+# USAGE: adaptivegamma [-t type] [-c colormode] [-a autolevel] [-s sigma] [-m mix ] 
 # [-b base] [-g gain] [-T thresh] infile outfile
 # USAGE: adaptivegamma [-h or -help]
 #
 # OPTIONS:
 #
-# -t     type          type of adaptive gamma enhancement; choices are lcc, pnae, hybrid;
+# -t     type          type of adaptive gamma enhancement; choices are lcc, pnae, hybrid; 
 #                      default=hybrid
-# -c     colormode     colorspace for processing; choices are gray, srgb, lab, hcl, hsl,
+# -c     colormode     colorspace for processing; choices are gray, srgb, lab, hcl, hsl, 
 #                      hsv, hsi, ycbcr and ohta; default=gray
-# -a     autolevel     autolevel as preprocessing; options are: off, together and
+# -a     autolevel     autolevel as preprocessing; options are: off, together and 
 #                      separately; default=together
 # -s     sigma         sigma value for blurring the intensity-like channel; integer>=0;
 #                      default=20
-# -m     mix           mixing percent for the hybrid blend of lcc and pnae;
+# -m     mix           mixing percent for the hybrid blend of lcc and pnae; 
 #                      0<=integer<= 100; default=50; 0 is pure lcc, 100 is pure pnae
 # -b     base          base value for lcc method; float>0; default=2
-# -g     gain          gain value for pnae method; float>=0; default is computed
+# -g     gain          gain value for pnae method; float>=0; default is computed 
 #                      automatically from the mean and standard deviation of the image;
 #                      nominal value is about 0.5
-# -T     thresh        threshold to determine if image is bright or dark; 0<=float<=1;
-#                      default=0.5. If bright, the image will be negated before and
+# -T     thresh        threshold to determine if image is bright or dark; 0<=float<=1; 
+#                      default=0.5. If bright, the image will be negated before and 
 #                      after processing
 #
 ###
 #
 # NAME: ADAPTIVEGAMMA
-#
-# PURPOSE: To enhance the contrast/brightness in an image using an adaptive gamma method.
-#
-# DESCRIPTION: ADAPTIVEGAMMA is a locally/spatially adaptive gamma technique to enhance
+# 
+# PURPOSE: To enhance the contrast/brightness in an image using an adaptive gamma method. 
+# 
+# DESCRIPTION: ADAPTIVEGAMMA is a locally/spatially adaptive gamma technique to enhance 
 # an image's brightness and contrast. There are 3 types of adaptive gamma enhancement
-# that can be used. The first is the local contrast correction (lcc) method. The second
-# is the parallel nonlinear adaptive enhancement (pnae) method. The third is a hybrid
+# that can be used. The first is the local contrast correction (lcc) method. The second 
+# is the parallel nonlinear adaptive enhancement (pnae) method. The third is a hybrid 
 # blend of the other two.
 #
-# These adaptive gamma methods are power law adjustments of the image as defined by
-# OUT=pow(IN,exponent); where exponent = 1/gamma. However, here the exponent is a value
-# that changes spatially according to the local mean M(x,y) of the intensity-like
+# These adaptive gamma methods are power law adjustments of the image as defined by 
+# OUT=pow(IN,exponent); where exponent = 1/gamma. However, here the exponent is a value 
+# that changes spatially according to the local mean M(x,y) of the intensity-like 
 # channel of the image.
-#
+# 
 # In the lcc method, exponent=[base]*M(x,y)-1, where M is an image of the local mean of the
 # intensity-like channel achieve by blurring the image and base is nominally 2.
-#
-# In the pnae method, exponent=const*[M(x,y)-epsilon]/[1-M(x,y)+epsilon] + gain. The
-# const and epsilon values are constants where const=0.1 and epsilon=0.01. The gain is
-# essentially a global (inverse) gamma value and is nominally about 0.5. But here the
-# default is computed automatically as (log(0.5)/log(M))*($maxstd/min($maxstd,S)),
-# where M is the global mean of the image and S is the global standard deviation of
-# the image and maxstd is a maximum value for the standard deviation above which the
+# 
+# In the pnae method, exponent=const*[M(x,y)-epsilon]/[1-M(x,y)+epsilon] + gain. The 
+# const and epsilon values are constants where const=0.1 and epsilon=0.01. The gain is 
+# essentially a global (inverse) gamma value and is nominally about 0.5. But here the 
+# default is computed automatically as (log(0.5)/log(M))*($maxstd/min($maxstd,S)), 
+# where M is the global mean of the image and S is the global standard deviation of 
+# the image and maxstd is a maximum value for the standard deviation above which the 
 # standard deviation term equals unity and so does not affect the first mean term.
-#
-# Arguments:
+# 
+# Arguments: 
 #
 # -t type ... TYPE of adaptive gamma enhancement. The choices are lcc (l), pnae (p)
 # and hybrid (h). The default=hybrid.
-#
-# -c colormode ... COLORMODE is the colorspace for processing. The choices are gray,
+# 
+# -c colormode ... COLORMODE is the colorspace for processing. The choices are gray, 
 # srgb, lab, hcl, hsl, hsv, hsi, ycbcr and ohta. The default=gray.
-#
-# -a autolevel ... AUTOLEVEL as preprocessing step. The choices are: off (o),
+# 
+# -a autolevel ... AUTOLEVEL as preprocessing step. The choices are: off (o), 
 # together (t) and separately (s). The default=together
-#
-# -s sigma ... SIGMA value for blurring the intensity-like channel. Values are
+# 
+# -s sigma ... SIGMA value for blurring the intensity-like channel. Values are 
 # integer>=0. The default=20. Larger values give slightly more contrast.
-#
+# 
 # -m mix ... MIX is the mixing percent for the hybrid blend of the lcc and pnae types.
 # Values are 0<=integers<= 100. The default=50. 0 is pure lcc and 100 is pure pnae.
-#
-# -b base .. BASE value for lcc method. Values are floats>0. The default=2. Larger
+# 
+# -b base .. BASE value for lcc method. Values are floats>0. The default=2. Larger 
 # values reduce the contrast and smaller values increase the contrast.
-#
-# -g gain ... GAIN value for pnae method. Values aare float>=0. The default is computed
-# automatically from the global mean and standard deviation of the intensity-like
+# 
+# -g gain ... GAIN value for pnae method. Values aare float>=0. The default is computed 
+# automatically from the global mean and standard deviation of the intensity-like 
 # channel of the image. The nominal value is around 0.5.
-#
-# -T thresh ... THRESH is a threshold to determine if the image is bright or dark.
-# Values are 0<=float<=1. The default=0.5. If bright, the image will be negated before
+# 
+# -T thresh ... THRESH is a threshold to determine if the image is bright or dark. 
+# Values are 0<=float<=1. The default=0.5. If bright, the image will be negated before  
 # and after processing.
 #
 # REFERENCES:
-# http://www.ipol.im/pub/art/2011/gl_lcc/article_lr.pdf
+# http://www.ipol.im/pub/art/2011/gl_lcc/article_lr.pdf 
 # https://asp-eurasipjournals.springeropen.com/track/pdf/10.1186/1687-6180-2014-70?site=asp.eurasipjournals.springeropen.com
 # https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&uact=8&ved=0ahUKEwigiqGb1sjWAhXrlVQKHSM3Bf4QFggrMAE&url=http%3A%2F%2Fwww.ivl.disco.unimib.it%2Fdownload%2Fcapra2010contrast-image.pdf&usg=AFQjCNFcvsunTdhTjNTd6goxo3wZCPvEYQ
 # https://en.wikipedia.org/wiki/Gamma_correction
-#
+# 
 # NOTE: This script may be a bit slow due to the use of -fx.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 # set default values
@@ -145,13 +145,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -197,11 +197,11 @@ else
 				   ;;
 			-t)    # get  type
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 				   checkMinus "$1"
 				   type=`echo "$1" | tr '[A-Z]' '[a-z]'`
-				   case "$type" in
+				   case "$type" in 
 						lcc|l) type="lcc" ;;
 						pnae|p) type="pnae" ;;
 						hybrid|h) type="hybrid" ;;
@@ -210,11 +210,11 @@ else
 				   ;;
 			-a)    # get  autolevel
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID AUTOLEVEL SPECIFICATION ---"
 				   checkMinus "$1"
 				   autolevel=`echo "$1" | tr '[A-Z]' '[a-z]'`
-				   case "$autolevel" in
+				   case "$autolevel" in 
 						off|o) autolevel="off" ;;
 						together|t) autolevel="together" ;;
 						separately|s) autolevel="separately" ;;
@@ -223,11 +223,11 @@ else
 				   ;;
 			-c)    # get  colormode
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID COLORMODE SPECIFICATION ---"
 				   checkMinus "$1"
 				   colormode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-				   case "$colormode" in
+				   case "$colormode" in 
 						gray|g) colormode="gray" ;;
 						srgb|s|r) colormode="srgb" ;;
 						lab|l) colormode="lab" ;;
@@ -242,7 +242,7 @@ else
 				   ;;
 			-s)    # get sigma
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SIGMA SPECIFICATION ---"
 				   checkMinus "$1"
 				   sigma=`expr "$1" : '\([0-9]*\)'`
@@ -250,7 +250,7 @@ else
 				   ;;
 			-m)    # get mix
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID MIX SPECIFICATION ---"
 				   checkMinus "$1"
 				   mix=`expr "$1" : '\([0-9]*\)'`
@@ -260,7 +260,7 @@ else
 				   ;;
 			-b)    # base
 				   shift  # to get the next parameter - maxgain
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BASE SPECIFICATION ---"
 				   checkMinus "$1"
 				   base=`expr "$1" : '\([.0-9]*\)'`
@@ -270,7 +270,7 @@ else
 				   ;;
 			-g)    # gain
 				   shift  # to get the next parameter - maxgain
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 				   checkMinus "$1"
 				   gain=`expr "$1" : '\([.0-9]*\)'`
@@ -278,7 +278,7 @@ else
 				   ;;
 			-T)    # thresh
 				   shift  # to get the next parameter - maxgain
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID THRESH SPECIFICATION ---"
 				   checkMinus "$1"
 				   thresh=`expr "$1" : '\([.0-9]*\)'`
@@ -398,7 +398,7 @@ elif [ "$type" = "pnae" ] || [ "$type" = "hybrid" -a "$mix" = "1" ]; then
 			-swap ${channel},3 +delete -set colorspace $colormode -combine -colorspace sRGB $negating \
 			"$outfile"
 	fi
-
+	
 
 elif [ "$type" = "hybrid" ]; then
 
@@ -424,3 +424,5 @@ elif [ "$type" = "hybrid" ]; then
 fi
 
 exit 0
+
+

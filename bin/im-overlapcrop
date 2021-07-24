@@ -4,143 +4,143 @@
 # (Thanks to Frank Heckenbach for a bug fix --- 6/12/2019)
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: overlapcrop [-s size] [-o overlap] [-m mode] [-u]
-#        [-i initnum] [-z zeropad] [-d delay] [-l loop] [-c canvas]
+# USAGE: overlapcrop [-s size] [-o overlap] [-m mode] [-u] 
+#        [-i initnum] [-z zeropad] [-d delay] [-l loop] [-c canvas] 
 #        [-M] [-L] [-F frame] [-S spacing] [-R] infile outfile
 # USAGE: overlapcrop [-h or -help]
 #
 # OPTIONS:
 #
-# -s     size          crop subsection dimensions in pixels; one or two
+# -s     size          crop subsection dimensions in pixels; one or two 
 #                      integers>0 with "x" separator; default=128x128
-# -o     overlap       overlap of subsections; pixels or percent
-#                      as one or two integers with "x" separator;
-#                      if percent sign included, then it will be converted to
-#                      pixels in range 0<=integer<subsection size;
+# -o     overlap       overlap of subsections; pixels or percent 
+#                      as one or two integers with "x" separator; 
+#                      if percent sign included, then it will be converted to 
+#                      pixels in range 0<=integer<subsection size; 
 #                      default="50%x50%"
-# -m     mode          mode of output; choices are matrix (numbered),
-#                      sequential (numbered), frames or animation;
+# -m     mode          mode of output; choices are matrix (numbered), 
+#                      sequential (numbered), frames or animation; 
 #                      default=matrix
 # -u     (uniform)     flag to keep only same size crop sections and discard
-#                      smaller pieces on the right and bottom; default is to
+#                      smaller pieces on the right and bottom; default is to 
 #                      keep all crop pieces
 # -i     initnum       initial number for output naming; integer>=0; default=1
-# -z     zeropad       number of digits with zero padding for sequential mode;
+# -z     zeropad       number of digits with zero padding for sequential mode; 
 #                      integer>=0; default=0 (no zero padding)
 # -d     delay         delay for animation mode; integer>=0; default=50
-# -l     loop          number of loops for animation mode; integer>=0;
+# -l     loop          number of loops for animation mode; integer>=0; 
 #                      default=0 (endless looping)
 # -c     (canvas)      leave the virtual canvas in the meta data for the images;
 #                      default is to remove the virtual canvas
-# -M     (montage)     create single montage image; applicable only to matrix
+# -M     (montage)     create single montage image; applicable only to matrix 
 #                      or sequential mode; default is no montage
-# -L     (label)       flag to add filename labels to each image in the montage;
+# -L     (label)       flag to add filename labels to each image in the montage; 
 #                      default is no filename labels
 # -F     frame         frame size around each image in the montage; integers>=0;
 #                      default=5
-# -S     spacing       spacing between images in the montage; integers>=0;
+# -S     spacing       spacing between images in the montage; integers>=0; 
 #                      default=0
-# -R     (remove)      flag to remove/delete all individual images generated
-#                      prior to creating the montage. Default is leave
+# -R     (remove)      flag to remove/delete all individual images generated 
+#                      prior to creating the montage. Default is leave 
 #                      all individual images.
-#
+# 
 ###
 #
-# NAME: OVERLAPCROP
-#
-# PURPOSE: To create a sequence of cropped subsections permitting optional
+# NAME: OVERLAPCROP 
+# 
+# PURPOSE: To create a sequence of cropped subsections permitting optional 
 # overlap of the subsections.
-#
-# DESCRIPTION: OVERLAPCROP creates a sequence of cropped subsections permitting
-# optional overlap of the subsections. The output images may be numbered either
-# sequentially or in matrix mode (column and row). The images may also be
-# output to a single file with multiple frames, to an animation or to a
+# 
+# DESCRIPTION: OVERLAPCROP creates a sequence of cropped subsections permitting 
+# optional overlap of the subsections. The output images may be numbered either 
+# sequentially or in matrix mode (column and row). The images may also be 
+# output to a single file with multiple frames, to an animation or to a 
 # montage.
-#
-# OPTIONS:
-#
-# -s size ... SIZE is the crop subsection WidthxHeight dimensions in pixels.
-# Either one or two non-negative integers may be used with "x" separator if two.
-# If only one is provided (with no separator), then it will be used for both
+# 
+# OPTIONS: 
+# 
+# -s size ... SIZE is the crop subsection WidthxHeight dimensions in pixels. 
+# Either one or two non-negative integers may be used with "x" separator if two. 
+# If only one is provided (with no separator), then it will be used for both 
 # width and height. The default="128x128".
-#
-# -o overlap ... OVERLAP is the amount of overlap of subsections. Overlap may
-# be specified as pixels or percent of subsection size. Values are either one
-# or two non-negative integers with "x" separator. If a percent sign is
-# included, then the overlap will be converted to pixels. Values must be
+# 
+# -o overlap ... OVERLAP is the amount of overlap of subsections. Overlap may 
+# be specified as pixels or percent of subsection size. Values are either one 
+# or two non-negative integers with "x" separator. If a percent sign is 
+# included, then the overlap will be converted to pixels. Values must be 
 # specified (or convert) in the range of zero to the subsection size. The
 # default="50%x50%".
-#
-# -m mode ... MODE of the output. Choices are matrix (numbered) or m,
-# sequential (numbered) or s, frames (mode) or f and animation (mode) or a.
+# 
+# -m mode ... MODE of the output. Choices are matrix (numbered) or m, 
+# sequential (numbered) or s, frames (mode) or f and animation (mode) or a. 
 # The default=matrix.
-#
+# 
 # -u (uniform) ... Flag to keep only same size crop sections and discard
 # smaller pieces on the right and bottom. The default is to keep all pieces.
-#
-# -i initnum ... INITNUM is the initial (starting) number for output naming.
+# 
+# -i initnum ... INITNUM is the initial (starting) number for output naming. 
 # Values are non-negative integers. The default=1.
-#
-# -z zeropad ... ZEROPAD is the number of digits with zero padding for
+# 
+# -z zeropad ... ZEROPAD is the number of digits with zero padding for 
 # numbering the output images in sequential mode. Values are non-negative
 # integers. The default=0 (no zero padding).
-#
+# 
 # -d delay ... DELAY for animation mode. Values are non-negative integers. The
 # default=50.
-#
+# 
 # -l loop ... LOOP is the number of times to loop the animation. Values are
 # non-negative integers. The default=0 (endless looping).
-#
-# -c (canvas) ... Flag to leave the virtual canvas in the meta data for the
-# images. This is useful when making an animation so that the subsections keep
-# their position relative to the original image. The default is to remove the
-# virtual canvas, which then just has each frame of the animation replacing the
+# 
+# -c (canvas) ... Flag to leave the virtual canvas in the meta data for the 
+# images. This is useful when making an animation so that the subsections keep  
+# their position relative to the original image. The default is to remove the 
+# virtual canvas, which then just has each frame of the animation replacing the 
 # previous one.
-#
-# -M (montage) ... Flag to create a single montage image for matrix or
+# 
+# -M (montage) ... Flag to create a single montage image for matrix or 
 # sequential modes only. The default is no montage.
-#
-# -L (label) ... Flag to add filename labels to each image in the montage.
+# 
+# -L (label) ... Flag to add filename labels to each image in the montage. 
 # The default is no filename labels.
-#
-# -F frame ... FRAME is the size of the frame-like border in pixels placed
-# around each image in the montage. Values are non-negative integers.
+# 
+# -F frame ... FRAME is the size of the frame-like border in pixels placed 
+# around each image in the montage. Values are non-negative integers. 
 # The default=5.
-#
-# -S spacing ... SPACING is the amount of space in pixels to put between each
+# 
+# -S spacing ... SPACING is the amount of space in pixels to put between each 
 # images in the montage. Values are non-negative integers. The default=0.
-#
-# -R (remove) ... Flag to remove/delete all individual images generated
-# prior to creating the montage. Th default is to leave all individual images,
+# 
+# -R (remove) ... Flag to remove/delete all individual images generated 
+# prior to creating the montage. Th default is to leave all individual images, 
 # i.e, no deletion.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -167,13 +167,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -222,7 +222,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*x*[0-9]*\)'`
@@ -230,7 +230,7 @@ else
 					   ;;
 				-o)    # get overlap
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OVERLAP SPECIFICATION ---"
 					   checkMinus "$1"
 					   overlap=`expr "$1" : '\([0-9]*%*x*[0-9]*%*\)'`
@@ -238,24 +238,24 @@ else
 					   ;;
 				-m)    # get mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$mode" in
+					   case "$mode" in 
 					   		matrix|m) mode="matrix" ;;
 					   		sequential|s) mode="sequential" ;;
 					   		frames|f) mode="frames" ;;
 					   		animation|a) mode="animation" ;;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
-				-u)    # set uniform
+				-u)    # set uniform 
 					   uniform="yes"
 					   ;;
 				-i)    # get initnum
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INITNUM SPECIFICATION ---"
 					   checkMinus "$1"
 					   initnum=`expr "$1" : '\([0-9]*\)'`
@@ -263,7 +263,7 @@ else
 					   ;;
 				-z)    # get zeropad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ZEROPAD SPECIFICATION ---"
 					   checkMinus "$1"
 					   zeropad=`expr "$1" : '\([0-9]*\)'`
@@ -271,7 +271,7 @@ else
 					   ;;
 				-d)    # get delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay=`expr "$1" : '\([0-9]*\)'`
@@ -279,24 +279,24 @@ else
 					   ;;
 				-l)    # get loop
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LOOP SPECIFICATION ---"
 					   checkMinus "$1"
 					   loop=`expr "$1" : '\([0-9]*\)'`
 					   [ "$loop" = "" ] && errMsg "--- LOOP=$loop MUST BE A NON-NEGATIVE INTEGER ---"
 					   ;;
-				-c)    # set canvas
+				-c)    # set canvas 
 					   canvas="on"
 					   ;;
-				-M)    # set montage
+				-M)    # set montage 
 					   montage="yes"
 					   ;;
-				-L)    # set label
+				-L)    # set label 
 					   label="yes"
 					   ;;
 				-F)    # get frame
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FRAME SPECIFICATION ---"
 					   checkMinus "$1"
 					   frame=`expr "$1" : '\([0-9]*\)'`
@@ -304,13 +304,13 @@ else
 					   ;;
 				-S)    # get spacing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SPACING SPECIFICATION ---"
 					   checkMinus "$1"
 					   spacing=`expr "$1" : '\([0-9]*\)'`
 					   [ "$spacing" = "" ] && errMsg "--- SPACING=$spacing MUST BE A NON-NEGATIVE INTEGER ---"
 					   ;;
-				-R)    # set remove
+				-R)    # set remove 
 					   remove="yes"
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -406,11 +406,11 @@ if [ "$uniform" = "no" ]; then
 elif [ "$uniform" = "yes" ]; then
 	ew=`convert xc: -format "%[fx:$ww-$sw]" info:`
 	eh=`convert xc: -format "%[fx:$hh-$sh]" info:`
-fi
+fi	
 #echo "ww=$ww; hh=$hh; sw=$sw; sh=$sh; ow=$ow; oh=$oh; ew=$ew; eh=$eh"
 
 # set up to keep virtual canvas
-if [ "$canvas" = "off" ]; then
+if [ "$canvas" = "off" ]; then 
 	repaging="+repage"
 else
 	repaging=""

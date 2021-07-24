@@ -3,91 +3,91 @@
 # Developed by Fred Weinhaus 1/31/2017 .......... revised 1/31/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: removecolorcast [-m mixing] [-a autolevel] [-c cspace]
+# USAGE: removecolorcast [-m mixing] [-a autolevel] [-c cspace] 
 # [-B brightness] [-C contrast] [-S saturation] [infile] [outfile]
-#
+# 
 # USAGE: removecolorcast [-h|-help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -m     mixing         mixing amount between input image and color filter;
 #                       0<=integer<=100; default=50
 # -c     cpsace         colorspace for processing; choices are: sRGB or RGB;
 #                       default=sRGB
-# -a     autolevel      stretch the result to full dynamic range; yes or no;
+# -a     autolevel      stretch the result to full dynamic range; yes or no; 
 #                       the default=yes
-# -B     brightness     brightness change postprocessing; -100<=integer<=100;
+# -B     brightness     brightness change postprocessing; -100<=integer<=100; 
 #                       default=0
-# -C     contrast       contrast change postprocessing; -100<=integer<=100;
+# -C     contrast       contrast change postprocessing; -100<=integer<=100; 
 #                       default=0
-# -S     saturation     saturation change postprocessing; -100<=integer<=100;
+# -S     saturation     saturation change postprocessing; -100<=integer<=100; 
 #                       default=0
 #
 ###
-#
-# NAME: REMOVECOLORCAST
-#
+# 
+# NAME: REMOVECOLORCAST 
+# 
 # PURPOSE: To remove a color cast from an image.
-#
-# DESCRIPTION: REMOVECOLORCAST removes a color cast from an image by blending
-# the image and a color filter generated from the 180 deg hue shifted average
-# color of the image. The method of filtering use -compose colorize.
-#
-#
-# ARGUMENTS:
-#
-# -m mixing ... MIXING amount between the input image and a self generating
+# 
+# DESCRIPTION: REMOVECOLORCAST removes a color cast from an image by blending 
+# the image and a color filter generated from the 180 deg hue shifted average 
+# color of the image. The method of filtering use -compose colorize. 
+# 
+# 
+# ARGUMENTS: 
+# 
+# -m mixing ... MIXING amount between the input image and a self generating 
 # color filter. The values are 0<=integers<=100. The default=50.
-#
-# -c cpsace ... CSPACE is the colorspace for processing. The choices are:
-# sRGB or RGB. The default=sRGB. Using sRGB results in a slightly warmer
+# 
+# -c cpsace ... CSPACE is the colorspace for processing. The choices are: 
+# sRGB or RGB. The default=sRGB. Using sRGB results in a slightly warmer 
 # result. Using RGB results in a slightly cooler result.
-#
-# -a autolevel ... AUTOLEVEL applies a dynamic range stretch of the result.
+# 
+# -a autolevel ... AUTOLEVEL applies a dynamic range stretch of the result. 
 # The choices are: yes or no. The default=yes.
-#
-# -B brightness ... BRIGHTNESS change as a postprocessing step. Value are
+# 
+# -B brightness ... BRIGHTNESS change as a postprocessing step. Value are 
 # -100<=integer<=100. The default=0.
-#
-# -C contrast ... CONTRAST change as a postprocessing step. Value are
+# 
+# -C contrast ... CONTRAST change as a postprocessing step. Value are 
 # -100<=integer<=100. The default=0.
-#
-# -S saturation ... SATURATION change as a postprocessing step. Value are
+# 
+# -S saturation ... SATURATION change as a postprocessing step. Value are 
 # -100<=integer<=100. The default=0.
-#
-# RECOMMEND: IM 6.8.5.4 or higher due to fluctuating changes to IM sRGB and
-# RGB color spaces prior to that version. Otherwise, results may or may not
-# reproduce the effect properly, depending upon IM version.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# RECOMMEND: IM 6.8.5.4 or higher due to fluctuating changes to IM sRGB and 
+# RGB color spaces prior to that version. Otherwise, results may or may not  
+# reproduce the effect properly, depending upon IM version. 
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 # set default values
 mixing=50			# mixing (blend) amount; 0<=integer<=100
 autolevel="yes"		# autolevel postprocess
@@ -103,13 +103,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -157,7 +157,7 @@ else
 					   ;;
 				-m)    # get mixing
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIXING SPECIFICATION ---"
 					   #checkMinus "$1"
 					   mixing=`expr "$1" : '\([-0-9]*\)'`
@@ -168,7 +168,7 @@ else
 					   ;;
 				-c)    # get cspace
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CSPACE SPECIFICATION ---"
 					   checkMinus "$1"
 					   cspace=`echo "$1" | tr "[:lower:]" "[:upper:]"`
@@ -176,7 +176,7 @@ else
 					   ;;
 				-a)    # get autolevel
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AUTOLEVEL SPECIFICATION ---"
 					   checkMinus "$1"
 					   autolevel=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -184,7 +184,7 @@ else
 					   ;;
 				-B)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   brightness=`expr "$1" : '\([-0-9]*\)'`
@@ -195,7 +195,7 @@ else
 					   ;;
 				-C)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   contrast=`expr "$1" : '\([-0-9]*\)'`
@@ -206,7 +206,7 @@ else
 					   ;;
 				-S)    # get saturation
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATURATION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   saturation=`expr "$1" : '\([-0-9]*\)'`
@@ -324,3 +324,8 @@ convert $tmpI \
 
 
 exit 0
+
+
+
+
+

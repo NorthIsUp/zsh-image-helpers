@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/30/2008 .......... revised 11/5/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: anglegradient widthxheight [-a angle] [-c color ] outfile
@@ -34,25 +34,25 @@
 # widthxheight                     widthxheight of gradient image
 # -a                angle          orientational angle for gradient;
 #                                  degrees rotation from a vertical in
-#                                  clockwise direction; default=0;
+#                                  clockwise direction; default=0; 
 #                                  or nw,ne,se,sw for diagonal
-# -c                colors         gradient coloration; any valid
-#                                  hyphenated color pair involving
+# -c                colors         gradient coloration; any valid 
+#                                  hyphenated color pair involving 
 #                                  opaque colors or "none"
 #
 ###
 #
-# NAME: ANGLEGRADIENT
-#
+# NAME: ANGLEGRADIENT 
+# 
 # PURPOSE: To create a gradient effect at a specific orientation angle.
-#
-# DESCRIPTION: ANGLEGRADIENT creates a gradient effect at a specific
+# 
+# DESCRIPTION: ANGLEGRADIENT creates a gradient effect at a specific 
 # orientation angle.
-#
-# OPTIONS:
+# 
+# OPTIONS: 
 #
 # widthxheight ...  WIDTHxHEIGHT are the dimensions of the gradient image.
-#
+# 
 # -a angle ... ANGLE is the angle for the gradient coloration in degrees.
 # Values must be greater than or equal to 0 and less than or equal to 360.
 # Alternately, values of nw, ne, se, or sw may be specified to have the
@@ -60,21 +60,21 @@
 # have the first color at the top and the second color at the bottom. As
 # the gradient-angle is increased, the gradient rotates clockwise. The
 # default=0.
-#
+# 
 # -c colors ... COLORS is any valid hyphenated IM color pair including
-# opaquecolor-opaquecolor, opaquecolor-none or none-opaquecolor for a
-# transition from one opaque color to another or to transparency. If no
-# color pair is specified, then the normal grayscale gradient will be
-# generated. For angle=0, the first color will be at the top and the
+# opaquecolor-opaquecolor, opaquecolor-none or none-opaquecolor for a 
+# transition from one opaque color to another or to transparency. If no  
+# color pair is specified, then the normal grayscale gradient will be 
+# generated. For angle=0, the first color will be at the top and the 
 # second color at the bottom of the gradient image.
-#
-# NOTE: This script requires IM 6.4.2-6 or higher due to the use of
+# 
+# NOTE: This script requires IM 6.4.2-6 or higher due to the use of 
 # -distort SRT.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -90,13 +90,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -144,7 +144,7 @@ else
 					   ;;
 				-a)    # get angle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   checkMinus "$1"
 					   angle=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -158,14 +158,14 @@ else
 					   ;;
 				-c)    # get colors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   colors="$1"
 					   ;;
 	 [0-9]*x[0-9]*)    # get  size
 					   size="$1"
-					   numdim=`echo "$size" | tr "x" " " | wc -w`
+					   numdim=`echo "$size" | tr "x" " " | wc -w` 
 					   [ $numdim -ne 2 ] && errMsg "--- TWO DIMENSIONS MUST BE PROVIDED ---"
 					   ww=`echo "$size" | cut -dx -f1`
 					   hh=`echo "$size" | cut -dx -f2`
@@ -213,7 +213,7 @@ else
 fi
 
 # separate colors
-numcolors=`echo "$colors" | tr "-" " " | wc -w`
+numcolors=`echo "$colors" | tr "-" " " | wc -w` 
 [ $numcolors -ne 2 ] && errMsg "--- TWO COLORS MUST BE PROVIDED ---"
 color1=`echo "$colors" | cut -d- -f1`
 color2=`echo "$colors" | cut -d- -f2`

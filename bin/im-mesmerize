@@ -3,106 +3,106 @@
 # Developed by Fred Weinhaus 11/24/2016 .......... revised 11/24/2016
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: mesmerize [-s shape] [-m mode] [-f factor] [-t thick] [-d delay]
+# USAGE: mesmerize [-s shape] [-m mode] [-f factor] [-t thick] [-d delay] 
 # [-i incr] [-D direction] [-c colors] infile outfile
 #
 # USAGE: mesmerize [-help]
-#
+# 
 # OPTIONS:
-#
-# -s     shape         shape of mesmerizing pattern; choices are: round or
+# 
+# -s     shape         shape of mesmerizing pattern; choices are: round or 
 #                      diamond; default=round
-# -m     mode          mode of mesmerizing pattern; choices are: normal or
+# -m     mode          mode of mesmerizing pattern; choices are: normal or 
 #                      split; default=split
-# -f     factor        scale factor for diamond shape pattern; choices are:
+# -f     factor        scale factor for diamond shape pattern; choices are: 
 #                      1 or 2; default=2
-# -t     thick         thickness of pattern; integer>0; default=40; must be an
+# -t     thick         thickness of pattern; integer>0; default=40; must be an 
 #                      integer multiple of the incr to animate smoothly
 # -d     delay         delay for each frame of animation; integer>=0; default=5
 # -i     incr          increment of frames in animation; integer>0; default=4
-# -D     direction     direction of motion of animation pattern; choices are:
+# -D     direction     direction of motion of animation pattern; choices are: 
 #                      out or in; default=out
-# -c     colors        colors of pattern; either "none" or comma separated
-#                      pair of opaque colors (names, rgb or hex values);
+# -c     colors        colors of pattern; either "none" or comma separated 
+#                      pair of opaque colors (names, rgb or hex values); 
 #                      default="red,blue"; for color images, use "none"
-#
+# 
 # outfile should be of a type that supports multi-frames, such as gif
-#
+# 
 ###
-#
-# NAME: MESMERIZE
-#
+# 
+# NAME: MESMERIZE 
+# 
 # PURPOSE: To create a mesmerizing animation from an image.
-#
-# DESCRIPTION: MESMERIZE creates a mesmerizing animation from an image. The
-# image may be binary, grayscale or color. The user may select the shape and
+# 
+# DESCRIPTION: MESMERIZE creates a mesmerizing animation from an image. The 
+# image may be binary, grayscale or color. The user may select the shape and 
 # colors for the pattern.
-#
-#
-# ARGUMENTS:
-#
-# -s shape ... SHAPE of the mesmerizing pattern. The choices are: round (r) or
+# 
+# 
+# ARGUMENTS: 
+# 
+# -s shape ... SHAPE of the mesmerizing pattern. The choices are: round (r) or 
 # diamond (d). The default=round.
-#
-# -m mode ... MODE of the mesmerizing pattern. The choices are: normal (n) or
+# 
+# -m mode ... MODE of the mesmerizing pattern. The choices are: normal (n) or 
 # split (s). The default=split.
-#
-# -f factor ... FACTOR is the scale factor for the diamond shape pattern.
+# 
+# -f factor ... FACTOR is the scale factor for the diamond shape pattern. 
 # Values are either 1 or 2. The default=2. Ignored for the round shape.
-#
-# -t thick ... THICK is the thickness of the pattern. Value are integers>0.
-# The default=40. Thick must be an integer multiple of the incr to animate
+# 
+# -t thick ... THICK is the thickness of the pattern. Value are integers>0. 
+# The default=40. Thick must be an integer multiple of the incr to animate 
 # smoothly.
-#
-# -d delay ... DELAY for each frame of the animation. Values are integers>=0.
+# 
+# -d delay ... DELAY for each frame of the animation. Values are integers>=0. 
 # The default=5. Provides fine adjustment of the animation speed.
-#
-# -i incr ... INCR is the increment or skip for the frames in the animation.
-# Values are integers>0. The default=4. Provides coarse adjustment of the
+# 
+# -i incr ... INCR is the increment or skip for the frames in the animation. 
+# Values are integers>0. The default=4. Provides coarse adjustment of the 
 # animation speed.
-#
-# -D direction .. DIRECTION of motion of the animation pattern. Choices are:
+# 
+# -D direction .. DIRECTION of motion of the animation pattern. Choices are: 
 # out or in. The default=out.
-#
-# -c colors ... COLORS of the animation pattern. Values may be either "none"
-# or a comma separated pair of opaque colors (names, rgb or hex values).
+# 
+# -c colors ... COLORS of the animation pattern. Values may be either "none" 
+# or a comma separated pair of opaque colors (names, rgb or hex values).  
 # The default="red,blue". For color images, use "none".
-#
+# 
 # outfile should be of a type that supports multi-frames, such as gif
-#
-# NOTE: The effect on color images will produce an optical illusion
-# whether you see the normal background image and moving stripes of its
+# 
+# NOTE: The effect on color images will produce an optical illusion 
+# whether you see the normal background image and moving stripes of its 
 # inverse or vice-versa. Look carefully and you can see either one.
 
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 shape="round"
@@ -129,13 +129,13 @@ trap "rm -rf $dir; exit 1" 1 2 3 15
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -183,31 +183,31 @@ else
 					   ;;
 				-s)    # shape
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHAPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   shape=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$shape" in
+					   case "$shape" in 
 							round|r) shape="round" ;;
 							diamond|d) shape="diamond" ;;
-							*) errMsg "--- SHAPE=$shape IS AN INVALID VALUE ---"
+							*) errMsg "--- SHAPE=$shape IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-m)    # mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$mode" in
+					   case "$mode" in 
 							normal|n) mode="normal" ;;
 							split|s) mode="split" ;;
-							*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+							*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-f)    # get  factor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FACTOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   factor=`expr "$1" : '\([1-2]*\)'`
@@ -215,7 +215,7 @@ else
 				   	   ;;
 				-t)    # get  thick
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICK SPECIFICATION ---"
 					   checkMinus "$1"
 					   thick=`expr "$1" : '\([0-9]*\)'`
@@ -225,7 +225,7 @@ else
 					   ;;
 				-d)    # get  delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay=`expr "$1" : '\([0-9]*\)'`
@@ -233,7 +233,7 @@ else
 					   ;;
 				-i)    # get  incr
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INCR SPECIFICATION ---"
 					   checkMinus "$1"
 					   incr=`expr "$1" : '\([0-9]*\)'`
@@ -243,19 +243,19 @@ else
 					   ;;
 				-D)    # direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   direction=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$direction" in
+					   case "$direction" in 
 							in|i) direction="in" ;;
 							out|o) direction="out" ;;
-							*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---"
+							*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-c)    # get  colors
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORS SPECIFICATION ---"
 					   checkMinus "$1"
 					   if [ "$1" != "none" ]; then
@@ -323,7 +323,7 @@ if [ "$mode" = "normal" ]; then
 	[ "$direction" = "out" -a "$shape" = "round" ] && sign="+"
 	[ "$direction" = "in" -a "$shape" = "diamond" ] && sign="+"
 	[ "$direction" = "out" -a "$shape" = "diamond" ] && sign="-"
-elif [ "$mode" = "split" ]; then
+elif [ "$mode" = "split" ]; then	
 	yroll=$hh2
 	[ "$direction" = "in" -a "$shape" = "round" ] && sign="+"
 	[ "$direction" = "out" -a "$shape" = "round" ] && sign="-"
@@ -363,7 +363,7 @@ frames=$((thick*2))
 			\( mpr:img -clone 0 -negate -compose multiply -composite \) \
 			-delete 0 \
 			-compose over -compose plus -composite miff:-
-	done
+	done 
 	) | convert -delay $delay - $coloring -loop 0 "$outfile"
 
 exit 0

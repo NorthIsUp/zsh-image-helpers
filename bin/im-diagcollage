@@ -3,41 +3,41 @@
 # Developed by Fred Weinhaus 8/16/2014 .......... 6/22/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: diagcollage [-s size] [-b bordercolor] [-t thickness] [-d direction]
-# [-g1 gravity1] [-g2 gravity2] [-g3 gravity3] [-c1 crop1] [-c2 crop2]
+# USAGE: diagcollage [-s size] [-b bordercolor] [-t thickness] [-d direction] 
+# [-g1 gravity1] [-g2 gravity2] [-g3 gravity3] [-c1 crop1] [-c2 crop2] 
 # [-c3 crop3] infile1 infile2 infile3 outfile
 #
 # USAGE: diagcollage [-h or -help]
 #
 # OPTIONS:
 #
-# -s      size          square output size; even integer>0; default=400
+# -s      size          square output size; even integer>0; default=400 
 # -b      bcolor        border color; default=white
 # -t      thick         border thickness; even integer>0; default=10
-# -d      direction     direction of 5 deg rotation; p (positive) or
+# -d      direction     direction of 5 deg rotation; p (positive) or 
 #                       n (negative); default=p
 # -g1     gravity1      crop gravity setting for image 1; default=center
 # -g2     gravity2      crop gravity setting for image 2; default=center
@@ -48,50 +48,50 @@
 #
 ###
 #
-# NAME: DIAGCOLLAGE
-#
+# NAME: DIAGCOLLAGE 
+# 
 # PURPOSE: Collages three images in a diagonal orientation.
-#
+# 
 # DESCRIPTION: DIAGCOLLAGE collages three images in a diagonal orientation.
-# The first image will span the top half (before rotation) and the other two
+# The first image will span the top half (before rotation) and the other two 
 # images will be on the bottom left and bottom right quadrants, respectively.
+# 
+# OPTIONS: 
 #
-# OPTIONS:
-#
-# -s size ... SIZE is the even square output size. Values are even integers>0.
+# -s size ... SIZE is the even square output size. Values are even integers>0. 
 # The default=400.
-#
-# -b bcolor ... BCOLOR is the border color. Any valid IM opaque color is
+# 
+# -b bcolor ... BCOLOR is the border color. Any valid IM opaque color is 
 # permitted. The default=white.
-#
-# -t thick ... THICK is the border thickness. Values are even integer>0. The
+# 
+# -t thick ... THICK is the border thickness. Values are even integer>0. The 
 # default=10.
-#
-# -d direction ... DIRECTIONS of the 5 deg rotation. Values are: p (positive)
+# 
+# -d direction ... DIRECTIONS of the 5 deg rotation. Values are: p (positive)  
 # or n (negative). The default=p (positive).
-#
-# -g1 gravity1 ... GRAVITY1 is the crop gravity setting for image 1. Any IM
+# 
+# -g1 gravity1 ... GRAVITY1 is the crop gravity setting for image 1. Any IM  
 # gravity setting is allowed. The default=center.
-#
-# -g2 gravity2 ... GRAVITY2 is the crop gravity setting for image 2. Any IM
+# 
+# -g2 gravity2 ... GRAVITY2 is the crop gravity setting for image 2. Any IM  
 # gravity setting is allowed. The default=center.
-#
-# -g3 gravity3 ... GRAVITY3 is the crop gravity setting for image 3. Any IM
+# 
+# -g3 gravity3 ... GRAVITY3 is the crop gravity setting for image 3. Any IM  
 # gravity setting is allowed. The default=center.
-#
-# -c1 crop1 ... CROP1 is the crop offsets for image 1.
+# 
+# -c1 crop1 ... CROP1 is the crop offsets for image 1. 
 # The format is +-X+-Y. The default="+0+0".
 #
-# -c2 crop2 ... CROP2 is the crop offsets for image 1.
+# -c2 crop2 ... CROP2 is the crop offsets for image 1. 
 # The format is +-X+-Y. The default="+0+0".
 #
-# -c3 crop3 ... CROP3 is the crop offsets for image 1.
+# -c3 crop3 ... CROP3 is the crop offsets for image 1. 
 # The format is +-X+-Y. The default="+0+0".
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -115,13 +115,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -169,7 +169,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*\)'`
@@ -180,14 +180,14 @@ else
 					   ;;
 				-b)    # get bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-t)    # get thick
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICK SPECIFICATION ---"
 					   checkMinus "$1"
 					   thick=`expr "$1" : '\([0-9]*\)'`
@@ -198,23 +198,23 @@ else
 					   ;;
 				-d)    # direction
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   checkMinus "$1"
 					   direction=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$direction" in
+					   case "$direction" in 
 							positive|pos|p) direction="p" ;;
 							negative|neg|n) direction="n" ;;
-							*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---"
+							*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-g1)    # gravity1
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY1 SPECIFICATION ---"
 					   checkMinus "$1"
 					   gravity1=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$gravity1" in
+					   case "$gravity1" in 
 							northwest) ;;
 							north) ;;
 							northeast) ;;
@@ -224,16 +224,16 @@ else
 							southwest) ;;
 							south) ;;
 							southeast) ;;
-							*) errMsg "--- GRAVITY1=$gravity1 IS AN INVALID VALUE ---"
+							*) errMsg "--- GRAVITY1=$gravity1 IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-g2)    # gravity2
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY2 SPECIFICATION ---"
 					   checkMinus "$1"
 					   gravity2=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$gravity2" in
+					   case "$gravity2" in 
 							northwest) ;;
 							north) ;;
 							northeast) ;;
@@ -243,16 +243,16 @@ else
 							southwest) ;;
 							south) ;;
 							southeast) ;;
-							*) errMsg "--- GRAVITY2=$gravity2 IS AN INVALID VALUE ---"
+							*) errMsg "--- GRAVITY2=$gravity2 IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-g3)    # gravity3
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY3 SPECIFICATION ---"
 					   checkMinus "$1"
 					   gravity3=`echo "$1" | tr "[:upper:]" "[:lower:]"`
-					   case "$gravity3" in
+					   case "$gravity3" in 
 							northwest) ;;
 							north) ;;
 							northeast) ;;
@@ -262,12 +262,12 @@ else
 							southwest) ;;
 							south) ;;
 							southeast) ;;
-							*) errMsg "--- GRAVITY3=$gravity3 IS AN INVALID VALUE ---"
+							*) errMsg "--- GRAVITY3=$gravity3 IS AN INVALID VALUE ---" 
 					   esac
 				   	   ;;
 				-c1)    # get crop1
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CROP1 SPECIFICATION ---"
 					   #checkMinus "$1"
 					   crop1=`expr "$1," : '\([+-][0-9]*[+-][0-9]*\)'`
@@ -275,7 +275,7 @@ else
 					   ;;
 				-c2)    # get crop2
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CROP2 SPECIFICATION ---"
 					   #checkMinus "$1"
 					   crop2=`expr "$1," : '\([+-][0-9]*[+-][0-9]*\)'`
@@ -283,7 +283,7 @@ else
 					   ;;
 				-c3)    # get crop3
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CROP3 SPECIFICATION ---"
 					   #checkMinus "$1"
 					   crop3=`expr "$1," : '\([+-][0-9]*[+-][0-9]*\)'`

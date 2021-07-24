@@ -3,75 +3,75 @@
 # Developed by Fred Weinhaus 12/16/2016 .......... revised 12/16/2016
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: hexagons [-d dimension] [-c cellsize] [-e edgecolor] [-t thickness]
+# USAGE: hexagons [-d dimension] [-c cellsize] [-e edgecolor] [-t thickness] 
 # infile outfile
 # USAGE: hexagons [-h or -help]
 #
 # OPTIONS:
 #
-# -d     dimension      square size of the output image; default is the
+# -d     dimension      square size of the output image; default is the 
 #                       minimum dimension of the input
-# -c     cellsize       square size of hexagon cellsize; pixels or percent with
+# -c     cellsize       square size of hexagon cellsize; pixels or percent with 
 #                       % symbol included; default is 1/3 of dimension; the
-#                       minumum size is the equivalent of 50 pixels and the
+#                       minumum size is the equivalent of 50 pixels and the 
 #                       maximum size is dimension (100%)
-# -e     edgecolor      edge color assigned to border of hexagons; any valid
+# -e     edgecolor      edge color assigned to border of hexagons; any valid 
 #                       IM color is allowed; default is no edge color
 # -t     thickness      thickness of edges in pixels; integer>=0; default=0
-#
+# 
 ###
 #
 # NAME: HEXAGONS
-#
+# 
 # PURPOSE: To create a hexagonal grid of the randomly rotated input image.
-#
-# DESCRIPTION: HEXAGONS creates a hexagonal grid of scaled and randomly rotated
-# copies of the input image. The input image will be center cropped to its
+# 
+# DESCRIPTION: HEXAGONS creates a hexagonal grid of scaled and randomly rotated 
+# copies of the input image. The input image will be center cropped to its 
 # minimum dimension for use in the hexagons.
-#
-# OPTIONS:
-#
-# -d dimension ... DIMENSION is the square size of the output image. The
+# 
+# OPTIONS: 
+# 
+# -d dimension ... DIMENSION is the square size of the output image. The 
 # default is the minimum dimension of the input.
-#
-# -c cellsize ... CELLSIZE is the square size of the hexagon cells. Units
-# are either pixels or percent with % symbol included. The default is 1/3 of
-# the dimension value. The minumum allowed size is the equivalent of 50 pixels
+#  
+# -c cellsize ... CELLSIZE is the square size of the hexagon cells. Units 
+# are either pixels or percent with % symbol included. The default is 1/3 of 
+# the dimension value. The minumum allowed size is the equivalent of 50 pixels 
 # and the maximum size is the dimension argument (i.e. 100%).
-#
-# -e edgecolor ... EDGECOLOR is the color assigned to edges (border) of the
+# 
+# -e edgecolor ... EDGECOLOR is the color assigned to edges (border) of the 
 # hexagons. Any valid IM color is allowed. The default is no edge color.
-#
-# -t thickness ... THICKNESS of edges in pixels. Values are integers>=0.
+# 
+# -t thickness ... THICKNESS of edges in pixels. Values are integers>=0. 
 # The default=0 (no edge color).
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -96,13 +96,13 @@ trap "rm -rf $dir; exit 1" 1 2 3 15
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -150,7 +150,7 @@ else
 					   ;;
 				-d)    # dimension
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimension=`expr "$1" : '\([0-9]*\)'`
@@ -158,7 +158,7 @@ else
 					   ;;
 				-c)    # cellsize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CELLSIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   cellsize=`expr "$1" : '\([0-9]*%*\)'`
@@ -166,14 +166,14 @@ else
 					   ;;
 				-e)    # edgecolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EDGECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   edgecolor="$1"
 					   ;;
 				-t)    # thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -232,9 +232,9 @@ dim1=`convert xc: -format "%[fx:($dim-1)+0.5*$cellsize]" info:`
 # if cellsize cellsize is 1, then hexagon width = 1 and cellsize = 0.5, height = 0.866
 # so horizontal spacing = 1.5 and vertical spacing = 0.433
 hexArr=(`awk -v cellsize="$cellsize" -v dim1="$dim1" '
-BEGIN { j=0; y=0; while ( y < dim1 )
-{ if (j%2==0) {x=0.75*cellsize;} else {x=0;} while (x < dim1 )
-{ if (x>dim1) {x=dim1;} if (y>dim1) {y=dim1;} print "+"(x-0.5*cellsize)"+"(y-0.5*cellsize); x=x+1.5*cellsize; }
+BEGIN { j=0; y=0; while ( y < dim1 ) 
+{ if (j%2==0) {x=0.75*cellsize;} else {x=0;} while (x < dim1 ) 
+{ if (x>dim1) {x=dim1;} if (y>dim1) {y=dim1;} print "+"(x-0.5*cellsize)"+"(y-0.5*cellsize); x=x+1.5*cellsize; } 
 j++; y=y+0.433*cellsize; } }'`)
 num=${#hexArr[*]}
 #echo $num
@@ -268,8 +268,8 @@ if [ "$edgecolor" = "" -o $thickness -eq 0 ]; then
 	-trim +repage -resize ${cellsize}x${cellsize} +repage -set page "${hexArr[$i]}" miff:-
 	done ) | convert - $dir/tmpT.mpc
 
-else
-
+else 
+	
 	# fill cells with rotated images at grid offsets and add border color to each hexagon
 	( for ((i=0; i<num; i++)); do
 	convert -respect-parenthesis \( $dir/tmpI.mpc -rotate "${rotArr[$i]}" +repage \) \

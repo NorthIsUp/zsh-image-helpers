@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 6/25/2009 .......... revised 10/8/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: bcmatch [-c colormode] [-s satmode] infile1 infile2 outfile
@@ -31,51 +31,51 @@
 #
 # OPTIONS:
 #
-# -c      colormode       colorspace/channel to use to compute
-#                         brightness and contrast statistics;
-#                         choices are: gray, intensity, luminance,
-#                         lightness, brightness, average, magnitude,
+# -c      colormode       colorspace/channel to use to compute 
+#                         brightness and contrast statistics; 
+#                         choices are: gray, intensity, luminance, 
+#                         lightness, brightness, average, magnitude, 
 #                         rgb; default=gray
 # -s      satmode         colorspace mode to use to modify saturation;
-#                         choices are: HSB or HSL; default is no
+#                         choices are: HSB or HSL; default is no 
 #                         change in saturation.
-#
+# 
 # infile2 will be modified to match infile1
-#
+# 
 ###
 #
-# NAME: BCMATCH
-#
+# NAME: BCMATCH 
+# 
 # PURPOSE: To modify one image to try to match its brightness, contrast and
 # optionally saturation to that of another image.
-#
-# DESCRIPTION: BCMATCH modifies one image to try to match its brightness and
-# contrast and optionally saturation to that of another image. The second
-# image will be modified to match the first image. Saturation changes
-# only apply to color images, not grayscale ones. The choice of colormode
-# determines what colorspace or channel will be used to measure the mean
-# and standard deviation of the two images. The differences in mean and
-# standard deviation are equated to brightness and contrast changes, which
-# then are converted to intercept and slope of a linear transformation.
-# This linear transformation is then applied to the second image to make
-# the output. If colormode=rgb, then each channel of the second image will
-# be processed idependently. For all other colormodes, a common transformation
+# 
+# DESCRIPTION: BCMATCH modifies one image to try to match its brightness and 
+# contrast and optionally saturation to that of another image. The second 
+# image will be modified to match the first image. Saturation changes 
+# only apply to color images, not grayscale ones. The choice of colormode 
+# determines what colorspace or channel will be used to measure the mean 
+# and standard deviation of the two images. The differences in mean and 
+# standard deviation are equated to brightness and contrast changes, which 
+# then are converted to intercept and slope of a linear transformation. 
+# This linear transformation is then applied to the second image to make 
+# the output. If colormode=rgb, then each channel of the second image will 
+# be processed idependently. For all other colormodes, a common transformation 
 # will be applied to all channels of the second image.
 #
-# IMPORTANT: As this is a linear transformation, it may not do justice
-# to any non-linear differences between the two images, such as gamma
-# modifications. Furthermore, once information is lost, especially due
+# IMPORTANT: As this is a linear transformation, it may not do justice 
+# to any non-linear differences between the two images, such as gamma 
+# modifications. Furthermore, once information is lost, especially due 
 # to too much contrast change, it generally cannot be adequately recovered.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -c colormode ... COLORMODE is the colorspace/channel to use to compute
-# the brightness and contrast values of the two images. The choices are:
-# gray, intensity, luminance, lightness, brightness, average, magnitude
-# and rgb. Values of gray and intensity are equivalent. If colormode=rgb,
-# then each channel of the image will be processed independently. The
+# the brightness and contrast values of the two images. The choices are: 
+# gray, intensity, luminance, lightness, brightness, average, magnitude 
+# and rgb. Values of gray and intensity are equivalent. If colormode=rgb, 
+# then each channel of the image will be processed independently. The 
 # default is gray.
-#
+# 
 # Gray or Intensity uses statistics from -colorspace Gray.
 # Luminance uses statistics from -colorspace Rec709Luma.
 # Lightness uses statistics from the lightness channel of -colorspace HSL.
@@ -83,23 +83,23 @@
 # Average uses statistics from the first channel of -colorspace OHTA.
 # Magnitude uses aggregate statistics from all the channels.
 # RGB uses statistics independently from each channel of -colorspace sRGB/RGB.
-# See definitions at:
+# See definitions at: 
 # http://www.imagemagick.org/script/command-line-options.php#colorspace
-#
-# Note: generally there are only slight differences between the various
+# 
+# Note: generally there are only slight differences between the various 
 # non-rgb colormode results. Colormode=rgb can cause color balance shifts.
-#
-# -s satmode ... SATMODE is the choice of saturation colorspace to use
-# when modifying the saturation. Choices are: HSB and HSL. The default
-# is to make no change in saturation. If used, I recommend HSB. This
+# 
+# -s satmode ... SATMODE is the choice of saturation colorspace to use 
+# when modifying the saturation. Choices are: HSB and HSL. The default 
+# is to make no change in saturation. If used, I recommend HSB. This 
 # argument is only applicable when both images are color (not grayscale).
-#
+# 
 # REQUIRES: IM version 6.4.8-9 or higher due to the use of -function polynomial
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -115,13 +115,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -156,7 +156,7 @@ getSlopeIntercept()
 	# con=fractional change in std values
 	# brightness change => y=(x+0.5*bri)
 	# contrast change => y=(x-0.5)*(1+con)+0.5; so slope pivots about 0.5
-	# use 0.5*bri as range is from assumed midrange
+	# use 0.5*bri as range is from assumed midrange 
 	# thus bri=-+1 makes y go between 0 and 1 when x=0.5
 	# con=1 makes slope double
 	# combine as: y=(x+0.5*bri-0.5)*(1+con)+0.5
@@ -196,11 +196,11 @@ else
 					   ;;
 				-c)    # get  colormode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLORMODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   colormode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$colormode" in
+					   case "$colormode" in 
 					   		gray) ;;
 					   		intensity) ;;
 					   		luminance) ;;
@@ -209,19 +209,19 @@ else
 					   		average) ;;
 					   		magnitude) ;;
 					   		rgb) ;;
-					   		*) errMsg "--- COLORMODE=$colormode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- COLORMODE=$colormode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-s)    # get  satmode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SATMODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   satmode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$satmode" in
+					   case "$satmode" in 
 					   		hsb) ;;
 					   		hsl) ;;
-					   		*) errMsg "--- SATMODE=$satmode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- SATMODE=$satmode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -262,7 +262,7 @@ im_version=`convert -list configure | \
 
 # test if infiles are grayscale
 # NOTE: must put grep before trap using ERR in case it does not find a match
-# NOTE: removed -ping; cause %r to report gray rather than srgb for truecolor images
+# NOTE: removed -ping; cause %r to report gray rather than srgb for truecolor images 
 gray1="no"
 gray2="no"
 grayscale1=`convert "$infile1" -format "%[colorspace]" info:`
@@ -343,9 +343,9 @@ reduction=""
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -393,7 +393,7 @@ if [ "$gray1" = "no" ]; then
 	fi
 	if [ "$satmode" != "" ]; then
 		convert $tmpA1 $setcspace -colorspace $satmode -channel G -separate $tmpSA1
-	fi
+	fi	
 fi
 
 # convert infile2 to colormode if not already gray
@@ -417,8 +417,8 @@ if [ "$gray2" = "no" ]; then
 	fi
 	if [ "$satmode" != "" ]; then
 		convert $tmpA2 $setcspace -colorspace $satmode -channel G -separate $tmpSA2
-	fi
-fi
+	fi	
+fi	
 
 # process images
 if [ "$gray1" = "yes" -a "$gray2" = "yes" ]; then

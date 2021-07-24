@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/29/2008 .......... revised 1/25/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: otsuthresh [-g graph] infile outfile
@@ -31,56 +31,56 @@
 #
 # OPTIONS:
 #
-# -g	  graph             graph specifies whether to generate a
-#                           histogram graph image displaying the
+# -g	  graph             graph specifies whether to generate a 
+#                           histogram graph image displaying the 
 #                           location and value of the threshold;
-#                           choices are: view or save;
+#                           choices are: view or save; 
 #                           default is no graph
 #
 ###
 #
 # NAME: OTSUTHRESH
-#
-# PURPOSE: To automatically thresholds an image to binary (b/w) format
+# 
+# PURPOSE: To automatically thresholds an image to binary (b/w) format 
 # using Otsu's between class variance technique.
-#
+# 
 # DESCRIPTION: OTSUTHRESH automatically thresholds an image to binary
 # (b/w) format. It assume the histogram is bimodal, i.e. is the composite
 # of two bell-shaped distributions representing the foreground and
-# background classes. The Otsu appoach computes the Between Class Variance
-# from the foreground (above threshold data) and background (at and below
-# threshold value) for every possible threshold value. The optimal threshold
-# is the one that maximizes the Between Class Variance. This is equivalent
-# to finding the threshold that minimizes the overlap between the two
+# background classes. The Otsu appoach computes the Between Class Variance 
+# from the foreground (above threshold data) and background (at and below 
+# threshold value) for every possible threshold value. The optimal threshold 
+# is the one that maximizes the Between Class Variance. This is equivalent 
+# to finding the threshold that minimizes the overlap between the two 
 # bell-shaped class curves.
-#
-# OPTIONS:
-#
-# -g graph ... GRAPH specifies whether to generate a graph (image) of
-# the histogram, displaying the location and value of the threshold.
-# The choices are: view, save and none. If graph=view is selected, the
-# graph will be created and displayed automatically, but not saved.
-# If graph=save is selected, then the graph will be created and saved
-# to a file using the infile name, with "_histog_otsu.gif" appended,
-# but the graph will not be displayed automatically. If -g option is
+# 
+# OPTIONS: 
+# 
+# -g graph ... GRAPH specifies whether to generate a graph (image) of 
+# the histogram, displaying the location and value of the threshold. 
+# The choices are: view, save and none. If graph=view is selected, the 
+# graph will be created and displayed automatically, but not saved. 
+# If graph=save is selected, then the graph will be created and saved 
+# to a file using the infile name, with "_histog_otsu.gif" appended,  
+# but the graph will not be displayed automatically. If -g option is 
 # not specified, then no graph will be created.
-#
-# NOTE: It is highly recommended that the output not be specified
-# as a JPG image as that will cause compression and potentially a
-# non-binary (i.e. a graylevel) result. GIF is the recommended
+# 
+# NOTE: It is highly recommended that the output not be specified 
+# as a JPG image as that will cause compression and potentially a 
+# non-binary (i.e. a graylevel) result. GIF is the recommended 
 # output format.
-#
+# 
 # REFERENCES: see the following:
 # http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Segmenta.html
 # http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/MORSE/threshold.pdf
 # http://www.cse.unr.edu/~bebis/CS791E/Notes/Thresholding.pdf
 # http://www.ifi.uio.no/in384/info/threshold.ps
 # http://www.supelec.fr/ecole/radio/JPPS01.pdf
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -94,13 +94,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -148,7 +148,7 @@ else
 					   ;;
 				-g)    # get  graph
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAPH SPECIFICATION ---"
 					   checkMinus "$1"
 					   graph="$1"
@@ -193,9 +193,9 @@ trap "rm -f $tmpA1 $tmpA2 $histfile; exit 1" 1 2 3 15
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -219,7 +219,7 @@ if convert -quiet "$infile" $setcspace -colorspace gray +repage "$tmpA1"
 	: ' do nothing '
 else
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAG ZERO SIZE ---"
-fi
+fi	
 
 # get totpix in image
 width=`convert $tmpA1 -format "%w" info:`
@@ -230,32 +230,32 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	valueArr=(`convert $tmpA1 -depth 8 -format "%c" -define histogram:unique-colors=true histogram:info:- \
 	| sed -n 's/[ ]*\([0-9]*\).*gray[(]\([0-9]*\).*$/\1 \2/p' |\
 	awk '
-	# AWK
-	{ vbin[$2] += $2;}
+	# AWK 
+	{ vbin[$2] += $2;} 
 	END { for (i=0;i<256;i++) {print vbin[i]; } } '`)
 #	echo ${valueArr[*]}
 #	echo ${#valueArr[*]}
 	numvals=${#valueArr[*]}
-
+	
 	# get count array from IM histogram
 	countArr=(`convert $tmpA1 -depth 8 -format "%c" -define histogram:unique-colors=true histogram:info:- \
 	| sed -n 's/[ ]*\([0-9]*\).*gray[(]\([0-9]*\).*$/\1 \2/p' |\
 	awk '
-	# AWK
-	{ cbin[$2] += $1; }
+	# AWK 
+	{ cbin[$2] += $1; } 
 	END { for (i=0;i<256;i++) {print cbin[i]; } } '`)
 #	echo ${countArr[*]}
 #	echo ${#countArr[*]}
 	numcounts=${#countArr[*]}
-
+	
 	[ $numvals -ne $numcounts ] && errMsg "--- NUMBER OF COUNTS IS NOT THE SAME AS NUMBER OF VALUES ---"
-
+	
 	# compute normalized count array
 	ncountArr=( $(for ((i=0; i<$numcounts; i++)); do
 	echo "$i ${countArr[$i]}"
 	done |\
 	awk -v totpix="$totpix" -v numcounts="$numcounts" '
-	# AWK
+	# AWK 
 	{ bin[$1] = $2; }
 	END { for (i=0;i<numcounts;i++) {print bin[i]/totpix; } } ') )
 #	echo ${ncountArr[*]}
@@ -266,8 +266,8 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	echo "$i ${valueArr[$i]} ${ncountArr[$i]}"
 	done |\
 	awk -v numcounts="$numcounts" '
-	# AWK
-	{ vbin[$1] = $2; ncbin[$1] = $3; }
+	# AWK 
+	{ vbin[$1] = $2; ncbin[$1] = $3; } 
 	END { for (i=0;i<numcounts;i++) { mean += vbin[i]*ncbin[i]; } print mean } ' )
 #	echo "mean=$mean"
 
@@ -286,7 +286,7 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	done |\
 	awk -v numcounts="$numcounts" '
 	# AWK to generate a cumulative histogram 1D image...
-	{ nlowbin[$1] = $2; }
+	{ nlowbin[$1] = $2; } 
 	END { for (i=0;i<numcounts;i++) { nlow += nlowbin[i]; print nlow } } ') )
 #	echo ${nlowArr[*]}
 #	echo ${#nlowArr[*]}
@@ -297,7 +297,7 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	done |\
 	awk -v numcounts="$numcounts" '
 	# AWK to generate a cumulative histogram 1D image...
-	{ vlowbin[$1] = $2; nclowbin[$1] = $3; }
+	{ vlowbin[$1] = $2; nclowbin[$1] = $3; } 
 	END { for (i=0;i<numcounts;i++) { glow += vlowbin[i]*nclowbin[i]; print glow } } ') )
 #	echo ${glowArr[*]}
 #	echo ${#glowArr[*]}
@@ -308,7 +308,7 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 # compute threshold by maximizing between class variance
 # bcv=Nl*(Ml-M)^2 + Nh*(Mh-M)^2 = (M*Nl-Gl)^2/(Nl*(1-Nl))
 
-# m=p1/p0=mean => M(t)=G(t)/N(t)
+# m=p1/p0=mean => M(t)=G(t)/N(t) 
 # where Nh and Nl are normalized counts above and below threshold (zeroth moments, p0)
 # Mh and Ml are means of pixels above and below threshold
 # Gh and Gl are normalized cumulative graylevels (first moments, p1)
@@ -325,9 +325,9 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	done |\
 	awk -v numcounts="$numcounts" -v mean="$mean" -v bcvold=0 -v threshbin=0 '
 	# AWK to compute entropy threshold...
-	{ nlowbin[$1] = $2; glowbin[$1] = $3; }
-	END { for (i=0;i<(numcounts-1);i++)
-	{ dmean = (mean*nlowbin[i] - glowbin[i]); bcv = dmean*dmean/(nlowbin[i]*(1-nlowbin[i]));
+	{ nlowbin[$1] = $2; glowbin[$1] = $3; } 
+	END { for (i=0;i<(numcounts-1);i++) 
+	{ dmean = (mean*nlowbin[i] - glowbin[i]); bcv = dmean*dmean/(nlowbin[i]*(1-nlowbin[i])); 
 	if (bcv>bcvold) { bcvold=bcv; threshbin=i; } } print threshbin } ')
 #	echo "threshbin=$threshbin"
 	thresh=${valueArr[$threshbin]}
@@ -365,3 +365,6 @@ if [ "$graph" = "view" ]; then
 fi
 
 exit 0
+
+
+

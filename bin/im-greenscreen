@@ -3,74 +3,74 @@
 # Developed by Fred Weinhaus 4/30/2019 .......... revised 5/3/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: greenscreen [-t thresh] [-a area] [-s sat] [-b bgcolor] [-A antialias]
+# USAGE: greenscreen [-t thresh] [-a area] [-s sat] [-b bgcolor] [-A antialias] 
 # infile [bgfile] outfile
 # USAGE: greenscreen [-h or -help]
 #
 # OPTIONS:
 #
-# -t     thresh         threshold of mask image used to remove green; 0<=integer<=100;
+# -t     thresh         threshold of mask image used to remove green; 0<=integer<=100; 
 #                       default=0
-# -a     area           area threshold for removal of remnant areas in mask image;
+# -a     area           area threshold for removal of remnant areas in mask image; 
 #                       integer>=0; default=2000
 # -s     sat            saturation of remnant green color; 0<=integer<=100; default=0
 # -b     bgcolor        background color; any opaque Imagemagick color may be specified
 #                       the default=none
 # -A     antialias      antialias amount; integer>=0; default=2
-#
+# 
 ###
 #
 # NAME: GREENSCREEN
-#
+# 
 # PURPOSE: Removes background green color in a green screen image.
-#
-# DESCRIPTION: GREENSCREEN removes background green color in a green screen image.
-# The background may be replace with transparency, another color or an optional
+# 
+# DESCRIPTION: GREENSCREEN removes background green color in a green screen image. 
+# The background may be replace with transparency, another color or an optional 
 # second image.
-#
-# OPTIONS:
-#
-# -t thresh ... THRESH is the threshold of mask image used to remove green. Values
+# 
+# OPTIONS: 
+# 
+# -t thresh ... THRESH is the threshold of mask image used to remove green. Values 
 # are 0<=integer<=100. The default=0.
-#
-# -a area ... AREA threshold for removal of remnant areas in the mask image. Values
+# 
+# -a area ... AREA threshold for removal of remnant areas in the mask image. Values 
 # are integer>=0. The default=2000.
-#
-# -s sat ... SAT is the desired saturation of remnant green color. Value are
+# 
+# -s sat ... SAT is the desired saturation of remnant green color. Value are 
 # 0<=integer<=100. The default=0.
-#
-# -b bgcolor ... BGCOLOR is the desired background color. Any opaque Imagemagick
+# 
+# -b bgcolor ... BGCOLOR is the desired background color. Any opaque Imagemagick 
 # color may be specified. The default=none (transparent).
-#
+# 
 # -A antialias ... ANTIALIAS amount. Values are integer>=0. The default=2.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -96,13 +96,13 @@ trap "rm -rf $dir; exit 1" 1 2 3 15
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -150,7 +150,7 @@ else
 					   ;;
 				-t)    # thresh
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THRESH SPECIFICATION ---"
 					   checkMinus "$1"
 					   thresh=`expr "$1" : '\([0-9]*\)'`
@@ -158,7 +158,7 @@ else
 					   ;;
 				-a)    # area
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AREA SPECIFICATION ---"
 					   checkMinus "$1"
 					   area=`expr "$1" : '\([0-9]*\)'`
@@ -166,7 +166,7 @@ else
 					   ;;
 				-s)    # get sat
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   sat=`expr "$1" : '\([0-9]*\)'`
@@ -177,14 +177,14 @@ else
 					   ;;
 				-b)    # bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-t)    # thickness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THICKNESS SPECIFICATION ---"
 					   checkMinus "$1"
 					   thickness=`expr "$1" : '\([0-9]*\)'`
@@ -192,7 +192,7 @@ else
 					   ;;
 				-A)    # antialias
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ANTIALIAS SPECIFICATION ---"
 					   checkMinus "$1"
 					   antialias=`expr "$1" : '\([0-9]*\)'`

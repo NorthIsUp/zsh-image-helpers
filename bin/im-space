@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/08/2007 .......... revised 5/4/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: space [-m mix] [-b bri] [-c con] [-s sat] [-w wn ] [-g mg ] infile outfile
@@ -35,11 +35,11 @@
 # -m              mix            mixing fraction for desired mean;
 #                                0 <= mix <= 1; default=0.5
 # -b              bri            brightening gain factor; bri>=0;
-#                                default=1 (no change)
+#                                default=1 (no change)                             
 # -c              con            contrast gain factor; con>=0
-#                                default=1 (no change)
+#                                default=1 (no change)                              
 # -s              sat            saturation gain factor; sat>=0
-#                                default=1 (no change)
+#                                default=1 (no change) 
 # -w              wn             moving window size percentage of image;
 #                                nominally between 5 and 20; default=12.5
 # -g              mg             maximum gain for standard deviation;
@@ -49,12 +49,12 @@
 #
 ###
 #
-# NAME: SPACE
-#
-# PURPOSE: To change the contrast and/or brightness in an image adaptively.
-#
-# DESCRIPTION: SPACE is an adaptive technique to enhance an image's
-# brightness and contrast. SPACE is an abbreviation for SPacially
+# NAME: SPACE 
+# 
+# PURPOSE: To change the contrast and/or brightness in an image adaptively. 
+# 
+# DESCRIPTION: SPACE is an adaptive technique to enhance an image's 
+# brightness and contrast. SPACE is an abbreviation for SPacially 
 # Adaptive Contrast Enhancement.
 #
 # The adaptive formula R = mix*dmean + (1-mix)*bri*M + G*(I-M). Here R is the
@@ -83,59 +83,59 @@
 # the result a bit smoother and a larger one a bit coarser. There are times
 # when you may want to push the max gain value higher, for example, when trying
 # to pull information out of a hazy picture. Note, that as an option, the
-# saturation of the image may also be modified. If no parameters are provided,
-# there will still be some change in the input image due to the adaptive
-# behavior even if there is no desired brightness, contrast or saturation
+# saturation of the image may also be modified. If no parameters are provided, 
+# there will still be some change in the input image due to the adaptive 
+# behavior even if there is no desired brightness, contrast or saturation 
 # provided.
+# 
+# 
+# Arguments: 
 #
-#
-# Arguments:
-#
-# -h or -help    ---  displays help information.
-#
-# -m mix --- mix is a fraction between 0 and 1 that controls the mixing between
-# the desired mean and the low pass filtered mean image. A value of 0 results
-# in the use of the low pass filtered image, only. A value of 1 results in the
+# -h or -help    ---  displays help information. 
+# 
+# -m mix --- mix is a fraction between 0 and 1 that controls the mixing between 
+# the desired mean and the low pass filtered mean image. A value of 0 results 
+# in the use of the low pass filtered image, only. A value of 1 results in the 
 # use of the desired mean (constant) value only. The default is 0.5.
-#
-# -b bri --- bri is a brightening factor that is a multiplier for both
-# the global mean value and the low pass filtered mean image. It is a floating
-# point value and must be non-negative. Values greater than 1 will increase
-# the brightness and values less than 1 will decrease the brightness.
-# The default is 1 or no gain.
-#
-# -c con --- con is a contrast factor that is a multiplier for the
-# global standard deviation value. It is a floating point value and must be
-# non-negative. Values greater than 1 will increase the contrast and values
-# less than 1 will decrease the contrast. The default is 1 or no gain.
-#
-# -s sat --- sat is a saturation factor. It is used in a post processing step.
-# It is a floating point value and must be non-negative. Values greater than
-# 1 will increase the saturation of the image and values less than 1 will
-# decrease the saturation of the image. The default is 1 or no gain.
-#
-# -w wn --- window is the size as a percentage of the input image for
-# the non-overlapping averaging and standard deviation operations. Typical
-# values are between 5 and 20. Smaller values tend to make the output a bit
+# 
+# -b bri --- bri is a brightening factor that is a multiplier for both 
+# the global mean value and the low pass filtered mean image. It is a floating 
+# point value and must be non-negative. Values greater than 1 will increase 
+# the brightness and values less than 1 will decrease the brightness. 
+# The default is 1 or no gain. 
+# 
+# -c con --- con is a contrast factor that is a multiplier for the 
+# global standard deviation value. It is a floating point value and must be 
+# non-negative. Values greater than 1 will increase the contrast and values 
+# less than 1 will decrease the contrast. The default is 1 or no gain. 
+# 
+# -s sat --- sat is a saturation factor. It is used in a post processing step. 
+# It is a floating point value and must be non-negative. Values greater than 
+# 1 will increase the saturation of the image and values less than 1 will 
+# decrease the saturation of the image. The default is 1 or no gain. 
+# 
+# -w wn --- window is the size as a percentage of the input image for 
+# the non-overlapping averaging and standard deviation operations. Typical 
+# values are between 5 and 20. Smaller values tend to make the output a bit 
 # smoother and larger values tend to make it a bit coarser. The default is 12.5
 # (Actually, the true size of the moving window in pixels is the inverse of the
-# window value expressed as a fraction. Thus a value of 5(%) corresponds to a
+# window value expressed as a fraction. Thus a value of 5(%) corresponds to a 
 # 20x20 pixel window and a value of 20(%) corresponds to a 5x5 pixel window.)
-#
-# -g mg --- mg is the maximum gain limiting factor on the ration of the
-# desired mean divided by the non-overlapping standard deviation image. Typical
+# 
+# -g mg --- mg is the maximum gain limiting factor on the ration of the 
+# desired mean divided by the non-overlapping standard deviation image. Typical 
 # values are between 5 and 20. The default is 5.
-#
+# 
 # NOTE: This script will be slow if not in HDRI mode due to the use of -fx.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
-# set default values;
-# mix=mixing fraction; bri=brightness factor
+# set default values; 
+# mix=mixing fraction; bri=brightness factor 
 # con=contrast factor; sat=saturation factor
 mix=0.5
 bri=1
@@ -156,13 +156,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -211,7 +211,7 @@ else
 				   ;;
 			-m)    # mix
 				   shift  # to get the next parameter - mix
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID MIX SPECIFICATION ---"
 				   checkMinus "$1"
 				   mix=`expr "$1" : '\([.0-9]*\)'`
@@ -221,7 +221,7 @@ else
 				   ;;
 			-b)    # bri
 				   shift  # to get the next parameter - bri
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BRI SPECIFICATION ---"
 				   checkMinus "$1"
 				   bri=`expr "$1" : '\([.0-9]*\)'`
@@ -231,7 +231,7 @@ else
 				   ;;
 			-c)    # con
 				   shift  # to get the next parameter - con
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID CON SPECIFICATION ---"
 				   checkMinus "$1"
 				   con=`expr "$1" : '\([.0-9]*\)'`
@@ -241,7 +241,7 @@ else
 				   ;;
 			-s)    # sat
 				   shift  # to get the next parameter - sat
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID SAT SPECIFICATION ---"
 				   checkMinus "$1"
 				   sat=`expr "$1" : '\([.0-9]*\)'`
@@ -251,7 +251,7 @@ else
 				   ;;
 			-w)    # wn
 				   shift  # to get the next parameter - wn
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID WINDOW SPECIFICATION ---"
 				   checkMinus "$1"
 				   wn=`expr "$1" : '\([.0-9]*\)'`
@@ -261,7 +261,7 @@ else
 				   ;;
 			-g)    # mg
 				   shift  # to get the next parameter - mg
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 				   checkMinus "$1"
 				   mg=`expr "$1" : '\([.0-9]*\)'`
@@ -306,7 +306,7 @@ sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | 
 # test for hdri enabled
 # NOTE: must put grep before trap using ERR in case it does not find a match
 if [ "$im_version" -ge "07000000" ]; then
-	hdri_on=`convert -version | grep "HDRI"`
+	hdri_on=`convert -version | grep "HDRI"`	
 else
 	hdri_on=`convert -list configure | grep "enable-hdri"`
 fi
@@ -333,9 +333,9 @@ trap "rm -f $tmpA $tmpB $tmpM $tmpM2 $tmpS $tmpS2 $tmpME $tmpME2 $tmpSE $tmpSE2 
 trap "rm -f $tmpA $tmpB $tmpM $tmpM2 $tmpS $tmpS2 $tmpME $tmpME2 $tmpSE $tmpSE2 $tmp0 $tmp1 $tmp2 $tmp3; exit 1" 1 2 3 15
 trap "rm -f $tmpA $tmpB $tmpM $tmpM2 $tmpS $tmpS2 $tmpME $tmpME2 $tmpSE $tmpSE2 $tmp0 $tmp1 $tmp2 $tmp3; exit 1" ERR
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -385,7 +385,7 @@ function imagestats
 if [ "$stats" = "true" ]
 	then
 	convert $infile -colorspace Gray $tmp0
-	imagestats $tmp0
+	imagestats $tmp0	
 	echo ""
 	echo "Min (0-100) = $min"
 	echo "Max (0-100) = $max"
@@ -407,22 +407,22 @@ else
 
 	# get image stats
 	convert $tmpA $setcspace -colorspace Gray $tmp0
-	imagestats $tmp0
-
+	imagestats $tmp0	
+	
 	# get mean
 	convert $tmpA -filter box -resize $wn% $tmpM
-
+	
 	# get std = sqrt( ave(x^2) - ave(x)^2 )
 	# -evaluate pow 0.5 is equivalent to sqrt
 	convert \( $tmpA $tmpA -compose multiply -composite -filter box -resize $wn% \) \
 		\( $tmpM $tmpM -compose multiply -composite \) +swap \
 		-compose minus -composite -evaluate pow 0.5 $tmpS
-
+		
 	# expand mean and std images
 	dim=`convert $tmpA -format "%wx%h" info:`
 	convert $tmpM -resize $dim! $tmpME
 	convert $tmpS -resize $dim! $tmpSE
-
+	
 
 if [ "$hdri_on" = "" ]; then
 	# get gain image and process output
@@ -457,9 +457,9 @@ else
 	-delete 0,1,2,4,5 -define compose:clamp=off -compose plus -composite $tmp3
 fi
 
-
+	
 	if [ "$sat" != "" ]
-		then
+		then		
 		convert $tmp3 $tmpA
 		convert $tmpA $setcspace -colorspace HSL -channel R -separate $tmp0
 		convert $tmpA $setcspace -colorspace HSL -channel G -separate $tmp1

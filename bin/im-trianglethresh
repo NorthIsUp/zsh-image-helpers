@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/29/2008 .......... revised 1/18/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: trianglethresh [-g graph] infile outfile
@@ -31,19 +31,19 @@
 #
 # OPTIONS:
 #
-# -g	  graph             graph specifies whether to generate a
-#                           histogram graph image displaying the
+# -g	  graph             graph specifies whether to generate a 
+#                           histogram graph image displaying the 
 #                           location and value of the threshold;
-#                           choices are: view or save;
+#                           choices are: view or save; 
 #                           default is no graph
 #
 ###
 #
 # NAME: TRIANGLETHRESH
-#
-# PURPOSE: To automatically thresholds an image to binary (b/w) format
+# 
+# PURPOSE: To automatically thresholds an image to binary (b/w) format 
 # using the triangle technique.
-#
+# 
 # DESCRIPTION: TRIANGLETHRESH automatically thresholds an image to binary
 # (b/w) format. It does not assume the histogram is bimodal. It finds the
 # bin with the highest value (the peak in the histogram) and also the end
@@ -51,30 +51,30 @@
 # the two. It exhaustively searches along the line drawing a perpendicular
 # from the line to the top of each histogram bin and picks the threshold
 # value at that bin for which the perpendicular is the longest.
-#
-# OPTIONS:
-#
-# -g graph ... GRAPH specifies whether to generate a graph (image) of
-# the histogram, displaying the location and value of the threshold.
-# The choices are: view, save and none. If graph=view is selected, the
-# graph will be created and displayed automatically, but not saved.
-# If graph=save is selected, then the graph will be created and saved
-# to a file using the infile name, with "_histog_triangle.gif" appended,
-# but the graph will not be displayed automatically. If -g option is
+# 
+# OPTIONS: 
+# 
+# -g graph ... GRAPH specifies whether to generate a graph (image) of 
+# the histogram, displaying the location and value of the threshold. 
+# The choices are: view, save and none. If graph=view is selected, the 
+# graph will be created and displayed automatically, but not saved. 
+# If graph=save is selected, then the graph will be created and saved 
+# to a file using the infile name, with "_histog_triangle.gif" appended,  
+# but the graph will not be displayed automatically. If -g option is 
 # not specified, then no graph will be created.
-#
-# NOTE: It is highly recommended that the output not be specified
-# as a JPG image as that will cause compression and potentially a
-# non-binary (i.e. a graylevel) result. GIF is the recommended
+# 
+# NOTE: It is highly recommended that the output not be specified 
+# as a JPG image as that will cause compression and potentially a 
+# non-binary (i.e. a graylevel) result. GIF is the recommended 
 # output format.
-#
+# 
 # REFERENCES: see the following:
 # http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Segmenta.html
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -88,13 +88,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -142,7 +142,7 @@ else
 					   ;;
 				-g)    # get  graph
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAPH SPECIFICATION ---"
 					   checkMinus "$1"
 					   graph="$1"
@@ -185,9 +185,9 @@ trap "rm -f $tmpA1 $tmpA2 $histfile; exit 1" 1 2 3 15
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -211,7 +211,7 @@ if convert -quiet "$infile" $setcspace -colorspace gray +repage "$tmpA1"
 	: ' do nothing '
 else
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAG ZERO SIZE ---"
-fi
+fi	
 
 # get totpix in image
 width=`convert $tmpA1 -format "%w" info:`
@@ -225,26 +225,26 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	nvalueArr=(`convert $tmpA1 -depth 8 -format "%c" -define histogram:unique-colors=true histogram:info:- \
 	| sed -n 's/[ ]*\([0-9]*\).*gray[(]\([0-9]*\).*$/\1 \2/p' |\
 	awk '
-	# AWK
-	{ vbin[$2] += $2;}
+	# AWK 
+	{ vbin[$2] += $2;} 
 	END { for (i=0;i<256;i++) {print vbin[i]+0; } } '`)
 #	echo ${nvalueArr[*]}
 #	echo ${#nvalueArr[*]}
 	numvals=${#nvalueArr[*]}
-
+	
 	# get filled and normalized count array from IM histogram
 	ncountArr=(`convert $tmpA1 -depth 8 -format "%c" -define histogram:unique-colors=true histogram:info:- \
 	| sed -n 's/[ ]*\([0-9]*\).*gray[(]\([0-9]*\).*$/\1 \2/p' |\
 	awk -v totpix="$totpix" '
-	# AWK
-	{ cbin[$2] += $1; }
+	# AWK 
+	{ cbin[$2] += $1; } 
 	END { for (i=0;i<256;i++) {print (cbin[i]+0)/totpix; } } '`)
 #	echo ${ncountArr[*]}
 #	echo ${#ncountArr[*]}
 	numcounts=${#ncountArr[*]}
-
+	
 	[ $numvals -ne $numcounts ] && errMsg "--- NUMBER OF COUNTS IS NOT THE SAME AS NUMBER OF VALUES ---"
-
+	
 
 
 	# find start bin (first one not zero)
@@ -253,7 +253,7 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	done |\
 	awk '
 	# AWK to find startbin
-	{ cbin[$1] = $2; }
+	{ cbin[$1] = $2; } 
 	END { for (i=0;i<256;i++) { if (cbin[i]!=0) { print i; break; } } } '`
 	eval startbincount=${ncountArr[$startbin]}
 #	echo "startbin=$startbin; startbincount=$startbincount;"
@@ -265,7 +265,7 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	done |\
 	awk '
 	# AWK to find startbin
-	{ cbin[$1] = $2; }
+	{ cbin[$1] = $2; } 
 	END { for (i=255;i>=0;i--) { if (cbin[i]!=0) { print i; break; } } } '`
 	endbincount=${ncountArr[$endbin]}
 #	echo "endbin=$endbin; endbincount=$endbincount;"
@@ -277,7 +277,7 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	done |\
 	awk '
 	# AWK to find startbin
-	{ cbin[$1] = $2; maxbincount = 0; maxbin = 0; }
+	{ cbin[$1] = $2; maxbincount = 0; maxbin = 0; } 
 	END { for (i=0;i<256;i++) { if (cbin[i] > maxbincount) { maxbincount=cbin[i]; maxbin=i; } } print maxbin } '`
 	maxbincount=${ncountArr[$maxbin]}
 #	echo "maxbin=$maxbin; maxbincount=$maxbincount;"
@@ -286,7 +286,7 @@ totpix=`echo "scale=0; $width * $height / 1" | bc`
 	# set x1,y1 for bin with max count
 	y1=$maxbincount
 	x1=$maxbin
-
+	
 	# set x2,y2 for furthest end bin from bin with max count
 	lowdiff=`expr $maxbin - $startbin`
 	highdiff=`expr $endbin - $maxbin`
@@ -323,10 +323,10 @@ if [ $x2 -eq $startbin ]; then
 	awk -v startbin="$startbin" -v maxbin="$maxbin" -v aa="$aa" -v bb="$bb" -v cc="$cc" -v ir="$ir" '
 	# AWK to find threshold
 	{ x[$1] = $1; y[$1] = $2; dist=0; }
-	END { for (i=startbin;i<maxbin;i++) { dd = ir*(aa*x[i]+bb*y[i]+cc); ddabs = sqrt(dd*dd);
+	END { for (i=startbin;i<maxbin;i++) { dd = ir*(aa*x[i]+bb*y[i]+cc); ddabs = sqrt(dd*dd); 
 		if (ddabs>dist && dd>0) { distbin=i; dist=ddabs; } } print distbin } '`
 #	echo "$distbin"
-
+	
 else
 
 	distbin=`for ((i=0; i<256; i++)); do
@@ -335,7 +335,7 @@ else
 	awk -v endbin="$endbin" -v maxbin="$maxbin" -v aa="$aa" -v bb="$bb" -v cc="$cc" -v ir="$ir" '
 	# AWK to find threshold
 	{ x[$1] = $1; y[$1] = $2; dist=0; }
-	END { for (i=endbin;i>maxbin;i--) { dd = ir*(aa*x[i]+bb*y[i]+cc); ddabs = sqrt(dd*dd);
+	END { for (i=endbin;i>maxbin;i--) { dd = ir*(aa*x[i]+bb*y[i]+cc); ddabs = sqrt(dd*dd); 
 		if (ddabs>dist && dd<0) { distbin=i; dist=ddabs; } } print distbin } '`
 #	echo "$distbin"
 fi
@@ -362,9 +362,9 @@ if [ "$graph" != "" ]; then
 # compute triangle lines for graphing
 
 	# histogram image scales maxbincount to 200 pixels
-	# counts need to be complemented with 200
+	# counts need to be complemented with 200 
 	# as 0 is at image top and 200 at image bottom
-
+	
 	# convert y1 and y2 to points on histogram image
 	xx1=$x1
 	yy1=0
@@ -376,17 +376,17 @@ if [ "$graph" != "" ]; then
 	xx0=$x0
 	yy0=`echo "scale=10; 200*(1 - $y0/$y1)/1" | bc`
 #echo "y0=$y0; y1=$y1; yy0=$yy0"
-
+	
 	# find intersection of perpendicular through xx0,yy0 and line between xx1,yy1 and x2,y2
 	# get slope and intercept of line between xx1,yy1 and xx2,yy2
 	sl=`echo "scale=10; ($yy2 - $yy1)/($xx2 - $xx1)" | bc`
 	il=`echo "scale=10; ($yy1 - $sl*$xx1)/1" | bc`
-
+	
 	# get slope and intercept of perpendicular
 	# slope is negative inverse of that of line between xx1,yy1 and xx2,yy2
 	sp=`echo "scale=10; -1/$sl" | bc`
 	ip=`echo "scale=10; ($yy0 - $sp*$xx0)/1" | bc`
-
+	
 	# compute intersection point xx3,yy3
 	xx3=`echo "scale=10; ($ip - $il)/($sl - $sp)" | bc`
 	yy3=`echo "scale=10; ($sl*$xx3 + $il)/1" | bc`
@@ -414,3 +414,6 @@ if [ "$graph" = "view" ]; then
 fi
 
 exit 0
+
+
+

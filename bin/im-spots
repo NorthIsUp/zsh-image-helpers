@@ -3,104 +3,104 @@
 # Developed by Fred Weinhaus 8/4/2011 .......... 5/28/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: spots [-s size] [-t type] [-p pad] [-b bgcolor] [-e edge] [-E ecolor] [-B brightness] [-C Contrast] infile [spotfile] outfile
+# USAGE: spots [-s size] [-t type] [-p pad] [-b bgcolor] [-e edge] [-E ecolor] [-B brightness] [-C Contrast] infile [spotfile] outfile 
 # USAGE: spots [-help]
 #
 # OPTIONS:
 #
 # -s      size              spot size expressed as WxH in pixels; default=5x5
-# -t      type              type of spot shape; choices are: circle (or c),
+# -t      type              type of spot shape; choices are: circle (or c), 
 #                           square (or s), or diamond (or d); default=circle
-# -p      pad               padding or border around spot cell in pixels on
+# -p      pad               padding or border around spot cell in pixels on 
 #                           each side; integer>=0; default=1
 # -b      bgcolor           background color to apply to image where spot
 #                           does not cover; any valid IM color; default=black
-# -e      edge              edge thickness accent around spot shape;
+# -e      edge              edge thickness accent around spot shape; 
 #                           integer>=0; default=0
-# -E      ecolor            color of accent edge around spot shape;
+# -E      ecolor            color of accent edge around spot shape; 
 #                           any valid IM color; default=gray
-# -B      brightness        percent change in brightness of spots;
+# -B      brightness        percent change in brightness of spots; 
 #                           integer; default=0
-# -C      contrast          percent change in contrast of spots;
+# -C      contrast          percent change in contrast of spots; 
 #                           integer; default=0
-#
-#
+# 
+# 
 ###
-#
-# NAME: SPOTS
-#
+# 
+# NAME: SPOTS 
+# 
 # PURPOSE: Converts the image into a series of uniform-colored spots.
-#
-# DESCRIPTION: SPOTS converts the image into a series of uniform-colored
-# spots. The shape of spots allowed are: circle (ellipse), square (rectangle)
-# or diamond. The spot size may be adjusted. A colored edge may also be
-# placed around each spot. An optional spotfile may be provided to define
+# 
+# DESCRIPTION: SPOTS converts the image into a series of uniform-colored 
+# spots. The shape of spots allowed are: circle (ellipse), square (rectangle) 
+# or diamond. The spot size may be adjusted. A colored edge may also be 
+# placed around each spot. An optional spotfile may be provided to define 
 # some other shape than those built-in.
-#
-#
-# OPTIONS:
-#
-# -s size ... SIZE is the WxH dimensions of the spot cell. Values are a
-# pair of positive integers separated by an x. The default=5x5. If only
-# one value is provided, it will be used for both. This parameter is
+# 
+# 
+# OPTIONS: 
+# 
+# -s size ... SIZE is the WxH dimensions of the spot cell. Values are a 
+# pair of positive integers separated by an x. The default=5x5. If only 
+# one value is provided, it will be used for both. This parameter is 
 # ignored if a spotfile is provided.
 #
 # -t type ... TYPE is the type of spot shape. The choices are: circle (or c),
-# square (or s), diamond (or d). These may be asymmetric as ellipses or
-# rectangles as controlled by the size parameters. This parameter is
+# square (or s), diamond (or d). These may be asymmetric as ellipses or 
+# rectangles as controlled by the size parameters. This parameter is 
 # ignored if a spotfile is provided.
-#
-# -p pad ... PAD is the border around the spot cell. Values are integers>=0.
+# 
+# -p pad ... PAD is the border around the spot cell. Values are integers>=0. 
 # The default=0.
-#
-# -b bgcolor ... BGCOLOR is the color to apply to the image between the spots.
+# 
+# -b bgcolor ... BGCOLOR is the color to apply to the image between the spots. 
 # Any valid IM color is allowed. The default=black.
-#
-# -e edge ... EDGE is the thickness of the optional edge hightlight around
+# 
+# -e edge ... EDGE is the thickness of the optional edge hightlight around 
 # the spot shape. Values are integers>=0. The default=0.
-#
-# -E ecolor ... ECOLOR is the color of the edge highlight. Any valid IM color
+# 
+# -E ecolor ... ECOLOR is the color of the edge highlight. Any valid IM color 
 # is allowed. The default=gray.
-#
-# -B brightness ... BRIGHTNESS is the percent change in brightness of the
+# 
+# -B brightness ... BRIGHTNESS is the percent change in brightness of the 
 # spot colors. Values are integers. The default=0
-#
-# -C contrast ... CONTRAST is the percent change in contrast of the
+# 
+# -C contrast ... CONTRAST is the percent change in contrast of the 
 # spot colors. Values are integers. The default=0
-#
-# The spotfile must be a binary mask with white for the shape and black
+# 
+# The spotfile must be a binary mask with white for the shape and black 
 # for the background and no alpha channel.
-#
+# 
 # REQUIREMENTS: IM 6.3.6-1 or higher due to the use of
 # -define distort:viewport=WxH+X+Y with -distort SRT.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -121,13 +121,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -175,7 +175,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*[x]*[0-9]*\)'`
@@ -183,22 +183,22 @@ else
 					   ;;
 		 		-t)    # type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test mode values
 					   type="$1"
 					   type=`echo "$type" | tr "[:upper:]" "[:lower:]"`
-					   case "$type" in
+					   case "$type" in 
 					   		circle|c) type="circle" ;;
 					   		square|s) type="square" ;;
 					   		diamond|d) type="diamond" ;;
-					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---"
+					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-p)    # get pad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PAD SPECIFICATION ---"
 					   checkMinus "$1"
 					   pad=`expr "$1" : '\([0-9]*\)'`
@@ -206,14 +206,14 @@ else
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-e)    # get edge
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EDGE SPECIFICATION ---"
 					   checkMinus "$1"
 					   edge=`expr "$1" : '\([0-9]*\)'`
@@ -221,14 +221,14 @@ else
 					   ;;
 				-E)    # get ecolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ecolor="$1"
 					   ;;
 				-B)    # get brightness
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BRIGHTNESS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   bri=`expr "$1" : '\([-0-9]*\)'`
@@ -236,7 +236,7 @@ else
 					   ;;
 				-C)    # get contrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   con=`expr "$1" : '\([-0-9]*\)'`
@@ -312,7 +312,7 @@ if [ "$spotfile" = "" ]; then
 	scy=`convert xc: -format "%[fx:($sh-1)/2]" info:`
 	lx=$((sw-1))
 	ly=$((sh-1))
-
+	
 	# get pad size
 	pw=$((sw+2*pad))
 	ph=$((sh+2*pad))
@@ -326,23 +326,23 @@ fi
 if [ "$spotfile" = "" ]; then
 	if [ "$pad" = "0" ]; then
 		padding=""
-	else
+	else 
 		padding="-bordercolor black -border $pad"
 	fi
-
+	
 	# create spot template
 	if [ "$type" = "circle" ]; then
 		convert -size ${sw}x${sh} xc:black \
 			+antialias -fill white -draw "ellipse $scx,$scy $scx,$scy 0,360" -alpha off \
 			$padding \
 			$tmpA2
-
+	
 	elif [ "$type" = "square" ]; then
 		convert -size ${sw}x${sh} xc:black \
 			+antialias -fill white -draw "rectangle 0,0 $lx,$ly" -alpha off \
 			$padding \
 			$tmpA2
-
+	
 	elif [ "$type" = "diamond" ]; then
 		convert -size ${sw}x${sh} xc:black \
 			+antialias -fill white -draw "polygon $scx,0 $lx,$scy $scx,$ly 0,$scy" -alpha off \

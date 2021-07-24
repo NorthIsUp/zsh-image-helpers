@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 2/18/2012 .......... revised 6/2/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: vibrance [-a amount] infile outfile
@@ -35,31 +35,31 @@
 #
 ###
 #
-# NAME: VIBRANCE
-#
+# NAME: VIBRANCE 
+# 
 # PURPOSE: To apply a non-linear change to the saturation of an image.
-#
-# DESCRIPTION: VIBRANCE applies a non-linear change to the saturation of an
+# 
+# DESCRIPTION: VIBRANCE applies a non-linear change to the saturation of an 
 # image.
-#
-# OPTIONS:
-#
-# -a amount ... AMOUNT is the percent non-linear change in saturation.
+# 
+# OPTIONS: 
+# 
+# -a amount ... AMOUNT is the percent non-linear change in saturation. 
 # Values are -100<=integers<=100. The default=0 (no change).
 #
-# REQUIREMENTS: IM 6.5.3-4 or greater in order to support -compose
+# REQUIREMENTS: IM 6.5.3-4 or greater in order to support -compose 
 # blend with convert.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
 # set default values
 amount=0			# amount of non-linear saturation change
-blend="25,75"		# blend of lightness and saturation channels as mask
+blend="25,75"		# blend of lightness and saturation channels as mask	
 
 # set directory for temporary files
 dir="."    # suggestions are dir="." or dir="/tmp"
@@ -68,13 +68,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -122,7 +122,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter - bluramt
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   # checkMinus "$1"
 					   amount=`expr "$1" : '\([0-9\-]*\)'`

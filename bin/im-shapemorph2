@@ -1,36 +1,36 @@
 #!/bin/sh
-#
+# 
 # Developed by Fred Weinhaus and Anthony Thyssen 3/6/2012 .....revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: shapemorph2 -c1 cpts1 -c2 cpts2 [-f frames] [-d delay] [-p pause] [-r] [-b bcolor] infile1 infile2 outfile
 #        shapemorph2 [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -c1     cpts1     control point x,y coordinates in infile1
 # -c2     cpts2     control point x,y coordinates in infile1
 # -f      frames    number of frames in animation; frames>1; default=20
@@ -40,56 +40,56 @@
 # -r                reverse the animation sequence and append it to the end
 # -b      bcolor    background color when morph distortion goes off the images;
 #                   default=black
-#
+# 
 ###
 #
 # NAME: SHAPEMORPH2
-#
+# 
 # PURPOSE: To create a shape morphing animation sequence between two images.
-#
+# 
 # DESCRIPTION: SHAPEMORPH2 creates a shape morphing animation sequence between
-# two images using multiple corresponding control point specified from each of
-# the two input images. The control points along with the four fixed corners
-# actually form the set of control points that are used to fill out X and Y
-# displacement maps (images) that are then used to transform the geometry of
-# each image to the other. The corresponding frames from the transformation
+# two images using multiple corresponding control point specified from each of 
+# the two input images. The control points along with the four fixed corners  
+# actually form the set of control points that are used to fill out X and Y  
+# displacement maps (images) that are then used to transform the geometry of 
+# each image to the other. The corresponding frames from the transformation 
 # of each image are then blended proportional to the progression of frames.
-#
+# 
 # OPTIONS:
-#
+# 
 # -c1 cpts1 ... CPTS1 is a list of the x,y pairs of control points for infile1.
 # This argument is mandatory and must have atleast one x,y pair. Points must be
 # listed in the same order as the corresponding points in infile2.
-#
+# 
 # -c2 cpts2 ... CPTS2 is a list of the x,y pairs of control points for infile2.
 # This argument is mandatory and must have atleast one x,y pair. Points must be
 # listed in the same order as the corresponding points in infile1.
-#
+# 
 # -f frames ... FRAMES is the total number of frames in the animation (including
 # infile1 and infile2 as the start and end frames. Values are integers > 1. The
 # default is 20.
-#
+# 
 # -d delay ... DELAY between frames. Values are integers>0. The default=10
-#
+# 
 # -p pause ... PAUSE is the delay to use for the first and last frame of the
 # animation, i.e. the delay for each of the input images. The default=100
-#
+# 
 # -r ... If supplied, then reverse the animation sequence, remove the first and
 # last frames of the reversed sequence and append these reversed frames to
 # the end of the animation.
-#
-# -b bgcolor ... BGCOLOR is the background color to use when the morph
-# distortion goes off either image. The default=black. A value of none
+# 
+# -b bgcolor ... BGCOLOR is the background color to use when the morph 
+# distortion goes off either image. The default=black. A value of none 
 # can be used for transparency for the background.
-#
+# 
 # REQUIREMENTS: IM 6.4.2-4 or higher due to the use of -distort shepards.
-#
+# 
 # CAVEAT: No guarantee that this script will work on all platforms,
 # nor that trapping of inconsistent parameters is complete and
 # foolproof. Use At Your Own Risk.
-#
+# 
 ######
-#
+# 
 
 # set default values
 frames=20
@@ -108,13 +108,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -283,47 +283,47 @@ convert -delay $pause $dir/A.mpc $dir/result.miff
 
 for ((i=1; i<iter; i++)); do
 	echo "$i"
-
+	
 	# set up iteration
 	blend=`convert xc: -format "%[fx:100*$i/$iter]" info:`
-
+	
 	cpointsb="$corners"
 	cpointsa="$corners"
 	# new same locations for a given iteration used for both images
 	for ((j=0; j<num1; j++)); do
 		cpx_Arr[$j]=`convert xc: -format "%[fx:${cpx_Arr[$j]}+${dx_Arr[$j]}]" info:`
 		cpy_Arr[$j]=`convert xc: -format "%[fx:${cpy_Arr[$j]}+${dy_Arr[$j]}]" info:`
-
+	
 		# interate new control points for infile 2 (B)
 		cpointsb="$cpointsb  ${x2_Arr[$j]},${y2_Arr[$j]} ${cpx_Arr[$j]},${cpy_Arr[$j]}"
-
+		
 		# interate new control points for infile 1 (A)
 		cpointsa="$cpointsa  ${x1_Arr[$j]},${y1_Arr[$j]} ${cpx_Arr[$j]},${cpy_Arr[$j]}"
 	done
-
+	
 	# NOTE: A multi-image miff is just a concatanation of images!
 	# This makes it easy to form pipelined commands.
-
-	(
+	
+	( 
 	# ( ... ) is a subshell to allow two miff:- to be used as multi-image miff
-
+	
 	# Warp each image using -distort shepards.
-
+	
 	# transform B to A
 	convert $dir/B.mpc -virtual-pixel background -background "$bcolor" \
 		-distort shepards "$cpointsb" miff:-
-
+	
 	# transform A to B
 	convert $dir/A.mpc -virtual-pixel background -background "$bcolor" \
 		-distort shepards "$cpointsa" miff:-
-
+	
 	# blend the displaced images
 	) | composite - -blend ${blend}% miff:- >> $dir/result.miff
-
+	
 	# alternate more current method but limited to IM 6.5.3-4 or higher
 	# convert - +swap -compose blend -define compose:args=${blend} -composite miff:- >> $dir/result.miff
-
-
+	
+	
 done
 
 # add infile2 as last frame

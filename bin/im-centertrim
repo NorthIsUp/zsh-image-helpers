@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/3/2013 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: centertrim [-f fuzzval] infile outfile
@@ -37,21 +37,21 @@
 ###
 #
 # NAME: CENTERTRIM
-#
+# 
 # PURPOSE: To trim an image so as to preserve the image center.
-#
-# DESCRIPTION: CENTERTRIM trims an image so as to preserve the image center
+# 
+# DESCRIPTION: CENTERTRIM trims an image so as to preserve the image center 
 # based upon the most distant trimmed corner from the center.
-#
-# OPTIONS:
-#
-# -f fuzzval ... FUZZVAL is fuzz value (color tolerance) percent associated
+# 
+# OPTIONS: 
+# 
+# -f fuzzval ... FUZZVAL is fuzz value (color tolerance) percent associated  
 # with trimming. Values are floats greater than or equal to zero. The default=0
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -66,13 +66,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -120,7 +120,7 @@ else
 					   ;;
 				-f)    # fuzzval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   fuzzval=`expr "$1" : '\([.0-9]*\)'`
@@ -199,22 +199,22 @@ dmax=`convert xc: -format "%[fx:max(max(max($d1,$d2),$d3),$d4)]" info:`
 #echo "d1=$d1; d2=$d2; d3=$d3; d4=$d4; dmax=$dmax"
 
 # set up crop arguments
-if [ "$d1" = "$dmax" ]; then
+if [ "$d1" = "$dmax" ]; then 
 	wd=`convert xc: -format "%[fx:2*$d1x]" info:`
 	ht=`convert xc: -format "%[fx:2*$d1y]" info:`
 	xo=`convert xc: -format "%[fx:($xoff)]" info:`
 	yo=`convert xc: -format "%[fx:($yoff)]" info:`
-elif [ "$d2" = "$dmax" ]; then
+elif [ "$d2" = "$dmax" ]; then 
 	wd=`convert xc: -format "%[fx:2*$d2x]" info:`
 	ht=`convert xc: -format "%[fx:2*$d2y]" info:`
 	xo=`convert xc: -format "%[fx:($cx-$d2x)]" info:`
 	yo=`convert xc: -format "%[fx:($yoff)]" info:`
-elif [ "$d3" = "$dmax" ]; then
+elif [ "$d3" = "$dmax" ]; then 
 	wd=`convert xc: -format "%[fx:2*$d3x]" info:`
 	ht=`convert xc: -format "%[fx:2*$d3y]" info:`
 	xo=`convert xc: -format "%[fx:($cx-$d3x)]" info:`
 	yo=`convert xc: -format "%[fx:($cy-$d3y)]" info:`
-elif [ "$d4" = "$dmax" ]; then
+elif [ "$d4" = "$dmax" ]; then 
 	wd=`convert xc: -format "%[fx:2*$d4x]" info:`
 	ht=`convert xc: -format "%[fx:2*$d4y]" info:`
 	xo=`convert xc: -format "%[fx:($xoff)]" info:`

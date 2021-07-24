@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 3/19/2008 .......... revised 12/8/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: lupe [cenx,ceny] [-m mag] [-s shape] [-l lenx,leny] [-r round] [-b border] [-c color] [-d distort] [-p pcolor] infile outfile
@@ -33,10 +33,10 @@
 #
 # centx,centy              coordinate in image for center of lupe;
 #                          default is center of image
-# -m      mag              magnification factor; float; mag>=1;
+# -m      mag              magnification factor; float; mag>=1; 
 #                          default=2
 # -s      shape            shape is lupe (magnifying glass) shape;
-#                          circle (ellipse) or square (rectangle);
+#                          circle (ellipse) or square (rectangle); 
 #                          default=circle
 # -l      lenx,leny        radii (circle) or half-width (square);
 #                          must be greater than 0; default=64,64;
@@ -47,63 +47,63 @@
 # -b      border           border thickness for lupe; border>=0;
 #                          default=4
 # -c      color            border color for lupe; default=white
-# -d      distort          spherical distortion factor; float;
+# -d      distort          spherical distortion factor; float; 
 #                          distort>=0; default=0
-# -p      pcolor           color to use to pad the image so that
-#                          zooms near the edges can be used;
-#                          any valid IM color is allowed; default
-#                          is no pad
-#
+# -p      pcolor           color to use to pad the image so that 
+#                          zooms near the edges can be used; 
+#                          any valid IM color is allowed; default 
+#                          is no pad                      
+# 
 ###
 #
-# NAME: LUPE
-#
+# NAME: LUPE 
+# 
 # PURPOSE: To apply a magnifying glass effect in a local area of an image.
-#
-# DESCRIPTION: LUPE applies a magnifying glass (lupe) effect in a local area
-# of an image. The normal mode is a simple magnification with no distortion.
-# However an option is provided to apply a spherical distortion. The lupe can
-# have either a circular/elliptical shape or a (rounded) square/rectangular
+# 
+# DESCRIPTION: LUPE applies a magnifying glass (lupe) effect in a local area 
+# of an image. The normal mode is a simple magnification with no distortion. 
+# However an option is provided to apply a spherical distortion. The lupe can 
+# have either a circular/elliptical shape or a (rounded) square/rectangular 
 # shape. The lupe border thickeness and color can also be specified.
-#
-#
-# ARGUMENTS:
-#
-# centx,centy ... CENTX,CENTY are the coordinates in the image for the center
+# 
+# 
+# ARGUMENTS: 
+# 
+# centx,centy ... CENTX,CENTY are the coordinates in the image for the center 
 # of the lupe. If not specified, then the center of the image will be provided.
-#
+# 
 # -m mag ... MAG is the magnificiation factor. Values must be greater than or
 # equal to 1. Values may be floating point numbers. The default is 2.
-#
-# -s shape ... SHAPE is the shape of the lupe. The shape may be circle or square.
+# 
+# -s shape ... SHAPE is the shape of the lupe. The shape may be circle or square. 
 # The default is circle.
-#
-# -l lenx,leny ... LENX,LENY is either the radii for the circle/ellipse or the
-# half-width for the square/rectangle. Values must be integers greater than 0.
+# 
+# -l lenx,leny ... LENX,LENY is either the radii for the circle/ellipse or the 
+# half-width for the square/rectangle. Values must be integers greater than 0. 
 # The default is 64,64.
-#
-# -r round ... ROUND is the radius of the corner rounding for the shape=square
+# 
+# -r round ... ROUND is the radius of the corner rounding for the shape=square 
 # option. Values must be integers greater than or equal to zero. The default is 10.
-#
-# -b border ... BORDER is the border thickness of the lupe. Values must be
+# 
+# -b border ... BORDER is the border thickness of the lupe. Values must be 
 # integers greater than or equal to zero. The default=4.
-#
-# -c color ... COLOR is the color of the border of the lupe. Color may be any
-# valid IM color specification. Be sure to enclose in double quotes if not
+# 
+# -c color ... COLOR is the color of the border of the lupe. Color may be any 
+# valid IM color specification. Be sure to enclose in double quotes if not 
 # using a color name. The default=white.
-#
-# -d distort ... DISTORT is the spherical distortion factor. Values may be floating
-# point numbers greater than or equal to 0. The default=0 (no distortion). When
-# values are greater than 0, the distortion is applied using -fx. Therefore, the
+# 
+# -d distort ... DISTORT is the spherical distortion factor. Values may be floating 
+# point numbers greater than or equal to 0. The default=0 (no distortion). When 
+# values are greater than 0, the distortion is applied using -fx. Therefore, the 
 # processing will be slower.
+# 
+# -p pcolor ... PCOLOR is the color to use to pad the image so that zooms near the 
+# edges can be used. Any valid IM color is allowed. The default is no pad.                    
 #
-# -p pcolor ... PCOLOR is the color to use to pad the image so that zooms near the
-# edges can be used. Any valid IM color is allowed. The default is no pad.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -129,13 +129,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -183,7 +183,7 @@ else
 					   ;;
 				-s)    # get  shape
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHAPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   shape="$1"
@@ -191,7 +191,7 @@ else
 					   ;;
 				-m)    # get  mag
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MAGNIFICATION SPECIFICATION ---"
 					   checkMinus "$1"
 					   mag=`expr "$1" : '\([.0-9]*\)'`
@@ -201,7 +201,7 @@ else
 					   ;;
 				-l)    # get  lenx,leny
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 		 			   len="$1"
@@ -214,7 +214,7 @@ else
 					   ;;
 				-r)    # get  round
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROUND SPECIFICATION ---"
 					   checkMinus "$1"
 					   round=`expr "$1" : '\([0-9]*\)'`
@@ -222,7 +222,7 @@ else
 					   ;;
 				-b)    # get  border
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDER SPECIFICATION ---"
 					   checkMinus "$1"
 					   border=`expr "$1" : '\([0-9]*\)'`
@@ -230,21 +230,21 @@ else
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BORDER COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-p)    # get  pcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PAD COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   pcolor="$1"
 					   ;;
 				-d)    # get  distort
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DISTORT SPECIFICATION ---"
 					   checkMinus "$1"
 					   distort=`expr "$1" : '\([.0-9]*\)'`
@@ -419,7 +419,7 @@ convert -size ${ws}x${hs} xc:black -fill white \
 im_version=`convert -list configure | \
 sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 if [ "$im_version" -ge "06030600" ]
-	then
+	then 
 	rd="rd=hypot(xd,yd);"
 else
 	rd="rd=sqrt(xd^2+yd^2);"

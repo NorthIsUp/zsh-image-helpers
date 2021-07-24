@@ -3,93 +3,93 @@
 # Developed by Fred Weinhaus 2/23/2018 .......... revised 2/23/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: shadows [-t type] [-c color] [-r radius] [-s sigma] [-d direction]
+# USAGE: shadows [-t type] [-c color] [-r radius] [-s sigma] [-d direction] 
 # [-b bgcolor] [-a alpha] infile outfile
 # USAGE: shadows [-h or -help]
 #
 # OPTIONS:
 #
 # -t     type           type of shadow; inner (i) or outer (o); default=inner
-# -c     color          shadow color; any valid Imagemagick opaque color may be used;
+# -c     color          shadow color; any valid Imagemagick opaque color may be used; 
 #                       default=black.
-# -r     radius         radius of shadow; integer>=0; default=0 (determined from
+# -r     radius         radius of shadow; integer>=0; default=0 (determined from 
 #                       sigma)
 # -s     sigma          sigma (blur) of shadow; float>=0; default=5
 # -d     direction      direction of shadow; -360<=integer<=360; default=135
-# -b     bcolor         color to put under the alpha channel; any valid Imagemagick
-#                       opaque color may be used; default is not to replace the image
+# -b     bcolor         color to put under the alpha channel; any valid Imagemagick 
+#                       opaque color may be used; default is not to replace the image 
 #                       texture with color.
-# -a     alpha          flag to specify to leave alpha channel enabled; yes (y) or
+# -a     alpha          flag to specify to leave alpha channel enabled; yes (y) or 
 #                       no (n); default=no; only allowed for type=inner
 #
-# infile must have an alpha channel
-#
+# infile must have an alpha channel 
+# 
 ###
 #
-# NAME: SHADOWS
-#
+# NAME: SHADOWS 
+# 
 # PURPOSE: To apply drop shadows to an image.
-#
-# DESCRIPTION: SHADOWS applies drop shadows to an image that has an alpha channel.
-# The alpha channel should be binary or at worst binary but anti-aliased. If there
-# is no alpha channel or the alpha channel is full opaque, then the no shadow will
-# be created. The inner shadow will appear at the inside edges of the white part of
-# the alpha channel. The outer shadow will appear at the outside edges of the white
-# part of the alpha channel. In either case, the result will have the alpha channel
-# removed to show the colors under the alpha channel. There is an option for the
-# inner shadow to keep the alpha channel enabled. Note that the inner shadow may
+# 
+# DESCRIPTION: SHADOWS applies drop shadows to an image that has an alpha channel. 
+# The alpha channel should be binary or at worst binary but anti-aliased. If there 
+# is no alpha channel or the alpha channel is full opaque, then the no shadow will 
+# be created. The inner shadow will appear at the inside edges of the white part of 
+# the alpha channel. The outer shadow will appear at the outside edges of the white 
+# part of the alpha channel. In either case, the result will have the alpha channel 
+# removed to show the colors under the alpha channel. There is an option for the 
+# inner shadow to keep the alpha channel enabled. Note that the inner shadow may 
 # look like an outer bevel. This is an optical illusion.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -t type ... TYPE of shadow. The choices are: inner (i) or outer (o). The default=inner.
-#
+# 
 # -c color ... COLOR of shadow; any valid Imagemagick opaque color may be used.
 # The default=black.
-#
-# -r radius ... RADIUS of the shadow. Values are integer>=0. The default=0. The actual
+# 
+# -r radius ... RADIUS of the shadow. Values are integer>=0. The default=0. The actual 
 # value will be deterined from the sigma value.
-#
+# 
 # -s sigma ... SIGMA (blur) of the shadow. Values are float>=0. The default=5.
-#
-# -d direction ... DIRECTION of the shadow. Values are -360<=integer<=360 measure
+# 
+# -d direction ... DIRECTION of the shadow. Values are -360<=integer<=360 measure 
 # clockwise from the positive x axis. The default=135.
-#
-# -b bcolor ... (background) BCOLOR to put under the alpha channel. Any valid
-# Imagemagick opaque color may be used. The default is not to replace the image
+# 
+# -b bcolor ... (background) BCOLOR to put under the alpha channel. Any valid 
+# Imagemagick opaque color may be used. The default is not to replace the image 
 # texture with color.
-#
-# -a alpha ... ALPHA flag to specify whether to leave the alpha channel enabled or not.
-# Values are on or off. The default=off. This option is only allowed for
+# 
+# -a alpha ... ALPHA flag to specify whether to leave the alpha channel enabled or not. 
+# Values are on or off. The default=off. This option is only allowed for 
 # type=inner.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -110,13 +110,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -164,26 +164,26 @@ else
 					   ;;
 				-t)    # get  type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$type" in
+					   case "$type" in 
 					   		inner|i) type="inner" ;;
 					   		outer|o) type="outer" ;;
-					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---"
+					   		*) errMsg "--- TYPE=$type IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-c)    # get  color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-r)    # get radius
 					   shift  # to get the next parameter - spread
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   radius=`expr "$1" : '\([0-9]*\)'`
@@ -191,7 +191,7 @@ else
 					   ;;
 				-s)    # get sigma
 					   shift  # to get the next parameter - spread
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIGMA SPECIFICATION ---"
 					   checkMinus "$1"
 					   sigma=`expr "$1" : '\([.0-9]*\)'`
@@ -199,7 +199,7 @@ else
 					   ;;
 				-d)    # get direction
 					   shift  # to get the next parameter - spread
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIRECTION SPECIFICATION ---"
 					   #checkMinus "$1"
 					   direction=`expr "$1" : '\([0-9]*\)'`
@@ -210,21 +210,21 @@ else
 					   ;;
 				-b)    # get  bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-a)    # get  alpha
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ALPHA SPECIFICATION ---"
 					   checkMinus "$1"
 					   alpha=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$alpha" in
+					   case "$alpha" in 
 					   		on) ;;
 					   		off) ;;
-					   		*) errMsg "--- ALPHA=$alpha IS AN INVALID VALUE ---"
+					   		*) errMsg "--- ALPHA=$alpha IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments

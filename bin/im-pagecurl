@@ -3,109 +3,109 @@
 # Developed by Fred Weinhaus 5/23/2010 .......... 5/29/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: pagecurl [-a amount] [-m mode] [-c color] [-b bgcolor] [-e ellipticity] [-x xcoord] [-y ycoord] [-g gcontrast] [-d dcontrast] infile [bgfile] outfile
+# USAGE: pagecurl [-a amount] [-m mode] [-c color] [-b bgcolor] [-e ellipticity] [-x xcoord] [-y ycoord] [-g gcontrast] [-d dcontrast] infile [bgfile] outfile 
 # USAGE: pagecurl [-help]
 #
 # OPTIONS:
 #
-# -a      amount            amount of pagecurl expressed as percent of image
+# -a      amount            amount of pagecurl expressed as percent of image 
 #                           width; integer>=0; default=50
-# -m      mode              mode of shading curl; plain, grad or doublegrad;
+# -m      mode              mode of shading curl; plain, grad or doublegrad; 
 #                           default=grad
-# -c      color             color to apply to curl; any valid IM color;
+# -c      color             color to apply to curl; any valid IM color; 
 #                           default=white
 # -b      bgcolor           background color to apply to image where curled away;
 #                           any valid IM color; default=none (transparent)
-# -e      ellipticity       curl flattening from circle to ellipse;
-#                           0<=float<1; default=0 for circle; recommended value
-#                           other 0 is 0.5 for ellipse shape
-# -x      xcoord            x coordinate for apex of curl;
+# -e      ellipticity       curl flattening from circle to ellipse; 
+#                           0<=float<1; default=0 for circle; recommended value 
+#                           other 0 is 0.5 for ellipse shape 
+# -x      xcoord            x coordinate for apex of curl; 
 #                           default=right image edge
-# -y      ycoord            y coordinate for apex of curl;
+# -y      ycoord            y coordinate for apex of curl; 
 #                           default=upper image edge
-# -g      gcontrast         contrast adjustment for mode=grad; 0<=integer<=100;
+# -g      gcontrast         contrast adjustment for mode=grad; 0<=integer<=100; 
 #                           increases contrast only; default=15
-# -d      dcontrast         contrast adjustment for mode=doublegrad;
-#                           -100<=integer<=100; positive increase contrast;
+# -d      dcontrast         contrast adjustment for mode=doublegrad; 
+#                           -100<=integer<=100; positive increase contrast; 
 #                           negative decreases contrast; default=0
 #
 ###
 #
-# NAME: PAGECURL
-#
+# NAME: PAGECURL 
+# 
 # PURPOSE: Applies a pagecurl effect to the lower right corner of an image.
-#
-# DESCRIPTION: PAGECURL Applies a pagecurl effect to the lower right corner
-# of an image. The apex of the curl is nominally in the upper right corner of
-# the image, but can be adjusted. The curl is always right to left. The curl
-# can be shaded and/or colored. The removed area can be colored, transparent
-# or filled with an optional same size background image if provided. Note
+# 
+# DESCRIPTION: PAGECURL Applies a pagecurl effect to the lower right corner 
+# of an image. The apex of the curl is nominally in the upper right corner of 
+# the image, but can be adjusted. The curl is always right to left. The curl 
+# can be shaded and/or colored. The removed area can be colored, transparent 
+# or filled with an optional same size background image if provided. Note 
 # that this is a 2D simulation and not a true 3D effect.
-#
-#
-# OPTIONS:
-#
-# -a amount ... AMOUNT of pagecurl expressed as percent of image width. Values
-# are in range integer>=0. The default=50. Caution: values below about 5 may
+# 
+# 
+# OPTIONS: 
+# 
+# -a amount ... AMOUNT of pagecurl expressed as percent of image width. Values 
+# are in range integer>=0. The default=50. Caution: values below about 5 may 
 # fail.
 #
 # -m mode ... MODE shading on the curl. Choices are: plain (or p), grad (or g)
 # for gradient, or doublegrad (or d) for double gradient. Default=grad.
 #
-# -c color ... COLOR is the color to apply to curl. Any valid IM color is
+# -c color ... COLOR is the color to apply to curl. Any valid IM color is 
 # allowed. The default=white.
-#
-# -b bgcolor ... BGCOLOR is the color to apply to curled away part of the image.
-# Any valid IM color is allowed. The default=none for transparent. If a
+# 
+# -b bgcolor ... BGCOLOR is the color to apply to curled away part of the image. 
+# Any valid IM color is allowed. The default=none for transparent. If a 
 # background file is provided, bgcolor must be none.
-#
-# -e ellipticity ... ELLIPTICITY is the amount of curl flattening from a circle
-# to an ellipse. Values are in range 0<=float<1. The default=0 for circle.
-# Recommended value other 0 is 0.5 for ellipse shape.
-#
-# -x xcoord ... XCOORD is the X coordinate for the apex of the curl. Values
+# 
+# -e ellipticity ... ELLIPTICITY is the amount of curl flattening from a circle 
+# to an ellipse. Values are in range 0<=float<1. The default=0 for circle. 
+# Recommended value other 0 is 0.5 for ellipse shape. 
+# 
+# -x xcoord ... XCOORD is the X coordinate for the apex of the curl. Values 
 # are 0<integers<width. The default is the right edge of the image.
 #
-# -y ycoord ... YCOORD is the Y coordinate for the apex of the curl. Values
+# -y ycoord ... YCOORD is the Y coordinate for the apex of the curl. Values 
 # are integers. The default is the upper edge of the image.
-#
+# 
 # -g gcontrast ... GCONTRAST is the contrast adjustment for mode=grad. Values
 # are in range 0<=integer<=100. This increases contrast only. The default=15
-#
-# -d dcontrast ... DCONTRAST is the contrast adjustment for mode=doublegrad.
-# Values are in range -100<=integer<=100. Positive values increase contrast.
+# 
+# -d dcontrast ... DCONTRAST is the contrast adjustment for mode=doublegrad. 
+# Values are in range -100<=integer<=100. Positive values increase contrast. 
 # Negative values decrease contrast. The default=0
-#
-# Thanks to Anthony Thyssen for critiqing the original version and for
+# 
+# Thanks to Anthony Thyssen for critiqing the original version and for 
 # several useful suggestions for improvement.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -128,13 +128,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -182,7 +182,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([0-9]*\)'`
@@ -190,11 +190,11 @@ else
 					   ;;
 				-m)    # get  mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$mode" in
+					   case "$mode" in 
 					   		plain|p) mode=plain ;;
 					   		grad|g) mode=grad ;;
 					   		doublegrad|d) mode=doublegrad ;;
@@ -203,21 +203,21 @@ else
 					   ;;
 				-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 				-b)    # get bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BGCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-e)    # get ellipticity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ELLIPTICITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   ellipticity=`expr "$1" : '\([.0-9]*\)'`
@@ -228,7 +228,7 @@ else
 					   ;;
 				-x)    # get xcoord
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID XCOORD SPECIFICATION ---"
 					   checkMinus "$1"
 					   xcoord=`expr "$1" : '\([0-9]*\)'`
@@ -236,7 +236,7 @@ else
 					   ;;
 				-y)    # get ycoord
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID YCOORD SPECIFICATION ---"
 					   #checkMinus "$1"
 					   ycoord=`expr "$1" : '\([-0-9]*\)'`
@@ -244,7 +244,7 @@ else
 					   ;;
 				-g)    # get gcontrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GCONTRAST SPECIFICATION ---"
 					   checkMinus "$1"
 					   gcontrast=`expr "$1" : '\([0-9]*\)'`
@@ -255,7 +255,7 @@ else
 					   ;;
 				-d)    # get dcontrast
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID DCONTRAST SPECIFICATION ---"
 					   #checkMinus "$1"
 					   dcontrast=`expr "$1" : '\([-0-9]*\)'`
@@ -314,9 +314,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmpA2 $tmpB2 $tmpA3 $tmpB3 $tmpA4 $tmpB4; exit 1" ERR
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -484,7 +484,7 @@ if [ "$mode" = "plain" ]; then
 	convert $tmpA1 \( $tmpA3 -fill $color -opaque white \) $tmpA3 \
 		-compose over -composite $tmpA4
 else
-	# create gradient using -sparce-color barycentric with two points
+	# create gradient using -sparce-color barycentric with two points 
 	# then adjust contrast and color
 	convert $tmpA1 \
 		\( -size ${ww}x${hh} xc: -sparse-color Barycentric \

@@ -3,70 +3,70 @@
 # Developed by Fred Weinhaus 8/9/2019 .......... revised 8/9/2019
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: shapecompare [-m metric] [-t type] [-T thresh] [-e edgemode] [-i invert]
+# USAGE: shapecompare [-m metric] [-t type] [-T thresh] [-e edgemode] [-i invert] 
 # infile1 infile2
 #
 # USAGE: shapecompare [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -m     metric       compare difference metric; choices are: sad, said, sand, rssd, all;
+# 
+# -m     metric       compare difference metric; choices are: sad, said, sand, rssd, all; 
 #                     default=sad
-# -t     type         type of image to convert input images for compare processing;
-#                     choices are: grayscale (g), binary (b) or outline (o);
+# -t     type         type of image to convert input images for compare processing; 
+#                     choices are: grayscale (g), binary (b) or outline (o); 
 #                     default=grayscale
-# -T     thresh       threshold for converting to binary; 0<=thresh<=100 (percent);
+# -T     thresh       threshold for converting to binary; 0<=thresh<=100 (percent); 
 #                     default=50
-# -e     edgemode     mode of morphologic edge processing; choices are: edge, edgin or
+# -e     edgemode     mode of morphologic edge processing; choices are: edge, edgin or 
 #                     edgeout; default=edge
-# -i     invert       invert (negate) colors in input image; choices are: yes (y) or
+# -i     invert       invert (negate) colors in input image; choices are: yes (y) or 
 #                     no (n); default=no
-#
+# 
 ###
-#
-# NAME: SHAPECOMPARE
-#
+# 
+# NAME: SHAPECOMPARE 
+# 
 # PURPOSE: To compares two images' shapes using metrics computed from Hu image moments.
-#
-# DESCRIPTION: SHAPECOMPARE compares two images' shapes using metrics computed from
-# Hu Image Moments. Several metrics are available. The image will first be converted
-# to grayscale and can then be converted to binary or an edge outline. The script is
-# designed to work with primarily binary or outline shapes on black backgrounds.
-# However, grayscale shapes on black background or antialiased black/white shapes on
-# black backgrounds should work, also. My analysis (see chart) indicates that outline
+# 
+# DESCRIPTION: SHAPECOMPARE compares two images' shapes using metrics computed from 
+# Hu Image Moments. Several metrics are available. The image will first be converted 
+# to grayscale and can then be converted to binary or an edge outline. The script is 
+# designed to work with primarily binary or outline shapes on black backgrounds. 
+# However, grayscale shapes on black background or antialiased black/white shapes on 
+# black backgrounds should work, also. My analysis (see chart) indicates that outline 
 # mode does not work as well as the other two modes.
-#
-#
-# ARGUMENTS:
-#
-# -m metric ... METRIC is the compare metric to compute the difference between the two
-# images. Smaller is better than larger. The choices are: sad (sum absolute difference),
-# said (sum absolute inverse difference), sand (sum absolute normalized difference),
+# 
+# 
+# ARGUMENTS: 
+# 
+# -m metric ... METRIC is the compare metric to compute the difference between the two 
+# images. Smaller is better than larger. The choices are: sad (sum absolute difference), 
+# said (sum absolute inverse difference), sand (sum absolute normalized difference), 
 # rssd (root sum squared difference) or all (report all of them). The default=sad.
-#
+# 
 # The equations for the metrics are:
 # SAD = sum( abs(Hu1 - Hu2) )
 # SAID = sum( abs(1/Hu1 - 1/Hu2) )
@@ -74,34 +74,34 @@
 # RSSD = sqrt( sum( (Hu1 - Hu2)^2 ) )
 # where there are 7 different (log) Hu image moments that are summed
 #
-# -t type ... TYPE of image to convert the input images for processing. The choices are:
+# -t type ... TYPE of image to convert the input images for processing. The choices are: 
 # grayscale (g), binary (b) or outline (o). The default=grayscale.
-#
-# -T thresh ... THRESH is the threshold for converting to binary. Values are:
+# 
+# -T thresh ... THRESH is the threshold for converting to binary. Values are: 
 # 0<=thresh<=100 (percent). The default=50.
-#
-# -e edgemode. EDGEMODE is the mode of morphologic edge processing. The choices are:
-# edge, edgin or edgeout. Edge will be 2 pixels thick. The other two will be only
-# 1 pixel thick. All 3 use a diamond shaped kernel. The edgein will be on the white
+# 
+# -e edgemode. EDGEMODE is the mode of morphologic edge processing. The choices are: 
+# edge, edgin or edgeout. Edge will be 2 pixels thick. The other two will be only 
+# 1 pixel thick. All 3 use a diamond shaped kernel. The edgein will be on the white 
 # side and the edgeout will be on the black side. The default=edge.
-#
-# -i invert ... INVERT (negate) the colors in input image as preprocessing. Choices are:
+# 
+# -i invert ... INVERT (negate) the colors in input image as preprocessing. Choices are: 
 # yes (y) or no (n). The default=no
-#
+# 
 # REFERENCE:
 # https://www.learnopencv.com/shape-matching-using-hu-moments-c-python/
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 metric="sad"		# sad (sum abs diff), said (sum abs inverse diff), sand (sum abs normalized diff), rssd (root sum squared diff) or all
 type="grayscale"	# grayscale (g), binary (b), outline (o)
-threshold=50		# threshold percent for binarizing
+threshold=50		# threshold percent for binarizing 
 edgemode="edge"		# edge mode: edge (e), in (i), out (o)
 invert="no"			# invert white <--> black in binary
 
@@ -114,13 +114,13 @@ tmpdir="."    # suggestions are tmpdir="." or tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -159,7 +159,7 @@ else
 
 metric="sad"		# sad (sum abs diff), said (sum abs inverse diff), sand (sum abs normalized diff), rssd (root sum squared diff) or all
 type="grayscale"	# grayscale (g), binary (b), outline (o)
-threshold=50		# threshold percent for binarizing
+threshold=50		# threshold percent for binarizing 
 edgemode="edge"		# edge mode: edge (e), in (i), out (o)
 invert="no"			# invert white <--> black in binary
 
@@ -175,11 +175,11 @@ invert="no"			# invert white <--> black in binary
 					   ;;
 				-m)    # get  metric
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METRIC SPECIFICATION ---"
 					   checkMinus "$1"
 					   metric=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$metric" in
+					   case "$metric" in 
 					   		sad) ;;
 					   		said) ;;
 					   		sand) ;;
@@ -189,11 +189,11 @@ invert="no"			# invert white <--> black in binary
 					   ;;
 				-t)    # get type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$type" in
+					   case "$type" in 
 					   		grayscale|g) type=grayscale;;
 					   		binary|b) type=binary;;
 					   		outline|o) type=outline;;
@@ -202,7 +202,7 @@ invert="no"			# invert white <--> black in binary
 					   ;;
 				-T)    # get thresh
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THRESH SPECIFICATION ---"
 					   checkMinus "$1"
 					   thresh=`expr "$1" : '\([0-9]*\)'`
@@ -213,11 +213,11 @@ invert="no"			# invert white <--> black in binary
 					   ;;
 				-e)    # get edgemode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EDGEMODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   edgemode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$edgemode" in
+					   case "$edgemode" in 
 					   		edge) ;;
 					   		edgein)  ;;
 					   		edgeout)  ;;
@@ -226,11 +226,11 @@ invert="no"			# invert white <--> black in binary
 					   ;;
 				-i)    # get invert
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INVERT SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$invert" in
+					   case "$invert" in 
 					   		yes|y) invert=yes;;
 					   		no|n) invert=no;;
 					   		*) errMsg "--- INVERT=$invert IS AN INVALID VALUE ---"  ;;

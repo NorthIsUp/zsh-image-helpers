@@ -3,81 +3,81 @@
 # Developed by Fred Weinhaus 1/14/2017 .......... revised 1/26/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: transfercolor [-c colormode] [-p printcoefs] infile1 infile2 outfile
 # USAGE: transfercolor [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -c     colormode     colorspace mode of processing; options are: rgb,
-#                      lab or ycbcr; default=lab
-# -p     printcoefs	   print the linear coefficients to the terminal; options
+# 
+# -c     colormode     colorspace mode of processing; options are: rgb, 
+#                      lab or ycbcr; default=lab 
+# -p     printcoefs	   print the linear coefficients to the terminal; options 
 #                      are yes or no; default=no
-#
+# 
 # coloring of infile2 will be transfered to that of infile1
-#
+# 
 ###
-#
-# NAME: TRANSFERCOLOR
-#
+# 
+# NAME: TRANSFERCOLOR 
+# 
 # PURPOSE: To transfer the coloring of one image to another image.
-#
-# DESCRIPTION: TRANSFERCOLOR transfers the coloring from one image to another
-# image. Specifically, the coloring of infile2 will be transfered to that of
-# infile1. (infile1 will be colormatched to infile2). This is done via a
-# linear transformation of each channel of the image after changing
-# colorspace. The matching uses the mean and standard deviations from each
+# 
+# DESCRIPTION: TRANSFERCOLOR transfers the coloring from one image to another 
+# image. Specifically, the coloring of infile2 will be transfered to that of 
+# infile1. (infile1 will be colormatched to infile2). This is done via a  
+# linear transformation of each channel of the image after changing 
+# colorspace. The matching uses the mean and standard deviations from each 
 # channel according to the equation: (I2-Mean2)/Std2 = (I1-Mean1)/Std1.
-# This equation represents an normalized intensity such that it has zero mean
-# and approximately the same range of values due to the division by the
-# standard deviations. We solve this equation to form a linear transformation
-# between I1 and I2 according to I2=A*I1+B, where A=(Std2/Std1) is the slope
+# This equation represents an normalized intensity such that it has zero mean 
+# and approximately the same range of values due to the division by the 
+# standard deviations. We solve this equation to form a linear transformation 
+# between I1 and I2 according to I2=A*I1+B, where A=(Std2/Std1) is the slope 
 # or gain and B=(Mean2-A*Mean1) is the intercept of bias.
 #
-# Arguments:
-#
-# -c colormode ... COLORMODE is the colorspace mode of processing. The options
+# Arguments: 
+# 
+# -c colormode ... COLORMODE is the colorspace mode of processing. The options 
 # are: rgb, lab or ycbcr. The default=lab.
-#
-# -p printcoefs ... PRINTCOEFS prints the linear coefficients to the terminal;
+# 
+# -p printcoefs ... PRINTCOEFS prints the linear coefficients to the terminal; 
 # options are yes or no. The default=no.
-#
-# CAUTION: This script may not be backward compatible prior to IM 6.8.6.0,
-# when IM colorspace and grayscale changed. I have not tested it for earlier
-# releases. Let me know if anyone tries and it fails. See
+# 
+# CAUTION: This script may not be backward compatible prior to IM 6.8.6.0, 
+# when IM colorspace and grayscale changed. I have not tested it for earlier 
+# releases. Let me know if anyone tries and it fails. See 
 # http://www.imagemagick.org/discourse-server/viewtopic.php?f=4&t=21269
-#
+# 
 # REFERENCES:
 # http://www.pyimagesearch.com/2014/06/30/super-fast-color-transfer-images/
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 colormode="lab"			# rgb, lab or ycbcr
@@ -91,13 +91,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -145,7 +145,7 @@ else
 				   ;;
 			-c)    # get colormode
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID COLORMODE SPECIFICATION ---"
 				   checkMinus "$1"
 				   colormode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -158,7 +158,7 @@ else
 				   ;;
 			-p)    # get printcoefs
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID PRINTCOEFS SPECIFICATION ---"
 				   checkMinus "$1"
 				   printcoefs=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -242,3 +242,9 @@ convert $dir/tmpA.miff[$i] -function polynomial "$a $b" miff:-
 done) | convert - -set colorspace $colormode -combine -colorspace sRGB "$outfile"
 
 exit 0
+
+
+
+
+
+

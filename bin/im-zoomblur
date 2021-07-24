@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/26/2008 .......... revised 5/7/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: zoomblur [-z zoom] [-e] infile outfile
@@ -36,27 +36,27 @@
 #
 ###
 #
-# NAME: ZOOMBLUR
-#
+# NAME: ZOOMBLUR 
+# 
 # PURPOSE: To apply a radial or zoom blur to an image.
-#
-# DESCRIPTION: ZOOMBLUR applies a radial blur to an image by a
+# 
+# DESCRIPTION: ZOOMBLUR applies a radial blur to an image by a 
 # process of iterative zooming and blending.
-#
-# OPTIONS:
-#
-# -a amount ... AMOUNT is the zoom factor. Values are floats
-# greater than or equal to 1. A value of 1 produces no effect. Larger
-# values increase the radial blur. Typical values are between 1 and 1.5.
-# The default is 1.2. Note that the large the amount, the more iterations
+# 
+# OPTIONS: 
+# 
+# -a amount ... AMOUNT is the zoom factor. Values are floats  
+# greater than or equal to 1. A value of 1 produces no effect. Larger 
+# values increase the radial blur. Typical values are between 1 and 1.5. 
+# The default is 1.2. Note that the large the amount, the more iterations 
 # it will take.
 #
 # -e ... Expands the output image size by the amount of the zoom.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -71,13 +71,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -125,7 +125,7 @@ else
 					   ;;
 				-a)    # get amount
 					   shift  # to get the next parameter - amount
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID AMOUNT SPECIFICATION ---"
 					   checkMinus "$1"
 					   amount=`expr "$1" : '\([.0-9]*\)'`
@@ -191,7 +191,7 @@ if [ "$expand" = "yes" ]
 	then
 	ww=`convert $infile -format "%[fx:floor(w*$amount)]" info:`
 	hh=`convert $infile -format "%[fx:floor(h*$amount)]" info:`
-fi
+fi	
 
 echo ""
 echo "Number Of Interations = $iter"

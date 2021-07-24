@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/30/2008 .......... revised 11/3/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: fuzzythresh [-r radius] [-g graph] infile outfile
@@ -34,66 +34,66 @@
 # -r      radius            radius for spatial correlation; float;
 #                           radius>=0; the default=0 signifies to
 #                           ignore spatial correlation
-# -g	  graph             graph specifies whether to generate a
-#                           histogram graph image displaying the
+# -g	  graph             graph specifies whether to generate a 
+#                           histogram graph image displaying the 
 #                           location and value of the threshold;
-#                           choices are: view or save;
+#                           choices are: view or save; 
 #                           default is no graph
 #
 ###
 #
 # NAME: FUZZYTHRESH
-#
-# PURPOSE: To automatically thresholds an image to binary (b/w) format
+# 
+# PURPOSE: To automatically thresholds an image to binary (b/w) format 
 # using the fuzzy c-means technique.
-#
+# 
 # DESCRIPTION: FUZZYTHRESH automatically thresholds an image to binary
 # (b/w) format. It assume the histogram is bimodal, i.e. is the composite
 # of two bell-shaped distributions representing the foreground and
 # background classes. The fuzzy c-means appoach iteratively thresholds the
-# image, computes a weighted mean for the foreground (above threshold data)
+# image, computes a weighted mean for the foreground (above threshold data) 
 # and background (at and below threshold value), computes a new threshold
 # equal to the average of these two means and repeats until there is no
-# change in threshold between successive iterations. The weighting factors
-# are the normalized inverse square difference between each pixel in the
-# foreground or background data sets and the corresponding mean. However,
-# to allow for spatial correlation of the graylevels among neighboring
-# pixels, a Gaussian filtered version of the weighting factors may be used.
-# This script is similar to the isodatathresh script, except uses a weighted
+# change in threshold between successive iterations. The weighting factors 
+# are the normalized inverse square difference between each pixel in the 
+# foreground or background data sets and the corresponding mean. However, 
+# to allow for spatial correlation of the graylevels among neighboring 
+# pixels, a Gaussian filtered version of the weighting factors may be used. 
+# This script is similar to the isodatathresh script, except uses a weighted 
 # mean calculation.
-#
-# OPTIONS:
-#
-# -r radius ... RADIUS is the radius of a Gaussian (blur) filter to apply
-# to the weighting factors for the mean calculation. This permits spatial
-# correlation of the graylevels among neighboring pixels and is useful
-# to remove noise from the result. The radius value should be set to
-# the size of the features in the image. Values are floats greater than
+# 
+# OPTIONS: 
+# 
+# -r radius ... RADIUS is the radius of a Gaussian (blur) filter to apply  
+# to the weighting factors for the mean calculation. This permits spatial 
+# correlation of the graylevels among neighboring pixels and is useful 
+# to remove noise from the result. The radius value should be set to 
+# the size of the features in the image. Values are floats greater than 
 # zero. The default=0 signifies to ignore spatial correlation.
-#
-# -g graph ... GRAPH specifies whether to generate a graph (image) of
-# the histogram, displaying the location and value of the threshold.
-# The choices are: view, save and none. If graph=view is selected, the
-# graph will be created and displayed automatically, but not saved.
-# If graph=save is selected, then the graph will be created and saved
-# to a file using the infile name, with "_histog_isodata.gif" appended,
-# but the graph will not be displayed automatically. If -g option is
+# 
+# -g graph ... GRAPH specifies whether to generate a graph (image) of 
+# the histogram, displaying the location and value of the threshold. 
+# The choices are: view, save and none. If graph=view is selected, the 
+# graph will be created and displayed automatically, but not saved. 
+# If graph=save is selected, then the graph will be created and saved 
+# to a file using the infile name, with "_histog_isodata.gif" appended,  
+# but the graph will not be displayed automatically. If -g option is 
 # not specified, then no graph will be created.
-#
-# NOTE: It is highly recommended that the output not be specified
-# as a JPG image as that will cause compression and potentially a
-# non-binary (i.e. a graylevel) result. GIF is the recommended
+# 
+# NOTE: It is highly recommended that the output not be specified 
+# as a JPG image as that will cause compression and potentially a 
+# non-binary (i.e. a graylevel) result. GIF is the recommended 
 # output format.
-#
+# 
 # REFERENCES: see the following:
 # http://www.iiitmk.ac.in/wiki/images/d/d2/Fuzzy_CMeans.pdf
 # http://www.quantlet.com/mdstat/scripts/xag/html/xaghtmlframe149.html
 # http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/cmeans.html
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -108,13 +108,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -162,7 +162,7 @@ else
 					   ;;
 				-r)    # get radius
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADIUS SPECIFICATION ---"
 					   checkMinus "$1"
 					   radius=`expr "$1" : '\([.0-9]*\)'`
@@ -170,7 +170,7 @@ else
 					   ;;
 				-g)    # get  graph
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAPH SPECIFICATION ---"
 					   checkMinus "$1"
 					   graph="$1"
@@ -221,9 +221,9 @@ trap "rm -f $tmpA1 $tmpA2 $tmpM1 $tmpM2 $tmpL1 $tmpL2 $tmpH1 $tmpH2 $tmpD1 $tmpD
 im_version=`convert -list configure | \
 sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -247,7 +247,7 @@ if convert -quiet "$infile" $setcspace -colorspace Gray +repage "$tmpA1"
 	: ' do nothing '
 else
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAG ZERO SIZE ---"
-fi
+fi	
 
 # get image width and heigh
 ww=`convert $tmpA1 -format "%w" info:`
@@ -257,7 +257,7 @@ getMinMax()
 	{
 	img="$1"
 	if [ "$im_version" -ge "06030901" ]
-		then
+		then 
 		min=`convert $img -format "%[min]" info:`
 		max=`convert $img -format "%[max]" info:`
 		min=`convert xc: -format "%[fx:100*$min/quantumrange]" info:`
@@ -276,7 +276,7 @@ getMean()
 	{
 	img="$1"
 	if [ "$im_version" -ge "06030901" ]
-		then
+		then 
 		mean=`convert $img -format "%[mean]" info:`
 		mean=`convert xc: -format "%[fx:100*$mean/quantumrange]" info:`
 	else
@@ -315,7 +315,7 @@ k=1
 # get average of hmean and lmean as new threshold
 # repeat until difference between oldthresh and current thresh is zero
 #
-# Note: low and high (below threshold and above threshold) means
+# Note: low and high (below threshold and above threshold) means 
 # are extracted by masking and not by histogram counting.
 # Thus they need to be corrected for mixture of black pixels.
 # So, mean from masks (Mmeasured) and actual low/high means, Mtrue, are related
@@ -333,12 +333,12 @@ while [ "$test" != "1" ]; do
 	convert $tmpA1 -threshold ${thresh}% $tmpM1
 	getMean "$tmpM1"
 	mmean=$mean
-
+		
 	# compute high membership as normalized inverse squared difference of each pixel from high mean
 	# in this case we just use -compose difference -evalute pow 2 and negate it (so inverse squared distance scaled to Q)
 	convert $tmpA1 \( -size ${ww}x${hh} xc:"gray($mmean%)" \) \
 		-compose difference -evaluate pow 2 $filter -negate $tmpD1
-
+		
 	# apply multiply membership image by image as weighting and mask to get the resulting mean
 	convert $tmpA1 $tmpD1 -compose multiply -composite \
 		$tmpM1 -compose multiply -composite \
@@ -351,7 +351,7 @@ while [ "$test" != "1" ]; do
 
 	# get low mean
 	# low mean = 100% - high mean
-	nmean=`convert xc: -format "%[fx:(100-$mmean)]" info:`
+	nmean=`convert xc: -format "%[fx:(100-$mmean)]" info:`	
 
 	# compute low membership as normalized inverse squared difference of each pixel from high mean
 	# in this case we just use -compose difference -evalute pow 2 and negate it (so inverse squared distance scaled to Q)
@@ -366,7 +366,7 @@ while [ "$test" != "1" ]; do
 	getMean "$tmpL1"
 	lmean=$mean
 #	echo "nmean=$nmean; lmean=$lmean"
-	# correct lmean using nmean
+	# correct lmean using nmean 
 	lmean=`convert xc: -format "%[fx:(100*$lmean/$nmean)]" info:`
 
 	# get new threshold
@@ -402,3 +402,6 @@ if [ "$graph" = "view" ]; then
 fi
 
 exit 0
+
+
+

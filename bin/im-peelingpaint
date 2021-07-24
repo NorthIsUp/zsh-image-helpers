@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 8/5/2013 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: peelingpaint [-m mode] [-s strength] [-g gain] infile texture outfile
@@ -34,50 +34,50 @@
 # -m     mode         mode for output; choices are: cracks (c) or scratches (s);
 #                     default=cracks
 # -s     strength     strength (darkness) of cracks; integer>=0; default=100
-# -g     gain         gain applied by composite mask; 0<=integer<=100;
+# -g     gain         gain applied by composite mask; 0<=integer<=100; 
 #                     default=75
-#
+# 
 ###
 #
-# NAME: PEELINGPAINT
-#
+# NAME: PEELINGPAINT 
+# 
 # PURPOSE: To apply a peeling paint effect to an image.
-#
-# DESCRIPTION: PEELINGPAINT applies a peeling paint effect to an image by
-# compositing with a peeling paint texture image. There are two modes. The
-# first is all cracks. The second (scratches) is a mix of dark cracks and
+# 
+# DESCRIPTION: PEELINGPAINT applies a peeling paint effect to an image by 
+# compositing with a peeling paint texture image. There are two modes. The 
+# first is all cracks. The second (scratches) is a mix of dark cracks and 
 # light scratches.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -m mode ... MODE for output. The choices are: cracks (c) or scratches (s).
-# Mode=cracks will be dark cracks. Mode=scratches will be some very dark cracks
+# Mode=cracks will be dark cracks. Mode=scratches will be some very dark cracks 
 # and bright scratches.  The default=cracks.
-#
-# -s strength ... STRENGTH (darkness) of cracks. Values are integers>=0. The
-# default=100.  This argument brightens/darkens the texture image (using
+# 
+# -s strength ... STRENGTH (darkness) of cracks. Values are integers>=0. The 
+# default=100.  This argument brightens/darkens the texture image (using 
 # -evaluate pow).
-#
-# -g gain ... GAIN applied by mask. Values are 0<=integer<=100. The default=75.
-# This argument brightens/darkens the composite mask used to control the mixing
-# of the image and texture (using -white-threshold).
-#
-# NOTE: Both strength and gain produce darkening or lightening of the cracks.
-# My nominal mode of operation is to set the strength to 100. Then adjust the
-# gain to a value that produces cracks that are strong but do not add other
-# artifacts to the image. Then I reduce the strength to create less cracks if
+# 
+# -g gain ... GAIN applied by mask. Values are 0<=integer<=100. The default=75. 
+# This argument brightens/darkens the composite mask used to control the mixing 
+# of the image and texture (using -white-threshold). 
+# 
+# NOTE: Both strength and gain produce darkening or lightening of the cracks. 
+# My nominal mode of operation is to set the strength to 100. Then adjust the 
+# gain to a value that produces cracks that are strong but do not add other 
+# artifacts to the image. Then I reduce the strength to create less cracks if 
 # desired.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
 # set default values
 mode="cracks" 	# cracks or scratches
-strength=100
+strength=100	
 gain=75
 
 
@@ -88,13 +88,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -142,19 +142,19 @@ else
 					   ;;
 				-m)    # get  mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$mode" in
+					   case "$mode" in 
 					   		cracks|c) mode="cracks" ;;
 					   		scratches|s) mode="scratches" ;;
-					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MODE=$mode IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-s)    # get strength
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STRENGTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   strength=`expr "$1" : '\([0-9]*\)'`
@@ -162,7 +162,7 @@ else
 					   ;;
 				-g)    # get gain
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAIN SPECIFICATION ---"
 					   checkMinus "$1"
 					   gain=`expr "$1" : '\([0-9]*\)'`

@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 1/22/2008 .......... revised 11/5/2018
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: squareup [-s size] [-m mode] [-c color] [-g gravity] [-f filter] infile outfile
@@ -34,50 +34,50 @@
 # -s      size           desired size; value in pixels or value% as scale factor;
 #                        default is same size as input.
 # -m      mode           pad or crop; default is pad
-# -c      color          background color if pad; any IM color specification
+# -c      color          background color if pad; any IM color specification 
 #                        or none or trans for transparent; default is black
-# -g      gravity        gravity location for cropped area; North, East, South
+# -g      gravity        gravity location for cropped area; North, East, South 
 #                        West or Center; default is Center
 # -f      filter         resize filter; any valid IM filter; default is Lanczos
 #
 ###
 #
 # NAME: SQUAREUP
-#
+# 
 # PURPOSE: To resize an image and square it up either by padding or cropping.
-#
-# DESCRIPTION: SQUAREUP resizes an image and squares it up either by padding it
-# with a constant background color or transparent background or crops it. If
-# padded, the larger dimension will be resized and the smaller dimension will be
-# padded. If cropped, the smaller dimension will be resized and the larger
-# dimension will be cropped. The result will be a square image, i.e. the
+# 
+# DESCRIPTION: SQUAREUP resizes an image and squares it up either by padding it 
+# with a constant background color or transparent background or crops it. If 
+# padded, the larger dimension will be resized and the smaller dimension will be 
+# padded. If cropped, the smaller dimension will be resized and the larger 
+# dimension will be cropped. The result will be a square image, i.e. the 
 # width and height will be identical.
+# 
+# 
+# OPTIONS: 
+# 
 #
-#
-# OPTIONS:
-#
-#
-# -s size ... SIZE specifies the desired output size. The value may be specified
-# as an integer either in pixels or as floating point scale factor in percent
-# (including the % symbol). The default, if left off, is to keep the image the
+# -s size ... SIZE specifies the desired output size. The value may be specified 
+# as an integer either in pixels or as floating point scale factor in percent 
+# (including the % symbol). The default, if left off, is to keep the image the 
 # same size.
 #
-# -m mode ... MODE specifies to either pad or crop the image to square it off.
+# -m mode ... MODE specifies to either pad or crop the image to square it off. 
 # The default is pad.
 #
-# -c color ... COLOR specifies the background color to use when mode=pad. Any
-# valid IM color specification may be used. To make the background transparent,
+# -c color ... COLOR specifies the background color to use when mode=pad. Any 
+# valid IM color specification may be used. To make the background transparent, 
 # set the color either to none or trans. The default is black.
-#
-# -g gravity ... GRAVITY is the region of the image to use when mode=crop.
+# 
+# -g gravity ... GRAVITY is the region of the image to use when mode=crop. 
 # Values may be North, East, South, West or Center. The default is Center.
 #
 # -f filter ... FILTER is any valid IM resize filter. The default is Lanczos.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -97,13 +97,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -151,7 +151,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter - size
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test size values
@@ -160,7 +160,7 @@ else
 					   ;;
 		 		-m)    # mode
 					   shift  # to get the next parameter - mode
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test mode values
@@ -169,14 +169,14 @@ else
 					   ;;
 		 		-c)    # region
 					   shift  # to get the next parameter - color
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 		 		-g)    # gravity
 					   shift  # to get the next parameter - gravity
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   # test gravity values
@@ -185,7 +185,7 @@ else
 					   ;;
 				-f)    # get filter
 					   shift  # to get the next parameter - filter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FILTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   filter="$1"
@@ -195,7 +195,7 @@ else
   				 	   ;;
 				-*)    # any other - argument
 					   errMsg "--- UNKNOWN OPTION ---"
-					   ;;
+					   ;;					   
 		     	 *)    # end of arguments
 					   break
 					   ;;
@@ -236,17 +236,17 @@ fi
 if [ $width -gt $height ]
 	then
 	max=$width
-	min=$height
+	min=$height	
 else
 	max=$height
 	min=$width
 fi
 
 if [ "$size" = "" -a "$mode" = "pad" ]
-	then
+	then 
 	dim=$max
 elif [ "$size" = "" -a "$mode" = "crop" ]
-	then
+	then 
 	dim=$min
 else
 	# get % value if specified from size

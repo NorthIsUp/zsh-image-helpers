@@ -3,244 +3,244 @@
 # Developed by Fred Weinhaus 1/3/2013 .......... revised 10/4/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: 3Dcover [-s size] [-a angle] [-e exfact] [-w weight] [-t tone]
-# [-o opacity] [-d diameter] [-r ramp] [-g gamma] [-v vcolor] [-m method]
-# [-u umbra] [-p penumbra] [-l length] [-b bcolor] [-x xyoffset] [-f fuzzval]
-# [-H oheight] [-S sharpen] [-P pad] [-sc scolor] [-F fadeval] [-M mirror]
+# USAGE: 3Dcover [-s size] [-a angle] [-e exfact] [-w weight] [-t tone] 
+# [-o opacity] [-d diameter] [-r ramp] [-g gamma] [-v vcolor] [-m method] 
+# [-u umbra] [-p penumbra] [-l length] [-b bcolor] [-x xyoffset] [-f fuzzval] 
+# [-H oheight] [-S sharpen] [-P pad] [-sc scolor] [-F fadeval] [-M mirror] 
 # infile outfile
-#
+# 
 # USAGE: 3Dcover [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -s     size         length of left or right side of cover; pixels or
+# 
+# -s     size         length of left or right side of cover; pixels or 
 #                     percent of original image; if pixels, the integer>0;
-#                     if percent then 0<float<100 and % must be included;
-#                     default=20%; alternately the 3D cover dimensions as
-#                     TxWxH (Thickness x Width x Height) in any consistent set
+#                     if percent then 0<float<100 and % must be included; 
+#                     default=20%; alternately the 3D cover dimensions as 
+#                     TxWxH (Thickness x Width x Height) in any consistent set 
 #                     of units; 3 values must be specified as integers>0
 # -a     angle        rotation angle in deg; -90<integer<90; default=25;
 #                     not recommended beyond 60 or -60 when method=ground
-# -e     exfact       perspective exaggeration factor; 0<float<3;
-#                     value of 1 is normal perspective; value of 0.5
+# -e     exfact       perspective exaggeration factor; 0<float<3; 
+#                     value of 1 is normal perspective; value of 0.5 
 #                     is close to orthographic; default=1
 # -w     weight       line (stroke) weight for translucent gray join line
 #                     between front and side; integer>0; default=2
 # -t     tone         tone (brightness in percent) of join line;
 #                     0<=integer<=100; 100 is white; 0 is black; default=100
-# -o     opacity      opacity (percent) of join line; 0<=integer<=100;
+# -o     opacity      opacity (percent) of join line; 0<=integer<=100; 
 #                     0 is transparent and 100 is fully opaque; default=0
-# -d     diameter     diameter of vignette in percent of size of front;
+# -d     diameter     diameter of vignette in percent of size of front; 
 #                     integer>=0; default=0 (no vignette); nominal is 100
-# -r     ramp         ramp (taper) of vignette effect; integer>=0;
+# -r     ramp         ramp (taper) of vignette effect; integer>=0; 
 #                     default=75
-# -g     gamma        gamma adjustment of vignette; float>0; values less
-#                     than 1 will lighten/soften the vignette and values
-#                     less than 1 will darker/harden the vignette;
+# -g     gamma        gamma adjustment of vignette; float>0; values less 
+#                     than 1 will lighten/soften the vignette and values 
+#                     less than 1 will darker/harden the vignette; 
 #                     default=0.5
-# -v     vcolor       vignette color; any valid opaque IM color;
+# -v     vcolor       vignette color; any valid opaque IM color; 
 #                     default=black
-# -m     method       shadow method (type); choices are: none (n),
+# -m     method       shadow method (type); choices are: none (n), 
 #                     backdrop (b) and ground (g); default=none
-# -u     umbra        graylevel percent value for dark inner part of shadow;
+# -u     umbra        graylevel percent value for dark inner part of shadow; 
 #                     0<=integer<=100; default=50
-# -p     penumbra     extent in pixels of light outer part of shadow;
-#                     integer>0; default=10 for method=backdrop and
+# -p     penumbra     extent in pixels of light outer part of shadow; 
+#                     integer>0; default=10 for method=backdrop and 
 #                     default=6 for method=ground
-# -l     length       length of shadow; for method=backdrop, it is the
-#                     offset between the cover and the shadow with
-#                     default=15; for method=ground, it is a factor of
-#                     the length of the side in perspective and the
-#                     default=1.5
-# -b     bcolor       background color; any valid IM color including
+# -l     length       length of shadow; for method=backdrop, it is the 
+#                     offset between the cover and the shadow with 
+#                     default=15; for method=ground, it is a factor of 
+#                     the length of the side in perspective and the 
+#                     default=1.5 
+# -b     bcolor       background color; any valid IM color including 
 #                     transparent (none); default=white
-# -x     xyoffset     offset of shadow for method=ground to refine
-#                     alignment, if needed; comma separate pair of
-#                     integers; default="0,0"
-# -f     fuzzval      fuzz factor for trimming the front and side
-#                     perspectives before joining together and trimming the
+# -x     xyoffset     offset of shadow for method=ground to refine 
+#                     alignment, if needed; comma separate pair of 
+#                     integers; default="0,0"		
+# -f     fuzzval      fuzz factor for trimming the front and side 
+#                     perspectives before joining together and trimming the 
 #					  final image; float>=0; default=0
-# -G     gravity      gravity setting for cropping the input image when size
-#                     is specified as TxWxH; choices are: north (n), east (e),
+# -G     gravity      gravity setting for cropping the input image when size 
+#                     is specified as TxWxH; choices are: north (n), east (e), 
 #                     south (s), west (w) and center (c); default=center
 # -H     oheight      desired output height; integer>0; default is the height
-#                     of the input; if specified, the input image will be
-#                     resized to this height. The output width will depend
-#                     upon the oheight value and the amount of rotation angle
-#                     specified and thus will be smaller than the original or
+#                     of the input; if specified, the input image will be 
+#                     resized to this height. The output width will depend 
+#                     upon the oheight value and the amount of rotation angle 
+#                     specified and thus will be smaller than the original or 
 #                     resized width
-# -S     sharpen      sharpening to apply to the (optionally resized) input
+# -S     sharpen      sharpening to apply to the (optionally resized) input 
 #                     image; float>=0; default=0
-# -P     pad          amount of pad to put around the output image using the
+# -P     pad          amount of pad to put around the output image using the 
 #                     background color; integer>=0; default=0
-# -sc    scolor       background color; any valid IM color including
+# -sc    scolor       background color; any valid IM color including 
 #                     transparent (none); default=white
-# -F     fadevals     spine fade to gray values; comma separated pair of
-#                     integers between 0 and 100; The first value is the front
+# -F     fadevals     spine fade to gray values; comma separated pair of 
+#                     integers between 0 and 100; The first value is the front 
 #                     value and the second is the back value; 0 is black
 #                     and 100 is no fade; default="100,100" (no fade)
-# -M     mirror       mirror the appropriate side of the image to use for the left
-#                     or right side of the box; only allowed if size is not specified
+# -M     mirror       mirror the appropriate side of the image to use for the left 
+#                     or right side of the box; only allowed if size is not specified 
 #                     as TxWxH; yes or no; default=no
-#
+# 
 ###
-#
+# 
 # NAME: 3DCOVER
-#
-# PURPOSE: To wrap an image around the front and left or right side of box
+# 
+# PURPOSE: To wrap an image around the front and left or right side of box 
 # viewed in rotated perspective.
-#
-# DESCRIPTION: 3DCOVER wraps an image around the front and left or right side
-# of box viewed in rotated perspective. The box size will be proportional to
-# the dimensions of the two sides. Optionally, the box cover may have a
-# vignette effect shown on the front face and a translucent gray line may be
-# drawn on the join between the two faces. Two kinds of shadows may be cast;
-# either a backdrop or ground shadow.  The box may be rotated either direction
+# 
+# DESCRIPTION: 3DCOVER wraps an image around the front and left or right side 
+# of box viewed in rotated perspective. The box size will be proportional to 
+# the dimensions of the two sides. Optionally, the box cover may have a 
+# vignette effect shown on the front face and a translucent gray line may be 
+# drawn on the join between the two faces. Two kinds of shadows may be cast; 
+# either a backdrop or ground shadow.  The box may be rotated either direction 
 # and its perspective exaggeration controlled.
-#
-#
-# ARGUMENTS:
-#
-# -s size ... size is the length of left or right side of the cover. Values
-# are either  pixels or percent of the width of the original image.  If in
-# pixels, then values are integers>0. If percent, then values are 0<floats<100
-# with a trailing % and no spaces. The default=20%. Alternately, the 3D cover
-# dimensions as TxWxH (Thickness x Width x Height) in any consistent set of
-# units; 3 values must be specified as integers>0. If the height to width
-# aspect ratio of the image (Height/Width) does not match that of the
+# 
+# 
+# ARGUMENTS: 
+# 
+# -s size ... size is the length of left or right side of the cover. Values 
+# are either  pixels or percent of the width of the original image.  If in 
+# pixels, then values are integers>0. If percent, then values are 0<floats<100 
+# with a trailing % and no spaces. The default=20%. Alternately, the 3D cover 
+# dimensions as TxWxH (Thickness x Width x Height) in any consistent set of 
+# units; 3 values must be specified as integers>0. If the height to width 
+# aspect ratio of the image (Height/Width) does not match that of the 
 # specified units H/(T+W), then the image will be center cropped to match.
-#
+# 
 # -a angle ... ANGLE is the box rotation angle in degrees. Values are
-# -90<integers<90. The default=25. Note that it is not recommended to go
-# beyond 60 or -60, when method=ground. The (pseudo-)shadow will not look right
-# and may be misplaced. Note, if angle is within 2 degrees of zero, it will
+# -90<integers<90. The default=25. Note that it is not recommended to go 
+# beyond 60 or -60, when method=ground. The (pseudo-)shadow will not look right  
+# and may be misplaced. Note, if angle is within 2 degrees of zero, it will 
 # be converted to 0.
-#
+# 
 # -e exfact ... EXFACT is the perspective exaggeration factor. Values are
-#  0<floats<3. A value of 1 is normal perspective and a value of 0.5 is close
+#  0<floats<3. A value of 1 is normal perspective and a value of 0.5 is close 
 # to orthographic. The default=1.
-#
-# -w weight ... WEIGHT is the line (stroke) weight for a translucent gray join
+# 
+# -w weight ... WEIGHT is the line (stroke) weight for a translucent gray join 
 # line between the front and side faces. Values are integers>0. The default=2.
-#
-# -t tone ... TONE is the brightness in percent of the join line. Values are
-# 0<=integers<=100. A value of 100 is white and a value of 0 is black. The
+# 
+# -t tone ... TONE is the brightness in percent of the join line. Values are 
+# 0<=integers<=100. A value of 100 is white and a value of 0 is black. The 
 # default=100 (white).
-#
-# -o opacity ... OPACITY of the join line in percent. Values are
-# 0<=integers<=100. A value of 0 is transparent and a value of 100 is fully
+# 
+# -o opacity ... OPACITY of the join line in percent. Values are 
+# 0<=integers<=100. A value of 0 is transparent and a value of 100 is fully 
 # opaque. The default=0 indicates no join line.
-#
-# -d diameter ... DIAMETER of the vignette effect in percent of the size of
-# the front face. The vignette is only applied to the front face. Values are
+# 
+# -d diameter ... DIAMETER of the vignette effect in percent of the size of 
+# the front face. The vignette is only applied to the front face. Values are 
 # integers>=0. The default=0 indicates no vignette. The nominal value is 100.
-#
-# -r ramp ... RAMP is the taper or roll-off of the vignette effect. Values are
+# 
+# -r ramp ... RAMP is the taper or roll-off of the vignette effect. Values are 
 # integers>=0. The default=75.
-#
-# -g gamma... GAMMA is the gamma adjustment of vignette. Values are floats>0.
-# Values less than 1 will lighten/soften the vignette and values  less than 1
+# 
+# -g gamma... GAMMA is the gamma adjustment of vignette. Values are floats>0. 
+# Values less than 1 will lighten/soften the vignette and values  less than 1 
 # will darker/harden the vignette. The default=0.5.
-#
-# -v vcolor ... VCOLOR is the vignette color. Any valid opaque IM color is
+# 
+# -v vcolor ... VCOLOR is the vignette color. Any valid opaque IM color is 
 # allowed. The default=black.
-#
-# -m method ... METHOD is theshadow method (type). The choices are: none (n),
+# 
+# -m method ... METHOD is theshadow method (type). The choices are: none (n), 
 # backdrop (b) and ground (g). The default=none.
-#
-# -u umbra ... UMBRA is the graylevel percent value for the dark inner part
+# 
+# -u umbra ... UMBRA is the graylevel percent value for the dark inner part 
 # of the shadow. Values are 0<=integers<=100. The default=50.
-#
-# -p penumbra ... PENUMBRA is the extent in pixels of the light outer part of
-# of the shadow. Values are integers>0. The default=10 for method=backdrop and
+# 
+# -p penumbra ... PENUMBRA is the extent in pixels of the light outer part of 
+# of the shadow. Values are integers>0. The default=10 for method=backdrop and 
 # the default=6 for method=ground.
-#
-# -l length ... LENGTH of the shadow. For method=backdrop, it is the offset
-# between the box and the shadow with values as integers>0 and a default=15.
-# For method=ground, it is a factor of the length of the side in perspective
+# 
+# -l length ... LENGTH of the shadow. For method=backdrop, it is the offset 
+# between the box and the shadow with values as integers>0 and a default=15. 
+# For method=ground, it is a factor of the length of the side in perspective 
 # with values as floats>0 and the default=1.5.
-#
-# -b bcolor ... BCOLOR is the background color. Any valid IM color including
+#  
+# -b bcolor ... BCOLOR is the background color. Any valid IM color including 
 # transparent or none is allowed. The default=white.
-#
+# 
 # -x xyoffset ... XYOFFSET is an offset correction for the shadow for \
-# method=ground to refine its alignment, if needed. Values are a comma
+# method=ground to refine its alignment, if needed. Values are a comma 
 # separate pair of integers. The default="0,0".
-#
-# -f fuzzval ... FUZZVAL is the fuzz factor for trimming the front and side
-# perspectives images before joining them together and trimming the final
+# 		
+# -f fuzzval ... FUZZVAL is the fuzz factor for trimming the front and side 
+# perspectives images before joining them together and trimming the final 
 # image. Values are float>=0. The default=0.
-#
-# -G gravity ... GRAVITY setting for cropping the input image when size is
-# specified as TxWxH. The choices are: north (n), east (e), south (s),
+# 
+# -G gravity ... GRAVITY setting for cropping the input image when size is 
+# specified as TxWxH. The choices are: north (n), east (e), south (s), 
 # west (w) and center (c). The default=center.
-#
-# -H oheight ... OHEIGHT is the desired output height. Values are integers>0.
-# The default is the height of the input. If specified, the input image will
-# be resized to this height. The output width will depend upon the oheight
-# value and the amount of rotation angle specified and thus will be smaller
+# 
+# -H oheight ... OHEIGHT is the desired output height. Values are integers>0. 
+# The default is the height of the input. If specified, the input image will  
+# be resized to this height. The output width will depend upon the oheight 
+# value and the amount of rotation angle specified and thus will be smaller 
 # than the original or resized width.
-#
-# -S sharpen ... SHARPEN is the sharpening sigma to apply to the (optionally
+# 
+# -S sharpen ... SHARPEN is the sharpening sigma to apply to the (optionally 
 # resized) input image. Values are floats>=0. The default=0.
-#
-# -P pad ... PAD is the amount of padding to put around the output image
+# 
+# -P pad ... PAD is the amount of padding to put around the output image 
 # using the background color. Values are integers>=0. The default=0.
-#
-# -sc scolor ... SCOLOR is the optional spine color. It overrides using image
-# texture for the spine. Any valid opaque IM color is allowed. The default is
-# image texture for the spine. If scolor is specified, then the spine will be
+# 
+# -sc scolor ... SCOLOR is the optional spine color. It overrides using image 
+# texture for the spine. Any valid opaque IM color is allowed. The default is 
+# image texture for the spine. If scolor is specified, then the spine will be  
 # that color and the whole image will be on the front face.
-#
-# -F fadevals ... FADEVALS is the spine fade to gray values. This is a comma
-# separated pair of integers between 0 and 100. The first value is the front
-# value and the second is the back value. 0 is black and 100 is no fade. The
-# default="100,100" (no fade).
-#
-# -M mirror ... MIRROR the appropriate side of the image to use for the left
-# or right side of the box. This is only allowed, if size is not specified
-# as TxWxH. If mirror=yes, then the specified size will be cropped from the
-# image and used for the side and the full image will be used for the front.
+# 
+# -F fadevals ... FADEVALS is the spine fade to gray values. This is a comma 
+# separated pair of integers between 0 and 100. The first value is the front 
+# value and the second is the back value. 0 is black and 100 is no fade. The 
+# default="100,100" (no fade). 
+# 
+# -M mirror ... MIRROR the appropriate side of the image to use for the left 
+# or right side of the box. This is only allowed, if size is not specified 
+# as TxWxH. If mirror=yes, then the specified size will be cropped from the 
+# image and used for the side and the full image will be used for the front. 
 # The choices are: yes or no. The default=no.
 #
 # REQUIREMENTS: This script requires my 3Drotate script to function.
-#
-# NOTE: For mode=ground, the ground shadow works between IM 6.6.0.10 and
-# 6.7.2.0; is unknow between 6.7.2.1 and 6.7.2.9; fails for between 6.7.2.10
-# and 6.7.6.9; works again from 6.7.6.10 to 6.8.3.4; fails again from 6.8.3.5
-# to 6.8.3.9; then works again starting after 6.8.3.9. The shadow will be
-# slightly different and there will be extra white space on the shadow side,
+# 
+# NOTE: For mode=ground, the ground shadow works between IM 6.6.0.10 and 
+# 6.7.2.0; is unknow between 6.7.2.1 and 6.7.2.9; fails for between 6.7.2.10 
+# and 6.7.6.9; works again from 6.7.6.10 to 6.8.3.4; fails again from 6.8.3.5 
+# to 6.8.3.9; then works again starting after 6.8.3.9. The shadow will be 
+# slightly different and there will be extra white space on the shadow side, 
 # which can be removed using the -f fuzzval argument for versions after 6.8.3.9.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 size=20%			# length of side: pixels or percent of original image
@@ -258,7 +258,7 @@ umbra=50			# shadow umbra percent intensity for both methods (nominal 50)
 penumbra=""			# shadow penumbra size; sigma blur amount for both methods; method backdrop (nominal 10); method ground (nominal 6)
 length=""			# shadow length; offset for method backdrop in pixels (nominal 15); length factor for method ground (nominal 1.5)
 bcolor=white		# background color; default=transparent
-xyoffset=0,0		# offset of shadow for method=ground to refine alignment
+xyoffset=0,0		# offset of shadow for method=ground to refine alignment		
 fuzzval=0			# trim fuzz; may be needed esp for large angles if shadow goes haywire
 gravity="center"	# gravity for cropping input
 oheight=""			# desired output height; integer>0
@@ -275,13 +275,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -329,7 +329,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   #test if parameter starts with minus sign
+					   #test if parameter starts with minus sign 
 					   errorMsg="--- INVALID size SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([x.0-9%]*\)'`
@@ -337,7 +337,7 @@ else
 					   ;;
 				-a)    # get angle
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID ANGLE SPECIFICATION ---"
 					   #checkMinus "$1"
 					   angle=`expr "$1" : '\([-0-9]*\)'`
@@ -348,7 +348,7 @@ else
 					   ;;
 				-e)    # get exfact
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID EXFACT SPECIFICATION ---"
 					   checkMinus "$1"
 					   exfact=`expr "$1" : '\([.0-9]*\)'`
@@ -359,7 +359,7 @@ else
 					   ;;
 				-w)    # get weight
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID WEIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   weight=`expr "$1" : '\([0-9]*\)'`
@@ -369,7 +369,7 @@ else
 					   ;;
 				-t)    # get tone
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TONE SPECIFICATION ---"
 					   checkMinus "$1"
 					   tone=`expr "$1" : '\([0-9]*\)'`
@@ -379,7 +379,7 @@ else
 					   ;;
 				-o)    # get opacity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OPACITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   opacity=`expr "$1" : '\([0-9]*\)'`
@@ -389,7 +389,7 @@ else
 					   ;;
 				-d)    # get diameter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIAMETER SPECIFICATION ---"
 					   checkMinus "$1"
 					   diameter=`expr "$1" : '\([0-9]*\)'`
@@ -397,7 +397,7 @@ else
 					   ;;
 				-r)    # get ramp
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RAMP SPECIFICATION ---"
 					   checkMinus "$1"
 					   ramp=`expr "$1" : '\([0-9]*\)'`
@@ -405,7 +405,7 @@ else
 					   ;;
 				-g)    # get gamma
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GAMMA SPECIFICATION ---"
 					   checkMinus "$1"
 					   gamma=`expr "$1" : '\([.0-9]*\)'`
@@ -415,28 +415,28 @@ else
 					   ;;
 				-v)    # get vcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID VCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   vcolor="$1"
 					   ;;
 				-m)    # get  method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method="$1"
 					   method=`echo "$method" | tr "[:upper:]" "[:lower:]"`
-					   case "$method" in
+					   case "$method" in 
 					   		none|n) method="none" ;;
 					   		backdrop|b) method="backdrop" ;;
 					   		ground|g) method="ground" ;;
-					   		*) errMsg "--- METHOD=$method IS AN INVALID VALUE ---"
+					   		*) errMsg "--- METHOD=$method IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-u)    # get umbra
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID UMBRA SPECIFICATION ---"
 					   checkMinus "$1"
 					   umbra=`expr "$1" : '\([0-9]*\)'`
@@ -446,7 +446,7 @@ else
 					   ;;
 				-p)    # get penumbra
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PENUMBRA SPECIFICATION ---"
 					   checkMinus "$1"
 					   penumbra=`expr "$1" : '\([0-9]*\)'`
@@ -456,7 +456,7 @@ else
 					   ;;
 				-l)    # get length
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LENGTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   length=`expr "$1" : '\([.0-9]*\)'`
@@ -466,14 +466,14 @@ else
 					   ;;
 				-b)    # get bcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bcolor="$1"
 					   ;;
 				-x)    # get xyoffset
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID XYOFFSET SPECIFICATION ---"
 					   #checkMinus "$1"
 					   test=`echo "$1" | tr "," " " | wc -w`
@@ -485,7 +485,7 @@ else
 					   ;;
 				-f)    # get fuzzval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FUZZVAL SPECIFICATION ---"
 					   checkMinus "$1"
 					   fuzzval=`expr "$1" : '\([.0-9]*\)'`
@@ -493,23 +493,23 @@ else
 					   ;;
 				-g)    # get  gravity
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID GRAVITY SPECIFICATION ---"
 					   checkMinus "$1"
 					   gravity="$1"
 					   gravity=`echo "$gravity" | tr "[:upper:]" "[:lower:]"`
-					   case "$gravity" in
+					   case "$gravity" in 
 					   		center|c) gravity="center" ;;
 					   		north|n) gravity="north" ;;
 					   		south|s) gravity="south" ;;
 					   		east|e) gravity="east" ;;
 					   		west|w) gravity="west" ;;
-					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---"
+					   		*) errMsg "--- GRAVITY=$gravity IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				-H)    # get oheight
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID OHEIGHT SPECIFICATION ---"
 					   checkMinus "$1"
 					   oheight=`expr "$1" : '\([0-9]*\)'`
@@ -519,7 +519,7 @@ else
 					   ;;
 				-S)    # get sharpen
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SHARPEN SPECIFICATION ---"
 					   checkMinus "$1"
 					   sharpen=`expr "$1" : '\([.0-9]*\)'`
@@ -527,7 +527,7 @@ else
 					   ;;
 				-P)    # get pad
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PAD SPECIFICATION ---"
 					   checkMinus "$1"
 					   pad=`expr "$1" : '\([0-9]*\)'`
@@ -535,14 +535,14 @@ else
 					   ;;
 				-sc)   # get scolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SCOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   scolor="$1"
 					   ;;
 				-F)    # get fadeval
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FADEVALS SPECIFICATION ---"
 					   checkMinus "$1"
 					   fadevals=`expr "$1" : '\([0-9]*,[0-9]*\)'`
@@ -550,15 +550,15 @@ else
 					   ;;
 				-M)    # get mirror
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MIRROR SPECIFICATION ---"
 					   checkMinus "$1"
 					   mirror="$1"
 					   mirror=`echo "$mirror" | tr "[:upper:]" "[:lower:]"`
-					   case "$mirror" in
+					   case "$mirror" in 
 					   		yes|y) mirror="yes" ;;
 					   		no|n) mirror="no" ;;
-					   		*) errMsg "--- MIRROR=$mirror IS AN INVALID VALUE ---"
+					   		*) errMsg "--- MIRROR=$mirror IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -609,9 +609,9 @@ trap "rm -f $tmpA1 $tmpB1 $tmpL1 $tmpL2 $tmpR1 $tmpR2 $tmpS1 $tmpS2; exit 1" 1 2
 im_version=`convert -list configure | \
 	sed '/^LIB_VERSION_NUMBER */!d; s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | head -n 1`
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -624,7 +624,7 @@ im_version=`convert -list configure | \
 # then works again from 6.7.6.10 to 6.8.3.4
 # then fails again from 6.8.3.5 to 6.8.3.9
 # then starting with 6.8.4.0 the shadow will be slightly different and there will be extra white space on the shadow side
-# For mode=backdrop and mode=none (latter with or without vignette),
+# For mode=backdrop and mode=none (latter with or without vignette), 
 # it works normally for IM 6.7.4.10, 6.7.6.10 and 6.8.1.5, 6.8.5.6
 if [ "$im_version" -lt "06070607" -o "$im_version" -gt "06070707" ]; then
 	setcspace="-set colorspace RGB"
@@ -671,7 +671,7 @@ elif [ "$test2" != "" ]; then
 	arr=`convert xc: -format "%[fx:$ar/$ari]" info:`
 	test3=`convert xc: -format "%[fx:($arr>1)?2:($arr<1)?1:0]" info:`
 	if [ $test3 -eq 2 ]; then
-		arr=`convert xc: -format "%[fx:100/$arr]" info:`
+		arr=`convert xc: -format "%[fx:100/$arr]" info:`	
 		convert $tmpA1 -gravity $gravity -extent $arr%x100 +repage $tmpA1
 
 	elif [ $test3 -eq 1 ]; then
@@ -681,7 +681,7 @@ elif [ "$test2" != "" ]; then
 	ww=`convert -ping $tmpA1 -format "%w" info:`
 	hh=`convert -ping $tmpA1 -format "%h" info:`
 	hm1=$((hh-1))
-	side=`convert $tmpA1 -format "%[fx:round(($tk/($tk+$wd))*$ww)]" info:`
+	side=`convert $tmpA1 -format "%[fx:round(($tk/($tk+$wd))*$ww)]" info:`	
 fi
 #echo "side=$side"
 
@@ -777,7 +777,7 @@ elif [ $sign -eq 1 ]; then
 		convert -size ${side}x${hh} xc:"$scolor" \
 			\( $fadeleft \) $composingleft $tmpL1
 		convert $tmpA1 $tmpR1
-else
+else 
 		#create scolor on right side and rotate about join line
 		convert $tmpA1 $tmpL1
 		convert -size ${side}x${hh} xc:"$scolor" \
@@ -862,7 +862,7 @@ fi
 
 # set up for height resizing
 if [ "$oheight" != "" ]; then
-	factor=`convert -ping $tmpA1 -format "%[fx:100*$oheight/h]" info:`
+	factor=`convert -ping $tmpA1 -format "%[fx:100*$oheight/h]" info:`	
 	resizing="-resize $factor%"
 else
 	resizing=""
@@ -888,7 +888,7 @@ elif [ "$method" = "backdrop" ]; then
 		[ "$length" = "" ] && length=15
 		# invert umbra from brightness to opacity for -shadow
 		umbra=$((100-umbra))
-
+		
 		convert $tmpA1 \
 		\( +clone -background black -shadow ${umbra}x${penumbra}${shadsign}${length}+${length} \) \
 			+swap -background none -layers merge +repage \
@@ -919,7 +919,7 @@ elif [ "$method" = "ground" ]; then
 		-trim +repage -format "%h" info:`
 
 	aleft=`convert xc: -format "%[fx:atan2($hl,$wl)]" info:`
-
+	
 	hr=`convert $tmpR1 -fill black +opaque none -fill white -opaque none \
 		-fill black -draw "color $wrm1,0 floodfill" -alpha off \
 		-fill black -draw "line 0,0 0,$hm1" -alpha off \
@@ -945,7 +945,7 @@ elif [ "$method" = "ground" ]; then
 		ty=$ht
 		wd=`convert xc: -format "%[fx:round($ff*$wr)]" info:`
 #		echo "aleft=$aleft; aright=$aright; bx=$bx; by=$by; mx=$mx; my=$my; ht=$ht; wd=$wd; tx=$tx; ty=$ty"
-
+		
 		# set up page offsets for merging
 		# compute xshift to partially take into account the penumbra blurring, fudge in proportion to $angle
 		xshift=`convert xc: -format "%[fx:round(min(1.5,(-$angle/30))*$penumbra/tan($aright))]" info:`
@@ -1027,3 +1027,5 @@ elif [ "$method" = "ground" ]; then
 fi
 
 exit 0
+
+

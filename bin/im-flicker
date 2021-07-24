@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 12/21/2007 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: flicker [-d delay] [ -r resize] [-f] [-l] infile1 infile2 ...
@@ -32,7 +32,7 @@
 # OPTIONS:
 #
 # -d     delay        time delay per frame (ms); delay >= 0; default=50
-# -r     resize       image resize percentage; resize > 0;
+# -r     resize       image resize percentage; resize > 0; 
 #                     default=100 (unchanged)
 # -l                  disables the labeling of the images
 # -f                  saves the animation to file animation.gif
@@ -40,37 +40,37 @@
 ###
 #
 # NAME: FLICKER
-#
+# 
 # PURPOSE: To display and optionally save an animation of the input images.
-#
-# DESCRIPTION: FLICKER automatically displays an animation of the supplied
-# input images and optionally saves the animation to a file. At least two
-# images must be supplied. The main purpose of the script is to make a
-# visual comparison of two (or more) images by rapidly alternating the
+# 
+# DESCRIPTION: FLICKER automatically displays an animation of the supplied 
+# input images and optionally saves the animation to a file. At least two 
+# images must be supplied. The main purpose of the script is to make a 
+# visual comparison of two (or more) images by rapidly alternating the 
 # display of each.
-#
-#
-# OPTIONS:
-#
-#
-# -d delay ... DELAY is the time delay in msec between frames in the animation.
-# Values are integers greater than or equal to zero. The default=50. Note that
-# the animation will be created to loop forever. Delay is ignored if a single
+# 
+# 
+# OPTIONS: 
+# 
+# 
+# -d delay ... DELAY is the time delay in msec between frames in the animation. 
+# Values are integers greater than or equal to zero. The default=50. Note that 
+# the animation will be created to loop forever. Delay is ignored if a single 
 # frame output is to be generated.
-#
-# -r resize ... RESIZE allows the animation to made larger or smaller than
-# the input image size. The values are integers greater than 0 representing the
-# resize percentage. The default=100 which leaves the animation the same size as
+# 
+# -r resize ... RESIZE allows the animation to made larger or smaller than 
+# the input image size. The values are integers greater than 0 representing the 
+# resize percentage. The default=100 which leaves the animation the same size as 
 # the input image.
-#
+# 
 # -l ... Disables the labeling of the images.
-#
+# 
 # -f ... Specifies that the animation is to be saved to a file called animation.gif
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 # set default values
@@ -86,13 +86,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -135,7 +135,7 @@ else
 					   ;;
 				-d)    # delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay="$1"
@@ -146,7 +146,7 @@ else
 					   ;;
 				-r)    # resize
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RESIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   resize="$1"

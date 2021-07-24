@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 12/4/2014 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: reflect [-c centercolumn] infile
@@ -31,32 +31,32 @@
 #
 # OPTIONS:
 #
-# -c    centercolumn    center column (x coordinate) of input image about
-#                       which to reflect horizontally; integer>=0; default
+# -c    centercolumn    center column (x coordinate) of input image about 
+#                       which to reflect horizontally; integer>=0; default 
 #                       is the image horizontal center
 #
 ###
 #
 # NAME: REFLECT
-#
-# PURPOSE: To split an image, reflect each side and appends them to form
+# 
+# PURPOSE: To split an image, reflect each side and appends them to form 
 # horizontally symmetric images.
-#
-# DESCRIPTION: REFLECT splits an image into two parts at the center column.
-# Each side is reflected and append to form left and right symmetric images
-# and also a blended image. The 3 output files will be named from the input
+# 
+# DESCRIPTION: REFLECT splits an image into two parts at the center column. 
+# Each side is reflected and append to form left and right symmetric images 
+# and also a blended image. The 3 output files will be named from the input 
 # image as inname_left.suffix, inname_right.suffix and inname_blend.suffix
-#
-# OPTIONS:
-#
-# -c centercolumn ... CENTERCOLUMN is the center column (x coordinate) of the
-# input image about which to reflect horizontally. Values are
+# 
+# OPTIONS: 
+# 
+# -c centercolumn ... CENTERCOLUMN is the center column (x coordinate) of the 
+# input image about which to reflect horizontally. Values are 
 # 0<=interger<=imagewidth. The default is the image horizontal center.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -69,13 +69,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -123,7 +123,7 @@ else
 					   ;;
 				-c)    # get ccol
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTERCOLUMN SPECIFICATION ---"
 					   checkMinus "$1"
 					   ccol=`expr "$1" : '\([0-9]*\)'`

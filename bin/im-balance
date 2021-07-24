@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/10/2010 .......... 11/7/2014
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: balance "shadows,midtones,highlights" [-b bias] infile outfile
@@ -31,43 +31,43 @@
 #
 # OPTIONS:
 #
-# "shadows,midtones,highlights"      percent change in values in shadows,
+# "shadows,midtones,highlights"      percent change in values in shadows, 
 #                                    midtones, highlight areas in the image;
 #                                    positive or negative floats
-# -b             bias                percent shift in midtone location;
-#                                    positive or negative floats; default is
+# -b             bias                percent shift in midtone location; 
+#                                    positive or negative floats; default is 
 #                                    no change from mean of image.
 #
 ###
 #
-# NAME: BALANCE
-#
+# NAME: BALANCE 
+# 
 # PURPOSE: Enhance the shadows, midtones and highlight regions of the image.
-#
-# DESCRIPTION: BALANCE enhances the shadows, midtones and highlight regions
-# of the image. This is done according to a three point piece-wise linear
-# transformation, where the three points are at input graylevels:
-# 0, image mean, 255 (in 8-bit system). The transformation is applied as a
+# 
+# DESCRIPTION: BALANCE enhances the shadows, midtones and highlight regions 
+# of the image. This is done according to a three point piece-wise linear 
+# transformation, where the three points are at input graylevels: 
+# 0, image mean, 255 (in 8-bit system). The transformation is applied as a 
 # look up table using -clut.
-#
-#
-# OPTIONS:
-#
-# "shadows,midtones,highlights" ... Percent change in values in the shadows,
-# midtones and highlight areas of the image. Values are positive or negative
+# 
+# 
+# OPTIONS: 
+# 
+# "shadows,midtones,highlights" ... Percent change in values in the shadows, 
+# midtones and highlight areas of the image. Values are positive or negative 
 # floats. A value of "0,0,0" means the output will be the same as the input.
 #
-# -b bias ... BIAS is the percent shift of the midtone location from the mean
-# value of the input. Values are positive or negative floats. The default=0
-# indicates no change from the global mean value of all channels of the
+# -b bias ... BIAS is the percent shift of the midtone location from the mean 
+# value of the input. Values are positive or negative floats. The default=0 
+# indicates no change from the global mean value of all channels of the 
 # input image.
-#
+# 
 # REQUIREMENT: IM version 6.3.5-7 or higher due to the use of -clut.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -82,13 +82,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -136,7 +136,7 @@ else
 					   ;;
 				-b)    # get bias
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   #errorMsg="--- INVALID BIAS SPECIFICATION ---"
 					   #checkMinus "$1"
 					   bias=`expr "$1" : '\([-.0-9]*\)'`
@@ -218,3 +218,4 @@ convert -size 256x1 xc: -fx "(i>=0&&i<$midx)?(i-$x1)*($y2-$y1)/($x2-$x1)+$y1:(i-
 convert $tmpA1 $tmpA2 -clut "$outfile"
 
 exit 0
+

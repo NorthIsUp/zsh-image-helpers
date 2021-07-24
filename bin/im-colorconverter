@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 10/1/2009 .......... revised 8/18/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: colorconverter -c "color" [-d dimensions] [-s] [-v]
@@ -34,47 +34,47 @@
 # -c      color           Any valid IM color specification
 # -d      dimensions      Dimensions of optional color swatch; WidthxHeight;
 # -s                      Show color swatch of specified color
-# -v                      Validate all converted colors by showing color swatches
+# -v                      Validate all converted colors by showing color swatches 
 #
 ###
 #
 # NAME: COLORCONVERTER
-#
-# PURPOSE: To convert any valid ImageMagick color specification to the other
+# 
+# PURPOSE: To convert any valid ImageMagick color specification to the other 
 # ImageMagick color representations.
-#
-# DESCRIPTION: COLORCONVERTER converts any valid ImageMagick color specification
-# to other ImageMagick color representations, including: RGB, HEX, HSL, HSB
-# and CMYK. The values will be listed to the Terminal. A color swatch for the
-# input color may be displayed. Also a swatch for each of the other color
+# 
+# DESCRIPTION: COLORCONVERTER converts any valid ImageMagick color specification 
+# to other ImageMagick color representations, including: RGB, HEX, HSL, HSB 
+# and CMYK. The values will be listed to the Terminal. A color swatch for the 
+# input color may be displayed. Also a swatch for each of the other color 
 # representations may be displayed.
+# 
+# 
+# OPTIONS: 
+# 
 #
-#
-# OPTIONS:
-#
-#
-# -c color ... COLOR is any valid IM color specification, including RGB, HEX,
-# HSL, HSB, CMYK or by name. If not a color name, the color specification
+# -c color ... COLOR is any valid IM color specification, including RGB, HEX, 
+# HSL, HSB, CMYK or by name. If not a color name, the color specification 
 # should be enclosed in quotes.
 #
-# -d dimensions ... DIMENSIONS specifies the WidthxHeight for the color
+# -d dimensions ... DIMENSIONS specifies the WidthxHeight for the color 
 # swatch(es). The default="150x150".
 #
 # -s ... Indicates to display a color swatch for the specified color.
-#
-# -v ... Indicates to display a color swatch for each converted color in
+# 
+# -v ... Indicates to display a color swatch for each converted color in 
 # the various color representations.
-#
-# NOTE: Prior to IM 6.5.6-6, HSL colors may not produce correct swatches, as
-# changes and bugs were fixed starting with IM 6.5.6-4. Prior to IM 6.5.6-4,
-# HSL colors were specified only with hue in range 0-360 and saturation and
-# lightness as percentages. HSB color specification and swatches were only
+# 
+# NOTE: Prior to IM 6.5.6-6, HSL colors may not produce correct swatches, as 
+# changes and bugs were fixed starting with IM 6.5.6-4. Prior to IM 6.5.6-4, 
+# HSL colors were specified only with hue in range 0-360 and saturation and 
+# lightness as percentages. HSB color specification and swatches were only 
 # first available and correct starting with IM 6.5.6-6.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -91,13 +91,13 @@ font="Arial"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -155,14 +155,14 @@ else
 					   ;;
 		 		-c)    # color
 					   shift  # to get the next parameter - color
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 		 		-d)    # dimensions
 					   shift  # to get the next parameter - color
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimensions="$1"
@@ -180,7 +180,7 @@ else
   				 	   ;;
 				-*)    # any other - argument
 					   errMsg "--- UNKNOWN OPTION ---"
-					   ;;
+					   ;;					   
 				*)     # end of arguments
 					   break ;;
 			esac
@@ -199,9 +199,9 @@ sed '/^LIB_VERSION_NUMBER */!d;  s//,/;  s/,/,0/g;  s/,0*\([0-9][0-9]\)/\1/g' | 
 the_version="06050606"
 
 
-# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7
+# colorspace RGB and sRGB swapped between 6.7.5.5 and 6.7.6.7 
 # though probably not resolved until the latter
-# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2
+# then -colorspace gray changed to linear between 6.7.6.7 and 6.7.8.2 
 # then -separate converted to linear gray channels between 6.7.6.7 and 6.7.8.2,
 # though probably not resolved until the latter
 # so -colorspace HSL/HSB -separate and -colorspace gray became linear
@@ -256,7 +256,7 @@ else
 	BBP=$BB
 fi
 
-# raw alpha value change from range 0-quantumrange to 0-1 at same time % introduced for other channels (IM 6.8.6.10 started %)
+# raw alpha value change from range 0-quantumrange to 0-1 at same time % introduced for other channels (IM 6.8.6.10 started %) 
 # also at IM 6.9.2.1 all raw rgb values including alpha now back to range 0-quantumrange, unless hdri mode and then all percent
 if [ "$AA" != "" -a "$test" = "" ]; then
 	AAV=`convert xc: -format "%[fx:$AA/quantumrange]" info:`
@@ -288,13 +288,13 @@ echo "$hex"
 echo ""
 echo "HSL:"
 # get hsl colors
-# due to change of channels to linear from non-linar, one needs to
-# convert cmyk colors to sRGB, then make non-linear with -set colorspace RGB,
+# due to change of channels to linear from non-linar, one needs to 
+# convert cmyk colors to sRGB, then make non-linear with -set colorspace RGB, 
 # then convert to HSL
-#
+# 
 # note: starting at IM 6.9.2.1 HSL txt output is in format HSL(0-360,percent,percent) and raw values are all non-percent again
 # also at IM 6.9.2.1 all raw hsl values including alpha now back to range 0-quantumrange
-#
+# 
 hsl=`convert xc:"$color" -colorspace $cspace $setcspace -colorspace HSL txt:- | tail -n 1 | sed -n 's/ *//g; s/^.*[:][(]\(.*\)[)].*[\#].*$/\1/p'`
 # test if values are percent or raw
 test=$(echo "$hsl" | grep "%")
@@ -319,7 +319,7 @@ else
 	LLP=$LL
 fi
 
-# raw alpha value change from range 0-quantumrange to 0-1 at same time % introduced for other channels (IM 6.8.6.10 started %)
+# raw alpha value change from range 0-quantumrange to 0-1 at same time % introduced for other channels (IM 6.8.6.10 started %) 
 # also at IM 6.9.2.1 all raw hsb values including alpha now back to range 0-quantumrange
 if [ "$AA" != "" -a "$test" = "" ]; then
 	AAV=`convert xc: -format "%[fx:$AA/quantumrange]" info:`
@@ -329,7 +329,7 @@ fi
 #echo "$HH $SS $LL $AA; $HHV $SSV $LLV; $HHP $SSP $LLP; $AAV"
 if [ "$AA" = "" ]; then
 	if [ "$im_version" -ge "$the_version" ]
-		then
+		then 
 		echo "hsl($HHV,$SSV,$LLV)"
 		[ "$validate" = "yes" ] && showSwatch "hsl($HHV,$SSV,$LLV)"
 		if [ "$im_version" -lt "06090201" ]; then
@@ -345,7 +345,7 @@ if [ "$AA" = "" ]; then
 	fi
 else
 	if [ "$im_version" -ge "$the_version" ]
-		then
+		then 
 		echo "hsla($HHV,$SSV,$LLV,$AAV)"
 		[ "$validate" = "yes" ] && showSwatch "hsla($HHV,$SSV,$LLV,$AAV)"
 		if [ "$im_version" -lt "06090201" ]; then
@@ -365,8 +365,8 @@ fi
 echo ""
 echo "HSB:"
 # get hsb colors
-# due to change of channels to linear from non-linar, one needs to
-# convert cmyk colors to sRGB, then make non-linear with -set colorspace RGB,
+# due to change of channels to linear from non-linar, one needs to 
+# convert cmyk colors to sRGB, then make non-linear with -set colorspace RGB, 
 # then convert to HSL
 hsb=`convert xc:"$color" -colorspace $cspace $setcspace -colorspace HSB txt:- | tail -n 1 | sed -n 's/ *//g; s/^.*[:][(]\(.*\)[)].*[\#].*$/\1/p'`
 # test if values are percent or raw
@@ -393,7 +393,7 @@ else
 	BBP=$BB
 fi
 
-# raw alpha value change from range 0-quantumrange to 0-1 at same time % introduced for other channels (IM 6.8.6.10 started %)
+# raw alpha value change from range 0-quantumrange to 0-1 at same time % introduced for other channels (IM 6.8.6.10 started %) 
 # also at IM 6.9.2.1 all raw values including alpha now back to range 0-quantumrange
 if [ "$AA" != "" -a "$test" = "" ]; then
 	AAV=`convert xc: -format "%[fx:$AA/quantumrange]" info:`
@@ -403,7 +403,7 @@ fi
 #echo "$HH $SS $BB $AA; $HHV $SSV $BBV; $HHP $SSP $BBP; $AAV"
 if [ "$AA" = "" ]; then
 	if [ "$im_version" -ge "$the_version" ]
-		then
+		then 
 		echo "hsb($HHV,$SSV,$BBV)"
 		[ "$validate" = "yes" ] && showSwatch "hsb($HHV,$SSV,$BBV)"
 		if [ "$im_version" -lt "06090201" ]; then
@@ -419,7 +419,7 @@ if [ "$AA" = "" ]; then
 	fi
 else
 	if [ "$im_version" -ge "$the_version" ]
-		then
+		then 
 		echo "hsba($HHV,$SSV,$BBV,$AAV)"
 		[ "$validate" = "yes" ] && showSwatch "hsba($HHV,$SSV,$BBV,$AAV)"
 		if [ "$im_version" -lt "06090201" ]; then
@@ -468,7 +468,7 @@ else
 	KKP=$KK
 fi
 
-# raw alpha value change from range 0-quantumrange to 0-1 at same time % introduced for other channels (IM 6.8.6.10 started %)
+# raw alpha value change from range 0-quantumrange to 0-1 at same time % introduced for other channels (IM 6.8.6.10 started %) 
 # also at IM 6.9.2.1 all raw cmyk values including alpha now back to range 0-quantumrange, unless hdri mode and then all percent
 if [ "$AA" != "" -a "$test" = "" ]; then
 	AAV=`convert xc: -format "%[fx:$AA/quantumrange]" info:`

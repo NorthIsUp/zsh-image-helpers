@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 5/25/2008 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: mirrorize [-r region] infile outfile
@@ -33,33 +33,33 @@
 #
 # -r      region         region of image to be mirrored;
 #                        half image values: North, South, East, West;
-#                        image quadrant values: NorthWest, NorthEast,
+#                        image quadrant values: NorthWest, NorthEast, 
 #                        SouthWest, SouthEast; Default=West
 #
 ###
 #
-# NAME: MIRRORIZE
-#
+# NAME: MIRRORIZE 
+# 
 # PURPOSE: To create a mirror effect in an image.
-#
-# DESCRIPTION: MIRRORIZE creates a mirror effect in an image by
-# mirroring any half-image to create the other half or by mirroring
-# any image quadrant to create the other quadrants.
-#
-# OPTIONS:
-#
-# -r region ... REGION is the region to be mirrored. This can be any
-# half image specified as North, South, East or West. It can also be
-# any image quadrant specified as NorthWest, NorthEast, SouthWest or
+# 
+# DESCRIPTION: MIRRORIZE creates a mirror effect in an image by 
+# mirroring any half-image to create the other half or by mirroring 
+# any image quadrant to create the other quadrants. 
+# 
+# OPTIONS: 
+# 
+# -r region ... REGION is the region to be mirrored. This can be any 
+# half image specified as North, South, East or West. It can also be 
+# any image quadrant specified as NorthWest, NorthEast, SouthWest or 
 # SouthEast. The default is West.
-#
-# NOTE: if the image has any odd dimension, then after the mirrorizing,
+# 
+# NOTE: if the image has any odd dimension, then after the mirrorizing, 
 # the output image will be one pixel smaller in that dimension.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -73,13 +73,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -127,11 +127,11 @@ else
 					   ;;
 				-r)    # get  region
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID REGION SPECIFICATION ---"
 					   checkMinus "$1"
 					   region="$1"
-					   case "$1" in
+					   case "$1" in 
 					   		North) ;;
 					   		north) ;;
 					   		South) ;;
@@ -148,7 +148,7 @@ else
 					   		southwest) ;;
 					   		SouthEast) ;;
 					   		southeast) ;;
-					   		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---"
+					   		*) errMsg "--- DIRECTION=$direction IS AN INVALID VALUE ---" 
 					   	esac
 					   ;;
 				 -)    # STDIN and end of arguments
@@ -251,3 +251,7 @@ elif [ "$region" = "southeast" ]
 		"$outfile"
 fi
 exit 0
+
+
+
+

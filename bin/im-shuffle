@@ -3,96 +3,96 @@
 # Developed by Fred Weinhaus 10/25/2009 .......... revised 10/25/2009
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: shuffle [-s size] [-p percent] [-c center] [-r radii] [-R rounding]
+# USAGE: shuffle [-s size] [-p percent] [-c center] [-r radii] [-R rounding] 
 # [-n] [-e ecolor] infile [maskfile] outfile
 # USAGE: shuffle [h|-help]
 #
 # OPTIONS:
 #
 # -s      size         size of square tiles; integer>0; default=32
-# -p      percent      percentage of tiles to randomly process;
+# -p      percent      percentage of tiles to randomly process; 
 #                      0<=integer<=100; default=100 (all patches)
 # -c      center       x and y center coordinates of the round rectangle mask
 #                      with white on the inside and black on the outside; comma
-#                      separate pair of integers>=0; default=center of image
-# -r      radii        x and y radii of a round rectangle mask; comma
+#                      separate pair of integers>=0; default=center of image                      
+# -r      radii        x and y radii of a round rectangle mask; comma  
 #                      separated pair of integers>=0; default="0,0" (no mask)
-# -R      rounding     round rectangle corner radii expressed as pair of
-#                      comma separated integers>=0; default="0,0"
-# -n                   negate mask (invert black and white); note only the
+# -R      rounding     round rectangle corner radii expressed as pair of 
+#                      comma separated integers>=0; default="0,0"  
+# -n                   negate mask (invert black and white); note only the 
 #                      black area will be shuffled
-# -e      ecolor       edge color of mask boundary to show on the resulting
-#                      image; any valid opaque IM color; default=do not
-#                      show edge of mask
+# -e      ecolor       edge color of mask boundary to show on the resulting 
+#                      image; any valid opaque IM color; default=do not 
+#                      show edge of mask      
 #
 # maskfile is an optional binary (b/w) mask image the same size as the infile
-#
+# 
 ###
 #
-# NAME: SHUFFLE
-#
+# NAME: SHUFFLE 
+# 
 # PURPOSE: To randomly shuffle positions of square sized tiles of an image.
-#
-# DESCRIPTION: SHUFFLE randomly shuffle the positions of square sized tiles of
+# 
+# DESCRIPTION: SHUFFLE randomly shuffle the positions of square sized tiles of 
 # an image. An optional round rectangle mask may be defined to delineate where
 # the shuffling will be shown. Or an external mask image may be provided.
-#
-# OPTIONS:
-#
+# 
+# OPTIONS: 
+# 
 # -s size ... SIZE of the square-sized tiles to randomly shuffle.
 # Values are integers>1. The default=16.
-#
-# -p percent ... PERCENT is the percentage of tiles to randomly shuffle.
+# 
+# -p percent ... PERCENT is the percentage of tiles to randomly shuffle. 
 # Values are 0<=integers<=100. The default=100 (all tiles).
-#
-# -c center ... CENTER is the x and y center coordinates of the round
+# 
+# -c center ... CENTER is the x and y center coordinates of the round 
 # rectangle mask with white on the inside and black on the outside; comma
-# separate pair of integers>=0; default=center of image
-#
-# -r radii ... RADII are the x and y radii of a round rectangle mask expressed
+# separate pair of integers>=0; default=center of image                      
+# 
+# -r radii ... RADII are the x and y radii of a round rectangle mask expressed 
 # as a comma separated pair of integers>=0. The default="0,0" (no mask).
-#
-# -R rounding ... ROUNDING is the round rectangle corner radii expressed
-# as a pair of comma separated values. Values are integers>=0. The
+# 
+# -R rounding ... ROUNDING is the round rectangle corner radii expressed 
+# as a pair of comma separated values. Values are integers>=0. The 
 # default="0,0".
-#
+# 
 # -n negate ... NEGATE the mask (invert black and white).
-#
-# -e ecolor ... ECOLOR is the edge color of the mask boundary to show on the
-# resulting image. Any valid opaque IM color is allowed. The default is not
+# 
+# -e ecolor ... ECOLOR is the edge color of the mask boundary to show on the 
+# resulting image. Any valid opaque IM color is allowed. The default is not 
 # to show the edge boundary on the image.
-#
-# NOTE: The script runs slowly. A 256x256 sized image processed on my INTEL
-# Mac Mini in about 15 sec for dimension 16 and about 3 sec for dimension 32.
+# 
+# NOTE: The script runs slowly. A 256x256 sized image processed on my INTEL 
+# Mac Mini in about 15 sec for dimension 16 and about 3 sec for dimension 32. 
 # Thus larger sized patches will process faster.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -112,13 +112,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -166,7 +166,7 @@ else
 					   ;;
 				-s)    # get size
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SIZE SPECIFICATION ---"
 					   checkMinus "$1"
 					   size=`expr "$1" : '\([0-9]*\)'`
@@ -175,7 +175,7 @@ else
 					   ;;
 				-p)    # get percent
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID PERCENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   percent=`expr "$1" : '\([0-9]*\)'`
@@ -184,21 +184,21 @@ else
 					   ;;
 				-c)    # get center
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID CENTER SPECIFICATION ---"
 					   checkMinus "$1"
 					   center=`expr "$1" : '\([0-9]*,[0-9]*\)'`
 					   ;;
 				-r)    # get radii
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID RADII SPECIFICATION ---"
 					   checkMinus "$1"
 					   radii=`expr "$1" : '\([0-9]*,[0-9]*\)'`
 					   ;;
 				-R)    # get rounding
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROUNDING SPECIFICATION ---"
 					   checkMinus "$1"
 					   rounding=`expr "$1" : '\([0-9]*,[0-9]*\)'`
@@ -208,7 +208,7 @@ else
 					   ;;
 				-e)    # get ecolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ECOLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   ecolor="$1"
@@ -282,11 +282,11 @@ trap "rm -f $tmpA0 $tmpA1 $tmpA2 $tmpA3 $tmpA4; exit 1" 1 2 3 15
 #trap "rm -f $tmpA1; exit 1" ERR
 
 
-# read the input image, crop to multiple of dimension, the tile crop
+# read the input image, crop to multiple of dimension, the tile crop 
 # and save into the temp file and test validity.
 convert -quiet "$infile" -crop ${ww}x${hh}+0+0 +repage +write $tmpA0 -crop ${size}x${size} $tmpA1 ||
 	errMsg "--- FILE $infile DOES NOT EXIST OR IS NOT AN ORDINARY FILE, NOT READABLE OR HAS ZERO SIZE  ---"
-
+	
 
 # get radii
 xrad=`echo "$radii" | cut -d, -f1`
@@ -330,7 +330,7 @@ echo "$i"
 done`
 randArr=(`echo "$list" | awk 'BEGIN{srand();}{print rand()" "$0}' | sort -k1 -n | cut -d\  -f2`)
 
-# use subshell to process the tiles to miff:-
+# use subshell to process the tiles to miff:- 
 # in order to save reading and writing to a tmp file
 if [ $percent -eq 100 ]; then
 	(
@@ -369,3 +369,4 @@ fi
 
 
 exit 0
+

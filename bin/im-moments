@@ -3,65 +3,65 @@
 # Developed by Fred Weinhaus 10/18/2013 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: moments [-z] infile
 # USAGE: moments [-h or -help]
-#
+# 
 # OPTIONS:
-#
+# 
 # -z     Replaces NAN or DBZ with 0; default shows NAN and/or DBZ
-#
+# 
 ###
-#
-# NAME: MOMENTS
-#
-# PURPOSE: To compute shift, scale and rotation invariant image moments as well
+# 
+# NAME: MOMENTS 
+# 
+# PURPOSE: To compute shift, scale and rotation invariant image moments as well 
 # as elliptical shape descriptors.
-#
-# DESCRIPTION: ENTROPY computes Hu and Maitra shift, scale and rotation
-# invariant image moments as well as elliptical shape descriptors. Currently
-# this script is limited to grayscale images. If the input is not grayscale,
-# it will be converted to grayscale. The list of moments and shape descriptors
+# 
+# DESCRIPTION: ENTROPY computes Hu and Maitra shift, scale and rotation 
+# invariant image moments as well as elliptical shape descriptors. Currently 
+# this script is limited to grayscale images. If the input is not grayscale, 
+# it will be converted to grayscale. The list of moments and shape descriptors 
 # is sent to the terminal.
 #
-# OPTIONS:
-#
-# -z ... replace (not a number) NAN (from square root of negative value) or
-# (divide by zero) DBZ with 0 in Maitra moments. The default is to show NAN
+# OPTIONS: 
+# 
+# -z ... replace (not a number) NAN (from square root of negative value) or 
+# (divide by zero) DBZ with 0 in Maitra moments. The default is to show NAN 
 # and/or DBZ.
-#
+# 
 # REFERENCES:
 # http://en.wikipedia.org/wiki/Image_moments
 # http://www.via.cornell.edu/ece547/text/survey.pdf
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 zero="no"		# replace NAN with 0; choices are; yes or no; default=no
@@ -74,13 +74,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -171,8 +171,8 @@ convert -quiet "$infile" -colorspace gray -depth 8 +repage "$tmpA1" ||
 # compute raw moments
 momentArr=(`convert $tmpA1 txt:- | tail -n +2 | tr -cs "0-9\n" " "  |\
 awk -v PREC="double" '# AWK to compute raw image moments for grayscale image
-{ M00 += $3; M10 += $1*$3; M01 += $2*$3; M11 += $1*$2*$3;
-M20 += $1*$1*$3; M02 += $2*$2*$3; M21 += $1*$1*$2*$3; M12 += $1*$2*$2*$3; M22 += $1*$1*$2*$2*$3;
+{ M00 += $3; M10 += $1*$3; M01 += $2*$3; M11 += $1*$2*$3; 
+M20 += $1*$1*$3; M02 += $2*$2*$3; M21 += $1*$1*$2*$3; M12 += $1*$2*$2*$3; M22 += $1*$1*$2*$2*$3; 
 M30 += $1*$1*$1*$3; M03 += $2*$2*$2*$3; }
 END { print M00, M10, M01, M11, M20, M02, M21, M12, M22, M30, M03; } '`)
 
@@ -205,8 +205,8 @@ cy=`convert xc: -precision 15 -format "%[fx:$M00==0?$centy:$M01/$M00]" info:`
 # compute central moments
 momentArr=(`convert $tmpA1 txt:- | tail -n +2 | tr -cs "0-9\n" " "  |\
 awk -v PREC="double" -v cx="$cx" -v cy="$cy" '# AWK to compute central moments for grayscale image
-{ x=($1-cx); y=($2-cy); m11 += x*y*$3;
-m20 += x*x*$3; m02 += y*y*$3; m21 += x*x*y*$3; m12 += x*y*y*$3; m22 += x*x*y*y*$3;
+{ x=($1-cx); y=($2-cy); m11 += x*y*$3; 
+m20 += x*x*$3; m02 += y*y*$3; m21 += x*x*y*$3; m12 += x*y*y*$3; m22 += x*x*y*y*$3; 
 m30 += x*x*x*$3; m03 += y*y*y*$3; }
 END { print m11, m20, m02, m21, m12, m22, m30, m03; } '`)
 
@@ -375,3 +375,4 @@ echo "Ellipse Intensity = $k"
 echo ""
 
 exit 0
+

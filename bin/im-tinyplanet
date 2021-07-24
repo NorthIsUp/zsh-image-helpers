@@ -1,130 +1,130 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 8/12/2017 .......... revised 8/12/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: tinyplanet [-d dimension] [-b bgcolor] [-r rotate] [-f fade] [-s smooth]
+# USAGE: tinyplanet [-d dimension] [-b bgcolor] [-r rotate] [-f fade] [-s smooth] 
 # [-t threshold] [-n newseed] [-I increment] [-D delay] [-L loop] infile outfile
 # USAGE: tinyplanet [-h or -help]
 #
 # OPTIONS:
-#
-# -d     dimension      square dimension of output; integer>0; default is the height
+# 
+# -d     dimension      square dimension of output; integer>0; default is the height 
 #                       of the input
-# -b     bgcolor        bgcolor is the color for the area outside the
-#                       circle of the fisheye area; any valid IM color is permitted or
-#                       the special name of "stars" to create a black background with
-#                       random point star field; use none to make the background
+# -b     bgcolor        bgcolor is the color for the area outside the 
+#                       circle of the fisheye area; any valid IM color is permitted or 
+#                       the special name of "stars" to create a black background with 
+#                       random point star field; use none to make the background 
 #                       transparent; default=white
-# -r     rotate         (initial) rotation angle for the output relative to the top of
+# -r     rotate         (initial) rotation angle for the output relative to the top of 
 #                       input being north on the output; floats>=0; default=0
-# -f     fade           amount of fade in pixels between the image and background color
-#                       at the top of the image for viewtype=planet; integer>=0;
+# -f     fade           amount of fade in pixels between the image and background color 
+#                       at the top of the image for viewtype=planet; integer>=0; 
 #                       default=0
-# -s     smooth         amount of smoothing for antialiasing when bgcolor=none;
+# -s     smooth         amount of smoothing for antialiasing when bgcolor=none; 
 #                       float>=0; default=0
-# -t     threshold      threshold value for controlling the number (density) of random
+# -t     threshold      threshold value for controlling the number (density) of random 
 #                       stars; float>=0; larger values produce less stars; default=99
 # -n     newseed        random seed for creating the star field when bgcolor=stars
 # -I     increment      angular increment in degrees for generating a rotating animation;
-#                       float>0; to avoid irregular rotation, use a value that divides
+#                       float>0; to avoid irregular rotation, use a value that divides 
 #                       evenly into 360; default is no animation
 # -D     delay          delay between frames of the animation; integer>=0; default=20
-# -L     loop           number of loops of the animation; integer>=0; default=0 means
+# -L     loop           number of loops of the animation; integer>=0; default=0 means 
 #                       unlimited looping
-#
+# 
 ###
-#
-# NAME: TINYPLANET
-#
+# 
+# NAME: TINYPLANET 
+# 
 # PURPOSE: To transform a spherical panorama to a linear fisheye view.
-#
-# DESCRIPTION: TINYPLANET is designed to transform a spherical (equirectangular) panorama
-# to a linear fisheye view. The spherical (equirectangular) panorama's pixels represent
-# x=longitude and y=latitude. That is, both x and y are angular units. Longitude
+# 
+# DESCRIPTION: TINYPLANET is designed to transform a spherical (equirectangular) panorama 
+# to a linear fisheye view. The spherical (equirectangular) panorama's pixels represent 
+# x=longitude and y=latitude. That is, both x and y are angular units. Longitude 
 # corresponds to 360 degree range. Thus the left and right sides must wrap contiguously.
-# This means there should be a width to height aspect of 2:1. An normal image can be
-# faked to simulate a spherical panorama by cropping to w/h aspect  of 2:1 (width is
-# twice the height), then mirroring it horizontally, appending horizontally, then
-# cropping the center half and rolling it horizontally 50%. The script also allows the
-# output to have any rotation and can be animated in rotation. For animations, be sure
+# This means there should be a width to height aspect of 2:1. An normal image can be 
+# faked to simulate a spherical panorama by cropping to w/h aspect  of 2:1 (width is 
+# twice the height), then mirroring it horizontally, appending horizontally, then 
+# cropping the center half and rolling it horizontally 50%. The script also allows the 
+# output to have any rotation and can be animated in rotation. For animations, be sure 
 # to use an output format that supports animation, such as gif.
-#
-#
-# ARGUMENTS:
-#
-# -d dimension ... DIMENSION is the square dimension of output image. Values are
+# 
+# 
+# ARGUMENTS: 
+# 
+# -d dimension ... DIMENSION is the square dimension of output image. Values are 
 #  integers>0. The default is the height of the input.
-#
-# -b bgcolor ... BGCOLOR is the color for the area outside the circle of the fisheye
-# region. Any valid IM color is permitted or the special name of "stars" to create
-# a black background with random point star field. Use "none" to make the background
+# 
+# -b bgcolor ... BGCOLOR is the color for the area outside the circle of the fisheye 
+# region. Any valid IM color is permitted or the special name of "stars" to create 
+# a black background with random point star field. Use "none" to make the background 
 # transparent. The default=white.
-#
-# # -r rotate ... ROTATE is the (initial) rotation angle for the output relative to
+# 
+# # -r rotate ... ROTATE is the (initial) rotation angle for the output relative to 
 # the top of input being north on the output. Values are floats>=0. The default=0.
 #
-# -f fade ... FADE is the amount of fade in pixels between the top of the input image
-# and background color for viewtype=planet. This is a preprocessing step so that
-# the outside of the fisheye circular region will fade to the background color.
+# -f fade ... FADE is the amount of fade in pixels between the top of the input image 
+# and background color for viewtype=planet. This is a preprocessing step so that 
+# the outside of the fisheye circular region will fade to the background color. 
 # Values are integers>=0. The default=0.
-#
-# -s smooth ... SMOOTH is the amount of smoothing for antialiasing when bgcolor=none or
+# 
+# -s smooth ... SMOOTH is the amount of smoothing for antialiasing when bgcolor=none or 
 # stars. Values are float>=0. The default=0.
 #
-# -t threshold ... THRESHOLD value for controlling the number (density) of random
-# stars. Values are floats>=0. Larger values produce less stars. The default=99.
+# -t threshold ... THRESHOLD value for controlling the number (density) of random 
+# stars. Values are floats>=0. Larger values produce less stars. The default=99. 
 # Nominal values are 99 to about 99.9.
-#
-# -n newseed .. .NEWSEED is the random seed for creating the star field when
-# bgcolor=stars. Values are integers>=0. The default is totally random star placement
+# 
+# -n newseed .. .NEWSEED is the random seed for creating the star field when 
+# bgcolor=stars. Values are integers>=0. The default is totally random star placement 
 # from run-to-run.
-#
-# -I increment ... INCREMENT is the angular increment in degrees for generating a
-# rotating animation. Values are floats>0. To avoid irregular rotation, use a value
+# 
+# -I increment ... INCREMENT is the angular increment in degrees for generating a 
+# rotating animation. Values are floats>0. To avoid irregular rotation, use a value 
 # that divides evenly into 360 (e.g. 2,5,10,15,20,30,45). The default is no animation.
-#
-# -D delay ... DELAY between frames of the animation. Values are integers>=0. The
+# 
+# -D delay ... DELAY between frames of the animation. Values are integers>=0. The 
 # default=20. It is not recommended to use 0.
-#
-# -L loop ... LOOP is the number of loops of the animation. Values are integers>=0.
+# 
+# -L loop ... LOOP is the number of loops of the animation. Values are integers>=0. 
 # The default=0 means unlimited looping
 #
-# NOTE: For animations, be sure to use an output format that supports animation, such
+# NOTE: For animations, be sure to use an output format that supports animation, such 
 # as gif.
-#
+# 
 # REFERENCES:
 # http://www.photographymad.com/pages/view/little-planet-photos-5-simple-steps-to-making-panorama-worlds
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 dimension=""			# output square dimension; default=height of input
@@ -137,7 +137,7 @@ newseed=""				# seed for random stars; integer>=0
 increment=""			# animation angular increment (divisible into 360)
 delay=20				# animation delay
 loop=0					# animation number of loops
-
+ 
 
 # set directory for temporary files
 dir="."    # suggestions are dir="." or dir="/tmp"
@@ -146,13 +146,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -205,7 +205,7 @@ loop=0					# animation number of loops
 					   ;;
 				-d)    # get dimension
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DIMENSION SPECIFICATION ---"
 					   checkMinus "$1"
 					   dimension=`expr "$1" : '\([0-9]*\)'`
@@ -215,14 +215,14 @@ loop=0					# animation number of loops
 					   ;;
 				-b)    # get  bgcolor
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   bgcolor="$1"
 					   ;;
 				-r)    # get rotate
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID ROTATE SPECIFICATION ---"
 					   checkMinus "$1"
 					   rotate=`expr "$1" : '\([.0-9]*\)'`
@@ -230,7 +230,7 @@ loop=0					# animation number of loops
 					   ;;
 				-f)    # get fade
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FADE SPECIFICATION ---"
 					   checkMinus "$1"
 					   fade=`expr "$1" : '\([0-9]*\)'`
@@ -238,7 +238,7 @@ loop=0					# animation number of loops
 					   ;;
 				-s)    # get smooth
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID SMOOTH SPECIFICATION ---"
 					   checkMinus "$1"
 					   smooth=`expr "$1" : '\([.0-9]*\)'`
@@ -246,7 +246,7 @@ loop=0					# animation number of loops
 					   ;;
 				-t)    # get threshold
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID THRESHOLD SPECIFICATION ---"
 					   checkMinus "$1"
 					   threshold=`expr "$1" : '\([.0-9]*\)'`
@@ -254,7 +254,7 @@ loop=0					# animation number of loops
 					   ;;
 				-n)    # get newseed
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NEWSEED SPECIFICATION ---"
 					   checkMinus "$1"
 					   newseed=`expr "$1" : '\([0-9]*\)'`
@@ -262,7 +262,7 @@ loop=0					# animation number of loops
 					   ;;
 				-I)    # get increment
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID INCREMENT SPECIFICATION ---"
 					   checkMinus "$1"
 					   increment=`expr "$1" : '\([.0-9]*\)'`
@@ -272,7 +272,7 @@ loop=0					# animation number of loops
 					   ;;
 				-D)    # get delay
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID DELAY SPECIFICATION ---"
 					   checkMinus "$1"
 					   delay=`expr "$1" : '\([0-9]*\)'`
@@ -280,7 +280,7 @@ loop=0					# animation number of loops
 					   ;;
 				-L)    # get loop
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID LOOP SPECIFICATION ---"
 					   checkMinus "$1"
 					   loop=`expr "$1" : '\([0-9]*\)'`
@@ -388,9 +388,9 @@ if [ "$increment" = "" ]; then
 		convert $tmpA1 -rotate 180  \
 			-virtual-pixel HorizontalTile -background $bcolor \
 			+distort Polar 0 +repage -rotate 180 \
-			"$outfile"
+			"$outfile"		
 	fi
-
+	
 else
 	# get new width and roll increment
 	ww=`convert -ping $tmpA1 -format "%w" info:`
@@ -401,7 +401,7 @@ else
 	# use subshell processing to collect rotated frames into miff: format
 	(
 	for ((i=0; i<numframes; i++)); do
-		rollval=`convert xc: -format "%[fx:$i*$rollinc]" info:`
+		rollval=`convert xc: -format "%[fx:$i*$rollinc]" info:`	
 		echo >&2 "i=$i; roll=$rollval"
 		if [ "$bgcolor" = "stars" ]; then
 			convert $tmpA1 -roll +${rollval}+0 -rotate 180  \
@@ -413,11 +413,17 @@ else
 			convert $tmpA1 -roll +${rollval}+0 -rotate 180  \
 				-virtual-pixel HorizontalTile -background $bcolor \
 				+distort Polar 0 +repage -rotate 180 \
-				miff:-
+				miff:-	
 		fi
 	done
 	) | convert -delay $delay - -loop $loop "$outfile"
 
-fi
+fi 
 
 exit 0
+
+
+
+
+
+

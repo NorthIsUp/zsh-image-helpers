@@ -3,27 +3,27 @@
 # Developed by Fred Weinhaus 8/18/2007 .......... revised 10/25/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
 # USAGE: 3Drotate option=value infile outfile
@@ -31,143 +31,143 @@
 #
 # OPTIONS:  any one or more
 #
-# pan      value     rotation about image vertical centerline;
+# pan      value     rotation about image vertical centerline; 
 #                    -180 to +180 (deg); default=0
-# tilt     value     rotation about image horizontal centerline;
+# tilt     value     rotation about image horizontal centerline; 
 #                    -180 to +180 (deg); default=0
-# roll     value     rotation about the image center;
+# roll     value     rotation about the image center; 
 #                    -180 to +180 (deg); default=0
-# pef      value     perspective exaggeration factor;
+# pef      value     perspective exaggeration factor; 
 #                    0 to 3.19; default=1
-# idx  	   value     +/- pixel displacement in rotation point right/left
+# idx  	   value     +/- pixel displacement in rotation point right/left 
 #                    in input from center; default=0
-# idy      value     +/- pixel displacement in rotation point down/up
+# idy      value     +/- pixel displacement in rotation point down/up 
 #                    in input from center; default=0
-# odx      value     +/- pixel displacement in rotation point right/left
+# odx      value     +/- pixel displacement in rotation point right/left 
 #                    in output from center; default=0
-# ody      value     +/- pixel displacement in rotation point down/up
+# ody      value     +/- pixel displacement in rotation point down/up 
 #                    in output from center; default=0
-# zoom     value     output zoom factor; where value > 1 means zoom in
+# zoom     value     output zoom factor; where value > 1 means zoom in 
 #                    and < -1 means zoom out; value=1 means no change
-# bgcolor  value     the background color value; any valid IM image
+# bgcolor  value     the background color value; any valid IM image 
 #                    color specification (see -fill); default is black
-# skycolor value     the sky color value; any valid IM image
+# skycolor value     the sky color value; any valid IM image 
 #                    color specification (see -fill); default is black
-# auto     c         center bounding box in output
+# auto     c         center bounding box in output 
 #                    (odx and ody ignored)
-# auto     zc        zoom to fill and center bounding box in output
+# auto     zc        zoom to fill and center bounding box in output 
 #                    (odx, ody and zoom ignored)
-# auto     out       creates an output image of size needed to hold
+# auto     out       creates an output image of size needed to hold 
 #                    the transformed image; (odx, ody and zoom ignored)
-# vp       value     virtual-pixel method; any valid IM virtual-pixel method;
+# vp       value     virtual-pixel method; any valid IM virtual-pixel method; 
 #                    default=background
 #
 ###
 #
-# NAME: 3DROTATE
-#
+# NAME: 3DROTATE 
+# 
 # PURPOSE: To apply a perspective distortion to an image by providing rotation angles,
-# zoom, offsets, background color, perspective exaggeration and auto zoom/centering.
-#
-# DESCRIPTION: 3DROTATE applies a perspective distortion to an image
-# by providing any combination of three optional rotation angle:
-# pan, tilt and roll with optional offsets and zoom and with an optional
-# control of the perspective exaggeration. The image is treated as if it
-# were painted on the Z=0 ground plane. The picture plane is then rotated
-# and then perspectively projected to a camera located a distance equal to
+# zoom, offsets, background color, perspective exaggeration and auto zoom/centering. 
+# 
+# DESCRIPTION: 3DROTATE applies a perspective distortion to an image 
+# by providing any combination of three optional rotation angle: 
+# pan, tilt and roll with optional offsets and zoom and with an optional 
+# control of the perspective exaggeration. The image is treated as if it 
+# were painted on the Z=0 ground plane. The picture plane is then rotated 
+# and then perspectively projected to a camera located a distance equal to 
 # the focal length above the ground plane looking straight down along
 # the -Z direction.
-#
-#
-# ARGUMENTS:
-#
-# PAN is a rotation of the image about its vertical
-# centerline -180 to +180 degrees. Positive rotations turn the
-# right side of the image away from the viewer and the left side
-# towards the viewer. Zero is no rotation. A PAN of +/- 180 deg
+# 
+# 
+# ARGUMENTS: 
+# 
+# PAN is a rotation of the image about its vertical 
+# centerline -180 to +180 degrees. Positive rotations turn the 
+# right side of the image away from the viewer and the left side 
+# towards the viewer. Zero is no rotation. A PAN of +/- 180 deg 
 # achieves the same results as -flip.
-#
-# TILT is a rotation of the image about its horizontal
-# centerline -180 to +180 degrees. Positive rotations turn the top
-# of the image away from the viewer and the bottom towards the
-# viewer. Zero is no rotation. A TILT of +/- 180 deg
+# 
+# TILT is a rotation of the image about its horizontal 
+# centerline -180 to +180 degrees. Positive rotations turn the top 
+# of the image away from the viewer and the bottom towards the 
+# viewer. Zero is no rotation. A TILT of +/- 180 deg 
 # achieves the same results as -flop.
-#
-# ROLL (like image rotation) is a rotation in the plane of the
-# the image -180 to +180 degrees. Positive values are clockwise
-# and negative values are counter-clockwise. Zero is no rotation.
-# A ROLL of any angle achieves the same results as -rotate.
-#
-# PAN, TILT and ROLL are order dependent. If all three are provided,
+# 
+# ROLL (like image rotation) is a rotation in the plane of the 
+# the image -180 to +180 degrees. Positive values are clockwise 
+# and negative values are counter-clockwise. Zero is no rotation. 
+# A ROLL of any angle achieves the same results as -rotate. 
+# 
+# PAN, TILT and ROLL are order dependent. If all three are provided, 
 # then they will be done in whatever order specified.
-#
-# PEF is the perspective exaggeration factor. It ranges from 0 to 3.19.
-# A normal perspective is achieved with the default of 1. As PEF is
-# increased from 1, the perspective effect moves towards that of
-# a wide angle lens (more distortion). If PEF is decreased from 1
-# the perspective effect moves towards a telephoto lens (less
-# distortion). PEF of 0.5 achieves an effect close to no perspective
-# distortion. As pef gets gets larger than some value which depends
-# upon the larger the pan, tilt and roll angles become, one reaches
-# a point where some parts of the picture become so distorted that
+# 
+# PEF is the perspective exaggeration factor. It ranges from 0 to 3.19. 
+# A normal perspective is achieved with the default of 1. As PEF is 
+# increased from 1, the perspective effect moves towards that of 
+# a wide angle lens (more distortion). If PEF is decreased from 1 
+# the perspective effect moves towards a telephoto lens (less 
+# distortion). PEF of 0.5 achieves an effect close to no perspective 
+# distortion. As pef gets gets larger than some value which depends 
+# upon the larger the pan, tilt and roll angles become, one reaches 
+# a point where some parts of the picture become so distorted that 
 # they wrap around and appear above the "horizon"
-#
-# IDX is the a pixel displacement of the rotation point in the input image
-# from the image center. Positive values shift to the right along the
-# sample direction; negative values shift to the left. The default=0
+# 
+# IDX is the a pixel displacement of the rotation point in the input image 
+# from the image center. Positive values shift to the right along the 
+# sample direction; negative values shift to the left. The default=0 
 # corresponds to the image center.
 #
-# IDY is the a pixel displacement of the rotation point in the input image
-# from the image center. Positive values shift to downward along the
-# line direction; negative values shift upward. The default=0
+# IDY is the a pixel displacement of the rotation point in the input image 
+# from the image center. Positive values shift to downward along the 
+# line direction; negative values shift upward. The default=0 
 # corresponds to the image center.
 #
-# ODX is the a pixel displacement from the center of the output image where
-# one wants the corresponding input image rotation point to appear.
-# Positive values shift to the right along the sample direction; negative
+# ODX is the a pixel displacement from the center of the output image where 
+# one wants the corresponding input image rotation point to appear. 
+# Positive values shift to the right along the sample direction; negative 
 # values shift to the left. The default=0 corresponds to the output image center.
 #
-# ODY is the a pixel displacement from the center of the output image where
-# one wants the corresponding input image rotation point to appear.
-# Positive values shift downward along the sample direction; negative
+# ODY is the a pixel displacement from the center of the output image where 
+# one wants the corresponding input image rotation point to appear. 
+# Positive values shift downward along the sample direction; negative 
 # values shift upward. The default=0 corresponds to the output image center.
 #
-# ZOOM is the output image zoom factor. Values > 1 (zoomin) cause the image
-# to appear closer; whereas values < 1 (zoomout) cause the image to
+# ZOOM is the output image zoom factor. Values > 1 (zoomin) cause the image 
+# to appear closer; whereas values < 1 (zoomout) cause the image to 
 # appear further away.
 #
-# BGCOLOR is the color of the background to use to fill where the output image
-# is outside the area of the perspective of the input image. See the IM function
-# -fill for color specifications. Note that when using rgb(r,g,b), this must be
+# BGCOLOR is the color of the background to use to fill where the output image 
+# is outside the area of the perspective of the input image. See the IM function 
+# -fill for color specifications. Note that when using rgb(r,g,b), this must be 
 # enclosed in quotes after the equal sign.
 #
-# SKYCOLOR is the color to use in the 'sky' area above the perspective 'horizon'.
-# See the IM function -fill for color specifications. Note that when using
+# SKYCOLOR is the color to use in the 'sky' area above the perspective 'horizon'. 
+# See the IM function -fill for color specifications. Note that when using 
 # rgb(r,g,b), this must be enclosed in quotes after the equal sign.
 #
-# AUTO can be either c, zc or out. If auto is c, then the resulting perspective
-# of the input image will have its bounding box centered in the output image
-# whose size will be the same as the input image. If
-# auto is zc, then the resulting perspective of the input image will have its
-# bounding box zoomed to fill its largest dimension to match the size of the
+# AUTO can be either c, zc or out. If auto is c, then the resulting perspective  
+# of the input image will have its bounding box centered in the output image 
+# whose size will be the same as the input image. If 
+# auto is zc, then the resulting perspective of the input image will have its 
+# bounding box zoomed to fill its largest dimension to match the size of the 
 # the input image and the other dimension will be centered in the output. If
-# auto is out, then the output image will be made as large or as small as
-# needed to just fill out the transformed input image. If any of these are
+# auto is out, then the output image will be made as large or as small as 
+# needed to just fill out the transformed input image. If any of these are 
 # present, then the arguments OSHIFTX, OSHIFTY are ignored.
 #
-# VP is the virtual-pixel method, which allows the image to be extended outside
-# its bounds. For example, vp=background, then the background color is used to
-# fill the area in the output image which is outside the perspective view of
-# the input image. If vp=tile, then the perspective view will be tiled to fill
+# VP is the virtual-pixel method, which allows the image to be extended outside 
+# its bounds. For example, vp=background, then the background color is used to 
+# fill the area in the output image which is outside the perspective view of 
+# the input image. If vp=tile, then the perspective view will be tiled to fill 
 # the output image.
 #
-# NOTE: The output image size will be the same as the input image size due
+# NOTE: The output image size will be the same as the input image size due 
 # to current limitations on -distort Perspective.
 #
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 #
 
@@ -218,13 +218,13 @@ pi=`echo "scale=10; 4*a(1)" | bc -l`
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -582,12 +582,12 @@ maxheight=`expr $height - 1`
 
 # deal with auto adjustments to values
 if [ "$auto" = "zc" ]
-	then
+	then 
 	du=0
 	dv=0
 	zoom=1
 elif [ "$auto" = "c" ]
-	then
+	then 
 	du=0
 	dv=0
 fi
@@ -613,7 +613,7 @@ fi
 # Zc=f above the picture plane looking straight down at the image center.
 # Now the perspective equations (in 3-D) are defined as (x,y,f) = M (X',Y',Z'),
 # where the camera orientation matrix M is the identity matrix but with M22=-1
-# because the camera is looking straight down along -Z.
+# because the camera is looking straight down along -Z. 
 # Thus a reflection transformation relative to the ground plane coordinates.
 # Let the camera position Zc=f=(sqrt(ins*ins + inl*inl)) / ( 2 tan(fov/2) )
 # Now we want to rotate the ground points corresponding to the picture corners.
@@ -624,19 +624,19 @@ fi
 # Thus the equation becomes (x,y,f) = M {R [(X,Y,1) - (0,0,1)] - (0,0,Zc)} = MT (X,Y,1)
 # But R [(X,Y,1) - (0,0,1)] = R [II (X,Y,1) - S (X,Y,1)] = R (II-S) (X,Y,1), where
 # II is the identity matrix and S is an all zero matrix except for S22=1.
-# Thus (II-S) is the identity matrix with I22=0 and
+# Thus (II-S) is the identity matrix with I22=0 and 
 # RR = R (II-S) is just R with the third column all zeros.
 # Thus we get (x,y,f) = M {RR (X,Y,1) - (0,0,Zc)}.
-# But M {RR (X,Y,1) - (0,0,Zc)} = M {RR(X,Y,1) - D (X,Y,1)}, where
-# D is an all zero matrix with D22 = Zc = f.
+# But M {RR (X,Y,1) - (0,0,Zc)} = M {RR(X,Y,1) - D (X,Y,1)}, where 
+# D is an all zero matrix with D22 = Zc = f. 
 # So that we get M (RR-D) (X,Y,1) = MT (X,Y,1), where
 # where T is just R with the third column (0,0,-f), i.e. T02=0, T12=0, T22=-f
 # But we need to allow for scaling and offset of the output coordinates and
-# conversion from (x,y,f) to (u,v,1)=O and conversion of input coordinates
+# conversion from (x,y,f) to (u,v,1)=O and conversion of input coordinates 
 # from (X,Y,1) to (i,j,1)=I.
-# Thus the forward transformation becomes AO=MTBI or O=A'MTBI or O=PI,
+# Thus the forward transformation becomes AO=MTBI or O=A'MTBI or O=PI, 
 # where prime means inverse.
-# However, to do the scaling of the output correctly, need to offset by the input
+# However, to do the scaling of the output correctly, need to offset by the input 
 # plus output offsets, then scale, which is all put into A'.
 # Thus the forward transformation becomes AO=MTBI or O=A'MTBI where A'=Ai
 # but we will merge A'M into Aim
@@ -652,15 +652,15 @@ fi
 # P=forward perspective transformation matrix
 # Q=inverse perspective transformation matrix
 #
-# For a 35 mm camera whose film format is 36mm wide and 24mm tall, when the focal length
-# is equal to the diagonal, the field of view is 53.13 degrees and this is
+# For a 35 mm camera whose film format is 36mm wide and 24mm tall, when the focal length 
+# is equal to the diagonal, the field of view is 53.13 degrees and this is 
 # considered a normal view equivalent to the human eye.
 # See http://www.panoramafactory.com/equiv35/equiv35.html
 # Max limit on dfov is 180 degrees (pef=3.19) where get single line like looking at picture on edge.
 # Above this limit the picture becomes like the angles get reversed.
 # Min limit on dfov seems to be slightly greater than zero degrees.
 # Practical limits on dfov depend upon orientation angles.
-# For tilt=45, this is about 2.5 dfov (pef=2.5). Above this, some parts of the picture
+# For tilt=45, this is about 2.5 dfov (pef=2.5). Above this, some parts of the picture 
 # that are cut off at the bottom, get wrapped and stretched in the 'sky'.
 
 dfov=`echo "scale=10; 180 * a(36/24) / $pi" | bc -l`
@@ -856,7 +856,7 @@ if [ "$auto" = "c" ]
 elif [ "$auto" = "zc" ]
 	then
 	if [ `echo "$delu > $delv" | bc` -eq 1 ]
-		then
+		then 
 		del=$delu
 		offsetu=0
 		offsetv=`echo "scale=10; ($height - ($delv * $width / $delu)) / 2" | bc`

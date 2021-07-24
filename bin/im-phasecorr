@@ -3,111 +3,111 @@
 # Developed by Fred Weinhaus 9/12/2009 .......... revised 1/16/2020
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: phasecorr [-s] [-p] [-m mode] [-c color] [-t type] smallfile largefile
+# USAGE: phasecorr [-s] [-p] [-m mode] [-c color] [-t type] smallfile largefile 
 # corrfile [matchfile]
 # USAGE: phasecorr [-h or -help]
 #
 # OPTIONS:
 #
-# -s                stretch the correlation surface to full dynamic range so
+# -s                stretch the correlation surface to full dynamic range so 
 #                   that the best match is full white; default is unstretched
-# -p                apply a pseudocolor to the correlation surface image;
+# -p                apply a pseudocolor to the correlation surface image; 
 #                   default is no pseudocoloring
 # -m      mode      mode for matchfile output; choices are: draw or overlay;
 #                   draw colored box at best match location or
-#                   overlay the small image at match location on a 30%
+#                   overlay the small image at match location on a 30% 
 #                   opaque large image; default=draw
-# -c      color     color to use for drawing box on large image where best
+# -c      color     color to use for drawing box on large image where best 
 #                   matched subsection was found; default=black
-# -t      type      type of approach used to combine color correlation results
+# -t      type      type of approach used to combine color correlation results 
 #                   into a single grayscale surface image; choices are: gray,
 #                   rec709luma, rec601luma, average and rms; default=gray
 #
 ###
 #
-# NAME: PHASECORR
-#
-# PURPOSE: To compute the phase correlation surface to find where a small
+# NAME: PHASECORR 
+# 
+# PURPOSE: To compute the phase correlation surface to find where a small 
 # image best matches within a larger image.
-#
-# DESCRIPTION: PHASECORR computes the phase correlation surface (image) to find
-# where a small (first) image best matches within a larger
-# (second) image. Any alpha channel on either image will be removed
-# automatically before processing. Values in the correlation surface can vary
-# between 0 and 1, with a perfect match being 0. The correlation image for a
-# perfect match will be a single white dot on a black background. For
-# non-perfect matches, the spike will spread and the background will not be
+# 
+# DESCRIPTION: PHASECORR computes the phase correlation surface (image) to find 
+# where a small (first) image best matches within a larger 
+# (second) image. Any alpha channel on either image will be removed 
+# automatically before processing. Values in the correlation surface can vary 
+# between 0 and 1, with a perfect match being 0. The correlation image for a 
+# perfect match will be a single white dot on a black background. For 
+# non-perfect matches, the spike will spread and the background will not be 
 # pure black.
-#
-#
-# OPTIONS:
-#
-# -s ... Stretch the root mean squared correlation surface image to full
+# 
+# 
+# OPTIONS: 
+# 
+# -s ... Stretch the root mean squared correlation surface image to full 
 # dynamic range. Default is no stretch.
-#
-# -p ... Apply a pseudocoloring to the root mean squared correlation surface
-# image where red corresponds to the highest values and purple to the lowest
+# 
+# -p ... Apply a pseudocoloring to the root mean squared correlation surface 
+# image where red corresponds to the highest values and purple to the lowest 
 # values. Default is no pseudocoloring.
-#
+# 
 # -m mode ... MODE is the layout mode for the optional matchfile image.
-# Choices are draw (or d) or overlay (or o). Draw simply draws a colored box
-# outline at the best match subsection in the larger image. Overlay inserts
-# the small image at the match location of a one-half transparent version of
+# Choices are draw (or d) or overlay (or o). Draw simply draws a colored box 
+# outline at the best match subsection in the larger image. Overlay inserts 
+# the small image at the match location of a one-half transparent version of 
 # the larger image. The default="draw". Ignored if no matchfile specified.
-#
-# -c color ... COLOR is the color to use to draw the outline of the best
-# matching subsection in the larger image when mode=draw. Any valid IM color
+# 
+# -c color ... COLOR is the color to use to draw the outline of the best 
+# matching subsection in the larger image when mode=draw. Any valid IM color 
 # specification may be used. The default=black.
-#
-# -t type ... TYPE of approach used to combine color correlation results into
-# a single grayscale surface image. The choices are: gray, rec709luma,
-# rec601luma, average and rms. The default=gray. Note that average and rms
+# 
+# -t type ... TYPE of approach used to combine color correlation results into 
+# a single grayscale surface image. The choices are: gray, rec709luma, 
+# rec601luma, average and rms. The default=gray. Note that average and rms 
 # require IM 6.8.5.5 or higher.
-#
-# REQUIREMENTS: IM version 6.5.4-7 or higher, but compiled with HDRI enabled
-# in any quantum level of Q8, Q16 or Q32. Also requires the FFTW delegate
+# 
+# REQUIREMENTS: IM version 6.5.4-7 or higher, but compiled with HDRI enabled 
+# in any quantum level of Q8, Q16 or Q32. Also requires the FFTW delegate 
 # library.
-#
-# REFERENCES:
+# 
+# REFERENCES: 
 # http://en.wikipedia.org/wiki/Phase_correlation
-#
-# NOTE: Phase correlations seems to work best for finding the offsets of one
-# image relative to another same size image. I can work for different size
-# images, but the match score even for a perfect match degrades due to the
-# internal zero padding affecting the normalization. The -s option is
+# 
+# NOTE: Phase correlations seems to work best for finding the offsets of one 
+# image relative to another same size image. I can work for different size 
+# images, but the match score even for a perfect match degrades due to the 
+# internal zero padding affecting the normalization. The -s option is 
 # recommended for best viewing of the correlation image.
-#
-# See http://www.fmwconcepts.com/imagemagick/fourier_transforms/fourier.html
+# 
+# See http://www.fmwconcepts.com/imagemagick/fourier_transforms/fourier.html 
 # for more details about the Fourier Transform with ImageMagick.
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
+# 
 ######
 #
 
@@ -126,13 +126,13 @@ tmpdir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -209,7 +209,7 @@ else
 					   ;;
 			   	-m)    # mode
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID MODE SPECIFICATION ---"
 					   checkMinus "$1"
 					   mode=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -221,14 +221,14 @@ else
 					   ;;
 			   	-c)    # get color
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID COLOR SPECIFICATION ---"
 					   checkMinus "$1"
 					   color="$1"
 					   ;;
 			   	-t)    # type
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID TYPE SPECIFICATION ---"
 					   checkMinus "$1"
 					   type=`echo "$1" | tr "[:upper:]" "[:lower:]"`
@@ -298,7 +298,7 @@ im_version=`convert -list configure | \
 
 # test for hdri enabled
 if [ "$im_version" -ge "07000000" ]; then
-	hdri_on=`convert -version | grep "HDRI"`
+	hdri_on=`convert -version | grep "HDRI"`	
 else
 	hdri_on=`convert -list configure | grep "enable-hdri"`
 fi
@@ -477,3 +477,6 @@ elif [ "$matchfile" != "" -a "$mode" = "overlay" ]; then
 		-geometry "$subsection" -compose over -composite "$matchfile"
 fi
 exit 0
+
+
+

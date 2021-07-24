@@ -1,102 +1,102 @@
 #!/bin/bash
-#
+# 
 # Developed by Fred Weinhaus 9/18/2017 .......... revised 9/18/2017
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: cube2sphericalpano [-d dimensions] [-t tilesize] [-b bgcolor ] [-i interpolation]
+# USAGE: cube2sphericalpano [-d dimensions] [-t tilesize] [-b bgcolor ] [-i interpolation] 
 # infile1 infile2 infile3 infile4 infile5 infile6 outfile
 # or
-# USAGE: cube2sphericalpano [-d dimensions] [-t tilesize] [-b bcolor ] [-i interpolation]
+# USAGE: cube2sphericalpano [-d dimensions] [-t tilesize] [-b bcolor ] [-i interpolation] 
 # infile outfile
 # USAGE: cube2sphericalpano [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -d     dimensions        dimensions of the output panorama; WxH; integers>0;
+# 
+# -d     dimensions        dimensions of the output panorama; WxH; integers>0; 
 #                          default=1000x500
 # -t     tilesize          size of square face tiles in optional single montage image;
-#                          default will be computed from the montage input image
-#                          dimensions; provided only to override erroneous fractional
+#                          default will be computed from the montage input image 
+#                          dimensions; provided only to override erroneous fractional 
 #                          dimensions computed from the montage image
-# -b     bgcolor           background color for virtual pixels; any valid IM color is
+# -b     bgcolor           background color for virtual pixels; any valid IM color is 
 #                          allowed; default=black
-# -i     interpolation     intepolation method; any valid IM interpolation method is
+# -i     interpolation     intepolation method; any valid IM interpolation method is 
 #                          allowed; default=bilinear
-#
+# 
 ###
-#
-# NAME: CUBE2SPHERICALPANO
-#
+# 
+# NAME: CUBE2SPHERICALPANO 
+#  
 # PURPOSE: To transform 6 cube face images into a spherical panorama image.
-#
-# DESCRIPTION: CUBE2SPHERICALPANO transforms either 1) six cube face images in order of
-# left, front, right, back, over, under into a spherical panorama or 2) one montage
-# of the six cube face images into a spherical panorama. The over and under images
-# must be as if facing forward and turning up and down, respectively. If not in that
+# 
+# DESCRIPTION: CUBE2SPHERICALPANO transforms either 1) six cube face images in order of 
+# left, front, right, back, over, under into a spherical panorama or 2) one montage 
+# of the six cube face images into a spherical panorama. The over and under images 
+# must be as if facing forward and turning up and down, respectively. If not in that 
 # orientation, then you must rotate them 90, 180, 270 as needed to orient them as needed.
-#
-#
-# Arguments:
-#
-# -d dimensions ... DIMENSIONS of the output panorama as WxH. Values are integers>0.
+# 
+# 
+# Arguments: 
+# 
+# -d dimensions ... DIMENSIONS of the output panorama as WxH. Values are integers>0. 
 # The default=1000x500.
-#
-# -t tilesize ... TILESIZE is the size of the square face tile in the optional single
-# montage input image. The default will be computed from the montage input image
-# dimensions as tile_width=montage_width/4 and tile_height=montage_height/3. This
-# is provided only to override erroneous rounding of any fractional pixel dimensions
+# 
+# -t tilesize ... TILESIZE is the size of the square face tile in the optional single 
+# montage input image. The default will be computed from the montage input image 
+# dimensions as tile_width=montage_width/4 and tile_height=montage_height/3. This 
+# is provided only to override erroneous rounding of any fractional pixel dimensions  
 # computed from the montage image.
-#
-# -b bgcolor ... BGCOLOR is the background color for virtual pixels. Any valid IM color
+# 
+# -b bgcolor ... BGCOLOR is the background color for virtual pixels. Any valid IM color 
 # is allowed. The default=black.
-#
-# -i interpolation ... INTEPOLATION method. Any valid IM interpolation method is allowed.
+# 
+# -i interpolation ... INTEPOLATION method. Any valid IM interpolation method is allowed. 
 # The default=bilinear.
-#
-# NOTE: This script will be slow due to the use of -fx. On my dual core INTEL Mac mini
-# with 2.8 GHz processor and OSX Sierra, it takes 1 min 40 sec to create a 1000x500
-# pixel spherical panorama from six 500x500 pixel cube face images. Time will
+# 
+# NOTE: This script will be slow due to the use of -fx. On my dual core INTEL Mac mini 
+# with 2.8 GHz processor and OSX Sierra, it takes 1 min 40 sec to create a 1000x500  
+# pixel spherical panorama from six 500x500 pixel cube face images. Time will 
 # increase/decrease approximately by the square of the panorama dimensions.
-#
-# References:
+# 
+# References: 
 # https://en.wikipedia.org/wiki/Cube_mapping
 # http://paulbourke.net//miscellaneous/cubemaps/
 # https://stackoverflow.com/questions/29678510/convert-21-equirectangular-panorama-to-cube-map
 # http://mathworld.wolfram.com/SphericalCoordinates.html
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
 
 # set directory for temporary files
 tmpdir="/tmp"
 
-# set default values;
+# set default values; 
 dimensions=1000x500			#dimensions of output image
 tilesize=""					#size of tile of montage image
 bgcolor="black"				#virtual-pixel background color
@@ -107,13 +107,13 @@ interplation="bilinear"		#interpolation mode
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -158,7 +158,7 @@ else
 				   ;;
 			-d)    # dimensions
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID DIMENSIONS SPECIFICATION ---"
 				   checkMinus "$1"
 				   dimensions=`expr "$1" : '\([0-9]*x[0-9]*\)'`
@@ -170,7 +170,7 @@ else
 				   ;;
 			-t)    # tilesize
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID TILESIZE SPECIFICATION ---"
 				   checkMinus "$1"
 				   tilesize=`expr "$1" : '\([0-9]*\)'`
@@ -179,14 +179,14 @@ else
 				   ;;
 			-b)    # get bcolor
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID BACKGROUND COLOR SPECIFICATION ---"
 				   checkMinus "$1"
 				   bcolor="$1"
 				   ;;
 			-i)    # set interpolation
 				   shift  # to get the next parameter
-				   # test if parameter starts with minus sign
+				   # test if parameter starts with minus sign 
 				   errorMsg="--- INVALID INTERPOLATION SPECIFICATION ---"
 				   checkMinus "$1"
 				   interpolation="$1"
@@ -218,7 +218,7 @@ else
 		infile5="$5"
 		infile6="$6"
 		outfile="$7"
-	else
+	else 
 		errMsg "--- INCONSISTENT NUMBER OF IMAGES PROVIDED ---"
 	fi
 fi
@@ -259,7 +259,7 @@ if [ "$infile2" != "" ]; then
 		# test if square
 		[ $ww -ne $hh ] && errMsg "--- INPUT IMAGE $i IS NOT SQUARE: WIDTH=$ww HEIGHT=$hh  ---"
 	done
-
+	
 	dim=$ww
 
 else
@@ -280,7 +280,7 @@ else
 
 	dim2=$((2*dim))
 	dim3=$((3*dim))
-
+	
 	convert $dir/tmp0.mpc -crop ${dim}x${dim}+0+${dim} +repage $dir/tmp1.mpc
 	convert $dir/tmp0.mpc -crop ${dim}x${dim}+${dim}+${dim} +repage $dir/tmp2.mpc
 	convert $dir/tmp0.mpc -crop ${dim}x${dim}+${dim2}+${dim} +repage $dir/tmp3.mpc
@@ -307,12 +307,12 @@ dlast=$((dim-1))
 #
 # phiang is vertical on the panorama and we have the top of the image at phiang=0 and the bottom of the image to be phiang=180 so that angles correspond to vertical image coordinate
 # phiang in spherical coords does just that;  phiang is zero along z axis and increase downward to 180 along -z
-#
+# 
 # theta is horizontal on the panorama and we have it 0 at the left side and 360 at the right side so that it corresponds to the horizong image coordinate, uu
 # theta in spherical coords is zero along the x axis and increasing counterclockwise towards y axis
 # so we need to make it clockwise, thus just negate the value of theta
 # but we have theta=0 in middle of image and we want theta=0 at left, so add 180 so theta=180 at the center of the image
-#
+# 
 # see Wolfram spherical coords transformation with unswapped axes.
 # xx=rr*cos(theta)*sin(phiang)
 # yy=rr*sin(theta)*sin(phiang)
@@ -322,7 +322,7 @@ dlast=$((dim-1))
 # theta=arctan2(yy,xx)
 
 # Start with spherical panorama (equirectangular) corresponding to sphere of radius=1
-# Thus enclosing box has dimensions=2x2x2.
+# Thus enclosing box has dimensions=2x2x2. 
 # Put origin at center of box with z axis upward, x axis forward (theta=0 at center of input) and y axis to left.
 # Identify each face of the cube, Left=0, Front=1, Right=2, Back=3, Over=4, Under=5
 # Note over and under will be facing front and tilting up and down
@@ -374,3 +374,6 @@ convert -size ${wd}x${ht} xc: \
 	+monitor "$outfile"
 
 exit 0
+
+
+

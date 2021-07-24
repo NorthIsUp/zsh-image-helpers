@@ -3,84 +3,84 @@
 # Developed by Fred Weinhaus 10/2/2012 .......... revised 4/25/2015
 #
 # ------------------------------------------------------------------------------
-#
+# 
 # Licensing:
-#
+# 
 # Copyright © Fred Weinhaus
-#
+# 
 # My scripts are available free of charge for non-commercial use, ONLY.
-#
-# For use of my scripts in commercial (for-profit) environments or
-# non-free applications, please contact me (Fred Weinhaus) for
+# 
+# For use of my scripts in commercial (for-profit) environments or 
+# non-free applications, please contact me (Fred Weinhaus) for 
 # licensing arrangements. My email address is fmw at alink dot net.
-#
-# If you: 1) redistribute, 2) incorporate any of these scripts into other
-# free applications or 3) reprogram them in another scripting language,
-# then you must contact me for permission, especially if the result might
+# 
+# If you: 1) redistribute, 2) incorporate any of these scripts into other 
+# free applications or 3) reprogram them in another scripting language, 
+# then you must contact me for permission, especially if the result might 
 # be used in a commercial or for-profit environment.
-#
-# My scripts are also subject, in a subordinate manner, to the ImageMagick
+# 
+# My scripts are also subject, in a subordinate manner, to the ImageMagick 
 # license, which can be found at: http://www.imagemagick.org/script/license.php
-#
+# 
 # ------------------------------------------------------------------------------
-#
+# 
 ####
 #
-# USAGE: noisecleaner [-m method] [-n numiter] [-s stopdiff] [-f format]
+# USAGE: noisecleaner [-m method] [-n numiter] [-s stopdiff] [-f format] 
 # [-p] infile outfile
-#
+# 
 # USAGE: noisecleaner [-h or -help]
-#
+# 
 # OPTIONS:
-#
-# -m     method       method of cleaning noise; choices are: 1 using
+# 
+# -m     method       method of cleaning noise; choices are: 1 using  
 #                     IM -enhance and 2 using IM -despeckle; default=1
 # -n     numiter      number of iterations; integer>0; default=5
-# -s     stopdiff     rmse stopping difference between between iterations;
+# -s     stopdiff     rmse stopping difference between between iterations; 
 #                     0<=float<=1; default=0 (do not stop until numiter reached)
-# -f     format       output image format; choices are last (iteration) or
+# -f     format       output image format; choices are last (iteration) or 
 #                     all (iterations); default=last
 # -p                  show progress to terminal
-#
+# 
 ###
-#
-# NAME: NOISECLEANER
-#
+# 
+# NAME: NOISECLEANER 
+# 
 # PURPOSE: To iteratively clean noise from an image.
-#
-# DESCRIPTION: NOISECLEANER iteratively cleans noise from an image. Two
+# 
+# DESCRIPTION: NOISECLEANER iteratively cleans noise from an image. Two 
 # methods are available using either IM -enhance or IM -despeckle.
-#
-#
-# ARGUMENTS:
-#
-# -m method ... METHOD of cleaning noise. The choices are: 1 using
+# 
+# 
+# ARGUMENTS: 
+# 
+# -m method ... METHOD of cleaning noise. The choices are: 1 using  
 # IM -enhance and 2 using IM -despeckle. The default=1
-#
+# 
 # -n numiter ... NUMITER is the number of iterations to apply. Values are \
 # integers>0. The default=5.
-#
-# -s stopdiff ... STOPDIFF is the rmse stopping difference between between
-# iterations. Values are 0<=floats<=1. The default=0 which indicates not to
-# stop until numiter is reached. If a value larger than zero is specified, then
-# processing will quit when the rmse difference between iterations is less than
-# or equal to this value. Values larger than 0 will slow the processing in
+# 
+# -s stopdiff ... STOPDIFF is the rmse stopping difference between between 
+# iterations. Values are 0<=floats<=1. The default=0 which indicates not to 
+# stop until numiter is reached. If a value larger than zero is specified, then 
+# processing will quit when the rmse difference between iterations is less than 
+# or equal to this value. Values larger than 0 will slow the processing in 
 # order to compute the rmse difference.
-#
-# -f format ... FORMAT is the desired output image format. The choices are
-# last (l), which saves only the last iteration reached or all (a), which saves
+# 
+# -f format ... FORMAT is the desired output image format. The choices are 
+# last (l), which saves only the last iteration reached or all (a), which saves  
 # a multiframe (multilayer) tiff file with each iteration as a frame (layer).
-# The default is last. Note the output image file name will have its suffix
+# The default is last. Note the output image file name will have its suffix 
 # replaced by .tif
-#
+# 
 # -p ... show iteration PROGRESS to terminal
-#
-# CAVEAT: No guarantee that this script will work on all platforms,
-# nor that trapping of inconsistent parameters is complete and
-# foolproof. Use At Your Own Risk.
-#
+# 
+# CAVEAT: No guarantee that this script will work on all platforms, 
+# nor that trapping of inconsistent parameters is complete and 
+# foolproof. Use At Your Own Risk. 
+# 
 ######
-#
+# 
 
 # set default values
 method=1			# 1 for -enhance and 2 for -despeckle
@@ -96,13 +96,13 @@ dir="."    # suggestions are dir="." or dir="/tmp"
 PROGNAME=`type $0 | awk '{print $3}'`  # search for executable on path
 PROGDIR=`dirname $PROGNAME`            # extract directory of program
 PROGNAME=`basename $PROGNAME`          # base name of program
-usage1()
+usage1() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
 	sed >&2 -e '1,/^####/d;  /^###/g;  /^#/!q;  s/^#//;  s/^ //;  4,$p' "$PROGDIR/$PROGNAME"
 	}
-usage2()
+usage2() 
 	{
 	echo >&2 ""
 	echo >&2 "$PROGNAME:" "$@"
@@ -150,7 +150,7 @@ else
 					   ;;
 				-m)    # get  method
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID METHOD SPECIFICATION ---"
 					   checkMinus "$1"
 					   method=`expr "$1" : '\([0-9]*\)'`
@@ -158,7 +158,7 @@ else
 					   ;;
 				-n)    # get numiter
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID NUMITER SPECIFICATION ---"
 					   checkMinus "$1"
 					   numiter=`expr "$1" : '\([0-9]*\)'`
@@ -168,7 +168,7 @@ else
 					   ;;
 				-s)    # get stopdiff
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID STOPDIFF SPECIFICATION ---"
 					   checkMinus "$1"
 					   stopdiff=`expr "$1" : '\([.0-9]*\)'`
@@ -179,11 +179,11 @@ else
 					   ;;
 				-f)    # get  format
 					   shift  # to get the next parameter
-					   # test if parameter starts with minus sign
+					   # test if parameter starts with minus sign 
 					   errorMsg="--- INVALID FORMAT SPECIFICATION ---"
 					   checkMinus "$1"
 					   format=`echo "$1" | tr '[A-Z]' '[a-z]'`
-					   case "$format" in
+					   case "$format" in 
 					   		last|l) format="last" ;;
 					   		all|a) format="all" ;;
 					   		*) errMsg "--- FORMAT=$format IS AN INVALID VALUE ---"  ;;
@@ -262,7 +262,7 @@ if [ "$format" = "last" ]; then
 			# note if loop runs to completion it will add 1 to i, which has to be subtracted afterwards
 			# if loop breaks it does not add 1 to i, so add it here
 			if [ $test -eq 1 ]; then
-				i=$((i+1))
+				i=$((i+1)) 
 				break
 			fi
 		fi
@@ -289,7 +289,7 @@ elif [ "$format" = "all" ]; then
 			# note if loop runs to completion it will add 1 to i, which has to be subtracted afterwards
 			# if loop breaks it does not add 1 to i, so add it here
 			if [ $test -eq 1 ]; then
-				i=$((i+1))
+				i=$((i+1)) 
 				break
 			fi
 		fi
@@ -303,3 +303,4 @@ fi
 
 
 exit 0
+
