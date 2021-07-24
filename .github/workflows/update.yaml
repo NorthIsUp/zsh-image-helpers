@@ -16,10 +16,12 @@ jobs:
           echo "os    -> ${{ runner.os }}"
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: update the scripts
-        shell: zsh
-        run: $SHELL update-fmwconcepts-scripts.zsh
-      - name: commit updates
+      - name: Install zsh
+        if: runner.os == 'Linux'
+        run: sudo apt-get update; sudo apt-get install zsh
+      - name: Update the scripts
+        run: ./update-fmwconcepts-scripts.zsh
+      - name: Commit updates
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
